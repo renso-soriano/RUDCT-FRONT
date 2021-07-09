@@ -7,6 +7,10 @@ export const Full_ROUTES: Routes = [
     path: 'dashboard',
     loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
   },
+  {
+    path: 'demandas',
+    loadChildren: () => import('../../demandas/demandas.module').then(m => m.DemandasModule)
+  }
 /*   {
     path: 'calendar',
     loadChildren: () => import('../../calendar/calendar.module').then(m => m.CalendarsModule)
