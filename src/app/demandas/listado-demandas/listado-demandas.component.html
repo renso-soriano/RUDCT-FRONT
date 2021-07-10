@@ -1,4 +1,5 @@
-<div class="row">
+<!--
+  <div class="row">
   <div class="col-12">
     <div>
       <a [routerLink]="['/demandas/registroDemandas']" class="btn btn-primary"
@@ -8,10 +9,9 @@
   </div>
 </div>
 
-<!-- start -->
 <div class="row">
   <div class="col-12">
-    <!-- Kick start -->
+
     <div id="kick-start" class="card">
       <div class="card-header">
         <h4 class="card-title">Listado de Demandas</h4>
@@ -21,16 +21,78 @@
           <div class="card-text">
             <div class="div">
               <ngx-datatable class="material" [rows]="rows" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'"
-              [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
-              </ngx-datatable>
+               [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
+             </ngx-datatable>
 
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--/ Kick start -->
+
+  </div>
+</div>
+ -->
+
+ <div class="row">
+  <div class="col-12">
+    <div>
+      <a [routerLink]="['/demandas/registroDemandas']" class="btn btn-primary"
+        ><span>Crear Nueva</span>
+      </a>
+    </div>
   </div>
 </div>
 
-<!-- end -->
+<!-- Basic Datatables -->
+<section id="ngx-datatable-basic">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Listado de demandas</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+            <!-- ngx-datatable Basic  [scrollbarH]="true"-->
+            <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [limit]="10" [loadingIndicator]="loadingIndicator" [columns]="columns" [columnMode]="'force'"
+               [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
+               <ngx-datatable-column name="Codigo" prop="Codigo Demanda" [width]="150"></ngx-datatable-column>
+               <ngx-datatable-column name="Año" prop="Año" [width]="50"></ngx-datatable-column>
+               <ngx-datatable-column name="Demanda" prop="Demanda" [width]="100"></ngx-datatable-column>
+               <ngx-datatable-column name="Origen" prop="Origen Demanda" [width]="100"></ngx-datatable-column>
+               <ngx-datatable-column name="Estado" prop="Estado Ejecucion" [width]="100">
+                 <ng-template let-estado="value" ngx-datatable-cell-template>
+                   <div class="badge badge-pill"
+                     [ngClass]="{'bg-light-danger': estado == 'NO INICIADA', 'bg-light-success':estado == 'INICIADA'}">
+                     {{ estado == 'NO INICIADA' ? "NO INICIADA" :  "INICIADA"  }}
+                   </div>
+                 </ng-template>
+               </ngx-datatable-column>
+               <ngx-datatable-column name="Acciones" [width]="70">
+                 <ng-template ngx-datatable-cell-template>
+                   <i class="ft-more-vertical text-primary cursor-pointer mr-2"></i>
+                   <i class="ft-edit text-primary cursor-pointer"></i>
+                 </ng-template>
+               </ngx-datatable-column>
+
+              </ngx-datatable>
+            <!--/ ngx-datatable Basic -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Basic Datatables -->
+
+
+<!--la data
+ { prop: 'Codigo Demanda'},
+    { prop: 'Demanda'},
+    { prop: 'Año'},
+    { prop: 'Origen Demanda'},
+    { prop: 'Estado Ejecucion'}
+-->
