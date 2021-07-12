@@ -6,17 +6,28 @@ import { RegistroDemandasFormComponent } from './registro-demandas-form/registro
 import { ListadoDemandasComponent } from './listado-demandas/listado-demandas.component';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PasswordValidationDirective } from './validations/password-validation.directive';
+import { UsernameUnicoDirective } from './validations/username-unico.directive';
 
 
 @NgModule({
   declarations: [
     RegistroDemandasFormComponent,
-    ListadoDemandasComponent
+    ListadoDemandasComponent,
+    PasswordValidationDirective,
+    UsernameUnicoDirective,
   ],
   imports: [
     CommonModule,
     DemandasRoutingModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
   ]
 })
 export class DemandasModule { }
