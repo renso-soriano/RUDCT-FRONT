@@ -14,6 +14,8 @@ export class RegistroDemandasFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private usernameUnicoService: UsernameUnicoService) { }
 
+
+
   get username() {
     return this.registerForm.get('username');
   }
@@ -41,6 +43,20 @@ export class RegistroDemandasFormComponent implements OnInit {
   });
 
   suscripciones: any[] = [];
+
+  año: any[] = [];
+  region: any[] = [];
+  provincia: any[] = [];
+  municipio: any[] = [];
+  distritoMunicipal: any[] = [];
+  fuenteDemanda: any[] = [];
+  ejeEnd: any[] = [];
+  objetivoEnd: any[] = [];
+  institucionResponsable: any[] = [];
+  politicas: any[] = [];
+  actividades: any[] = [];
+  institucionColaboradora: any[] = [];
+
 
   ngOnInit() {
     for (let item in Suscripcion) {
