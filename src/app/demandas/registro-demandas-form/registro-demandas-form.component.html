@@ -1,4 +1,3 @@
-
 <!-- start -->
 <div class="row">
   <div class="col-12">
@@ -12,12 +11,123 @@
           <div class="card-text">
             <div class="div">
               <form (submit)="submit()" [formGroup]="registerForm">
+
+                <div class="row">
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Año</label>
+                      <select class="form-control" id="año" name="año" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Region</label>
+                      <select class="form-control" id="region" name="region" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Provincia</label>
+                      <select class="form-control" id="provincia" name="provincia" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Municipio</label>
+                      <select class="form-control" id="municipio" name="municipio" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="suscripcion">Distrito municipal</label>
+                      <select class="form-control" id="distritoMunicipal" name="distritoMunicipal"
+                        formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Fuente de demanda</label>
+                      <select class="form-control" id="fuente" name="fuente" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Eje End</label>
+                      <select class="form-control" id="eje" name="eje" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Objetivo</label>
+                      <select class="form-control" id="objetivo" name="objetivo" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="suscripcion">Institucion responsable</label>
+                      <select class="form-control" id="institucionResponsable" name="institucionResponsable"
+                        formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="suscripcion">Técnico OMPP</label>
+                      <select class="form-control" id="tecnico" name="tecnico" formControlName="suscripcion">
+                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
+                          {{suscripcion.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
                 <div class="form-group">
-                  <label for="username">Username</label>
+                  <label for="username">Demanda</label>
                   <input type="text" class="form-control" formControlName="username">
                   <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
                     <div *ngIf="username.errors.required">
-                      El nombre de usuario es requerido
+                      El campo Demanda es requerido
                     </div>
                     <div *ngIf="username.errors.usernameUnico">
                       Ese nombre de usuario ya está en uso
@@ -26,9 +136,177 @@
                   </div>
 
                 </div>
+
                 <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" formControlName="password">
+                  <a class="btn btn-primary" (click)="agregarTelefono()">Agregar politica</a>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
+                      <div [formGroupName]="i">
+                        <div class="form-group row">
+                          <label class="col-md-2" [attr.for]="'telefono' + i">Politica</label>
+                          <div class="col-md-3">
+                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
+                              formControlName="telefono">
+                          </div>
+
+                          <div class="col-md-2">
+                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+                  <div class="form-group">
+                    <a class="btn btn-primary" (click)="agregarTelefono()">Agregar actividad</a>
+                  </div>
+
+
+                  <div class="col-12">
+                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
+                      <div [formGroupName]="i">
+                        <div class="form-group row">
+                          <label class="col-md-2" [attr.for]="'telefono' + i">Actividad</label>
+                          <div class="col-md-3">
+                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
+                              formControlName="telefono">
+                          </div>
+
+                          <div class="col-md-2">
+                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+                    <a class="btn btn-primary" (click)="agregarTelefono()">Instituciones Colaboradoras</a>
+                  </div>
+
+                  <div class="col-12">
+                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
+                      <div [formGroupName]="i">
+                        <div class="form-group row">
+                          <label class="col-md-2" [attr.for]="'telefono' + i">Institucion</label>
+                          <div class="col-md-3">
+                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
+                              formControlName="telefono">
+                          </div>
+
+                          <div class="col-md-2">
+                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+                 <div class="row">
+                    <div class="col-md-6">
+                      <h4>Beneficiarios directos</h4>
+
+                      <div class="form-group">
+                        <label for="password">Familias</label>
+                        <input type="number" class="form-control" formControlName="password">
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                          <div *ngIf="password.errors.required">
+                            El password es requerido
+                          </div>
+                          <div *ngIf="password.errors.minlength">
+                            La longitud mínima del password es 4 caracteres
+                          </div>
+                          <div *ngIf="password.errors.passwordValidation">
+                            {{password.errors.passwordValidation.message}}
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="password">Personas</label>
+                        <input type="number" class="form-control" formControlName="password">
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                          <div *ngIf="password.errors.required">
+                            El password es requerido
+                          </div>
+                          <div *ngIf="password.errors.minlength">
+                            La longitud mínima del password es 4 caracteres
+                          </div>
+                          <div *ngIf="password.errors.passwordValidation">
+                            {{password.errors.passwordValidation.message}}
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                      <h4>Beneficiarios indirectos</h4>
+
+                      <div class="form-group">
+                        <label for="password">Familias</label>
+                        <input type="number" class="form-control" formControlName="password">
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                          <div *ngIf="password.errors.required">
+                            El password es requerido
+                          </div>
+                          <div *ngIf="password.errors.minlength">
+                            La longitud mínima del password es 4 caracteres
+                          </div>
+                          <div *ngIf="password.errors.passwordValidation">
+                            {{password.errors.passwordValidation.message}}
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="password">Personas</label>
+                        <input type="number" class="form-control" formControlName="password">
+
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                          <div *ngIf="password.errors.required">
+                            El password es requerido
+                          </div>
+                          <div *ngIf="password.errors.minlength">
+                            La longitud mínima del password es 4 caracteres
+                          </div>
+                          <div *ngIf="password.errors.passwordValidation">
+                            {{password.errors.passwordValidation.message}}
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                <div class="form-group">
+                  <label for="password">Comentarios</label>
+                  <input type="text" class="form-control" formControlName="password">
 
                   <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
                     <div *ngIf="password.errors.required">
@@ -46,39 +324,6 @@
 
                 </div>
 
-                <div class="form-group">
-                  <label for="suscripcion">Escoja el tipo de suscripción</label>
-                  <select class="form-control" id="suscripcion" name="suscripcion" formControlName="suscripcion">
-                    <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">{{suscripcion.text}}</option>
-                  </select>
-                </div>
-
-                <div class="form-group form-check">
-                  <input type="checkbox" class="form-check-input" formControlName="promociones">
-                  <label class="form-check-label" for="promociones">Deseo recibir promociones</label>
-                </div>
-
-                <div class="form-group">
-                  <a class="btn btn-primary" (click)="agregarTelefono()">Agregar Teléfono</a>
-                </div>
-
-                <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
-                  <div [formGroupName]="i">
-                    <div class="form-group row">
-                      <label class="col-md-1" [attr.for]="'telefono' + i">Teléfono</label>
-                      <div class="col-md-3">
-                        <input type="text" [attr.id]="'telefono' + i" class="form-control" formControlName="telefono">
-                      </div>
-                      <label class="col-md-1" [attr.for]="'descripcion' + i">Descripción</label>
-                      <div class="col-md-5">
-                        <input type="text" [attr.id]="'descripcion' + i" class="form-control" formControlName="descripcion">
-                      </div>
-                      <div class="col-md-2">
-                        <button class="btn btn-danger" (click)="removerTelefono(i)">Remover</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
 
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
@@ -96,8 +341,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/demandas']" class="btn btn-primary"
-    ><span>Volver a Listado</span>
+  <a [routerLink]="['/demandas']" class="btn btn-primary"><span>Volver a Listado</span>
   </a>
 </div>
 
