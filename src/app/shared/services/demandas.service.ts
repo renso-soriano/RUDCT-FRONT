@@ -35,8 +35,5 @@ export class DemandasService {
     return this.http.delete<IDemanda>(this.URL + "/" + idDemanda);
   }
 
-  getDropDowns(): Observable<IDropDown[]> {
-    return this.http.get<IDropDown[]>(this.URL + "/dropDowns" );
-  }
 
 }

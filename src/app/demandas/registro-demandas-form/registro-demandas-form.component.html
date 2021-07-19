@@ -14,53 +14,69 @@
 
                 <div class="row">
 
-                  <div class="col-2">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Año</label>
-                      <select class="form-control" id="año" name="año" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="año">Año</label>
+                      <select class="form-control" id="año" name="año" formControlName="año">
+                        <option *ngFor="let anio of anios" [value]="anio.valor">
+                          {{anio.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-2">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Region</label>
-                      <select class="form-control" id="region" name="region" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="region">Region</label>
+                      <select class="form-control" id="region" name="region"
+                        (change)="onRegionChange($event.target.value)" formControlName="region">
+                        <option *ngFor="let region of regiones" [value]="region.valor">
+                          {{region.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-2">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Provincia</label>
-                      <select class="form-control" id="provincia" name="provincia" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="provincia">Provincia</label>
+                      <select class="form-control" id="provincia" name="provincia"
+                        (change)="onProvinciaChange($event.target.value)" formControlName="provincia">
+                        <option *ngFor="let provincia of provincias" [value]="provincia.valor">
+                          {{provincia.texto}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="municipio">Municipio</label>
+                      <select class="form-control" id="municipio" name="municipio"
+                        (change)="onMunicipiosChange($event.target.value)" formControlName="municipio">
+                        <option *ngFor="let municipio of municipios" [value]="municipio.valor">
+                          {{municipio.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-2">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Municipio</label>
-                      <select class="form-control" id="municipio" name="municipio" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="distrito">Distrito municipal</label>
+                      <select class="form-control" id="distrito" name="distrito" formControlName="distrito">
+                        <option *ngFor="let distrito of distritosMunicipales" [value]="distrito.valor">
+                          {{distrito.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-3">
+
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Distrito municipal</label>
-                      <select class="form-control" id="distritoMunicipal" name="distritoMunicipal"
-                        formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="fuente">Fuente de demanda</label>
+                      <select class="form-control" id="fuente" name="fuente" formControlName="fuente">
+                        <option *ngFor="let fuente of fuenteDemandas" [value]="fuente.valor">
+                          {{fuente.texto}}</option>
                       </select>
                     </div>
                   </div>
@@ -69,80 +85,77 @@
 
                 <div class="row">
 
-                  <div class="col-2">
+                  <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="suscripcion">Fuente de demanda</label>
-                      <select class="form-control" id="fuente" name="fuente" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="eje">Eje End</label>
+                      <select class="form-control" id="eje" name="eje" (change)="onEjeChange($event.target.value)" formControlName="eje">
+                        <option *ngFor="let eje of ejesEnd" [value]="eje.valor">
+                          {{eje.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-2">
+                  <div class="col-sm-8">
                     <div class="form-group">
-                      <label for="suscripcion">Eje End</label>
-                      <select class="form-control" id="eje" name="eje" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                      <label for="objetivo">Objetivo</label>
+                      <select class="form-control" id="objetivo" name="objetivo" formControlName="objetivo">
+                        <option *ngFor="let objetivo of objetivosEnd" [value]="objetivo.valor">
+                          {{objetivo.texto}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="tecnico">Técnico OMPP</label>
+                      <select class="form-control" id="tecnico" name="tecnico" formControlName="tecnico">
+                        <option *ngFor="let tecnico of tecnicos" [value]="tecnico.valor">
+                          {{tecnico.texto}}</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-2">
+                  <div class="col-sm-8">
                     <div class="form-group">
-                      <label for="suscripcion">Objetivo</label>
-                      <select class="form-control" id="objetivo" name="objetivo" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-2">
-                    <div class="form-group">
-                      <label for="suscripcion">Institucion responsable</label>
+                      <label for="institucionResponsable">Institucion responsable</label>
                       <select class="form-control" id="institucionResponsable" name="institucionResponsable"
-                        formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="col-3">
-                    <div class="form-group">
-                      <label for="suscripcion">Técnico OMPP</label>
-                      <select class="form-control" id="tecnico" name="tecnico" formControlName="suscripcion">
-                        <option *ngFor="let suscripcion of suscripciones" [value]="suscripcion.value">
-                          {{suscripcion.text}}</option>
+                        formControlName="institucionResponsable">
+                        <option *ngFor="let institucionResponsable of institucionesResponsables" [value]="institucionResponsable.valor">
+                          {{institucionResponsable.texto}}</option>
                       </select>
                     </div>
                   </div>
 
                 </div>
 
-                <div class="form-group">
-                  <label for="username">Demanda</label>
-                  <input type="text" class="form-control" formControlName="username">
-                  <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
-                    <div *ngIf="username.errors.required">
-                      El campo Demanda es requerido
-                    </div>
-                    <div *ngIf="username.errors.usernameUnico">
-                      Ese nombre de usuario ya está en uso
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="demanda">Demanda</label>
+                    <textarea class="form-control" name="demanda" id="demanda" rows="3"
+                      formControlName="demanda"></textarea>
+                    <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+                      <div *ngIf="username.errors.required">
+                        El campo Demanda es requerido
+                      </div>
+                      <div *ngIf="username.errors.usernameUnico">
+                        Ese nombre de usuario ya está en uso
+                      </div>
+
                     </div>
 
                   </div>
-
                 </div>
 
-                <div class="form-group">
-                  <a class="btn btn-primary" (click)="agregarTelefono()">Agregar politica</a>
-                </div>
 
                 <div class="row">
                   <div class="col-12">
+
+                    <div class="form-group">
+                      <a class="btn btn-primary" (click)="agregarTelefono()">Agregar politica</a>
+                    </div>
+
                     <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
                       <div [formGroupName]="i">
                         <div class="form-group row">
@@ -151,8 +164,7 @@
                             <input type="text" [attr.id]="'telefono' + i" class="form-control"
                               formControlName="telefono">
                           </div>
-
-                          <div class="col-md-2">
+                          <div class="col-md-1">
                             <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
                           </div>
                         </div>
@@ -160,15 +172,15 @@
                     </div>
 
                   </div>
+                </div>
 
-
-
-                  <div class="form-group">
-                    <a class="btn btn-primary" (click)="agregarTelefono()">Agregar actividad</a>
-                  </div>
-
-
+                <div class="row">
                   <div class="col-12">
+
+                    <div class="form-group">
+                      <a class="btn btn-primary" (click)="agregarTelefono()">Agregar actividad</a>
+                    </div>
+
                     <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
                       <div [formGroupName]="i">
                         <div class="form-group row">
@@ -178,20 +190,23 @@
                               formControlName="telefono">
                           </div>
 
-                          <div class="col-md-2">
+                          <div class="col-md-1">
                             <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
                           </div>
                         </div>
                       </div>
                     </div>
-
                   </div>
 
-                  <div class="form-group">
-                    <a class="btn btn-primary" (click)="agregarTelefono()">Instituciones Colaboradoras</a>
-                  </div>
+                </div>
 
+                <div class="row">
                   <div class="col-12">
+
+                    <div class="form-group">
+                      <a class="btn btn-primary" (click)="agregarTelefono()">Instituciones Colaboradoras</a>
+                    </div>
+
                     <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
                       <div [formGroupName]="i">
                         <div class="form-group row">
@@ -201,7 +216,7 @@
                               formControlName="telefono">
                           </div>
 
-                          <div class="col-md-2">
+                          <div class="col-md-1">
                             <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
                           </div>
                         </div>
@@ -209,104 +224,105 @@
                     </div>
 
                   </div>
-
                 </div>
-                 <div class="row">
-                    <div class="col-md-6">
-                      <h4>Beneficiarios directos</h4>
 
-                      <div class="form-group">
-                        <label for="password">Familias</label>
-                        <input type="number" class="form-control" formControlName="password">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h4>Beneficiarios directos</h4>
 
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                          <div *ngIf="password.errors.required">
-                            El password es requerido
-                          </div>
-                          <div *ngIf="password.errors.minlength">
-                            La longitud mínima del password es 4 caracteres
-                          </div>
-                          <div *ngIf="password.errors.passwordValidation">
-                            {{password.errors.passwordValidation.message}}
-                          </div>
+                    <div class="form-group">
+                      <label for="password">Familias</label>
+                      <input type="text" class="form-control" formControlName="password">
 
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.errors.required">
+                          El password es requerido
                         </div>
-
+                        <div *ngIf="password.errors.minlength">
+                          La longitud mínima del password es 4 caracteres
+                        </div>
+                        <div *ngIf="password.errors.passwordValidation">
+                          {{password.errors.passwordValidation.message}}
+                        </div>
 
                       </div>
 
-                      <div class="form-group">
-                        <label for="password">Personas</label>
-                        <input type="number" class="form-control" formControlName="password">
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                          <div *ngIf="password.errors.required">
-                            El password es requerido
-                          </div>
-                          <div *ngIf="password.errors.minlength">
-                            La longitud mínima del password es 4 caracteres
-                          </div>
-                          <div *ngIf="password.errors.passwordValidation">
-                            {{password.errors.passwordValidation.message}}
-                          </div>
-
-                        </div>
-
-
-                      </div>
 
                     </div>
 
-                    <div class="col-md-6">
-                      <h4>Beneficiarios indirectos</h4>
+                    <div class="form-group">
+                      <label for="password">Personas</label>
+                      <input type="text" class="form-control" formControlName="password">
 
-                      <div class="form-group">
-                        <label for="password">Familias</label>
-                        <input type="number" class="form-control" formControlName="password">
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                          <div *ngIf="password.errors.required">
-                            El password es requerido
-                          </div>
-                          <div *ngIf="password.errors.minlength">
-                            La longitud mínima del password es 4 caracteres
-                          </div>
-                          <div *ngIf="password.errors.passwordValidation">
-                            {{password.errors.passwordValidation.message}}
-                          </div>
-
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.errors.required">
+                          El password es requerido
                         </div>
-
+                        <div *ngIf="password.errors.minlength">
+                          La longitud mínima del password es 4 caracteres
+                        </div>
+                        <div *ngIf="password.errors.passwordValidation">
+                          {{password.errors.passwordValidation.message}}
+                        </div>
 
                       </div>
 
-                      <div class="form-group">
-                        <label for="password">Personas</label>
-                        <input type="number" class="form-control" formControlName="password">
-
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                          <div *ngIf="password.errors.required">
-                            El password es requerido
-                          </div>
-                          <div *ngIf="password.errors.minlength">
-                            La longitud mínima del password es 4 caracteres
-                          </div>
-                          <div *ngIf="password.errors.passwordValidation">
-                            {{password.errors.passwordValidation.message}}
-                          </div>
-
-                        </div>
-
-
-                      </div>
 
                     </div>
 
                   </div>
 
+                  <div class="col-md-6">
+                    <h4>Beneficiarios indirectos</h4>
+
+                    <div class="form-group">
+                      <label for="password">Familias</label>
+                      <input type="text" class="form-control" formControlName="password">
+
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.errors.required">
+                          El password es requerido
+                        </div>
+                        <div *ngIf="password.errors.minlength">
+                          La longitud mínima del password es 4 caracteres
+                        </div>
+                        <div *ngIf="password.errors.passwordValidation">
+                          {{password.errors.passwordValidation.message}}
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                      <label for="password">Personas</label>
+                      <input type="text" class="form-control" formControlName="password">
+
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.errors.required">
+                          El password es requerido
+                        </div>
+                        <div *ngIf="password.errors.minlength">
+                          La longitud mínima del password es 4 caracteres
+                        </div>
+                        <div *ngIf="password.errors.passwordValidation">
+                          {{password.errors.passwordValidation.message}}
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
                 <div class="form-group">
                   <label for="password">Comentarios</label>
-                  <input type="text" class="form-control" formControlName="password">
+                  <input type="text8/
+                   " class="form-control" formControlName="password">
 
                   <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
                     <div *ngIf="password.errors.required">

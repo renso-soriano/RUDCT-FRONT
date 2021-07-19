@@ -1,0 +1,167 @@
+﻿ [
+        {
+            "PoliticaId": "001",
+            "Nombre": "EMPLEO FORMAL",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "002",
+            "Nombre": "SEGURIDAD CIUDADANA",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "003",
+            "Nombre": "HACIA UNA POLITICA INTEGRAL DE CREACION DE OPORTUNIDADES",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "004",
+            "Nombre": "ACCESO A SALUD UNIVERSAL",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "005",
+            "Nombre": "HACIA UNA EDUCACION DE CALIDAD CON EQUIDAD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "006",
+            "Nombre": "CREACION DE OPORTUNIDADES PARA LA JUVENTUD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "007",
+            "Nombre": "IGUALDAD DE GENERO Y EMPODERAMIENTO DE LA MUJER",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "008",
+            "Nombre": "TRANSFORMANDO LA EDUCACIÓN SUPERIOR, LA CIENCIA Y LA TECNOLOGIA",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "009",
+            "Nombre": "CULTURA PARA EL CAMBIO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "010",
+            "Nombre": "DEPORTES, UN ENFOQUE PARA EL CAMBIO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "011",
+            "Nombre": "POBLACION RURAL, DESARROLLO AGROPECUARIO Y PESQUERO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "012",
+            "Nombre": "ACCESO AL AGUA Y MEJORA DEL RECURSO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "013",
+            "Nombre": "ENERGIA PERMANENTE Y DE CALIDAD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "014",
+            "Nombre": "VIVIENDA DIGNA Y ADECUADA, DERECHO FUNDAMENTAL DEL SER HUMANO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "015",
+            "Nombre": "HACIA UN ESTADO MODERNO E INSTITUCIONAL",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "016",
+            "Nombre": "ADECUACION Y ACTUALIZACION DEL MARCO LEGAL",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "017",
+            "Nombre": "ENFRENTAR LA CORRUPCION Y LA IMPUNIDAD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "018",
+            "Nombre": "HACIA LA TRANSFORMACION DIGITAL",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "019",
+            "Nombre": "TURISMO, UNA OPORTUNIDAD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "020",
+            "Nombre": "HACIA UNA MINERIA RESPONSABLE",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "021",
+            "Nombre": "EL COMERCIO, UNA ACTIVIDAD IMPORTANTE",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "022",
+            "Nombre": "EL DESARROLLO INDUSTRIAL, UNA PRIORIDAD",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "023",
+            "Nombre": "PROMOCION DE LAS MIPYMES",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "024",
+            "Nombre": "LA SOSTENIBILIDAD AMBIENTAL Y EL CAMBIO CLIMATICO EN UN PAIS INSULAR",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "025",
+            "Nombre": "IMPLEMENTAR LA POLITICA NACIONAL DE PRODUCCION Y CONSUMO SOSTENIBLES",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "026",
+            "Nombre": "POLITICAS PUBLICAS TERRITORIALES Y MUNICIPALES PARA EL CAMBIO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "027",
+            "Nombre": "LA TRANSFORMACION DEL SECTOR TRANSPORTE",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "028",
+            "Nombre": "LA POLITICA EXTERIOR EN EL GOBIERNO DEL CAMBIO",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "029",
+            "Nombre": "UNA POLITICA HACIA LA DIASPORA",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "030",
+            "Nombre": "FORTALECER EL SISTEMA NACIONAL DE PLANIFICACION Y GESTION POR RESULTADOS",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "031",
+            "Nombre": "GESTION DE DATOS PARA EL ANALISIS Y LA TOMA DE DECISIONES",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "032",
+            "Nombre": "DEUDA, GASTOS E INGRESOS PUBLICOS",
+            "Activo": "1"
+        },
+        {
+            "PoliticaId": "033",
+            "Nombre": "MONETARIA, CREDITICIA Y CAMBIARIA",
+            "Activo": "1"
+        }
+    ]
