@@ -28,8 +28,8 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   notFound = false;
 
-   //propiedades
-
+  //propiedades
+  codigoDemanda:string = 'codigoPrueba';
   anios: IDropDown[] = [];
   regiones: IDropDown[] = [];
   provincias: IDropDown[] = [];
@@ -43,24 +43,23 @@ export class RegistroDemandasFormComponent implements OnInit {
   actividades: IDropDown[] = [];
   tecnicos: IDropDown[] = [];
 
+  listadoPoliticas: any[]=[];
+  listadoInstituciones: any[]=[];
+  listadoActividades: any[]=[];
 
-   //getters
+  polCount = 1; // temporalfield
+  instCount = 1; // temporalfield
+  activCount =1; // temporalfield
+
+
+  //getters
 
 
   get comentarios() {
     return this.registerForm.get('comentarios');
   }
-  get beneficiariosDirectosFamilias() {
-    return this.registerForm.get('beneficiariosDirectosFamilias');
-  }
-  get beneficiariosDirectosPersonas() {
-    return this.registerForm.get('beneficiariosDirectosPersonas');
-  }
-  get beneficiariosIndirectosFamilias() {
-    return this.registerForm.get('beneficiariosIndirectosFamilias');
-  }
-  get beneficiariosIndirectosPersonas() {
-    return this.registerForm.get('beneficiariosIndirectosPersonas');
+  get beneficiarios() {
+    return this.registerForm.get('beneficiarios');
   }
   get telefonos() {
     return this.registerForm.get('telefonos') as FormArray;
@@ -73,7 +72,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   registerForm = this.formBuilder.group({
-    año: ['2018'],
+    año: [''],
     region: [''],
     provincia: [''],
     municipio: [''],
@@ -88,11 +87,13 @@ export class RegistroDemandasFormComponent implements OnInit {
     }],
     tecnico: [],
     institucionResponsable: [''],
-    institucionesColaboradoras:[''],
-    beneficiarios:[''],
-    unidad:[''],
-    comentarios:[''],
-    telefonos: this.formBuilder.array([])
+    institucionesColaboradoras: [''],
+    beneficiarios: [''],
+    unidad: [''],
+    comentarios: [''],
+    telefonos: this.formBuilder.array([]),
+    actividades:[''],
+    politica:['']
     /* username: ['', {
       validators: [Validators.required],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
@@ -176,7 +177,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     // llena Politicas
     this.dropDownService.getPoliticas().subscribe((politicasFromApi: Ipolitica[]) => {
       for (let item of politicasFromApi) {
-        this.politicas.push({ texto: item.Nombre, valor: item.PoliticaId});
+        this.politicas.push({ texto: item.Nombre, valor: item.PoliticaId });
       }
     }, (error) => {
       console.error(error);
@@ -262,9 +263,52 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   //****************************otros metodos******************************* */
 
-  agregarPolitica(){
-this.politicas.push({ texto: 'prueba', valor: 0 })
+  agregarPolitica() {
+    this.listadoPoliticas.push({ PoliticaId: this.polCount, Nombre: 'prueba', Activo: 1 })
+    this.polCount += 1;
+  }
 
+  eliminarPolitica(id: number) {
+
+    this.listadoPoliticas.splice(
+      this.listadoPoliticas.find((item, index) => {
+        if (item.PoliticaId == id)
+          return index
+      }), 1
+    );
+  }
+
+  agregarInstitucion() {
+    this.listadoInstituciones.push({ InstitucionId: this.instCount, Nombre: 'prueba', Activo: 1 })
+    this.instCount += 1;
+  }
+
+  eliminarInstitucion(id: number) {
+
+    this.listadoInstituciones.splice(
+      this.listadoInstituciones.find((item, index) => {
+        if (item.InstitucionId == id)
+          return index
+      }), 1
+    );
+  }
+
+  agregarActividad() {
+    this.listadoActividades.push({ ActividadId: this.activCount,CodigoDemanda:this.codigoDemanda, Actividad: 'Actividad prueba' })
+    this.activCount += 1;
+    this.registerForm.patchValue({
+       actividades: ''
+    });
+  }
+
+  eliminarActividad(id: number) {
+
+    this.listadoActividades.splice(
+      this.listadoActividades.find((item, index) => {
+        if (item.ActividadId == id)
+          return index
+      }), 1
+    );
   }
 
   agregarTelefono() {
