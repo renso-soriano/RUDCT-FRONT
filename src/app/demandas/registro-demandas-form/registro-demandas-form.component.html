@@ -4,7 +4,7 @@
     <!-- Kick start -->
     <div id="kick-start" class="card">
       <div class="card-header">
-        <h4 class="card-title">Registro de Demandas</h4>
+        <h4 class="card-title">Registro de demandas municipales</h4>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -13,7 +13,13 @@
               <form (submit)="submit()" [formGroup]="registerForm">
 
                 <div class="row">
+                  <div class="col-12 section-divider">
+                    <h6 class="primary">Informacion de la demanda</h6>
+                    <hr />
+                  </div>
+                </div>
 
+                <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="año">Año</label>
@@ -70,7 +76,6 @@
                     </div>
                   </div>
 
-
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="fuente">Fuente de demanda</label>
@@ -80,15 +85,41 @@
                       </select>
                     </div>
                   </div>
-
                 </div>
 
                 <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="demanda">Demanda</label>
+                      <textarea class="form-control" name="demanda" id="demanda" rows="2"
+                        formControlName="demanda"></textarea>
+                      <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)" class="alert alert-danger">
+                        <div *ngIf="demanda.errors.required">
+                          El campo Demanda es requerido
+                        </div>
+                        <div *ngIf="demanda.errors.usernameUnico">
+                          Esa demanda ya existe
+                        </div>
 
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 section-divider">
+                    <h6 class="primary">Vinculacion con END y PNPSP</h6>
+                    <hr />
+                  </div>
+                </div>
+
+                <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="eje">Eje End</label>
-                      <select class="form-control" id="eje" name="eje" (change)="onEjeChange($event.target.value)" formControlName="eje">
+                      <select class="form-control" id="eje" name="eje" (change)="onEjeChange($event.target.value)"
+                        formControlName="eje">
                         <option *ngFor="let eje of ejesEnd" [value]="eje.valor">
                           {{eje.texto}}</option>
                       </select>
@@ -107,6 +138,38 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-12">
+
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="politica">Politica</label>
+                          <select class="form-control" id="politica" name="politica" formControlName="politica">
+                            <option *ngFor="let politica of politicas" [value]="politica.valor">
+                              {{politica.texto}}</option>
+                          </select>
+
+                        </div>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 section-divider">
+                    <h6 class="primary">Instituciones Involucaradas</h6>
+                    <hr />
+                  </div>
+                </div>
+
+                <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="tecnico">Técnico OMPP</label>
@@ -119,10 +182,11 @@
 
                   <div class="col-sm-8">
                     <div class="form-group">
-                      <label for="institucionResponsable">Institucion responsable</label>
+                      <label for="institucionResponsable">Institucion primaria</label>
                       <select class="form-control" id="institucionResponsable" name="institucionResponsable"
                         formControlName="institucionResponsable">
-                        <option *ngFor="let institucionResponsable of institucionesResponsables" [value]="institucionResponsable.valor">
+                        <option *ngFor="let institucionResponsable of instituciones"
+                          [value]="institucionResponsable.valor">
                           {{institucionResponsable.texto}}</option>
                       </select>
                     </div>
@@ -130,43 +194,54 @@
 
                 </div>
 
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="demanda">Demanda</label>
-                    <textarea class="form-control" name="demanda" id="demanda" rows="3"
-                      formControlName="demanda"></textarea>
-                    <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
-                      <div *ngIf="username.errors.required">
-                        El campo Demanda es requerido
-                      </div>
-                      <div *ngIf="username.errors.usernameUnico">
-                        Ese nombre de usuario ya está en uso
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="institucionesColaboradoras">Instituciones Colaboradoras</label>
+                          <select class="form-control" id="institucionesColaboradoras" name="institucionesColaboradoras"
+                            formControlName="institucionesColaboradoras">
+                            <option *ngFor="let institucionColaboradora of instituciones"
+                              [value]="institucionColaboradora.valor">
+                              {{institucionColaboradora.texto}}</option>
+                          </select>
+
+                        </div>
                       </div>
 
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
+                        </div>
+                      </div>
                     </div>
+
 
                   </div>
                 </div>
 
+                <div class="row">
+                  <div class="col-12 section-divider">
+                    <h6 class="primary">Actividades</h6>
+                    <hr />
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="col-12">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label for="institucionesColaboradoras">Actividades</label>
+                          <input type="text" class="form-control" formControlName="actividades">
 
-                    <div class="form-group">
-                      <a class="btn btn-primary" (click)="agregarTelefono()">Agregar politica</a>
-                    </div>
+                        </div>
+                      </div>
 
-                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
-                      <div [formGroupName]="i">
-                        <div class="form-group row">
-                          <label class="col-md-2" [attr.for]="'telefono' + i">Politica</label>
-                          <div class="col-md-3">
-                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
-                              formControlName="telefono">
-                          </div>
-                          <div class="col-md-1">
-                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
-                          </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
                         </div>
                       </div>
                     </div>
@@ -174,10 +249,83 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-12">
 
+
+                <div class="row">
+                  <div class="col-12 section-divider">
+                    <h6 class="primary">Beneficiarios</h6>
+                    <hr />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3">
                     <div class="form-group">
+                      <label for="beneficiariosDirectosFamilias">Cantidad Beneficiados</label>
+                      <input type="number" class="form-control" formControlName="beneficiariosDirectosFamilias">
+
+                      <!--  <div *ngIf="beneficiariosDirectosFamilias.invalid && (beneficiariosDirectosFamilias.dirty || beneficiariosDirectosFamilias.touched)" class="alert alert-danger">
+                        <div *ngIf="beneficiariosDirectosFamilias.errors.required">
+                          El campo Familias directas es requerido
+                        </div>
+                        <div *ngIf="password.errors.minlength">
+                          La longitud mínima del password es 4 caracteres
+                        </div>
+                        <div *ngIf="password.errors.passwordValidation">
+                          {{password.errors.passwordValidation.message}}
+                        </div>
+
+                      </div> -->
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6 mt-3">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                          value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Familias</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                          value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Personas</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-group">
+                  <label for="comentarios">Comentarios</label>
+                  <input type="text" class="form-control" formControlName="comentarios">
+                </div>
+
+                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
+                <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
+                  title="Refrescar formulario" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/demandas']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>
+
+<!-- end
+<div class="form-group">
                       <a class="btn btn-primary" (click)="agregarTelefono()">Agregar actividad</a>
                     </div>
 
@@ -196,169 +344,5 @@
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                </div>
-
-                <div class="row">
-                  <div class="col-12">
-
-                    <div class="form-group">
-                      <a class="btn btn-primary" (click)="agregarTelefono()">Instituciones Colaboradoras</a>
-                    </div>
-
-                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
-                      <div [formGroupName]="i">
-                        <div class="form-group row">
-                          <label class="col-md-2" [attr.for]="'telefono' + i">Institucion</label>
-                          <div class="col-md-3">
-                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
-                              formControlName="telefono">
-                          </div>
-
-                          <div class="col-md-1">
-                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <h4>Beneficiarios directos</h4>
-
-                    <div class="form-group">
-                      <label for="password">Familias</label>
-                      <input type="text" class="form-control" formControlName="password">
-
-                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                        <div *ngIf="password.errors.required">
-                          El password es requerido
-                        </div>
-                        <div *ngIf="password.errors.minlength">
-                          La longitud mínima del password es 4 caracteres
-                        </div>
-                        <div *ngIf="password.errors.passwordValidation">
-                          {{password.errors.passwordValidation.message}}
-                        </div>
-
-                      </div>
-
-
-                    </div>
-
-                    <div class="form-group">
-                      <label for="password">Personas</label>
-                      <input type="text" class="form-control" formControlName="password">
-
-                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                        <div *ngIf="password.errors.required">
-                          El password es requerido
-                        </div>
-                        <div *ngIf="password.errors.minlength">
-                          La longitud mínima del password es 4 caracteres
-                        </div>
-                        <div *ngIf="password.errors.passwordValidation">
-                          {{password.errors.passwordValidation.message}}
-                        </div>
-
-                      </div>
-
-
-                    </div>
-
-                  </div>
-
-                  <div class="col-md-6">
-                    <h4>Beneficiarios indirectos</h4>
-
-                    <div class="form-group">
-                      <label for="password">Familias</label>
-                      <input type="text" class="form-control" formControlName="password">
-
-                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                        <div *ngIf="password.errors.required">
-                          El password es requerido
-                        </div>
-                        <div *ngIf="password.errors.minlength">
-                          La longitud mínima del password es 4 caracteres
-                        </div>
-                        <div *ngIf="password.errors.passwordValidation">
-                          {{password.errors.passwordValidation.message}}
-                        </div>
-
-                      </div>
-
-
-                    </div>
-
-                    <div class="form-group">
-                      <label for="password">Personas</label>
-                      <input type="text" class="form-control" formControlName="password">
-
-                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                        <div *ngIf="password.errors.required">
-                          El password es requerido
-                        </div>
-                        <div *ngIf="password.errors.minlength">
-                          La longitud mínima del password es 4 caracteres
-                        </div>
-                        <div *ngIf="password.errors.passwordValidation">
-                          {{password.errors.passwordValidation.message}}
-                        </div>
-
-                      </div>
-
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="form-group">
-                  <label for="password">Comentarios</label>
-                  <input type="text8/
-                   " class="form-control" formControlName="password">
-
-                  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-                    <div *ngIf="password.errors.required">
-                      El password es requerido
-                    </div>
-                    <div *ngIf="password.errors.minlength">
-                      La longitud mínima del password es 4 caracteres
-                    </div>
-                    <div *ngIf="password.errors.passwordValidation">
-                      {{password.errors.passwordValidation.message}}
-                    </div>
-
-                  </div>
-
-
-                </div>
-
-
-
-                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
-                <button type="button" class="btn btn-default" (click)="refrescar()">Refrescar</button>
-
-              </form>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--/ Kick start -->
-  </div>
-</div>
-
-<div>
-  <a [routerLink]="['/demandas']" class="btn btn-primary"><span>Volver a Listado</span>
-  </a>
-</div>
-
-<!-- end -->
+-->

@@ -8,10 +8,10 @@ import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
 import { Iinstitucion } from 'app/shared/models/iinstitucion';
 import { Imunicipio } from 'app/shared/models/imunicipio';
 import { IobjetivoEnd } from 'app/shared/models/iobjetivo-end';
+import { Ipolitica } from 'app/shared/models/ipolitica';
 import { Iprovincia } from 'app/shared/models/iprovincia';
 import { Iregion } from 'app/shared/models/iregion';
 import { Itecnico } from 'app/shared/models/itecnico';
-import { Suscripcion } from 'app/shared/models/suscripcion.enum';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 import { passwordValidation } from '../validations/password-validation.directive';
 import { UsernameUnicoService } from '../validations/username-unico.directive';
@@ -28,7 +28,7 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   notFound = false;
 
-  suscripciones: any[] = [];
+   //propiedades
 
   anios: IDropDown[] = [];
   regiones: IDropDown[] = [];
@@ -38,59 +38,79 @@ export class RegistroDemandasFormComponent implements OnInit {
   fuenteDemandas: IDropDown[] = [];
   ejesEnd: IDropDown[] = [];
   objetivosEnd: IDropDown[] = [];
-  institucionesResponsables: IDropDown[] = [];
+  instituciones: IDropDown[] = [];
   politicas: IDropDown[] = [];
   actividades: IDropDown[] = [];
   tecnicos: IDropDown[] = [];
-  institucionesColaboradoras: IDropDown[] = [];
 
 
-  get username() {
-    return this.registerForm.get('username');
+   //getters
+
+
+  get comentarios() {
+    return this.registerForm.get('comentarios');
   }
-
-  get password() {
-    return this.registerForm.get('password');
+  get beneficiariosDirectosFamilias() {
+    return this.registerForm.get('beneficiariosDirectosFamilias');
   }
-
+  get beneficiariosDirectosPersonas() {
+    return this.registerForm.get('beneficiariosDirectosPersonas');
+  }
+  get beneficiariosIndirectosFamilias() {
+    return this.registerForm.get('beneficiariosIndirectosFamilias');
+  }
+  get beneficiariosIndirectosPersonas() {
+    return this.registerForm.get('beneficiariosIndirectosPersonas');
+  }
   get telefonos() {
     return this.registerForm.get('telefonos') as FormArray;
   }
+  get password() {
+    return this.registerForm.get('password');
+  }
+  get demanda() {
+    return this.registerForm.get('demanda');
+  }
 
   registerForm = this.formBuilder.group({
-    username: ['', {
+    año: ['2018'],
+    region: [''],
+    provincia: [''],
+    municipio: [''],
+    distrito: [''],
+    fuente: [''],
+    eje: [''],
+    objetivo: [''],
+    demanda: ['', {
+      validators: [Validators.required],
+      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
+      updateOn: 'blur'
+    }],
+    tecnico: [],
+    institucionResponsable: [''],
+    institucionesColaboradoras:[''],
+    beneficiarios:[''],
+    unidad:[''],
+    comentarios:[''],
+    telefonos: this.formBuilder.array([])
+    /* username: ['', {
       validators: [Validators.required],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
       updateOn: 'blur'
     }],
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
-    }],
-    suscripcion: [Suscripcion.Basica],
-    promociones: [true],
-    telefonos: this.formBuilder.array([]),
-    año: ['2018'],
-    region: [''],
-    provincia: [''],
-    municipio: [''],
-    distrito:[''],
-    fuente:[''],
-    eje:[''],
-    objetivo:[''],
-    demanda:[''],
-    tecnico:[],
-    institucionResponsable:['']
-
+    }], */
   });
 
   //Lleno todos los dropsdowns fijos en el inicio
   ngOnInit() {
-    // llena supcripcion
-    for (let item in Suscripcion) {
-      if (isNaN(Number(item))) {
-        this.suscripciones.push({ text: item, value: Suscripcion[item] });
-      }
-    }
+    this.llenarDropDownFijos();
+  }
+
+  // Todos estos rellenados son mientras tanto habilitamos el API, entonces cambiaran la logica.
+  llenarDropDownFijos(): void {
+
     this.notFound = false;
 
     // llena el año
@@ -143,45 +163,56 @@ export class RegistroDemandasFormComponent implements OnInit {
       this.notFound = true;
     });
 
-    // llena Instituciones
+    // llena Instituciones Responsables
     this.dropDownService.getInstituciones().subscribe((InstitucionesFromApi: Iinstitucion[]) => {
       for (let item of InstitucionesFromApi) {
-        this.institucionesResponsables.push({ texto: item.Nombre, valor: item.IntitucionId});
+        this.instituciones.push({ texto: item.Nombre, valor: item.IntitucionId });
       }
     }, (error) => {
       console.error(error);
       this.notFound = true;
     });
+
+    // llena Politicas
+    this.dropDownService.getPoliticas().subscribe((politicasFromApi: Ipolitica[]) => {
+      for (let item of politicasFromApi) {
+        this.politicas.push({ texto: item.Nombre, valor: item.PoliticaId});
+      }
+    }, (error) => {
+      console.error(error);
+      this.notFound = true;
+    });
+
   }
 
-  // Todos estos rellenados son mientras tanto habilitamos el API, entonces cambiaran la logica.
+  //Metodos eventos change
+
+  // llena Las provincias de acuerdo a la region
   onRegionChange(id: number): void {
-    // llena Las provincias de acuerdo a la region
-    this.provincias=[];
+
+    this.provincias = [];
 
     this.dropDownService.getProvincias().subscribe((provinciasFromApi: Iprovincia[]) => {
       for (let item of provinciasFromApi) {
-        if(item.RegionId == id)
-        {
-        this.provincias.push({ texto: item.Nombre, valor: item.Key});
+        if (item.RegionId == id) {
+          this.provincias.push({ texto: item.Nombre, valor: item.Key });
         }
       }
-      console.log(this.provincias);
     }, (error) => {
       console.error(error);
       this.notFound = true;
     });
   }
 
+  // llena Los municipios de acuerdo a la provincia
   onProvinciaChange(id: number): void {
-    // llena Los municipios de acuerdo a la provincia
-    this.municipios=[];
+
+    this.municipios = [];
 
     this.dropDownService.getMunicipios().subscribe((municipiosFromApi: Imunicipio[]) => {
       for (let item of municipiosFromApi) {
-        if(item.ProviceKey == id)
-        {
-        this.municipios.push({ texto: item.Nombre, valor: item.Key});
+        if (item.ProviceKey == id) {
+          this.municipios.push({ texto: item.Nombre, valor: item.Key });
         }
       }
     }, (error) => {
@@ -191,15 +222,15 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   }
 
+  // llena Los distritos de acuerdo a los municipios
   onMunicipiosChange(id: number): void {
-    // llena Los distritos de acuerdo a los municipios
-    this.distritosMunicipales=[];
+
+    this.distritosMunicipales = [];
 
     this.dropDownService.getDistritos().subscribe((distritoFromApi: IdistritoMunicipal[]) => {
       for (let item of distritoFromApi) {
-        if(item.MunicipioKey == id)
-        {
-        this.distritosMunicipales.push({ texto: item.Nombre, valor:item.DistritoKey});
+        if (item.MunicipioKey == id) {
+          this.distritosMunicipales.push({ texto: item.Nombre, valor: item.DistritoKey });
         }
       }
     }, (error) => {
@@ -209,15 +240,15 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   }
 
+  // llena Los distritos de acuerdo a los municipios
   onEjeChange(id: number): void {
-    // llena Los distritos de acuerdo a los municipios
-    this.objetivosEnd=[];
+
+    this.objetivosEnd = [];
 
     this.dropDownService.getObjetivos().subscribe((objetivosFromApi: IobjetivoEnd[]) => {
       for (let item of objetivosFromApi) {
-        if(item.EjeId == id)
-        {
-        this.objetivosEnd.push({ texto: item.Nombre, valor:item.ObjetivoId});
+        if (item.EjeId == id) {
+          this.objetivosEnd.push({ texto: item.Nombre, valor: item.ObjetivoId });
         }
       }
     }, (error) => {
@@ -226,9 +257,15 @@ export class RegistroDemandasFormComponent implements OnInit {
     });
 
   }
+
   //end dropDowns
 
   //****************************otros metodos******************************* */
+
+  agregarPolitica(){
+this.politicas.push({ texto: 'prueba', valor: 0 })
+
+  }
 
   agregarTelefono() {
     const telefonoFormGroup = this.formBuilder.group({
@@ -243,22 +280,17 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   submit() {
-
     if (!this.registerForm.valid) {
       alert('Alguna regla de validación no se está cumpliendo');
       return;
     }
-
-
     console.log(this.registerForm.value);
   }
 
   refrescar() {
     this.registerForm.patchValue({
-      username: '',
-      password: '',
-      suscripcion: Suscripcion.Basica,
-      promociones: true
+      /* username: '',
+      password: '' */
     });
     this.telefonos.controls.splice(0, this.telefonos.length);
   }
