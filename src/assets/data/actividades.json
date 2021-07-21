@@ -1,0 +1,262 @@
+﻿ [
+        {
+            "ActividadId": "1",
+            "Codigo Demanda": "010202-21-01-02-01",
+            "Actividad": "Actividad 1. construir sistema cloacal en castañuelas"
+        },
+        {
+            "ActividadId": "2",
+            "Codigo Demanda": "010202-21-01-02-02",
+            "Actividad": "Actividad 1. asignacion de mayor cantidad de agentes policiales para castañuelas"
+        },
+        {
+            "ActividadId": "3",
+            "Codigo Demanda": "010202-21-01-02-03",
+            "Actividad": "Actividad 1. dotar de equipamiento al destacamento de la policia nacional en castañuelas"
+        },
+        {
+            "ActividadId": "4",
+            "Codigo Demanda": "010202-21-01-02-04",
+            "Actividad": "Actividad 1. dotar de equipamiento medico al hospital de castañuelas"
+        },
+        {
+            "ActividadId": "5",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 1. elaborar un estudio para la construccion de reservorios de agua"
+        },
+        {
+            "ActividadId": "6",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 2. construccion de reservorios de agua"
+        },
+        {
+            "ActividadId": "7",
+            "Codigo Demanda": "010202-21-01-03-02",
+            "Actividad": "Actividad 1. identificar las parcelas arroceras en castañuelas que presentan desnivel en su terreno"
+        },
+        {
+            "ActividadId": "8",
+            "Codigo Demanda": "010202-21-01-03-02",
+            "Actividad": "Actividad 2. nivelacion de terrenos identificados"
+        },
+        {
+            "ActividadId": "9",
+            "Codigo Demanda": "010202-21-01-03-03",
+            "Actividad": "Actividad 1. realizacion de un taller sobre el buen manejo de insumos en la produccion agricola"
+        },
+        {
+            "ActividadId": "10",
+            "Codigo Demanda": "010202-21-01-03-04",
+            "Actividad": "Actividad 1. creacion de iniciativas para garantizar el acceso al credito a los pequeños productores arreceros"
+        },
+        {
+            "ActividadId": "11",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 1. implementar el uso de maquinarias para la produccion arrocera"
+        },
+        {
+            "ActividadId": "12",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 2. capacitacion a los productores sobre el uso de maquinarias en la produccion arrocera"
+        },
+        {
+            "ActividadId": "13",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 3. creacion de iniciativas para garantizar el acceso al credito a los pequeños productores"
+        },
+        {
+            "ActividadId": "14",
+            "Codigo Demanda": "010202-21-01-03-05",
+            "Actividad": "Actividad 4. capacitacion a los productores sobre nuevas tecnicas para eficientizar la capacidad productiva arrocera en castañuelas"
+        },
+        {
+            "ActividadId": "15",
+            "Codigo Demanda": "010202-21-01-03-06",
+            "Actividad": "Actividad 1. solicitar al IAD la titulacion de tierras a los productores arroceros"
+        },
+        {
+            "ActividadId": "16",
+            "Codigo Demanda": "010202-21-01-03-07",
+            "Actividad": "Actividad 1. elaborar proyecto de instalacion de factoria de arroz para los productores asociados"
+        },
+        {
+            "ActividadId": "17",
+            "Codigo Demanda": "010202-21-01-03-07",
+            "Actividad": "Actividad 2. designar un asesor tecnico para la elaboracion de proyecto de instalacion de factoria de arroz para los productores asociados"
+        },
+        {
+            "ActividadId": "18",
+            "Codigo Demanda": "010202-21-01-03-08",
+            "Actividad": "Actividad 1. instalacion de centro de acopio para los productores arroceros"
+        },
+        {
+            "ActividadId": "19",
+            "Codigo Demanda": "010202-21-01-04-01",
+            "Actividad": "Actividad 1. aplicar las leyes forestales en el municipio de castañuelas"
+        },
+        {
+            "ActividadId": "20",
+            "Codigo Demanda": "010202-21-01-04-01",
+            "Actividad": "Actividad 2. implementar un proyecto de reforestacion en el municipio"
+        },
+        {
+            "ActividadId": "21",
+            "Codigo Demanda": "010202-21-01-04-02",
+            "Actividad": "Actividad 1. capacitacion al personal de medio ambiente para elaboracion de un plan de seguimiento a los casos de deforestacion del municipio"
+        },
+        {
+            "ActividadId": "22",
+            "Codigo Demanda": "010202-21-01-04-02",
+            "Actividad": "Actividad 2. planificar una campaña de reforestacion de las especies adaptadas"
+        },
+        {
+            "ActividadId": "23",
+            "Codigo Demanda": "010202-21-01-04-03",
+            "Actividad": "Actividad 1. n/a"
+        },
+        {
+            "ActividadId": "24",
+            "Codigo Demanda": "010105-21-01-02-01",
+            "Actividad": "Actividad 1. construir un hospital municipal en el pino"
+        },
+        {
+            "ActividadId": "25",
+            "Codigo Demanda": "010105-21-01-02-02",
+            "Actividad": "Actividad 1. fortalecer el personal medico del hospital municipal con una ginecologa"
+        },
+        {
+            "ActividadId": "26",
+            "Codigo Demanda": "010105-21-01-02-02",
+            "Actividad": "Actividad 2. fortalecer el personal medico del hospital municipal con un pediatra"
+        },
+        {
+            "ActividadId": "27",
+            "Codigo Demanda": "010105-21-01-02-02",
+            "Actividad": "Actividad 3. fortalecer el personal medico del hospital municipal con un cardiologo"
+        },
+        {
+            "ActividadId": "28",
+            "Codigo Demanda": "010105-21-01-02-03",
+            "Actividad": "Actividad 1. dotar de una oficina de edenorte al municipio de el pino"
+        },
+        {
+            "ActividadId": "29",
+            "Codigo Demanda": "010105-21-01-02-04",
+            "Actividad": "Actividad 1. dotar de camas medicas, sillas, mesas a la policlinica de el pino"
+        },
+        {
+            "ActividadId": "30",
+            "Codigo Demanda": "010105-21-01-02-04",
+            "Actividad": "Actividad 2. dotar de una computadora de registro a la policlinica de el pino"
+        },
+        {
+            "ActividadId": "31",
+            "Codigo Demanda": "010105-21-01-02-04",
+            "Actividad": "Actividad 3. dotar de equipo medico ambulatorio a la policlinica de el pino"
+        },
+        {
+            "ActividadId": "32",
+            "Codigo Demanda": "010105-21-01-02-04",
+            "Actividad": "Actividad 4. aumentar la cantidad de insumos medicos a la policlinica de el pino"
+        },
+        {
+            "ActividadId": "33",
+            "Codigo Demanda": "010105-21-01-02-05",
+            "Actividad": "Actividad 1. construir uniddades de antencion primaria en las comunidades el rodeo y el plan II"
+        },
+        {
+            "ActividadId": "34",
+            "Codigo Demanda": "010105-21-01-03-01",
+            "Actividad": "Actividad 1. dotar de semillas para la siembra de mani a los productores"
+        },
+        {
+            "ActividadId": "35",
+            "Codigo Demanda": "010105-21-01-03-02",
+            "Actividad": "Actividad 1. de maquinaria y equipos a productores para eficientizar la produccion de mani en el municipio"
+        },
+        {
+            "ActividadId": "36",
+            "Codigo Demanda": "010105-21-01-03-03",
+            "Actividad": "Actividad 1. realizar talleres de capacitacion en buenas practicas agricolas a productores de mani del municipio el pino"
+        },
+        {
+            "ActividadId": "37",
+            "Codigo Demanda": "010105-21-01-04-01",
+            "Actividad": "Actividad 1. reforestar los rios de inaje, fango y pinillo"
+        },
+        {
+            "ActividadId": "38",
+            "Codigo Demanda": "010105-21-01-04-01",
+            "Actividad": "Actividad 2. fortalecer los planes operativos del ayuntamiento municipal y los grupos sociales con programas de reforestacion"
+        },
+        {
+            "ActividadId": "39",
+            "Codigo Demanda": "010105-21-01-04-01",
+            "Actividad": "Actividad 3. involucrar a la sociedad civil en los procesos de reforestacion municipal"
+        },
+        {
+            "ActividadId": "40",
+            "Codigo Demanda": "010105-21-01-04-01",
+            "Actividad": "Actividad 4. aumentar la motivacion de la sociedad civil y autoridades locales para la formacion de brigadas de reforestacion"
+        },
+        {
+            "ActividadId": "41",
+            "Codigo Demanda": "010105-21-01-04-02",
+            "Actividad": "Actividad 1. garantizar asesoria tecnica para la elaboracion de un plan de clasificacion y manejo adecuado de los residuos solidos en el municipio el pino"
+        },
+        {
+            "ActividadId": "42",
+            "Codigo Demanda": "010105-21-01-04-02",
+            "Actividad": "Actividad 2. elaborar un plan de clasificacion y manejo de residuos solidos"
+        },
+        {
+            "ActividadId": "43",
+            "Codigo Demanda": "010105-21-01-04-03",
+            "Actividad": "Actividad 1. regular los establecimientos de crianza porcina cerca de los rios inaje, fango y pinillo"
+        },
+        {
+            "ActividadId": "44",
+            "Codigo Demanda": "010303-21-01-02-01",
+            "Actividad": "Actividad 1. mejoramiento de las tuberias del acueducto del municipio moncion"
+        },
+        {
+            "ActividadId": "45",
+            "Codigo Demanda": "010303-21-01-02-01",
+            "Actividad": "Actividad 2. instalar fuentes de agua alternativa para las actividades productivas"
+        },
+        {
+            "ActividadId": "46",
+            "Codigo Demanda": "010303-21-01-02-01",
+            "Actividad": "Actividad 3. planificar eficientemente en el diseño del acueducto de moncion"
+        },
+        {
+            "ActividadId": "47",
+            "Codigo Demanda": "010303-21-01-03-01",
+            "Actividad": "Actividad 1. regularizar el llenado de las tinas para el uso de la ganaderia"
+        },
+        {
+            "ActividadId": "48",
+            "Codigo Demanda": "010103-20-01-02-01",
+            "Actividad": "Actividad 1. Dotar de camas médicas, silla, mesa el Hospital Municipal de Partido."
+        },
+        {
+            "ActividadId": "49",
+            "Codigo Demanda": "010103-20-01-02-01",
+            "Actividad": "Actividad 2. Dotar de computadora de registro el Hospital Municipal de Partido."
+        },
+        {
+            "ActividadId": "50",
+            "Codigo Demanda": "010103-20-01-02-01",
+            "Actividad": "Actividad 3. Dotar de un sonógrafo el Hospital Municipal de Partido."
+        },
+        {
+            "ActividadId": "51",
+            "Codigo Demanda": "010103-20-01-02-01",
+            "Actividad": "Actividad 4. Dotar de una máquina de Rayo X el Hospital Municipal de Partido."
+        },
+        {
+            "ActividadId": "52",
+            "Codigo Demanda": "010103-20-01-02-01",
+            "Actividad": "Actividad 5. Dotar de una ambulancia al Hospital Municipal de Partido."
+        }
+    ]

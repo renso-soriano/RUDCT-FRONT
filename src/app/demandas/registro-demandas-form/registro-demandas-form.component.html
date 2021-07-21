@@ -23,7 +23,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="año">Año</label>
-                      <select class="form-control" id="año" name="año" formControlName="año">
+                      <select class="form-control" id="año" name="año"  formControlName="año">
                         <option *ngFor="let anio of anios" [value]="anio.valor">
                           {{anio.texto}}</option>
                       </select>
@@ -97,6 +97,9 @@
                         <div *ngIf="demanda.errors.required">
                           El campo Demanda es requerido
                         </div>
+                        <div *ngIf="demanda.errors.minlength">
+                            Sea un poco mas descriptivo por favor
+                        </div>
                         <div *ngIf="demanda.errors.usernameUnico">
                           Esa demanda ya existe
                         </div>
@@ -144,8 +147,8 @@
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="politica">Politica</label>
-                          <select class="form-control" id="politica" name="politica" formControlName="politica">
-                            <option *ngFor="let politica of politicas" [value]="politica.valor">
+                          <select class="form-control" id="politica" name="politica" [(ngModel)]="politicaSelected" formControlName="politica">
+                            <option *ngFor="let politica of politicas" [value]="politica.texto">
                               {{politica.texto}}</option>
                           </select>
 
@@ -157,6 +160,23 @@
                           <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
                         </div>
                       </div>
+                    </div>
+
+                    <div class="div" *ngIf="listadoPoliticas">
+                      <table class="table table-hover table-sm">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Eliminar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let politica of listadoPoliticas">
+                            <td>{{ politica.Nombre }}</td>
+                            <td><a class="btn btn-danger" (click)="eliminarPolitica(politica.PoliticaId)">-</a></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
 
                   </div>
@@ -203,7 +223,7 @@
                           <select class="form-control" id="institucionesColaboradoras" name="institucionesColaboradoras"
                             formControlName="institucionesColaboradoras">
                             <option *ngFor="let institucionColaboradora of instituciones"
-                              [value]="institucionColaboradora.valor">
+                              [value]="institucionColaboradora.texto">
                               {{institucionColaboradora.texto}}</option>
                           </select>
 
@@ -212,11 +232,27 @@
 
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
+                          <a class="btn btn-primary mt-3" (click)="agregarInstitucion()">+</a>
                         </div>
                       </div>
                     </div>
-
+                    <div class="div" *ngIf="listadoInstituciones">
+                      <table class="table table-hover table-sm">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Eliminar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let institucion of listadoInstituciones">
+                            <td>{{ institucion.Nombre }}</td>
+                            <td><a class="btn btn-danger" (click)="eliminarInstitucion(institucion.InstitucionId)">-</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
                   </div>
                 </div>
@@ -233,23 +269,38 @@
                     <div class="row">
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <label for="institucionesColaboradoras">Actividades</label>
-                          <input type="text" class="form-control" formControlName="actividades">
-
+                          <label for="actividad">Actividades</label>
+                          <input type="text" class="form-control" formControlName="actividad">
                         </div>
                       </div>
 
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
+                          <a class="btn btn-primary mt-3" (click)="agregarActividad()">+</a>
                         </div>
                       </div>
                     </div>
 
+                    <div class="div" *ngIf="listadoActividades">
+                      <table class="table table-hover table-sm">
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Eliminar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let actividad of listadoActividades">
+                            <td>{{ actividad.Actividad }}</td>
+                            <td><a class="btn btn-danger" (click)="eliminarActividad(actividad.ActividadId)">-</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
                   </div>
                 </div>
-
-
 
                 <div class="row">
                   <div class="col-12 section-divider">
@@ -261,21 +312,23 @@
                 <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="beneficiariosDirectosFamilias">Cantidad Beneficiados</label>
-                      <input type="number" class="form-control" formControlName="beneficiariosDirectosFamilias">
+                      <label for="beneficiarios">Cantidad de beneficiados</label>
+                      <input type="number" class="form-control" formControlName="beneficiarios">
 
-                      <!--  <div *ngIf="beneficiariosDirectosFamilias.invalid && (beneficiariosDirectosFamilias.dirty || beneficiariosDirectosFamilias.touched)" class="alert alert-danger">
-                        <div *ngIf="beneficiariosDirectosFamilias.errors.required">
-                          El campo Familias directas es requerido
+                      <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="beneficiarios.errors.required">
+                          El campo beneficiarios es requerido
                         </div>
+                        <!--
                         <div *ngIf="password.errors.minlength">
                           La longitud mínima del password es 4 caracteres
                         </div>
                         <div *ngIf="password.errors.passwordValidation">
                           {{password.errors.passwordValidation.message}}
-                        </div>
+                        </div>-->
 
-                      </div> -->
+                      </div>
                     </div>
 
                   </div>
@@ -305,8 +358,21 @@
 
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
                 <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
-                  title="Refrescar formulario" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+                  title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
 
+                  <!--si no le pongo bindValue manda el objeto entero-->
+                  <!--no me quiere funcionar-->
+                  <!-- <div class="col-md-6 col-12">
+                    <h6>Probando ngselect</h6>
+                    <p><code>Classic</code> ejemplo basico de un ng-select control.</p>
+                    <div class="form-group">
+                      <ng-select [items]="cities" bindLabel="name"  name="id" placeholder="Seleccione politica" [(ngModel)]="politicaSelected" [ngModelOptions]="{standalone: true}">
+                      </ng-select>
+                      <p class="text-italic font-small-2 mt-1">
+                        Selected city: {{politicaSelected | json}}
+                      </p>
+                    </div>
+                  </div> -->
               </form>
 
             </div>

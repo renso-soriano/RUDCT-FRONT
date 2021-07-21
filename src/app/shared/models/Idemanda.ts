@@ -1,3 +1,5 @@
+import { Iactividad } from "./iactividad";
+
 export interface IDemanda {
   idDemanda:number;
   codigo:string;
@@ -18,7 +20,7 @@ export interface IDemanda {
   tecnicoOMPPId:number;
   estadoEjecucionId:number;
   politicasIds:number[];
-  actividadesIds:number[];
+  actividades:Iactividad[];
   institucionesColaboradorasIds:number[];
   comentarios:string;
 }

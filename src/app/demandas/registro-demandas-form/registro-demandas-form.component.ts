@@ -15,6 +15,8 @@ import { Itecnico } from 'app/shared/models/itecnico';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 import { passwordValidation } from '../validations/password-validation.directive';
 import { UsernameUnicoService } from '../validations/username-unico.directive';
+import { NgSelectModule, NgOption } from '@ng-select/ng-select';
+
 
 @Component({
   selector: 'app-registro-demandas-form',
@@ -24,12 +26,21 @@ import { UsernameUnicoService } from '../validations/username-unico.directive';
 export class RegistroDemandasFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-    private usernameUnicoService: UsernameUnicoService, private dropDownService: DropDownServiceService) { }
+    private usernameUnicoService: UsernameUnicoService,
+    private dropDownService: DropDownServiceService) { }
 
   notFound = false;
 
+  cities = [
+    { id: 1, name: 'Vilnius' },
+    { id: 2, name: 'Kaunas' },
+    { id: 3, name: 'Pavilnys', disabled: true },
+    { id: 4, name: 'Pabradė' },
+    { id: 5, name: 'Klaipėda' }
+  ];
+
   //propiedades
-  codigoDemanda:string = 'codigoPrueba';
+  codigoDemanda: string = 'codigoPrueba';
   anios: IDropDown[] = [];
   regiones: IDropDown[] = [];
   provincias: IDropDown[] = [];
@@ -39,22 +50,24 @@ export class RegistroDemandasFormComponent implements OnInit {
   ejesEnd: IDropDown[] = [];
   objetivosEnd: IDropDown[] = [];
   instituciones: IDropDown[] = [];
-  politicas: IDropDown[] = [];
+  politicas: any[] = [];
   actividades: IDropDown[] = [];
   tecnicos: IDropDown[] = [];
 
-  listadoPoliticas: any[]=[];
-  listadoInstituciones: any[]=[];
-  listadoActividades: any[]=[];
+  listadoPoliticas: any[] = [];
+  listadoInstituciones: any[] = [];
+  listadoActividades: any[] = [];
 
-  polCount = 1; // temporalfield
-  instCount = 1; // temporalfield
-  activCount =1; // temporalfield
+  politicaSelected: any;
+
+  polCount = 0;  // temporalfield
+  instCount = 0;  // temporalfield
+  activCount = 0;  // temporalfield
+
+
 
 
   //getters
-
-
   get comentarios() {
     return this.registerForm.get('comentarios');
   }
@@ -70,6 +83,22 @@ export class RegistroDemandasFormComponent implements OnInit {
   get demanda() {
     return this.registerForm.get('demanda');
   }
+  get politica() {
+    return this.registerForm.get('politica');
+  }
+  get institucionResponsable() {
+    return this.registerForm.get('institucionResponsable');
+  }
+  get institucionesColaboradoras()
+  {
+    return this.registerForm.get('institucionesColaboradoras');
+  }
+  get actividad()
+  {
+    return this.registerForm.get('actividad');
+  }
+
+
 
   registerForm = this.formBuilder.group({
     año: [''],
@@ -81,19 +110,18 @@ export class RegistroDemandasFormComponent implements OnInit {
     eje: [''],
     objetivo: [''],
     demanda: ['', {
-      validators: [Validators.required],
-      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
-      updateOn: 'blur'
+      validators: [Validators.required, Validators.minLength(15)],
+      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
     }],
     tecnico: [],
     institucionResponsable: [''],
     institucionesColaboradoras: [''],
-    beneficiarios: [''],
+    beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
     unidad: [''],
     comentarios: [''],
     telefonos: this.formBuilder.array([]),
-    actividades:[''],
-    politica:['']
+    actividad: [''],
+    politica: ['']
     /* username: ['', {
       validators: [Validators.required],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
@@ -104,7 +132,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     }], */
   });
 
-  //Lleno todos los dropsdowns fijos en el inicio
+  //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
   }
@@ -184,7 +212,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       this.notFound = true;
     });
 
-  }
+  } // fin llenarDropDownFijos
 
   //Metodos eventos change
 
@@ -264,8 +292,12 @@ export class RegistroDemandasFormComponent implements OnInit {
   //****************************otros metodos******************************* */
 
   agregarPolitica() {
-    this.listadoPoliticas.push({ PoliticaId: this.polCount, Nombre: 'prueba', Activo: 1 })
-    this.polCount += 1;
+console.log(this.politicaSelected);
+    this.listadoPoliticas.push({ PoliticaId: this.polCount, Nombre: this.politica.value, Activo: 1 })
+    this.polCount++;
+    this.registerForm.patchValue({
+      politica: this.listadoPoliticas
+    });
   }
 
   eliminarPolitica(id: number) {
@@ -279,8 +311,12 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   agregarInstitucion() {
-    this.listadoInstituciones.push({ InstitucionId: this.instCount, Nombre: 'prueba', Activo: 1 })
-    this.instCount += 1;
+
+    this.listadoInstituciones.push({ InstitucionId: this.instCount, Nombre:this.institucionesColaboradoras.value, Activo: 1 })
+    this.instCount++;
+    this.registerForm.patchValue({
+      institucionesColaboradoras: this.listadoInstituciones
+    });
   }
 
   eliminarInstitucion(id: number) {
@@ -294,10 +330,10 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   agregarActividad() {
-    this.listadoActividades.push({ ActividadId: this.activCount,CodigoDemanda:this.codigoDemanda, Actividad: 'Actividad prueba' })
-    this.activCount += 1;
-    this.registerForm.patchValue({
-       actividades: ''
+    this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad:""+(this.activCount + 1)+"-"+this.actividad.value })
+    this.activCount++;
+     this.registerForm.patchValue({
+      actividad: ''
     });
   }
 
@@ -338,5 +374,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     });
     this.telefonos.controls.splice(0, this.telefonos.length);
   }
+
+
 }
 

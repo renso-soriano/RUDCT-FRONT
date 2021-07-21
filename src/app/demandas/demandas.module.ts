@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PasswordValidationDirective } from './validations/password-validation.directive';
 import { UsernameUnicoDirective } from './validations/username-unico.directive';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { UsernameUnicoDirective } from './validations/username-unico.directive';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgSelectModule
 
   ]
 })
