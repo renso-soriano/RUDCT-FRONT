@@ -4,7 +4,7 @@
     <!-- Kick start -->
     <div id="kick-start" class="card">
       <div class="card-header">
-        <h4 class="card-title">Registro de demandas municipales</h4>
+        <h4 class="card-title">Registro de demandas territoriales</h4>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -23,32 +23,29 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="año">Año</label>
-                      <select class="form-control" id="año" name="año"  formControlName="año">
-                        <option *ngFor="let anio of anios" [value]="anio.valor">
-                          {{anio.texto}}</option>
-                      </select>
+                      <ng-select [items]="anios | async" bindLabel="Year" bindValue="id" name="año" id="año"
+                        placeholder="Seleccione año demanda" formControlName="año">
+                      </ng-select>
                     </div>
                   </div>
 
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="region">Region</label>
-                      <select class="form-control" id="region" name="region"
-                        (change)="onRegionChange($event.target.value)" formControlName="region">
-                        <option *ngFor="let region of regiones" [value]="region.valor">
-                          {{region.texto}}</option>
-                      </select>
+                      <ng-select [items]="regiones | async" bindLabel="Nombre" bindValue="RegionId" name="region"
+                        id="region" placeholder="Seleccione region" (change)="onRegionChange(region.value)"
+                        formControlName="region">
+                      </ng-select>
                     </div>
                   </div>
 
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="provincia">Provincia</label>
-                      <select class="form-control" id="provincia" name="provincia"
-                        (change)="onProvinciaChange($event.target.value)" formControlName="provincia">
-                        <option *ngFor="let provincia of provincias" [value]="provincia.valor">
-                          {{provincia.texto}}</option>
-                      </select>
+                      <ng-select [items]="provincias | async" bindLabel="Nombre" bindValue="Key" name="provincia"
+                        id="provincia" placeholder="Seleccione provincia" (change)="onProvinciaChange(provincia.value)"
+                        formControlName="provincia">
+                      </ng-select>
                     </div>
                   </div>
                 </div>
@@ -58,31 +55,29 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="municipio">Municipio</label>
-                      <select class="form-control" id="municipio" name="municipio"
-                        (change)="onMunicipiosChange($event.target.value)" formControlName="municipio">
-                        <option *ngFor="let municipio of municipios" [value]="municipio.valor">
-                          {{municipio.texto}}</option>
-                      </select>
+                      <ng-select [items]="municipios | async" bindLabel="Nombre" bindValue="Key" name="municipio"
+                        id="municipio" placeholder="Seleccione municipio" (change)="onMunicipiosChange(municipio.value)"
+                        formControlName="municipio">
+                      </ng-select>
                     </div>
                   </div>
+
 
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="distrito">Distrito municipal</label>
-                      <select class="form-control" id="distrito" name="distrito" formControlName="distrito">
-                        <option *ngFor="let distrito of distritosMunicipales" [value]="distrito.valor">
-                          {{distrito.texto}}</option>
-                      </select>
+                      <ng-select [items]="distritosMunicipales | async" bindLabel="Nombre" bindValue="DistritoKey"
+                        name="distrito" id="distrito" placeholder="Seleccione distrito" formControlName="distrito">
+                      </ng-select>
                     </div>
                   </div>
 
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="fuente">Fuente de demanda</label>
-                      <select class="form-control" id="fuente" name="fuente" formControlName="fuente">
-                        <option *ngFor="let fuente of fuenteDemandas" [value]="fuente.valor">
-                          {{fuente.texto}}</option>
-                      </select>
+                      <ng-select [items]="fuenteDemandas | async" bindLabel="Nombre" bindValue="FuenteId" name="fuente"
+                        id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
+                      </ng-select>
                     </div>
                   </div>
                 </div>
@@ -98,7 +93,7 @@
                           El campo Demanda es requerido
                         </div>
                         <div *ngIf="demanda.errors.minlength">
-                            Sea un poco mas descriptivo por favor
+                          Sea un poco mas descriptivo por favor
                         </div>
                         <div *ngIf="demanda.errors.usernameUnico">
                           Esa demanda ya existe
@@ -121,21 +116,18 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="eje">Eje End</label>
-                      <select class="form-control" id="eje" name="eje" (change)="onEjeChange($event.target.value)"
-                        formControlName="eje">
-                        <option *ngFor="let eje of ejesEnd" [value]="eje.valor">
-                          {{eje.texto}}</option>
-                      </select>
+                      <ng-select [items]="ejesEnd | async" bindLabel="Nombre" bindValue="EjeId" name="eje" id="eje"
+                        placeholder="Seleccione eje END" (change)="onEjeChange(eje.value)" formControlName="eje">
+                      </ng-select>
                     </div>
                   </div>
 
                   <div class="col-sm-8">
                     <div class="form-group">
                       <label for="objetivo">Objetivo</label>
-                      <select class="form-control" id="objetivo" name="objetivo" formControlName="objetivo">
-                        <option *ngFor="let objetivo of objetivosEnd" [value]="objetivo.valor">
-                          {{objetivo.texto}}</option>
-                      </select>
+                      <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" bindValue="OjetivoId" name="objetivo"
+                        id="objetivo" placeholder="Seleccione objetivo" formControlName="objetivo">
+                      </ng-select>
                     </div>
                   </div>
                 </div>
@@ -147,17 +139,16 @@
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="politica">Politica</label>
-                          <select class="form-control" id="politica" name="politica" [(ngModel)]="politicaSelected" formControlName="politica">
-                            <option *ngFor="let politica of politicas" [value]="politica.texto">
-                              {{politica.texto}}</option>
-                          </select>
+                          <ng-select [items]="politicas | async" bindLabel="Nombre" name="politica" id="politica"
+                            placeholder="Seleccione politica" formControlName="politica">
+                          </ng-select>
 
                         </div>
                       </div>
 
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <a class="btn btn-primary mt-3" (click)="agregarPolitica()">+</a>
+                          <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"></a>
                         </div>
                       </div>
                     </div>
@@ -173,7 +164,8 @@
                         <tbody>
                           <tr *ngFor="let politica of listadoPoliticas">
                             <td>{{ politica.Nombre }}</td>
-                            <td><a class="btn btn-danger" (click)="eliminarPolitica(politica.PoliticaId)">-</a></td>
+                            <td><a class="btn btn-danger ft-trash-2"
+                                (click)="eliminarPolitica(politica.PoliticaId)"></a></td>
                           </tr>
                         </tbody>
                       </table>
@@ -193,22 +185,20 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="tecnico">Técnico OMPP</label>
-                      <select class="form-control" id="tecnico" name="tecnico" formControlName="tecnico">
-                        <option *ngFor="let tecnico of tecnicos" [value]="tecnico.valor">
-                          {{tecnico.texto}}</option>
-                      </select>
+                      <ng-select [items]="tecnicos | async" bindLabel="Nombre" bindValue="Id" name="tecnico"
+                        id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
+                      </ng-select>
+
                     </div>
                   </div>
 
                   <div class="col-sm-8">
                     <div class="form-group">
                       <label for="institucionResponsable">Institucion primaria</label>
-                      <select class="form-control" id="institucionResponsable" name="institucionResponsable"
+                      <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
+                        name="institucionResponsable" id="institucionResponsable" placeholder="Seleccione Institucion"
                         formControlName="institucionResponsable">
-                        <option *ngFor="let institucionResponsable of instituciones"
-                          [value]="institucionResponsable.valor">
-                          {{institucionResponsable.texto}}</option>
-                      </select>
+                      </ng-select>
                     </div>
                   </div>
 
@@ -220,19 +210,17 @@
                       <div class="col-sm-4">
                         <div class="form-group">
                           <label for="institucionesColaboradoras">Instituciones Colaboradoras</label>
-                          <select class="form-control" id="institucionesColaboradoras" name="institucionesColaboradoras"
-                            formControlName="institucionesColaboradoras">
-                            <option *ngFor="let institucionColaboradora of instituciones"
-                              [value]="institucionColaboradora.texto">
-                              {{institucionColaboradora.texto}}</option>
-                          </select>
+                          <ng-select [items]="instituciones | async" bindLabel="Nombre"
+                            name="institucionesColaboradoras" id="institucionesColaboradoras"
+                            placeholder="Seleccione Institucion" formControlName="institucionesColaboradoras">
+                          </ng-select>
 
                         </div>
                       </div>
 
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <a class="btn btn-primary mt-3" (click)="agregarInstitucion()">+</a>
+                          <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()"></a>
                         </div>
                       </div>
                     </div>
@@ -247,7 +235,8 @@
                         <tbody>
                           <tr *ngFor="let institucion of listadoInstituciones">
                             <td>{{ institucion.Nombre }}</td>
-                            <td><a class="btn btn-danger" (click)="eliminarInstitucion(institucion.InstitucionId)">-</a>
+                            <td><a class="btn btn-danger ft-trash-2"
+                                (click)="eliminarInstitucion(institucion.InstitucionId)"></a>
                             </td>
                           </tr>
                         </tbody>
@@ -276,7 +265,7 @@
 
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <a class="btn btn-primary mt-3" (click)="agregarActividad()">+</a>
+                          <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"></a>
                         </div>
                       </div>
                     </div>
@@ -292,7 +281,8 @@
                         <tbody>
                           <tr *ngFor="let actividad of listadoActividades">
                             <td>{{ actividad.Actividad }}</td>
-                            <td><a class="btn btn-danger" (click)="eliminarActividad(actividad.ActividadId)">-</a>
+                            <td><a class="btn btn-danger ft-trash-2"
+                                (click)="eliminarActividad(actividad.ActividadId)"></a>
                             </td>
                           </tr>
                         </tbody>
@@ -359,20 +349,6 @@
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
                 <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
                   title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
-
-                  <!--si no le pongo bindValue manda el objeto entero-->
-                  <!--no me quiere funcionar-->
-                  <!-- <div class="col-md-6 col-12">
-                    <h6>Probando ngselect</h6>
-                    <p><code>Classic</code> ejemplo basico de un ng-select control.</p>
-                    <div class="form-group">
-                      <ng-select [items]="cities" bindLabel="name"  name="id" placeholder="Seleccione politica" [(ngModel)]="politicaSelected" [ngModelOptions]="{standalone: true}">
-                      </ng-select>
-                      <p class="text-italic font-small-2 mt-1">
-                        Selected city: {{politicaSelected | json}}
-                      </p>
-                    </div>
-                  </div> -->
               </form>
 
             </div>
@@ -389,26 +365,3 @@
   </a>
 
 </div>
-
-<!-- end
-<div class="form-group">
-                      <a class="btn btn-primary" (click)="agregarTelefono()">Agregar actividad</a>
-                    </div>
-
-                    <div formArrayName="telefonos" *ngFor="let telefono of telefonos.controls; let i = index">
-                      <div [formGroupName]="i">
-                        <div class="form-group row">
-                          <label class="col-md-2" [attr.for]="'telefono' + i">Actividad</label>
-                          <div class="col-md-3">
-                            <input type="text" [attr.id]="'telefono' + i" class="form-control"
-                              formControlName="telefono">
-                          </div>
-
-                          <div class="col-md-1">
-                            <button class="btn btn-danger" (click)="removerTelefono(i)">x</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
--->

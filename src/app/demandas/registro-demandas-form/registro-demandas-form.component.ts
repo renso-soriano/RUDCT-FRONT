@@ -16,6 +16,7 @@ import { DropDownServiceService } from 'app/shared/services/drop-down-service.se
 import { passwordValidation } from '../validations/password-validation.directive';
 import { UsernameUnicoService } from '../validations/username-unico.directive';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -29,43 +30,32 @@ export class RegistroDemandasFormComponent implements OnInit {
     private usernameUnicoService: UsernameUnicoService,
     private dropDownService: DropDownServiceService) { }
 
+  //Lleno todos los dropdowns fijos en el inicio
+  ngOnInit() {
+    this.llenarDropDownFijos();
+  }
   notFound = false;
-
-  cities = [
-    { id: 1, name: 'Vilnius' },
-    { id: 2, name: 'Kaunas' },
-    { id: 3, name: 'Pavilnys', disabled: true },
-    { id: 4, name: 'Pabradė' },
-    { id: 5, name: 'Klaipėda' }
-  ];
 
   //propiedades
   codigoDemanda: string = 'codigoPrueba';
-  anios: IDropDown[] = [];
-  regiones: IDropDown[] = [];
-  provincias: IDropDown[] = [];
-  municipios: IDropDown[] = [];
-  distritosMunicipales: IDropDown[] = [];
-  fuenteDemandas: IDropDown[] = [];
-  ejesEnd: IDropDown[] = [];
-  objetivosEnd: IDropDown[] = [];
-  instituciones: IDropDown[] = [];
-  politicas: any[] = [];
+  anios: Observable<any[]>;
+  regiones: Observable<any[]>;
+  provincias: Observable<any[]>;
+  municipios: Observable<any[]>;
+  distritosMunicipales: Observable<any[]>;
+  fuenteDemandas: Observable<any[]>;
+  ejesEnd: Observable<any[]>;
+  objetivosEnd: Observable<any[]>;
+  instituciones: Observable<any[]>;
+  politicas: Observable<any[]>;
   actividades: IDropDown[] = [];
-  tecnicos: IDropDown[] = [];
+  tecnicos: Observable<any[]>;
 
   listadoPoliticas: any[] = [];
   listadoInstituciones: any[] = [];
   listadoActividades: any[] = [];
 
-  politicaSelected: any;
-
-  polCount = 0;  // temporalfield
-  instCount = 0;  // temporalfield
-  activCount = 0;  // temporalfield
-
-
-
+  activCount=0;
 
   //getters
   get comentarios() {
@@ -89,128 +79,88 @@ export class RegistroDemandasFormComponent implements OnInit {
   get institucionResponsable() {
     return this.registerForm.get('institucionResponsable');
   }
-  get institucionesColaboradoras()
-  {
+  get institucionesColaboradoras() {
     return this.registerForm.get('institucionesColaboradoras');
   }
-  get actividad()
-  {
+  get actividad() {
     return this.registerForm.get('actividad');
   }
+  get region() {
+    return this.registerForm.get('region');
+  }
 
+  get provincia() {
+    return this.registerForm.get('provincia');
+  }
+  get municipio() {
+    return this.registerForm.get('municipio');
+  }
+  get distrito() {
+    return this.registerForm.get('distrito');
+  }
+  get fuente() {
+    return this.registerForm.get('fuente');
+  }
+  get eje() {
+    return this.registerForm.get('eje');
+  }
+  get objetivo() {
+    return this.registerForm.get('objetivo');
+  }
 
 
   registerForm = this.formBuilder.group({
-    año: [''],
-    region: [''],
-    provincia: [''],
-    municipio: [''],
-    distrito: [''],
-    fuente: [''],
-    eje: [''],
-    objetivo: [''],
+    año: [],
+    region: [],
+    provincia: [],
+    municipio: [],
+    distrito: [],
+    fuente: [],
+    eje: [],
+    objetivo: [],
     demanda: ['', {
       validators: [Validators.required, Validators.minLength(15)],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
     }],
     tecnico: [],
-    institucionResponsable: [''],
-    institucionesColaboradoras: [''],
+    institucionResponsable: [],
+    institucionesColaboradoras: [],
     beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
     unidad: [''],
     comentarios: [''],
-    telefonos: this.formBuilder.array([]),
     actividad: [''],
-    politica: ['']
-    /* username: ['', {
-      validators: [Validators.required],
-      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)],
-      updateOn: 'blur'
-    }],
+    politica: []
+    /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
     }], */
   });
 
-  //Lleno todos los dropdowns fijos en el inicio
-  ngOnInit() {
-    this.llenarDropDownFijos();
-  }
+  // Todos estos rellenados son mientras tanto habilitamos el API,
+  // entonces cambiaran un poco la logica.
 
-  // Todos estos rellenados son mientras tanto habilitamos el API, entonces cambiaran la logica.
   llenarDropDownFijos(): void {
 
-    this.notFound = false;
-
     // llena el año
-    this.dropDownService.getAños().subscribe((añosFromApi: Iaño[]) => {
-      for (let item of añosFromApi) {
-        this.anios.push({ texto: String(item.Year), valor: item.id });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.anios = this.dropDownService.getAños();
 
     // llena La region
-    this.dropDownService.getRegiones().subscribe((regionesFromApi: Iregion[]) => {
-      for (let item of regionesFromApi) {
-        this.regiones.push({ texto: item.Nombre, valor: item.RegionId });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.regiones = this.dropDownService.getRegiones();
 
     // llena La Fuente
-    this.dropDownService.getFuentes().subscribe((fuentesFromApi: IfuenteDemanda[]) => {
-      for (let item of fuentesFromApi) {
-        this.fuenteDemandas.push({ texto: item.Nombre, valor: item.FuenteId });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.fuenteDemandas = this.dropDownService.getFuentes();
 
     // llena ejeEnd
-    this.dropDownService.getEjes().subscribe((ejesFromApi: IejeEnd[]) => {
-      for (let item of ejesFromApi) {
-        this.ejesEnd.push({ texto: item.Nombre, valor: item.EjeId });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.ejesEnd= this.dropDownService.getEjes();
 
     // llena Tecnicos
-    this.dropDownService.getTecnicos().subscribe((tecnicosFromApi: Itecnico[]) => {
-      for (let item of tecnicosFromApi) {
-        this.tecnicos.push({ texto: item.Nombre, valor: item.Id });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.tecnicos = this.dropDownService.getTecnicos();
 
     // llena Instituciones Responsables
-    this.dropDownService.getInstituciones().subscribe((InstitucionesFromApi: Iinstitucion[]) => {
-      for (let item of InstitucionesFromApi) {
-        this.instituciones.push({ texto: item.Nombre, valor: item.IntitucionId });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+   this.instituciones = this.dropDownService.getInstituciones();
 
     // llena Politicas
-    this.dropDownService.getPoliticas().subscribe((politicasFromApi: Ipolitica[]) => {
-      for (let item of politicasFromApi) {
-        this.politicas.push({ texto: item.Nombre, valor: item.PoliticaId });
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
-    });
+    this.politicas = this.dropDownService.getPoliticas();
 
   } // fin llenarDropDownFijos
 
@@ -218,85 +168,46 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   // llena Las provincias de acuerdo a la region
   onRegionChange(id: number): void {
-
-    this.provincias = [];
-
-    this.dropDownService.getProvincias().subscribe((provinciasFromApi: Iprovincia[]) => {
-      for (let item of provinciasFromApi) {
-        if (item.RegionId == id) {
-          this.provincias.push({ texto: item.Nombre, valor: item.Key });
-        }
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
+    this.provincias = this.dropDownService.getProvinciasByRegion(id);
+    this.registerForm.patchValue({
+         provincia:null
     });
   }
 
   // llena Los municipios de acuerdo a la provincia
   onProvinciaChange(id: number): void {
 
-    this.municipios = [];
-
-    this.dropDownService.getMunicipios().subscribe((municipiosFromApi: Imunicipio[]) => {
-      for (let item of municipiosFromApi) {
-        if (item.ProviceKey == id) {
-          this.municipios.push({ texto: item.Nombre, valor: item.Key });
-        }
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
+    this.municipios = this.dropDownService.getMunicipiosByProvincia(id);
+    this.registerForm.patchValue({
+      municipio:null
     });
-
   }
 
   // llena Los distritos de acuerdo a los municipios
   onMunicipiosChange(id: number): void {
 
-    this.distritosMunicipales = [];
-
-    this.dropDownService.getDistritos().subscribe((distritoFromApi: IdistritoMunicipal[]) => {
-      for (let item of distritoFromApi) {
-        if (item.MunicipioKey == id) {
-          this.distritosMunicipales.push({ texto: item.Nombre, valor: item.DistritoKey });
-        }
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
+    this.distritosMunicipales = this.dropDownService.getDistritosByMunicipio(id);
+    this.registerForm.patchValue({
+      distrito:null
     });
-
   }
 
-  // llena Los distritos de acuerdo a los municipios
+  // llena Los objetivos de acuerdo a los ejes
   onEjeChange(id: number): void {
-
-    this.objetivosEnd = [];
-
-    this.dropDownService.getObjetivos().subscribe((objetivosFromApi: IobjetivoEnd[]) => {
-      for (let item of objetivosFromApi) {
-        if (item.EjeId == id) {
-          this.objetivosEnd.push({ texto: item.Nombre, valor: item.ObjetivoId });
-        }
-      }
-    }, (error) => {
-      console.error(error);
-      this.notFound = true;
+    this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
+    this.registerForm.patchValue({
+      objetivo:null
     });
-
   }
-
   //end dropDowns
 
   //****************************otros metodos******************************* */
 
   agregarPolitica() {
-console.log(this.politicaSelected);
-    this.listadoPoliticas.push({ PoliticaId: this.polCount, Nombre: this.politica.value, Activo: 1 })
-    this.polCount++;
+    const politicaSelected = this.politica.value;
+    this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
     this.registerForm.patchValue({
-      politica: this.listadoPoliticas
+      politica:null
     });
   }
 
@@ -311,11 +222,11 @@ console.log(this.politicaSelected);
   }
 
   agregarInstitucion() {
-
-    this.listadoInstituciones.push({ InstitucionId: this.instCount, Nombre:this.institucionesColaboradoras.value, Activo: 1 })
-    this.instCount++;
+    const institucionSelected = this.institucionesColaboradoras.value;
+    console.log(institucionSelected);
+    this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
     this.registerForm.patchValue({
-      institucionesColaboradoras: this.listadoInstituciones
+      institucionesColaboradoras:null
     });
   }
 
@@ -330,9 +241,9 @@ console.log(this.politicaSelected);
   }
 
   agregarActividad() {
-    this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad:""+(this.activCount + 1)+"-"+this.actividad.value })
+    this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: "" + (this.activCount + 1) + "-" + this.actividad.value })
     this.activCount++;
-     this.registerForm.patchValue({
+    this.registerForm.patchValue({
       actividad: ''
     });
   }
@@ -364,15 +275,18 @@ console.log(this.politicaSelected);
       alert('Alguna regla de validación no se está cumpliendo');
       return;
     }
+    this.registerForm.patchValue({
+      politica: this.listadoPoliticas,
+      institucionesColaboradoras: this.listadoInstituciones
+    });
     console.log(this.registerForm.value);
   }
 
   refrescar() {
     this.registerForm.patchValue({
-      /* username: '',
-      password: '' */
+
     });
-    this.telefonos.controls.splice(0, this.telefonos.length);
+
   }
 
 
