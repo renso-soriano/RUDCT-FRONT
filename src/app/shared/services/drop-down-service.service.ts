@@ -150,8 +150,8 @@ export class DropDownServiceService {
     return this.http.get<Iinstitucion[]>(this.baseUrl + 'Instituciones.json');
   }
 
-  getInstitucionById(IntitucionId: string): Observable<Iinstitucion> {
-    return this.http.get<Iinstitucion>(this.baseUrl + 'Instituciones.json/' + IntitucionId);
+  getInstitucionById(InstitucionId: string): Observable<Iinstitucion> {
+    return this.http.get<Iinstitucion>(this.baseUrl + 'Instituciones.json/' + InstitucionId);
   }
 
 

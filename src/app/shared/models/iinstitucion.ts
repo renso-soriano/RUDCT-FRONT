@@ -1,5 +1,5 @@
 export interface Iinstitucion {
-  IntitucionId: number,
+  InstitucionId: number,
   Nombre: string,
   Activo: number
 }

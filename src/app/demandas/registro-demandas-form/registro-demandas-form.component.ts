@@ -19,6 +19,7 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { Observable, of } from 'rxjs';
 
 
+
 @Component({
   selector: 'app-registro-demandas-form',
   templateUrl: './registro-demandas-form.component.html',
@@ -34,7 +35,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   ngOnInit() {
     this.llenarDropDownFijos();
   }
-  notFound = false;
 
   //propiedades
   codigoDemanda: string = 'codigoPrueba';
@@ -48,12 +48,11 @@ export class RegistroDemandasFormComponent implements OnInit {
   objetivosEnd: Observable<any[]>;
   instituciones: Observable<any[]>;
   politicas: Observable<any[]>;
-  actividades: IDropDown[] = [];
   tecnicos: Observable<any[]>;
 
-  listadoPoliticas: any[] = [];
-  listadoInstituciones: any[] = [];
-  listadoActividades: any[] = [];
+  listadoPoliticas: any[];
+  listadoInstituciones: any[];
+  listadoActividades: any[];
 
   activCount=0;
 
@@ -108,7 +107,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     return this.registerForm.get('objetivo');
   }
 
-
   registerForm = this.formBuilder.group({
     año: [],
     region: [],
@@ -136,8 +134,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     }], */
   });
 
-  // Todos estos rellenados son mientras tanto habilitamos el API,
-  // entonces cambiaran un poco la logica.
+  // rellena DropDowns.
 
   llenarDropDownFijos(): void {
 
@@ -204,7 +201,11 @@ export class RegistroDemandasFormComponent implements OnInit {
   //****************************otros metodos******************************* */
 
   agregarPolitica() {
-    const politicaSelected = this.politica.value;
+    if(this.listadoPoliticas == null)
+    {
+      this.listadoPoliticas = [];
+    }
+    let politicaSelected = this.politica.value;
     this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
     this.registerForm.patchValue({
       politica:null
@@ -222,7 +223,11 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   agregarInstitucion() {
-    const institucionSelected = this.institucionesColaboradoras.value;
+    if(this.listadoInstituciones == null)
+    {
+      this.listadoInstituciones = [];
+    }
+    let institucionSelected = this.institucionesColaboradoras.value;
     console.log(institucionSelected);
     this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
     this.registerForm.patchValue({
@@ -241,10 +246,14 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   agregarActividad() {
+    if(this.listadoActividades == null)
+    {
+      this.listadoActividades = [];
+    }
     this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: "" + (this.activCount + 1) + "-" + this.actividad.value })
     this.activCount++;
     this.registerForm.patchValue({
-      actividad: ''
+      actividad: null
     });
   }
 
@@ -258,18 +267,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     );
   }
 
-  agregarTelefono() {
-    const telefonoFormGroup = this.formBuilder.group({
-      telefono: '',
-      descripcion: ''
-    });
-    this.telefonos.push(telefonoFormGroup);
-  }
-
-  removerTelefono(indice: number) {
-    this.telefonos.removeAt(indice);
-  }
-
   submit() {
     if (!this.registerForm.valid) {
       alert('Alguna regla de validación no se está cumpliendo');
@@ -277,7 +274,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     }
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
-      institucionesColaboradoras: this.listadoInstituciones
+      institucionesColaboradoras: this.listadoInstituciones,
+      actividad: this.listadoActividades
     });
     console.log(this.registerForm.value);
   }
