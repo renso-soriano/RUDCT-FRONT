@@ -676,27 +676,22 @@
       {
         "name": "done",
         "className": "ct-done",
-        "value": 50
+        "value": 23
       },
       {
         "name": "progress",
         "className": "ct-progress",
-        "value": 10
+        "value": 14
       },
       {
         "name": "outstanding",
         "className": "ct-outstanding",
-        "value": 10
+        "value": 35
       },
       {
         "name": "started",
         "className": "ct-started",
-        "value": 15
-      },
-	  {
-        "name": "finish",
-        "className": "ct-finish",
-        "value": 15
+        "value": 28
       }
     ]
   },

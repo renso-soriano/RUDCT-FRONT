@@ -12,10 +12,12 @@ export class DemandasService {
 
   private URL = environment.apiUrl + "/demandas";
 
+  private baseURL = './assets/data/Demandas.json'
+
   constructor(private http: HttpClient) { }
 
-  getDemandas(): Observable<IDemanda[]> {
-    return this.http.get<IDemanda[]>(this.URL);
+  getDemandas(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseURL);
   }
 
   getDemanda(idDemanda: string): Observable<IDemanda> {

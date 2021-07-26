@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
+import { DemandasService } from 'app/shared/services/demandas.service';
 
 declare var require: any;
 
@@ -22,7 +23,22 @@ export interface Chart {
   styleUrls: ['./dashboard1.component.scss']
 })
 
-export class Dashboard1Component {
+export class Dashboard1Component implements OnInit {
+
+  constructor(private demandasService: DemandasService) { }
+
+  data2: any;
+  notFound = false;
+
+
+  ngOnInit() {
+    this.demandasService.getDemandas().subscribe((demandasFromTheAPI: any) => {
+      this.data2 = demandasFromTheAPI;
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
+  }
 
   // Line area chart configuration Starts
   lineArea: Chart = {
@@ -473,53 +489,53 @@ export class Dashboard1Component {
   };
   // Line chart configuration Ends
 
-    // line chart configuration Starts
-    WidgetlineChart1: Chart = {
-      type: 'Line', data: data['Dashboard1_WidgetlineChart1'],
-      options: {
-        axisX: {
-          showGrid: false,
-          showLabel: false,
-          offset: 0
-        },
-        axisY: {
-          showGrid: false,
-          low: 40,
-          showLabel: false,
-          offset: 0
-        },
-        plugins: [
-          ChartistTooltip({
-            appendToBody: true,
-            currency: '$',
-            pointClass: 'ct-point-regular'
-          })
-        ],
-        lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 0
-        }),
-        fullWidth: true
+  // line chart configuration Starts
+  WidgetlineChart1: Chart = {
+    type: 'Line', data: data['Dashboard1_WidgetlineChart1'],
+    options: {
+      axisX: {
+        showGrid: false,
+        showLabel: false,
+        offset: 0
       },
-      events: {
-        draw(data: any): void {
-          if (data.type === 'point') {
-            var circle = new Chartist.Svg('circle', {
-              cx: data.x,
-              cy: data.y,
-              r: 4,
-              'ct:value': data.value.y,
-              'ct:meta': data.meta,
-              style: 'pointer-events: all !important',
-              class: 'ct-point-regular'
-            });
-            data.element.replace(circle);
-          }
+      axisY: {
+        showGrid: false,
+        low: 40,
+        showLabel: false,
+        offset: 0
+      },
+      plugins: [
+        ChartistTooltip({
+          appendToBody: true,
+          currency: '$',
+          pointClass: 'ct-point-regular'
+        })
+      ],
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      fullWidth: true
+    },
+    events: {
+      draw(data: any): void {
+        if (data.type === 'point') {
+          var circle = new Chartist.Svg('circle', {
+            cx: data.x,
+            cy: data.y,
+            r: 4,
+            'ct:value': data.value.y,
+            'ct:meta': data.meta,
+            style: 'pointer-events: all !important',
+            class: 'ct-point-regular'
+          });
+          data.element.replace(circle);
         }
       }
-    };
-    // Line chart configuration Ends
+    }
+  };
+  // Line chart configuration Ends
 
-      // line chart configuration Starts
+  // line chart configuration Starts
   WidgetlineChart2: Chart = {
     type: 'Line', data: data['Dashboard1_WidgetlineChart2'],
     options: {
@@ -565,51 +581,51 @@ export class Dashboard1Component {
   };
   // Line chart configuration Ends
 
-    // line chart configuration Starts
-    WidgetlineChart3: Chart = {
-      type: 'Line', data: data['Dashboard1_WidgetlineChart3'],
-      options: {
-        axisX: {
-          showGrid: false,
-          showLabel: false,
-          offset: 0
-        },
-        axisY: {
-          showGrid: false,
-          low: 40,
-          showLabel: false,
-          offset: 0
-        },
-        plugins: [
-          ChartistTooltip({
-            appendToBody: true,
-            currency: '$',
-            pointClass: 'ct-point-regular'
-          })
-        ],
-        lineSmooth: Chartist.Interpolation.cardinal({
-          tension: 0
-        }),
-        fullWidth: true
+  // line chart configuration Starts
+  WidgetlineChart3: Chart = {
+    type: 'Line', data: data['Dashboard1_WidgetlineChart3'],
+    options: {
+      axisX: {
+        showGrid: false,
+        showLabel: false,
+        offset: 0
       },
-      events: {
-        draw(data: any): void {
-          if (data.type === 'point') {
-            var circle = new Chartist.Svg('circle', {
-              cx: data.x,
-              cy: data.y,
-              r: 4,
-              'ct:value': data.value.y,
-              'ct:meta': data.meta,
-              style: 'pointer-events: all !important',
-              class: 'ct-point-regular'
-            });
-            data.element.replace(circle);
-          }
+      axisY: {
+        showGrid: false,
+        low: 40,
+        showLabel: false,
+        offset: 0
+      },
+      plugins: [
+        ChartistTooltip({
+          appendToBody: true,
+          currency: '$',
+          pointClass: 'ct-point-regular'
+        })
+      ],
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      fullWidth: true
+    },
+    events: {
+      draw(data: any): void {
+        if (data.type === 'point') {
+          var circle = new Chartist.Svg('circle', {
+            cx: data.x,
+            cy: data.y,
+            r: 4,
+            'ct:value': data.value.y,
+            'ct:meta': data.meta,
+            style: 'pointer-events: all !important',
+            class: 'ct-point-regular'
+          });
+          data.element.replace(circle);
         }
       }
-    };
-    // Line chart configuration Ends
+    }
+  };
+  // Line chart configuration Ends
 
   onResized(event: any) {
     setTimeout(() => {

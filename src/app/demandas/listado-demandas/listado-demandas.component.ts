@@ -7,9 +7,10 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DemandasService } from 'app/shared/services/demandas.service';
 
-declare var require: any;
-const data: any = require('../../shared/data/Demandas.json');
+/* declare var require: any;
+const data: any = require('../../shared/data/Demandas.json'); */
 
 
 @Component({
@@ -25,9 +26,11 @@ export class ListadoDemandasComponent implements OnInit {
   // public
   public contentHeader: object;
 
+  data:any[];
+  notFound =false;
+
   // row data
-  //public rows = DatatableData;
-  public rows = data;
+  public rows;
 
   // column header
   public columns = [
@@ -159,7 +162,7 @@ export class ListadoDemandasComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private demandasService:DemandasService ) {
     this.tempData = DatatableData;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -174,6 +177,14 @@ export class ListadoDemandasComponent implements OnInit {
   ngOnInit() {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
+
+    this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
+      this.data = demandasFromTheAPI;
+      this.rows =this.data;
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
 
     // content header
     this.contentHeader = {

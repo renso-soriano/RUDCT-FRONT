@@ -11,7 +11,7 @@
           <div class="card-text">
             <div class="div">
               <form (submit)="submit()" [formGroup]="registerForm">
-                <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-between">
                   <li ngbNavItem>
                     <a ngbNavLink>Informacion de la demanda</a>
                     <ng-template ngbNavContent>
@@ -83,16 +83,21 @@
                         <div class="col-sm-12">
                           <div class="form-group">
                             <label for="demanda">Demanda</label>
-                            <textarea class="form-control" name="demanda" id="demanda" rows="2"
+                            <textarea class="form-control" name="demanda" id="demanda" rows="3"
                               formControlName="demanda"></textarea>
+                            <!-- <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
+                              class="alert alert-danger"> -->
                             <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
-                              class="alert alert-danger">
+                              class="help-block mt-1 text-danger">
+
                               <div *ngIf="demanda.errors.required">
-                                El campo Demanda es requerido
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
+
                               <div *ngIf="demanda.errors.minlength">
-                                Sea un poco mas descriptivo por favor
+                                <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
                               </div>
+
                               <div *ngIf="demanda.errors.usernameUnico">
                                 Esa demanda ya existe
                               </div>
@@ -297,7 +302,7 @@
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="beneficiarios">Cantidad de beneficiados</label>
+                            <label for="beneficiarios">beneficiarios directos</label>
                             <input type="number" class="form-control" formControlName="beneficiarios">
 
                             <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
@@ -318,7 +323,45 @@
 
                         </div>
 
-                        <div class="col-md-6 mt-3">
+                        <div class="col-md-3 mt-3">
+                          <div class="form-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="option1">
+                              <label class="form-check-label" for="inlineRadio1">Familias</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                              <label class="form-check-label" for="inlineRadio2">Personas</label>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="beneficiarios">beneficiarios indirectos</label>
+                            <input type="number" class="form-control" formControlName="beneficiarios">
+
+                            <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="beneficiarios.errors.required">
+                                El campo beneficiarios es requerido
+                              </div>
+                              <!--
+                                <div *ngIf="password.errors.minlength">
+                                  La longitud mínima del password es 4 caracteres
+                                </div>
+                                <div *ngIf="password.errors.passwordValidation">
+                                  {{password.errors.passwordValidation.message}}
+                                </div>-->
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-3 mt-3">
                           <div class="form-group">
                             <div class="form-check">
                               <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
@@ -338,7 +381,8 @@
 
                       <div class="form-group">
                         <label for="comentarios">Comentarios</label>
-                        <input type="text" class="form-control" formControlName="comentarios">
+                        <textarea class="form-control" formControlName="comentarios" rows="3">
+                          </textarea>
                       </div>
                     </ng-template>
                   </li>

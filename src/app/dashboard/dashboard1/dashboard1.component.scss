@@ -168,7 +168,7 @@
 
 :host ::ng-deep .donut .ct-done .ct-slice-donut {
   stroke : #40C057;
-  stroke-width : 24px !important;
+  stroke-width : 20px !important;
 }
 
 :host ::ng-deep .donut .ct-progress .ct-slice-donut {
@@ -177,11 +177,16 @@
 }
 
 :host ::ng-deep .donut .ct-outstanding .ct-slice-donut {
-  stroke : #975AFF;
+  stroke : #200155;
   stroke-width : 8px !important;
 }
 
 :host ::ng-deep .donut .ct-started .ct-slice-donut {
   stroke : #2F8BE6;
   stroke-width : 32px !important;
+}
+
+:host ::ng-deep .donut .ct-finish .ct-slice-donut {
+  stroke : #e62f2f;
+  stroke-width : 26px !important;
 }

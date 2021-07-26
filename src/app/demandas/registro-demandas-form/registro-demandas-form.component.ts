@@ -56,6 +56,33 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   activCount=0;
 
+  registerForm = this.formBuilder.group({
+    año: [],
+    region: [],
+    provincia: [],
+    municipio: [],
+    distrito: [],
+    fuente: [],
+    eje: [],
+    objetivo: [],
+    demanda: ['', {
+      validators: [Validators.required, Validators.minLength(15)],
+      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
+    }],
+    tecnico: [],
+    institucionResponsable: [],
+    institucionesColaboradoras: [],
+    beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
+    unidad: [''],
+    comentarios: [''],
+    actividad: [''],
+    politica: []
+    /*
+    password: ['', {
+      validators: [Validators.required, Validators.minLength(4), passwordValidation()]
+    }], */
+  });
+
   //getters
   get comentarios() {
     return this.registerForm.get('comentarios');
@@ -107,33 +134,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     return this.registerForm.get('objetivo');
   }
 
-  registerForm = this.formBuilder.group({
-    año: [],
-    region: [],
-    provincia: [],
-    municipio: [],
-    distrito: [],
-    fuente: [],
-    eje: [],
-    objetivo: [],
-    demanda: ['', {
-      validators: [Validators.required, Validators.minLength(15)],
-      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
-    }],
-    tecnico: [],
-    institucionResponsable: [],
-    institucionesColaboradoras: [],
-    beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
-    unidad: [''],
-    comentarios: [''],
-    actividad: [''],
-    politica: []
-    /*
-    password: ['', {
-      validators: [Validators.required, Validators.minLength(4), passwordValidation()]
-    }], */
-  });
-
   // rellena DropDowns.
 
   llenarDropDownFijos(): void {
@@ -166,8 +166,12 @@ export class RegistroDemandasFormComponent implements OnInit {
   // llena Las provincias de acuerdo a la region
   onRegionChange(id: number): void {
     this.provincias = this.dropDownService.getProvinciasByRegion(id);
+    this.municipios = null;
+    this.distritosMunicipales = null;
     this.registerForm.patchValue({
-         provincia:null
+         provincia:null,
+         municipio: null,
+         distrito:null
     });
   }
 
@@ -175,8 +179,10 @@ export class RegistroDemandasFormComponent implements OnInit {
   onProvinciaChange(id: number): void {
 
     this.municipios = this.dropDownService.getMunicipiosByProvincia(id);
+    this.distritosMunicipales = null;
     this.registerForm.patchValue({
-      municipio:null
+      municipio:null,
+      distrito:null
     });
   }
 
