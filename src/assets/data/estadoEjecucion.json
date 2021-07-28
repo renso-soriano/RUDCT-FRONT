@@ -1,0 +1,26 @@
+﻿[
+        {
+            "EstadoId": "01",
+            "Nombre": "NO INICIADA",
+            "Orden": "1",
+            "Activo": "1"
+        },
+        {
+            "EstadoId": "02",
+            "Nombre": "ACEPTADA POR LA INSTITUCION",
+            "Orden": "2",
+            "Activo": "1"
+        },
+        {
+            "EstadoId": "03",
+            "Nombre": "EN EJECUCION",
+            "Orden": "3",
+            "Activo": "1"
+        },
+        {
+            "EstadoId": "04",
+            "Nombre": "EJECUTADA",
+            "Orden": "4",
+            "Activo": "1"
+        }
+    ]

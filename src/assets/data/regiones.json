@@ -1,0 +1,27 @@
+﻿[
+        {
+            "RegionId": "01",
+            "Nombre": "CIBAO NORTE",
+            "Activo": "1"
+        },
+        {
+            "RegionId": "02",
+            "Nombre": "CIBAO CENTRAL",
+            "Activo": "1"
+        },
+        {
+            "RegionId": "03",
+            "Nombre": "METROPOLITANA",
+            "Activo": "1"
+        },
+        {
+            "RegionId": "04",
+            "Nombre": "ESTE",
+            "Activo": "1"
+        },
+        {
+            "RegionId": "05",
+            "Nombre": "SUR-OESTE",
+            "Activo": "1"
+        }
+    ]

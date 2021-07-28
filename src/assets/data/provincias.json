@@ -1,0 +1,226 @@
+﻿[
+        {
+            "RegionId": "01",
+            "ProvinciaId": "01",
+            "Nombre": "DAJABON",
+            "Activo": "1",
+            "Key": "0101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "02",
+            "Nombre": "MONTE CRISTI",
+            "Activo": "1",
+            "Key": "0102"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "03",
+            "Nombre": "SANTIAGO RODRIGUEZ",
+            "Activo": "1",
+            "Key": "0103"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "Nombre": "VALVERDE",
+            "Activo": "1",
+            "Key": "0104"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "Nombre": "PUERTO PLATA",
+            "Activo": "1",
+            "Key": "0105"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "Nombre": "SANTIAGO",
+            "Activo": "1",
+            "Key": "0106"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "Nombre": "ESPAILLAT",
+            "Activo": "1",
+            "Key": "0107"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "Nombre": "MARIA TRINIDAD SANCHEZ",
+            "Activo": "1",
+            "Key": "0201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "02",
+            "Nombre": "SAMANA",
+            "Activo": "1",
+            "Key": "0202"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "03",
+            "Nombre": "HERMANAS MIRABAL",
+            "Activo": "1",
+            "Key": "0203"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "Nombre": "DUARTE",
+            "Activo": "1",
+            "Key": "0204"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "Nombre": "LA VEGA",
+            "Activo": "1",
+            "Key": "0205"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "Nombre": "MONSEÑOR NOUEL",
+            "Activo": "1",
+            "Key": "0206"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "Nombre": "SANCHEZ RAMIREZ",
+            "Activo": "1",
+            "Key": "0207"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "00",
+            "Nombre": "DISTRITO NACIONAL",
+            "Activo": "1",
+            "Key": "0300"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "Nombre": "MONTE PLATA",
+            "Activo": "1",
+            "Key": "0301"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "Nombre": "SAN CRISTOBAL",
+            "Activo": "1",
+            "Key": "0302"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "03",
+            "Nombre": "SAN JOSE DE OCOA",
+            "Activo": "1",
+            "Key": "0303"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "Nombre": "PERAVIA",
+            "Activo": "1",
+            "Key": "0304"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "Nombre": "SANTO DOMINGO",
+            "Activo": "1",
+            "Key": "0305"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "01",
+            "Nombre": "SAN PEDRO DE MACORIS",
+            "Activo": "1",
+            "Key": "0401"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "02",
+            "Nombre": "LA ROMANA",
+            "Activo": "1",
+            "Key": "0402"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "Nombre": "LA ALTAGRACIA",
+            "Activo": "1",
+            "Key": "0403"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "Nombre": "EL SEIBO",
+            "Activo": "1",
+            "Key": "0404"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "05",
+            "Nombre": "HATO MAYOR",
+            "Activo": "1",
+            "Key": "0405"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "Nombre": "ELIAS PIÑA",
+            "Activo": "1",
+            "Key": "0501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "Nombre": "SAN JUAN",
+            "Activo": "1",
+            "Key": "0502"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "Nombre": "AZUA",
+            "Activo": "1",
+            "Key": "0503"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "Nombre": "BARAHONA",
+            "Activo": "1",
+            "Key": "0504"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "Nombre": "BAORUCO",
+            "Activo": "1",
+            "Key": "0505"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "Nombre": "INDEPENDENCIA",
+            "Activo": "1",
+            "Key": "0506"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "07",
+            "Nombre": "PEDERNALES",
+            "Activo": "1",
+            "Key": "0507"
+        }
+    ]

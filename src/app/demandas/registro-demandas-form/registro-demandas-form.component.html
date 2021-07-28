@@ -1,0 +1,410 @@
+<!-- start -->
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">Registro de demandas territoriales</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div class="div">
+              <form (submit)="submit()" [formGroup]="registerForm">
+                <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-between">
+                  <li ngbNavItem>
+                    <a ngbNavLink>Informacion de la demanda</a>
+                    <ng-template ngbNavContent>
+
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="año">Año</label>
+                            <ng-select [items]="anios | async" bindLabel="Year" bindValue="id" name="año" id="año"
+                              placeholder="Seleccione año demanda" formControlName="año">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="region">Region</label>
+                            <ng-select [items]="regiones | async" bindLabel="Nombre" bindValue="RegionId" name="region"
+                              id="region" placeholder="Seleccione region" (change)="onRegionChange(region.value)"
+                              formControlName="region">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="provincia">Provincia</label>
+                            <ng-select [items]="provincias | async" bindLabel="Nombre" bindValue="Key" name="provincia"
+                              id="provincia" placeholder="Seleccione provincia"
+                              (change)="onProvinciaChange(provincia.value)" formControlName="provincia">
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="municipio">Municipio</label>
+                            <ng-select [items]="municipios | async" bindLabel="Nombre" bindValue="Key" name="municipio"
+                              id="municipio" placeholder="Seleccione municipio"
+                              (change)="onMunicipiosChange(municipio.value)" formControlName="municipio">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="distrito">Distrito municipal</label>
+                            <ng-select [items]="distritosMunicipales | async" bindLabel="Nombre" bindValue="DistritoKey"
+                              name="distrito" id="distrito" placeholder="Seleccione distrito"
+                              formControlName="distrito">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="fuente">Fuente de demanda</label>
+                            <ng-select [items]="fuenteDemandas | async" bindLabel="Nombre" bindValue="FuenteId"
+                              name="fuente" id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="demanda">Demanda</label>
+                            <textarea class="form-control" name="demanda" id="demanda" rows="3"
+                              formControlName="demanda"></textarea>
+                            <!-- <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
+                              class="alert alert-danger"> -->
+                            <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="demanda.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                              <div *ngIf="demanda.errors.minlength">
+                                <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                              </div>
+
+                              <div *ngIf="demanda.errors.usernameUnico">
+                                Esa demanda ya existe
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </ng-template>
+                  </li>
+                  <li ngbNavItem>
+                    <a ngbNavLink>Vinculacion con END y PNPSP</a>
+                    <ng-template ngbNavContent>
+
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="eje">Eje End</label>
+                            <ng-select [items]="ejesEnd | async" bindLabel="Nombre" bindValue="EjeId" name="eje"
+                              id="eje" placeholder="Seleccione eje END" (change)="onEjeChange(eje.value)"
+                              formControlName="eje">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label for="objetivo">Objetivo</label>
+                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" bindValue="OjetivoId"
+                              name="objetivo" id="objetivo" placeholder="Seleccione objetivo"
+                              formControlName="objetivo">
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label for="politica">Politica</label>
+                                <ng-select [items]="politicas | async" bindLabel="Nombre" name="politica" id="politica"
+                                  placeholder="Seleccione politica" formControlName="politica">
+                                </ng-select>
+
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"></a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="div" *ngIf="listadoPoliticas">
+                            <table class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let politica of listadoPoliticas">
+                                  <td>{{ politica.Nombre }}</td>
+                                  <td><a class="btn btn-danger ft-trash-2"
+                                      (click)="eliminarPolitica(politica.PoliticaId)"></a></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li ngbNavItem>
+                    <a ngbNavLink>Instituciones involucaradas</a>
+                    <ng-template ngbNavContent>
+
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="tecnico">Técnico OMPP</label>
+                            <ng-select [items]="tecnicos | async" bindLabel="Nombre" bindValue="Id" name="tecnico"
+                              id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
+                            </ng-select>
+
+                          </div>
+                        </div>
+
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label for="institucionResponsable">Institucion primaria</label>
+                            <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
+                              name="institucionResponsable" id="institucionResponsable"
+                              placeholder="Seleccione Institucion" formControlName="institucionResponsable">
+                            </ng-select>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label for="institucionesColaboradoras">Instituciones colaboradoras</label>
+                                <ng-select [items]="instituciones | async" bindLabel="Nombre"
+                                  name="institucionesColaboradoras" id="institucionesColaboradoras"
+                                  placeholder="Seleccione Institucion" formControlName="institucionesColaboradoras">
+                                </ng-select>
+
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()"></a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="div" *ngIf="listadoInstituciones">
+                            <table class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let institucion of listadoInstituciones">
+                                  <td>{{ institucion.Nombre }}</td>
+                                  <td><a class="btn btn-danger ft-trash-2"
+                                      (click)="eliminarInstitucion(institucion.InstitucionId)"></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </ng-template>
+                  </li>
+                  <li ngbNavItem>
+                    <a ngbNavLink>Actividades</a>
+                    <ng-template ngbNavContent>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label for="actividad">Actividades</label>
+                                <input type="text" class="form-control" formControlName="actividad">
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"></a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="div" *ngIf="listadoActividades">
+                            <table class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Nombre</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let actividad of listadoActividades">
+                                  <td>{{ actividad.Actividad }}</td>
+                                  <td><a class="btn btn-danger ft-trash-2"
+                                      (click)="eliminarActividad(actividad.ActividadId)"></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
+                      </div>
+                    </ng-template>
+                  </li>
+                  <li ngbNavItem>
+                    <a ngbNavLink>Beneficiarios</a>
+                    <ng-template ngbNavContent>
+
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="beneficiarios">beneficiarios directos</label>
+                            <input type="number" class="form-control" formControlName="beneficiarios">
+
+                            <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="beneficiarios.errors.required">
+                                El campo beneficiarios es requerido
+                              </div>
+                              <!--
+                                <div *ngIf="password.errors.minlength">
+                                  La longitud mínima del password es 4 caracteres
+                                </div>
+                                <div *ngIf="password.errors.passwordValidation">
+                                  {{password.errors.passwordValidation.message}}
+                                </div>-->
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-3 mt-3">
+                          <div class="form-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="option1">
+                              <label class="form-check-label" for="inlineRadio1">Familias</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                              <label class="form-check-label" for="inlineRadio2">Personas</label>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="beneficiarios">beneficiarios indirectos</label>
+                            <input type="number" class="form-control" formControlName="beneficiarios">
+
+                            <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
+                              class="alert alert-danger">
+                              <div *ngIf="beneficiarios.errors.required">
+                                El campo beneficiarios es requerido
+                              </div>
+                              <!--
+                                <div *ngIf="password.errors.minlength">
+                                  La longitud mínima del password es 4 caracteres
+                                </div>
+                                <div *ngIf="password.errors.passwordValidation">
+                                  {{password.errors.passwordValidation.message}}
+                                </div>-->
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-3 mt-3">
+                          <div class="form-group">
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="option1">
+                              <label class="form-check-label" for="inlineRadio1">Familias</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="option2">
+                              <label class="form-check-label" for="inlineRadio2">Personas</label>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="comentarios">Comentarios</label>
+                        <textarea class="form-control" formControlName="comentarios" rows="3">
+                          </textarea>
+                      </div>
+                    </ng-template>
+                  </li>
+                </ul>
+                <div [ngbNavOutlet]="nav"></div>
+
+                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Enviar</button>
+                <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
+                  title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/demandas']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>

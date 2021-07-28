@@ -1,0 +1,22 @@
+﻿[
+        {
+            "Id": "1",
+            "Nombre": "Juan Luis guerra",
+            "Activo": "1"
+        },
+        {
+            "Id": "2",
+            "Nombre": "Pedro Martinez",
+            "Activo": "1"
+        },
+        {
+            "Id": "3",
+            "Nombre": "Casandra Damiron",
+            "Activo": "1"
+        },
+        {
+            "Id": "4",
+            "Nombre": "Jose Mesa",
+            "Activo": "1"
+        }
+    ]

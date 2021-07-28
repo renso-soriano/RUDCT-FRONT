@@ -1,0 +1,22 @@
+﻿[
+        {
+            "EjeId": "001",
+            "Nombre": "Institucionalidad",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "Nombre": "Social",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "Nombre": "Economico",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "004",
+            "Nombre": "Medio Ambiental",
+            "Activo": "1"
+        }
+    ]

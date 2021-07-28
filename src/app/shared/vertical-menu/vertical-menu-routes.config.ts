@@ -5,6 +5,9 @@ export const ROUTES: RouteInfo[] = [
   {
     path: 'dashboard', title: 'Dashboard', icon: 'ft-home', class: '', badgeClass: '', isExternalLink: false, submenu: []
   },
+  {
+    path: 'demandas', title: 'Demandas', icon: 'fa fa-book', class: 'dropdown nav-item', isExternalLink: false, submenu: []
+  }
   /* { path: '/inbox', title: 'Email', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
   { path: '/chat', title: 'Chat', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
   { path: '/chat-ngrx', title: 'Chat NgRx', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
