@@ -212,38 +212,3 @@ export class ListadoDemandasComponent implements OnInit {
     };
   }
 }
-
-
-
-
-
-
-/* implements OnInit {
-
-  ngOnInit(): void {
-  }
-
-  rows = [];
-  loadingIndicator: boolean = true;
-  reorderable: boolean = true;
-
-  columns = [
-      { name:'Codigo', prop: 'Codigo Demanda'},
-      { prop: 'Demanda'},
-      { prop: 'Año'},
-      { name:'Origen', prop: 'Origen Demanda'},
-      { prop: 'Provincia'},
-      { name:'Estado', prop: 'Estado Ejecucion'},
-      { name: 'Acciones'}
-
-
-  ];
-
-  constructor() {
-
-      this.rows = data;
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
-  }
-
-
-} */

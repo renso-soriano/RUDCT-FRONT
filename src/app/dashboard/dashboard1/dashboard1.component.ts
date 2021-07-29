@@ -5,6 +5,7 @@ import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 import { DemandasService } from 'app/shared/services/demandas.service';
 import { EjeEnd } from 'app/shared/models/ejeEnd.enum';
 import { Region } from 'app/shared/models/region.enum';
+import { JsonPipe } from '@angular/common';
 
 declare var require: any;
 
@@ -28,8 +29,9 @@ export interface Chart {
 export class Dashboard1Component implements OnInit {
 
   constructor(private demandasService: DemandasService) { }
-
+  DonutChart: Chart;
   data2: any;
+  dataDonuts: any;
   notFound = false;
 
   ejeInstitucional: number;
@@ -37,35 +39,94 @@ export class Dashboard1Component implements OnInit {
   ejeEconomico: number;
   ejeMedioAmbiental: number;
 
-  totalDemandas:number;
-  cibaoNorte : number;
-  cibaoCentral : number;
-  metropolitana : number;
-  este  : number;
-  surOeste : number;
+  totalDemandas: number;
+  cibaoNorte: number;
+  cibaoCentral: number;
+  metropolitana: number;
+  este: number;
+  surOeste: number;
 
 
   ngOnInit() {
     this.demandasService.getDemandas().subscribe((demandasFromTheAPI: any) => {
       this.data2 = demandasFromTheAPI;
+
       this.totalDemandas = this.data2.length;
       this.ejeInstitucional = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Institucionalidad).length;
       this.ejeSocial = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Social).length;
       this.ejeEconomico = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Economico).length;
       this.ejeMedioAmbiental = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.MedioAmbiental).length;
 
-      this.cibaoNorte = this.data2.filter(demanda => demanda['Region'] == Region.CibaoNorte).length * 100 / this.totalDemandas;
-      this.cibaoCentral = this.data2.filter(demanda => demanda['Region'] == Region.CibaoCentral).length * 100 / this.totalDemandas;
-      this.metropolitana = this.data2.filter(demanda => demanda['Region'] == Region.Metropolitana).length * 100  / this.totalDemandas;
-      this.este = this.data2.filter(demanda => demanda['Region'] == Region.Este).length * 100 / this.totalDemandas;
-      this.surOeste = this.data2.filter(demanda => demanda['Region'] == Region.SurOeste).length * 100 / this.totalDemandas;
+      this.cibaoNorte = 50; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoNorte).length * 100 / this.totalDemandas;
+      this.cibaoCentral = 15; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoCentral).length * 100 / this.totalDemandas;
+      this.metropolitana = 10; //this.data2.filter(demanda => demanda['Region'] == Region.Metropolitana).length * 100 / this.totalDemandas;
+      this.este = 10; //this.data2.filter(demanda => demanda['Region'] == Region.Este).length * 100 / this.totalDemandas;
+      this.surOeste = 15; //this.data2.filter(demanda => demanda['Region'] == Region.SurOeste).length * 100 / this.totalDemandas;
 
-      console.log('total demandas =>' + this.totalDemandas);
-      console.log('porcentaje cibao norte =>' + this.cibaoNorte);
-      console.log('porcentaje cibao central =>' + this.cibaoCentral);
-      console.log('porcentaje metropolitana =>' + this.metropolitana);
-      console.log('porcentaje este =>' + this.este);
-      console.log('porcentaje sur oeste =>' + this.surOeste);
+      this.dataDonuts =
+      {
+        "series":
+          [
+            {
+              "name": "cibaoNorte",
+              "className": "ct-done",
+              "value": this.cibaoNorte
+            },
+            {
+              "name": "este",
+              "className": "ct-progress",
+              "value": this.este
+            },
+            {
+              "name": "metropolitana",
+              "className": "ct-outstanding",
+              "value": this.metropolitana
+            },
+            {
+              "name": "cibaoCentral",
+              "className": "ct-started",
+              "value": this.cibaoCentral
+            },
+            {
+              "name": "surOeste",
+              "className": "ct-finish",
+              "value": this.surOeste
+            }
+          ]
+      }
+
+      // Donut chart configuration Starts
+      this.DonutChart = {
+        type: 'Pie',
+        data: this.dataDonuts,
+        options: {
+          donut: true,
+          startAngle: 0,
+          labelInterpolationFnc: function (value) {
+            var total = data['donutDashboard'].series.reduce(function (prev, series) {
+              return prev + series.value;
+            }, 0);
+            return total + '%';
+          }
+        },
+        events: {
+          draw(data: any): void {
+            if (data.type === 'label') {
+              if (data.index === 0) {
+                data.element.attr({
+                  dx: data.element.root().width() / 2,
+                  dy: data.element.root().height() / 2
+                });
+              } else {
+                data.element.remove();
+              }
+            }
+
+          }
+        }
+      };
+      // Donut chart configuration Ends
+
 
     }, (err: any) => {
       console.error(err);
@@ -347,7 +408,7 @@ export class Dashboard1Component implements OnInit {
   // Line chart configuration Ends
 
   // Donut chart configuration Starts
-  DonutChart: Chart = {
+  /* DonutChart: Chart = {
     type: 'Pie',
     data: data['donutDashboard'],
     options: {
@@ -375,7 +436,7 @@ export class Dashboard1Component implements OnInit {
 
       }
     }
-  };
+  }; */
   // Donut chart configuration Ends
 
   //  Bar chart configuration Starts
@@ -671,5 +732,8 @@ export class Dashboard1Component implements OnInit {
     evt.initEvent("resize", true, false);
     window.dispatchEvent(evt);
   };
+
+
+
 
 }
