@@ -1,17 +1,5 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Iaño } from 'app/shared/models/iaño';
-import { IdistritoMunicipal } from 'app/shared/models/idistrito-municipal';
-import { IDropDown } from 'app/shared/models/Idrop-down';
-import { IejeEnd } from 'app/shared/models/ieje-end';
-import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
-import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { Imunicipio } from 'app/shared/models/imunicipio';
-import { IobjetivoEnd } from 'app/shared/models/iobjetivo-end';
-import { Ipolitica } from 'app/shared/models/ipolitica';
-import { Iprovincia } from 'app/shared/models/iprovincia';
-import { Iregion } from 'app/shared/models/iregion';
-import { Itecnico } from 'app/shared/models/itecnico';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 import { passwordValidation } from '../validations/password-validation.directive';
 import { UsernameUnicoService } from '../validations/username-unico.directive';
@@ -19,6 +7,7 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { IejeEnd } from 'app/shared/models/ieje-end';
 
 
 @Component({
@@ -56,29 +45,31 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoPoliticas: any[];
   listadoInstituciones: any[];
   listadoActividades: any[];
+  listadoEjes: any[];
 
   activCount = 0;
   notFound = false;
 
   registerForm = this.formBuilder.group({
-    anio: [null, {validators: [Validators.required]}],
-    region: [null, {validators: [Validators.required]}],
-    provincia: [null, {validators: [Validators.required]}],
-    municipio: [null, {validators: [Validators.required]}],
+    anio: [null, { validators: [Validators.required] }],
+    region: [null, { validators: [Validators.required] }],
+    provincia: [null, { validators: [Validators.required] }],
+    municipio: [null, { validators: [Validators.required] }],
     distrito: [],
-    fuente: [null, {validators: [Validators.required]}],
-    eje: [null, {validators: [Validators.required]}],
-    objetivo: [null, {validators: [Validators.required]}],
+    fuente: [null, { validators: [Validators.required] }],
+    eje: [null, { validators: [Validators.required] }],
+    objetivo: [null, { validators: [Validators.required] }],
     demanda: ['', {
       validators: [Validators.required, Validators.minLength(15)],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
     }],
-    tecnico: [null, {validators: [Validators.required]}],
-    institucionResponsable: [null, {validators: [Validators.required]}],
+    tecnico: [null, { validators: [Validators.required] }],
+    institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
-    beneficiariosDirectos: ['', { validators: [Validators.required], updateOn: 'blur' }],
-    beneficiariosIndirectos: ['', { validators: [Validators.required], updateOn: 'blur' }],
-    unidad: [''],
+    beneficiariosDirectos: ['', { validators: [Validators.required] }],
+    beneficiariosIndirectos: ['', { validators: [Validators.required] }],
+    unidadDirectos: [''],
+    unidadIndirectos: [''],
     comentarios: [''],
     actividad: [null],
     politica: []
@@ -209,6 +200,7 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   // llena Los objetivos de acuerdo a los ejes
   onEjeChange(id: number): void {
+    console.log(id)
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
     this.registerForm.patchValue({
       objetivo: null

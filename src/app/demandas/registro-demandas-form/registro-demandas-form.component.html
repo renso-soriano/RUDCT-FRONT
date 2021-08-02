@@ -160,13 +160,24 @@
                     <ng-template ngbNavContent>
 
                       <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-8">
                           <div class="form-group">
-                            <label for="eje">Eje End</label>
-                            <ng-select [items]="ejesEnd | async" bindLabel="Nombre" bindValue="EjeId" name="eje"
-                              id="eje" placeholder="Seleccione eje END" (change)="onEjeChange(eje.value)"
-                              formControlName="eje">
-                            </ng-select>
+                            <label for="eje">Eje End</label><br>
+                            <div class="btn-group" ngbRadioGroup name="radioBasic1" formControlName="eje"
+                              (change)="onEjeChange(eje.value)">
+                              <label ngbButtonLabel class="btn-outline-info">
+                                <input ngbButton type="radio" [value]="001"> Institucionalidad
+                              </label>
+                              <label ngbButtonLabel class="btn-outline-warning ">
+                                <input ngbButton type="radio" [value]="002"> Social
+                              </label>
+                              <label ngbButtonLabel class="btn-outline-danger ">
+                                <input ngbButton type="radio" [value]="003"> Economico
+                              </label>
+                              <label ngbButtonLabel class="btn-outline-success ">
+                                <input ngbButton type="radio" [value]="004"> Medio Ambiental
+                              </label>
+                            </div>
                             <div *ngIf="eje.invalid && (eje.dirty || eje.touched)" class="help-block mt-1 text-danger">
 
                               <div *ngIf="eje.errors.required">
@@ -177,22 +188,22 @@
 
                           </div>
                         </div>
-
-                        <div class="col-sm-8">
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-6">
                           <div class="form-group">
                             <label for="objetivo">Objetivo</label>
-                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" bindValue="OjetivoId"
+                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" bindValue="ObjetivoId"
                               name="objetivo" id="objetivo" placeholder="Seleccione objetivo"
                               formControlName="objetivo">
                             </ng-select>
 
                             <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)" class="help-block mt-1 text-danger">
-
                               <div *ngIf="objetivo.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
-
                             </div>
+
                           </div>
                         </div>
                       </div>
@@ -201,7 +212,7 @@
                         <div class="col-12">
 
                           <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="politica">Politica</label>
                                 <ng-select [items]="politicas | async" bindLabel="Nombre" name="politica" id="politica"
@@ -213,7 +224,8 @@
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()" title="Agregar politica"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"
+                                  title="Agregar politica"></a>
                               </div>
                             </div>
                           </div>
@@ -245,14 +257,15 @@
                     <ng-template ngbNavContent>
 
                       <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                           <div class="form-group">
                             <label for="tecnico">Técnico OMPP</label>
                             <ng-select [items]="tecnicos | async" bindLabel="Nombre" bindValue="Id" name="tecnico"
                               id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
                             </ng-select>
 
-                            <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)" class="help-block mt-1 text-danger">
+                            <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)"
+                              class="help-block mt-1 text-danger">
 
                               <div *ngIf="tecnico.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -263,14 +276,16 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                           <div class="form-group">
                             <label for="institucionResponsable">Institucion primaria</label>
                             <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
                               name="institucionResponsable" id="institucionResponsable"
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable">
                             </ng-select>
-                            <div *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)" class="help-block mt-1 text-danger">
+                            <div
+                              *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)"
+                              class="help-block mt-1 text-danger">
 
                               <div *ngIf="institucionResponsable.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -285,7 +300,7 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="institucionesColaboradoras">Instituciones colaboradoras</label>
                                 <ng-select [items]="instituciones | async" bindLabel="Nombre"
@@ -298,7 +313,8 @@
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()" title="Agregar institucion"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()"
+                                  title="Agregar institucion"></a>
                               </div>
                             </div>
                           </div>
@@ -333,17 +349,19 @@
                       <div class="row">
                         <div class="col-12">
                           <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="actividad">Actividades</label>
-                                <input type="text" class="form-control" formControlName="actividad" (keyup.enter)="agregarActividad()">
+                                <input type="text" class="form-control" formControlName="actividad"
+                                  (keyup.enter)="agregarActividad()">
 
                               </div>
                             </div>
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()" title="Agregar actividad"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
+                                  title="Agregar actividad"></a>
                               </div>
                             </div>
                           </div>
@@ -379,9 +397,12 @@
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="beneficiariosDirectos">beneficiarios directos</label>
-                            <input type="number" class="form-control" id="beneficiariosDirectos" name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
+                            <input type="number" class="form-control" id="beneficiariosDirectos"
+                              name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
 
-                            <div *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)" class="help-block mt-1 text-danger">
+                            <div
+                              *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)"
+                              class="help-block mt-1 text-danger">
 
                               <div *ngIf="beneficiariosDirectos.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -393,26 +414,26 @@
                         </div>
 
                         <div class="col-md-3 mt-3">
-                          <div class="form-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                value="option1">
-                              <label class="form-check-label" for="inlineRadio1">Familias</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                value="option2">
-                              <label class="form-check-label" for="inlineRadio2">Personas</label>
-                            </div>
+                          <div class="btn-group" ngbRadioGroup name="radioBasic2" formControlName="unidadDirectos">
+                            <label ngbButtonLabel class="btn-outline-primary">
+                              <input ngbButton type="radio" [value]="1"> Familias
+                            </label>
+                            <label ngbButtonLabel class="btn-outline-primary ">
+                              <input ngbButton type="radio" [value]="2"> Personas
+                            </label>
 
                           </div>
                         </div>
+
                         <div class="col-md-3">
                           <div class="form-group">
                             <label for="beneficiariosIndirectos">beneficiarios indirectos</label>
-                            <input type="number" class="form-control" id="beneficiariosIndirectos" name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
+                            <input type="number" class="form-control" id="beneficiariosIndirectos"
+                              name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
 
-                            <div *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)" class="help-block mt-1 text-danger">
+                            <div
+                              *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)"
+                              class="help-block mt-1 text-danger">
 
                               <div *ngIf="beneficiariosIndirectos.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -424,17 +445,13 @@
                         </div>
 
                         <div class="col-md-3 mt-3">
-                          <div class="form-group">
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                value="option1">
-                              <label class="form-check-label" for="inlineRadio1">Familias</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                value="option2">
-                              <label class="form-check-label" for="inlineRadio2">Personas</label>
-                            </div>
+                          <div class="btn-group" ngbRadioGroup name="radioBasic3" formControlName="unidadIndirectos">
+                            <label ngbButtonLabel class="btn-outline-primary">
+                              <input ngbButton type="radio" [value]="1"> Familias
+                            </label>
+                            <label ngbButtonLabel class="btn-outline-primary ">
+                              <input ngbButton type="radio" [value]="2"> Personas
+                            </label>
 
                           </div>
                         </div>
@@ -446,6 +463,8 @@
                         <textarea class="form-control" formControlName="comentarios" rows="3">
                           </textarea>
                       </div>
+
+
                     </ng-template>
                   </li>
                 </ul>
