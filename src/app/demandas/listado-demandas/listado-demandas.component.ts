@@ -9,9 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
 
-/* declare var require: any;
-const data: any = require('../../shared/data/Demandas.json'); */
-
+ declare var require: any;
+const data: any = require('../../shared/data/Demandas.json');
 
 @Component({
   selector: 'app-listado-demandas',
@@ -26,11 +25,11 @@ export class ListadoDemandasComponent implements OnInit {
   // public
   public contentHeader: object;
 
-  data:any[];
+  //data:any[];
   notFound =false;
 
   // row data
-  public rows;
+  public rows = data;
 
   // column header
   public columns = [
@@ -178,13 +177,13 @@ export class ListadoDemandasComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
+    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
       this.data = demandasFromTheAPI;
       this.rows =this.data;
     }, (err: any) => {
       console.error(err);
       this.notFound = true;
-    });
+    }); */
 
     // content header
     this.contentHeader = {

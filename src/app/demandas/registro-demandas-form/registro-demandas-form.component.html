@@ -21,8 +21,16 @@
                           <div class="form-group">
                             <label for="año">Año</label>
                             <ng-select [items]="anios | async" bindLabel="Year" bindValue="id" name="año" id="año"
-                              placeholder="Seleccione año demanda" formControlName="año">
+                              placeholder="Seleccione año demanda" formControlName="anio">
                             </ng-select>
+                            <div *ngIf="anio.invalid && (anio.dirty || anio.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="anio.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
 
@@ -33,6 +41,15 @@
                               id="region" placeholder="Seleccione region" (change)="onRegionChange(region.value)"
                               formControlName="region">
                             </ng-select>
+
+                            <div *ngIf="region.invalid && (region.dirty || region.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="region.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
 
@@ -43,6 +60,15 @@
                               id="provincia" placeholder="Seleccione provincia"
                               (change)="onProvinciaChange(provincia.value)" formControlName="provincia">
                             </ng-select>
+                            <div *ngIf="provincia.invalid && (provincia.dirty || provincia.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="provincia.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
                           </div>
                         </div>
                       </div>
@@ -56,6 +82,15 @@
                               id="municipio" placeholder="Seleccione municipio"
                               (change)="onMunicipiosChange(municipio.value)" formControlName="municipio">
                             </ng-select>
+
+                            <div *ngIf="municipio.invalid && (municipio.dirty || municipio.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="municipio.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
 
@@ -75,6 +110,15 @@
                             <ng-select [items]="fuenteDemandas | async" bindLabel="Nombre" bindValue="FuenteId"
                               name="fuente" id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
                             </ng-select>
+
+                            <div *ngIf="fuente.invalid && (fuente.dirty || fuente.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="fuente.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -98,9 +142,9 @@
                                 <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
                               </div>
 
-                              <div *ngIf="demanda.errors.usernameUnico">
+                              <!-- <div *ngIf="demanda.errors.usernameUnico">
                                 Esa demanda ya existe
-                              </div>
+                              </div> -->
 
                             </div>
 
@@ -123,6 +167,14 @@
                               id="eje" placeholder="Seleccione eje END" (change)="onEjeChange(eje.value)"
                               formControlName="eje">
                             </ng-select>
+                            <div *ngIf="eje.invalid && (eje.dirty || eje.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="eje.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
                           </div>
                         </div>
 
@@ -133,6 +185,14 @@
                               name="objetivo" id="objetivo" placeholder="Seleccione objetivo"
                               formControlName="objetivo">
                             </ng-select>
+
+                            <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="objetivo.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -153,7 +213,7 @@
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()" title="Agregar politica"></a>
                               </div>
                             </div>
                           </div>
@@ -192,6 +252,14 @@
                               id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
                             </ng-select>
 
+                            <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="tecnico.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
                           </div>
                         </div>
 
@@ -202,6 +270,13 @@
                               name="institucionResponsable" id="institucionResponsable"
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable">
                             </ng-select>
+                            <div *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="institucionResponsable.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
                           </div>
                         </div>
 
@@ -223,7 +298,7 @@
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarInstitucion()" title="Agregar institucion"></a>
                               </div>
                             </div>
                           </div>
@@ -261,13 +336,14 @@
                             <div class="col-sm-4">
                               <div class="form-group">
                                 <label for="actividad">Actividades</label>
-                                <input type="text" class="form-control" formControlName="actividad">
+                                <input type="text" class="form-control" formControlName="actividad" (keyup.enter)="agregarActividad()">
+
                               </div>
                             </div>
 
                             <div class="col-sm-4">
                               <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"></a>
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()" title="Agregar actividad"></a>
                               </div>
                             </div>
                           </div>
@@ -302,21 +378,14 @@
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="beneficiarios">beneficiarios directos</label>
-                            <input type="number" class="form-control" formControlName="beneficiarios">
+                            <label for="beneficiariosDirectos">beneficiarios directos</label>
+                            <input type="number" class="form-control" id="beneficiariosDirectos" name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
 
-                            <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
-                              class="alert alert-danger">
-                              <div *ngIf="beneficiarios.errors.required">
-                                El campo beneficiarios es requerido
+                            <div *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="beneficiariosDirectos.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
-                              <!--
-                                <div *ngIf="password.errors.minlength">
-                                  La longitud mínima del password es 4 caracteres
-                                </div>
-                                <div *ngIf="password.errors.passwordValidation">
-                                  {{password.errors.passwordValidation.message}}
-                                </div>-->
 
                             </div>
                           </div>
@@ -340,21 +409,14 @@
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
-                            <label for="beneficiarios">beneficiarios indirectos</label>
-                            <input type="number" class="form-control" formControlName="beneficiarios">
+                            <label for="beneficiariosIndirectos">beneficiarios indirectos</label>
+                            <input type="number" class="form-control" id="beneficiariosIndirectos" name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
 
-                            <div *ngIf="beneficiarios.invalid && (beneficiarios.dirty || beneficiarios.touched)"
-                              class="alert alert-danger">
-                              <div *ngIf="beneficiarios.errors.required">
-                                El campo beneficiarios es requerido
+                            <div *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="beneficiariosIndirectos.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
-                              <!--
-                                <div *ngIf="password.errors.minlength">
-                                  La longitud mínima del password es 4 caracteres
-                                </div>
-                                <div *ngIf="password.errors.passwordValidation">
-                                  {{password.errors.passwordValidation.message}}
-                                </div>-->
 
                             </div>
                           </div>

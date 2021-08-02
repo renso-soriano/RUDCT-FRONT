@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Iaño } from 'app/shared/models/iaño';
 import { IdistritoMunicipal } from 'app/shared/models/idistrito-municipal';
@@ -17,19 +17,22 @@ import { passwordValidation } from '../validations/password-validation.directive
 import { UsernameUnicoService } from '../validations/username-unico.directive';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { Observable, of } from 'rxjs';
-
+import { map } from 'rxjs/operators';
+import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 
 
 @Component({
   selector: 'app-registro-demandas-form',
   templateUrl: './registro-demandas-form.component.html',
-  styleUrls: ['./registro-demandas-form.component.scss']
+  styleUrls: ['./registro-demandas-form.component.scss'],
+  providers: [NGXToastrService]
 })
 export class RegistroDemandasFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private usernameUnicoService: UsernameUnicoService,
-    private dropDownService: DropDownServiceService) { }
+    private dropDownService: DropDownServiceService,
+    private serviceStr: NGXToastrService) { }
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
@@ -54,28 +57,30 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoInstituciones: any[];
   listadoActividades: any[];
 
-  activCount=0;
+  activCount = 0;
+  notFound = false;
 
   registerForm = this.formBuilder.group({
-    año: [],
-    region: [],
-    provincia: [],
-    municipio: [],
+    anio: [null, {validators: [Validators.required]}],
+    region: [null, {validators: [Validators.required]}],
+    provincia: [null, {validators: [Validators.required]}],
+    municipio: [null, {validators: [Validators.required]}],
     distrito: [],
-    fuente: [],
-    eje: [],
-    objetivo: [],
+    fuente: [null, {validators: [Validators.required]}],
+    eje: [null, {validators: [Validators.required]}],
+    objetivo: [null, {validators: [Validators.required]}],
     demanda: ['', {
       validators: [Validators.required, Validators.minLength(15)],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
     }],
-    tecnico: [],
-    institucionResponsable: [],
+    tecnico: [null, {validators: [Validators.required]}],
+    institucionResponsable: [null, {validators: [Validators.required]}],
     institucionesColaboradoras: [],
-    beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
+    beneficiariosDirectos: ['', { validators: [Validators.required], updateOn: 'blur' }],
+    beneficiariosIndirectos: ['', { validators: [Validators.required], updateOn: 'blur' }],
     unidad: [''],
     comentarios: [''],
-    actividad: [''],
+    actividad: [null],
     politica: []
     /*
     password: ['', {
@@ -87,8 +92,11 @@ export class RegistroDemandasFormComponent implements OnInit {
   get comentarios() {
     return this.registerForm.get('comentarios');
   }
-  get beneficiarios() {
-    return this.registerForm.get('beneficiarios');
+  get beneficiariosDirectos() {
+    return this.registerForm.get('beneficiariosDirectos');
+  }
+  get beneficiariosIndirectos() {
+    return this.registerForm.get('beneficiariosIndirectos');
   }
   get telefonos() {
     return this.registerForm.get('telefonos') as FormArray;
@@ -114,7 +122,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   get region() {
     return this.registerForm.get('region');
   }
-
   get provincia() {
     return this.registerForm.get('provincia');
   }
@@ -133,9 +140,14 @@ export class RegistroDemandasFormComponent implements OnInit {
   get objetivo() {
     return this.registerForm.get('objetivo');
   }
+  get tecnico() {
+    return this.registerForm.get('tecnico');
+  }
+  get anio() {
+    return this.registerForm.get('anio');
+  }
 
   // rellena DropDowns.
-
   llenarDropDownFijos(): void {
 
     // llena el año
@@ -148,13 +160,13 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.fuenteDemandas = this.dropDownService.getFuentes();
 
     // llena ejeEnd
-    this.ejesEnd= this.dropDownService.getEjes();
+    this.ejesEnd = this.dropDownService.getEjes();
 
     // llena Tecnicos
     this.tecnicos = this.dropDownService.getTecnicos();
 
     // llena Instituciones Responsables
-   this.instituciones = this.dropDownService.getInstituciones();
+    this.instituciones = this.dropDownService.getInstituciones();
 
     // llena Politicas
     this.politicas = this.dropDownService.getPoliticas();
@@ -169,9 +181,9 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.municipios = null;
     this.distritosMunicipales = null;
     this.registerForm.patchValue({
-         provincia:null,
-         municipio: null,
-         distrito:null
+      provincia: null,
+      municipio: null,
+      distrito: null
     });
   }
 
@@ -181,8 +193,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.municipios = this.dropDownService.getMunicipiosByProvincia(id);
     this.distritosMunicipales = null;
     this.registerForm.patchValue({
-      municipio:null,
-      distrito:null
+      municipio: null,
+      distrito: null
     });
   }
 
@@ -191,7 +203,7 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     this.distritosMunicipales = this.dropDownService.getDistritosByMunicipio(id);
     this.registerForm.patchValue({
-      distrito:null
+      distrito: null
     });
   }
 
@@ -199,7 +211,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   onEjeChange(id: number): void {
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
     this.registerForm.patchValue({
-      objetivo:null
+      objetivo: null
     });
   }
   //end dropDowns
@@ -207,75 +219,85 @@ export class RegistroDemandasFormComponent implements OnInit {
   //****************************otros metodos******************************* */
 
   agregarPolitica() {
-    if(this.listadoPoliticas == null)
-    {
-      this.listadoPoliticas = [];
-    }
+
     let politicaSelected = this.politica.value;
-    this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
+    if (politicaSelected != null) {
+      if (this.listadoPoliticas == null) {
+        this.listadoPoliticas = [];
+      }
+      if (this.listadoPoliticas.findIndex(item => item.PoliticaId == politicaSelected.PoliticaId) == -1) {
+        this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
+      }
+      else {
+        this.serviceStr.typeWarning('No puede repetir politicas');
+      }
+    } else {
+      this.serviceStr.typeError('No ha seleccionado politica');
+    }
+
     this.registerForm.patchValue({
-      politica:null
+      politica: null
     });
   }
 
   eliminarPolitica(id: number) {
-
-    this.listadoPoliticas.splice(
-      this.listadoPoliticas.find((item, index) => {
-        if (item.PoliticaId == id)
-          return index
-      }), 1
-    );
+    let remover = this.listadoPoliticas.findIndex(item => item.PoliticaId == id);
+    this.listadoPoliticas.splice(remover, 1);
   }
 
   agregarInstitucion() {
-    if(this.listadoInstituciones == null)
-    {
-      this.listadoInstituciones = [];
-    }
+
     let institucionSelected = this.institucionesColaboradoras.value;
-    console.log(institucionSelected);
-    this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+
+    if (institucionSelected != null) {
+      if (this.listadoInstituciones == null) {
+        this.listadoInstituciones = [];
+      }
+      if (this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected.InstitucionId) == -1) {
+        this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+      }
+      else {
+        this.serviceStr.typeWarning('No puede repetir Instituciones');
+      }
+    } else {
+      this.serviceStr.typeError('No ha seleccionado Institucion');
+    }
     this.registerForm.patchValue({
-      institucionesColaboradoras:null
+      institucionesColaboradoras: null
     });
   }
 
   eliminarInstitucion(id: number) {
-
-    this.listadoInstituciones.splice(
-      this.listadoInstituciones.find((item, index) => {
-        if (item.InstitucionId == id)
-          return index
-      }), 1
-    );
+    let remover = this.listadoInstituciones.findIndex(item => item.InstitucionId == id);
+    this.listadoInstituciones.splice(remover, 1);
   }
 
   agregarActividad() {
-    if(this.listadoActividades == null)
-    {
-      this.listadoActividades = [];
+    console.log(this.actividad.value);
+    if (this.actividad.value != null) {
+      if (this.listadoActividades == null) {
+        this.listadoActividades = [];
+      }
+      this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: this.actividad.value })
+      this.activCount++;
     }
-    this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: "" + (this.activCount + 1) + "-" + this.actividad.value })
-    this.activCount++;
+    else {
+      this.serviceStr.typeError('No puede añadir actividades vacias');
+    }
+
     this.registerForm.patchValue({
       actividad: null
     });
   }
 
   eliminarActividad(id: number) {
-
-    this.listadoActividades.splice(
-      this.listadoActividades.find((item, index) => {
-        if (item.ActividadId == id)
-          return index
-      }), 1
-    );
+    let remover = this.listadoActividades.findIndex(item => item.ActividadId == id);
+    this.listadoActividades.splice(remover, 1);
   }
 
   submit() {
     if (!this.registerForm.valid) {
-      alert('Alguna regla de validación no se está cumpliendo');
+      this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
     this.registerForm.patchValue({

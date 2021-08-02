@@ -29,7 +29,7 @@ export interface Chart {
 export class Dashboard1Component implements OnInit {
 
   constructor(private demandasService: DemandasService) { }
-  DonutChart: Chart;
+
   data2: any;
   dataDonuts: any;
   notFound = false;
@@ -94,39 +94,8 @@ export class Dashboard1Component implements OnInit {
             }
           ]
       }
-
-      // Donut chart configuration Starts
-      this.DonutChart = {
-        type: 'Pie',
-        data: this.dataDonuts,
-        options: {
-          donut: true,
-          startAngle: 0,
-          labelInterpolationFnc: function (value) {
-            var total = data['donutDashboard'].series.reduce(function (prev, series) {
-              return prev + series.value;
-            }, 0);
-            return total + '%';
-          }
-        },
-        events: {
-          draw(data: any): void {
-            if (data.type === 'label') {
-              if (data.index === 0) {
-                data.element.attr({
-                  dx: data.element.root().width() / 2,
-                  dy: data.element.root().height() / 2
-                });
-              } else {
-                data.element.remove();
-              }
-            }
-
-          }
-        }
-      };
-      // Donut chart configuration Ends
-
+     // asigna la data para el grafico de donats
+      this.DonutChart.data = this.dataDonuts;
 
     }, (err: any) => {
       console.error(err);
@@ -408,7 +377,7 @@ export class Dashboard1Component implements OnInit {
   // Line chart configuration Ends
 
   // Donut chart configuration Starts
-  /* DonutChart: Chart = {
+  DonutChart: Chart = {
     type: 'Pie',
     data: data['donutDashboard'],
     options: {
@@ -436,7 +405,7 @@ export class Dashboard1Component implements OnInit {
 
       }
     }
-  }; */
+  };
   // Donut chart configuration Ends
 
   //  Bar chart configuration Starts
