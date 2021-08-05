@@ -281,7 +281,7 @@
                             <label for="institucionResponsable">Institucion primaria</label>
                             <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
                               name="institucionResponsable" id="institucionResponsable"
-                              placeholder="Seleccione Institucion" formControlName="institucionResponsable">
+                              placeholder="Seleccione Institucion" formControlName="institucionResponsable" (change)="onInstitucionPrimariaChange()">
                             </ng-select>
                             <div
                               *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)"

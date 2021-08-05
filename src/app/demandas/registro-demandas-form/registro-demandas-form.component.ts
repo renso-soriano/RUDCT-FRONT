@@ -242,18 +242,24 @@ export class RegistroDemandasFormComponent implements OnInit {
     let institucionSelected = this.institucionesColaboradoras.value;
 
     if (institucionSelected != null) {
-      if (this.listadoInstituciones == null) {
-        this.listadoInstituciones = [];
+      if (institucionSelected.InstitucionId != this.institucionResponsable.value) {
+        if (this.listadoInstituciones == null) {
+          this.listadoInstituciones = [];
+        }
+        if (this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected.InstitucionId) == -1) {
+          this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+        }
+        else {
+          this.serviceStr.typeWarning('No puede repetir Instituciones');
+        }
+      } else {
+        this.serviceStr.typeError('Esa ya es la institucion primaria');
       }
-      if (this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected.InstitucionId) == -1) {
-        this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
-      }
-      else {
-        this.serviceStr.typeWarning('No puede repetir Instituciones');
-      }
+
     } else {
-      this.serviceStr.typeError('No ha seleccionado Institucion');
+      this.serviceStr.typeError('No ha seleccionado institucion colaboradora');
     }
+
     this.registerForm.patchValue({
       institucionesColaboradoras: null
     });
@@ -262,6 +268,19 @@ export class RegistroDemandasFormComponent implements OnInit {
   eliminarInstitucion(id: number) {
     let remover = this.listadoInstituciones.findIndex(item => item.InstitucionId == id);
     this.listadoInstituciones.splice(remover, 1);
+  }
+
+  onInstitucionPrimariaChange(): void {
+    let institucionSelected = this.institucionResponsable.value;
+    if (this.listadoInstituciones != null) {
+      let indice = this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected);
+      console.log(indice);
+      if (indice != -1) {
+        this.serviceStr.typeError('Esa ya es una institución colaboradora');
+        this.institucionResponsable.setValue(null);
+      }
+    }
+
   }
 
   agregarActividad() {
