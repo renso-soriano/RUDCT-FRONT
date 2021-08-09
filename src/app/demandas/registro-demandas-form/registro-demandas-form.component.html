@@ -129,8 +129,7 @@
                             <label for="demanda">Demanda</label>
                             <textarea class="form-control" name="demanda" id="demanda" rows="3"
                               formControlName="demanda"></textarea>
-                            <!-- <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
-                              class="alert alert-danger"> -->
+
                             <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
                               class="help-block mt-1 text-danger">
 
@@ -152,6 +151,116 @@
                         </div>
                       </div>
 
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+
+                            <label for="">Tipo(s) Inversion</label>
+                            <div *ngFor='let tipo of listadoInversion'>
+                              <div class="checkbox">
+                                <input type="checkbox" name="{{tipo.Nombre}}" id="{{tipo.Nombre}}" [value]="tipo.Nombre"
+                                  (change)="onTipoInversionChange($event,tipo.Nombre)" formControlName="tempchkBox">
+                                <label class="form-check-label" for="{{tipo.Nombre}}">
+                                  {{tipo.Nombre}}
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <div *ngIf="otrosTiposShow">
+                              <label for="otrosTiposInversion">Especifíque otro</label>
+                              <input type="text" class="form-control" id="otrosTiposInversion"
+                                name="otrosTiposInversion" formControlName="otrosTiposInversion">
+
+                              <div
+                                *ngIf="otrosTiposInversion.invalid && (otrosTiposInversion.dirty || otrosTiposInversion.touched)"
+                                class="help-block mt-1 text-danger">
+
+                                <div *ngIf="otrosTiposInversion.errors.required">
+                                  <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="beneficiariosDirectos">beneficiarios directos</label>
+                            <input type="number" class="form-control" id="beneficiariosDirectos"
+                              name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
+
+                            <div
+                              *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="beneficiariosDirectos.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-3 mt-3">
+                          <div class="btn-group" ngbRadioGroup name="radioBasic2" formControlName="unidadDirectos">
+                            <label ngbButtonLabel class="btn-outline-primary">
+                              <input ngbButton type="radio" [value]="1"> Familias
+                            </label>
+                            <label ngbButtonLabel class="btn-outline-primary ">
+                              <input ngbButton type="radio" [value]="2"> Personas
+                            </label>
+
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label for="beneficiariosIndirectos">beneficiarios indirectos</label>
+                            <input type="number" class="form-control" id="beneficiariosIndirectos"
+                              name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
+
+                            <div
+                              *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="beneficiariosIndirectos.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-3 mt-3">
+                          <div class="btn-group" ngbRadioGroup name="radioBasic3" formControlName="unidadIndirectos">
+                            <label ngbButtonLabel class="btn-outline-primary">
+                              <input ngbButton type="radio" [value]="1"> Familias
+                            </label>
+                            <label ngbButtonLabel class="btn-outline-primary ">
+                              <input ngbButton type="radio" [value]="2"> Personas
+                            </label>
+
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="comentarios">Comentarios</label>
+                        <textarea class="form-control" formControlName="comentarios" rows="3">
+                          </textarea>
+                      </div>
 
                     </ng-template>
                   </li>
@@ -198,7 +307,8 @@
                               formControlName="objetivo">
                             </ng-select>
 
-                            <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)" class="help-block mt-1 text-danger">
+                            <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
+                              class="help-block mt-1 text-danger">
                               <div *ngIf="objetivo.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
@@ -281,7 +391,8 @@
                             <label for="institucionResponsable">Institucion primaria</label>
                             <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
                               name="institucionResponsable" id="institucionResponsable"
-                              placeholder="Seleccione Institucion" formControlName="institucionResponsable" (change)="onInstitucionPrimariaChange()">
+                              placeholder="Seleccione Institucion" formControlName="institucionResponsable"
+                              (change)="onInstitucionPrimariaChange()">
                             </ng-select>
                             <div
                               *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)"
@@ -389,84 +500,15 @@
                       </div>
                     </ng-template>
                   </li>
-                  <li ngbNavItem>
+
+                  <!-- <li ngbNavItem>
                     <a ngbNavLink>Beneficiarios</a>
                     <ng-template ngbNavContent>
 
-                      <div class="row">
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="beneficiariosDirectos">beneficiarios directos</label>
-                            <input type="number" class="form-control" id="beneficiariosDirectos"
-                              name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
-
-                            <div
-                              *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="beneficiariosDirectos.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-3 mt-3">
-                          <div class="btn-group" ngbRadioGroup name="radioBasic2" formControlName="unidadDirectos">
-                            <label ngbButtonLabel class="btn-outline-primary">
-                              <input ngbButton type="radio" [value]="1"> Familias
-                            </label>
-                            <label ngbButtonLabel class="btn-outline-primary ">
-                              <input ngbButton type="radio" [value]="2"> Personas
-                            </label>
-
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="beneficiariosIndirectos">beneficiarios indirectos</label>
-                            <input type="number" class="form-control" id="beneficiariosIndirectos"
-                              name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
-
-                            <div
-                              *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="beneficiariosIndirectos.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-3 mt-3">
-                          <div class="btn-group" ngbRadioGroup name="radioBasic3" formControlName="unidadIndirectos">
-                            <label ngbButtonLabel class="btn-outline-primary">
-                              <input ngbButton type="radio" [value]="1"> Familias
-                            </label>
-                            <label ngbButtonLabel class="btn-outline-primary ">
-                              <input ngbButton type="radio" [value]="2"> Personas
-                            </label>
-
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="form-group">
-                        <label for="comentarios">Comentarios</label>
-                        <textarea class="form-control" formControlName="comentarios" rows="3">
-                          </textarea>
-                      </div>
-
 
                     </ng-template>
-                  </li>
+                  </li> -->
+
                 </ul>
                 <div [ngbNavOutlet]="nav"></div>
 

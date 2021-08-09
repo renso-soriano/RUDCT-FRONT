@@ -15,6 +15,7 @@ import { Iprovincia } from '../models/iprovincia';
 import { Iregion } from '../models/iregion';
 import { Itecnico } from '../models/itecnico';
 import { map } from 'rxjs/operators';
+import { ItipoInversion } from '../models/iTipoInversion';
 
 @Injectable({
   providedIn: 'root'
@@ -171,5 +172,14 @@ export class DropDownServiceService {
 
   getTecnicoById(Id: string): Observable<Itecnico> {
     return this.http.get<Itecnico>(this.baseUrl + 'tecnicoOMPP.json/' + Id);
+  }
+
+  // getTipoInversion
+  getTipoInversion(): Observable<ItipoInversion[]> {
+    return this.http.get<ItipoInversion[]>(this.baseUrl + 'tipoInversion.json');
+  }
+
+  getTipoInversionById(Id: string): Observable<ItipoInversion> {
+    return this.http.get<ItipoInversion>(this.baseUrl + 'tipoInversion.json/' + Id);
   }
 }

@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { IejeEnd } from 'app/shared/models/ieje-end';
+import { ItipoInversion } from 'app/shared/models/iTipoInversion';
 
 
 @Component({
@@ -46,9 +47,12 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoInstituciones: any[];
   listadoActividades: any[];
   listadoEjes: any[];
+  listadoInversion: any[];
+  InversionesSelected: any[] = [];
 
   activCount = 0;
   notFound = false;
+  otrosTiposShow = false;
 
   registerForm = this.formBuilder.group({
     anio: [null, { validators: [Validators.required] }],
@@ -72,7 +76,10 @@ export class RegistroDemandasFormComponent implements OnInit {
     unidadIndirectos: [''],
     comentarios: [''],
     actividad: [null],
-    politica: []
+    politica: [],
+    tiposInversion: [null],
+    otrosTiposInversion: ['', { validators: [Validators.required] }],
+    tempchkBox: [null],
     /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
@@ -137,6 +144,10 @@ export class RegistroDemandasFormComponent implements OnInit {
   get anio() {
     return this.registerForm.get('anio');
   }
+  get otrosTiposInversion() {
+    return this.registerForm.get('otrosTiposInversion');
+  }
+
 
   // rellena DropDowns.
   llenarDropDownFijos(): void {
@@ -161,6 +172,16 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     // llena Politicas
     this.politicas = this.dropDownService.getPoliticas();
+
+    //tipoInversion
+    this.dropDownService.getTipoInversion()
+      .subscribe((inversionesFromTheAPI: ItipoInversion[]) => {
+        this.listadoInversion = inversionesFromTheAPI;
+      }, (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      });
+
 
   } // fin llenarDropDownFijos
 
@@ -191,20 +212,15 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   // llena Los distritos de acuerdo a los municipios
   onMunicipiosChange(id: number): void {
-
     this.distritosMunicipales = this.dropDownService.getDistritosByMunicipio(id);
-    this.registerForm.patchValue({
-      distrito: null
-    });
+    this.distrito.setValue(null);
   }
 
   // llena Los objetivos de acuerdo a los ejes
   onEjeChange(id: number): void {
-    console.log(id)
+    console.log(id);
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
-    this.registerForm.patchValue({
-      objetivo: null
-    });
+    this.objetivo.setValue(null);
   }
   //end dropDowns
 
@@ -274,7 +290,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     let institucionSelected = this.institucionResponsable.value;
     if (this.listadoInstituciones != null) {
       let indice = this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected);
-      console.log(indice);
       if (indice != -1) {
         this.serviceStr.typeError('Esa ya es una institución colaboradora');
         this.institucionResponsable.setValue(null);
@@ -282,6 +297,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     }
 
   }
+
 
   agregarActividad() {
     console.log(this.actividad.value);
@@ -306,23 +322,47 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoActividades.splice(remover, 1);
   }
 
+  onTipoInversionChange(evento: any, tipo: string) {
+    if (tipo != 'Otro') {
+      if (evento.target.checked) {
+        this.InversionesSelected.push(tipo);
+      }
+      else {
+        this.InversionesSelected = this.InversionesSelected.filter(t => t != tipo);
+      }
+    }
+    else {
+      this.otrosTiposShow = !this.otrosTiposShow;
+    }
+
+  }
+
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
+    if (this.otrosTiposShow) {
+      this.InversionesSelected.push(this.otrosTiposInversion.value);
+    }
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
       institucionesColaboradoras: this.listadoInstituciones,
-      actividad: this.listadoActividades
+      actividad: this.listadoActividades,
+      tiposInversion: this.InversionesSelected
     });
     console.log(this.registerForm.value);
+    this.refrescar();
   }
 
   refrescar() {
-    this.registerForm.patchValue({
 
-    });
+    this.registerForm.reset();
+    this.listadoPoliticas = null;
+    this.listadoInstituciones = null;
+    this.listadoActividades = null;
+    this.InversionesSelected = [];
+    this.otrosTiposShow = false;
 
   }
 
