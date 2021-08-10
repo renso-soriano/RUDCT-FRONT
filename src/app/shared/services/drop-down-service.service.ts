@@ -16,6 +16,7 @@ import { Iregion } from '../models/iregion';
 import { Itecnico } from '../models/itecnico';
 import { map } from 'rxjs/operators';
 import { ItipoInversion } from '../models/iTipoInversion';
+import { ItipoBeneficiario } from '../models/iTipoBeneficiario';
 
 @Injectable({
   providedIn: 'root'
@@ -181,5 +182,14 @@ export class DropDownServiceService {
 
   getTipoInversionById(Id: string): Observable<ItipoInversion> {
     return this.http.get<ItipoInversion>(this.baseUrl + 'tipoInversion.json/' + Id);
+  }
+
+  // getTipoBeneficiarios
+  getTipoBeneficiarios(): Observable<ItipoBeneficiario[]> {
+    return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json');
+  }
+
+  getTipoBeneficiariosById(Id: string): Observable<ItipoBeneficiario> {
+    return this.http.get<ItipoBeneficiario>(this.baseUrl + 'tipoBeneficiario.json/' + Id);
   }
 }

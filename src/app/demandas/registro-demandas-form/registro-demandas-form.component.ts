@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { IejeEnd } from 'app/shared/models/ieje-end';
 import { ItipoInversion } from 'app/shared/models/iTipoInversion';
+import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 
 
 @Component({
@@ -49,10 +50,13 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoEjes: any[];
   listadoInversion: any[];
   InversionesSelected: any[] = [];
+  listadoBeneficiarios: any[];
+  beneficiariosSelected: any[] = [];
 
   activCount = 0;
   notFound = false;
   otrosTiposShow = false;
+
 
   registerForm = this.formBuilder.group({
     anio: [null, { validators: [Validators.required] }],
@@ -70,16 +74,14 @@ export class RegistroDemandasFormComponent implements OnInit {
     tecnico: [null, { validators: [Validators.required] }],
     institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
-    beneficiariosDirectos: ['', { validators: [Validators.required] }],
-    beneficiariosIndirectos: ['', { validators: [Validators.required] }],
-    unidadDirectos: [''],
-    unidadIndirectos: [''],
     comentarios: [''],
     actividad: [null],
     politica: [],
     tiposInversion: [null],
     otrosTiposInversion: ['', { validators: [Validators.required] }],
-    tempchkBox: [null],
+    inversionchkBox: [null],
+    beneficiariochkBox: [null],
+    beneficiarios: this.formBuilder.array([])
     /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
@@ -90,14 +92,8 @@ export class RegistroDemandasFormComponent implements OnInit {
   get comentarios() {
     return this.registerForm.get('comentarios');
   }
-  get beneficiariosDirectos() {
-    return this.registerForm.get('beneficiariosDirectos');
-  }
-  get beneficiariosIndirectos() {
-    return this.registerForm.get('beneficiariosIndirectos');
-  }
-  get telefonos() {
-    return this.registerForm.get('telefonos') as FormArray;
+  get beneficiarios() {
+    return this.registerForm.get('beneficiarios') as FormArray;
   }
   get password() {
     return this.registerForm.get('password');
@@ -182,6 +178,14 @@ export class RegistroDemandasFormComponent implements OnInit {
         this.notFound = true;
       });
 
+    //tipoBeneficiario
+    this.dropDownService.getTipoBeneficiarios()
+      .subscribe((beneficiariosFromTheAPI: ItipoBeneficiario[]) => {
+        this.listadoBeneficiarios = beneficiariosFromTheAPI;
+      }, (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      });
 
   } // fin llenarDropDownFijos
 
@@ -295,12 +299,10 @@ export class RegistroDemandasFormComponent implements OnInit {
         this.institucionResponsable.setValue(null);
       }
     }
-
   }
 
-
   agregarActividad() {
-    console.log(this.actividad.value);
+
     if (this.actividad.value != null) {
       if (this.listadoActividades == null) {
         this.listadoActividades = [];
@@ -337,6 +339,32 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   }
 
+  onTipoBeneficiarioChange(evento: any, id: string) {
+
+    if (evento.target.checked) {
+      this.agregarBeneficiario(evento.target.value, id);
+    }
+    else {
+      this.removerBeneficiario(evento.target.value);
+    }
+  }
+
+  agregarBeneficiario(tipoSelected: string, _id: string) {
+    const beneficiariosFormGroup = this.formBuilder.group({
+      idTipo: _id,
+      tipo: tipoSelected,
+      directos: '',
+      indirectos: ''
+    });
+    this.beneficiarios.push(beneficiariosFormGroup);
+
+  }
+
+  removerBeneficiario(tipoSelected: string) {
+    let remover = this.beneficiarios.controls.findIndex(b => b.get('tipo').value == tipoSelected);
+    this.beneficiarios.removeAt(remover);
+  }
+
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
@@ -363,6 +391,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoActividades = null;
     this.InversionesSelected = [];
     this.otrosTiposShow = false;
+    this.beneficiarios.controls.splice(0, this.beneficiarios.length);
 
   }
 

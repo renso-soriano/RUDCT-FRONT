@@ -159,7 +159,8 @@
                             <div *ngFor='let tipo of listadoInversion'>
                               <div class="checkbox">
                                 <input type="checkbox" name="{{tipo.Nombre}}" id="{{tipo.Nombre}}" [value]="tipo.Nombre"
-                                  (change)="onTipoInversionChange($event,tipo.Nombre)" formControlName="tempchkBox">
+                                  (change)="onTipoInversionChange($event,tipo.Nombre)"
+                                  formControlName="inversionchkBox">
                                 <label class="form-check-label" for="{{tipo.Nombre}}">
                                   {{tipo.Nombre}}
                                 </label>
@@ -192,69 +193,54 @@
                       </div>
 
                       <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                           <div class="form-group">
-                            <label for="beneficiariosDirectos">beneficiarios directos</label>
-                            <input type="number" class="form-control" id="beneficiariosDirectos"
-                              name="beneficiariosDirectos" formControlName="beneficiariosDirectos">
-
-                            <div
-                              *ngIf="beneficiariosDirectos.invalid && (beneficiariosDirectos.dirty || beneficiariosDirectos.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="beneficiariosDirectos.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                            <label for="">Tipo(s) Beneficiarios</label>
+                            <div *ngFor='let tipo of listadoBeneficiarios'>
+                              <div class="checkbox">
+                                <input type="checkbox" name="{{tipo.Nombre}}" id="{{tipo.Nombre}}" [value]="tipo.Nombre"
+                                  (change)="onTipoBeneficiarioChange($event,tipo.Id)"
+                                  formControlName="beneficiariochkBox">
+                                <label class="form-check-label" for="{{tipo.Nombre}}">
+                                  {{tipo.Nombre}}
+                                </label>
                               </div>
-
                             </div>
                           </div>
-
                         </div>
-
-                        <div class="col-md-3 mt-3">
-                          <div class="btn-group" ngbRadioGroup name="radioBasic2" formControlName="unidadDirectos">
-                            <label ngbButtonLabel class="btn-outline-primary">
-                              <input ngbButton type="radio" [value]="1"> Familias
-                            </label>
-                            <label ngbButtonLabel class="btn-outline-primary ">
-                              <input ngbButton type="radio" [value]="2"> Personas
-                            </label>
-
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label for="beneficiariosIndirectos">beneficiarios indirectos</label>
-                            <input type="number" class="form-control" id="beneficiariosIndirectos"
-                              name="beneficiariosIndirectos" formControlName="beneficiariosIndirectos">
-
-                            <div
-                              *ngIf="beneficiariosIndirectos.invalid && (beneficiariosIndirectos.dirty || beneficiariosIndirectos.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="beneficiariosIndirectos.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-3 mt-3">
-                          <div class="btn-group" ngbRadioGroup name="radioBasic3" formControlName="unidadIndirectos">
-                            <label ngbButtonLabel class="btn-outline-primary">
-                              <input ngbButton type="radio" [value]="1"> Familias
-                            </label>
-                            <label ngbButtonLabel class="btn-outline-primary ">
-                              <input ngbButton type="radio" [value]="2"> Personas
-                            </label>
-
-                          </div>
-                        </div>
-
                       </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div formArrayName="beneficiarios"
+                            *ngFor="let beneficiario of beneficiarios.controls; let i = index">
+                            <div [formGroupName]="i">
+                              <div class="form-group row">
+                                <div class="col-md-4">
+                                  <label [attr.for]="'tipo' + i">Tipo:</label>
+                                  <input type="text" [readonly]="true" [attr.id]="'tipo' + i" class="form-control" formControlName="tipo">
+                                </div>
+                                <div class="col-md-4">
+                                  <label [attr.for]="'directos' + i">Directos</label>
+                                  <input type="number" [attr.id]="'directos' + i" class="form-control mr-10"
+                                    formControlName="directos">
+                                </div>
+                                <div class="col-md-4">
+                                  <label [attr.for]="'indirectos' + i">Indirectos</label>
+                                  <input type="number" [attr.id]="'indirectos' + i" class="form-control"
+                                    formControlName="indirectos">
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+
+
+
 
                       <div class="form-group">
                         <label for="comentarios">Comentarios</label>
@@ -463,8 +449,7 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="actividad">Actividades</label>
-                                <input type="text" class="form-control" formControlName="actividad"
-                                  (keyup.enter)="agregarActividad()">
+                                <input type="text" class="form-control" formControlName="actividad">
 
                               </div>
                             </div>
@@ -500,14 +485,6 @@
                       </div>
                     </ng-template>
                   </li>
-
-                  <!-- <li ngbNavItem>
-                    <a ngbNavLink>Beneficiarios</a>
-                    <ng-template ngbNavContent>
-
-
-                    </ng-template>
-                  </li> -->
 
                 </ul>
                 <div [ngbNavOutlet]="nav"></div>
