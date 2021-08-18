@@ -7,7 +7,13 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: 'demandas', title: 'Demandas', icon: 'fa fa-book', class: 'dropdown nav-item', isExternalLink: false, submenu: []
-  }
+  },
+  {
+    path: '', title: 'Mantenimientos', icon: 'fa fa-wrench', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
+      { path: 'institucion', title: 'Institucion', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
+    ]
+  },
   /* { path: '/inbox', title: 'Email', icon: 'ft-mail', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
   { path: '/chat', title: 'Chat', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
   { path: '/chat-ngrx', title: 'Chat NgRx', icon: 'ft-message-square', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

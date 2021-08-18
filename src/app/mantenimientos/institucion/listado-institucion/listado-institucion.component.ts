@@ -10,15 +10,15 @@ import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
 
 declare var require: any;
-const data: any = require('../../shared/data/Demandas.json');
+const data: any = require('../../../shared/data/Instituciones.json');
 
 @Component({
-  selector: 'app-listado-demandas',
-  templateUrl: './listado-demandas.component.html',
-  styleUrls: ['./listado-demandas.component.scss', '../../../assets/sass/libs/datatables.scss'],
+  selector: 'app-listado-institucion',
+  templateUrl: './listado-institucion.component.html',
+  styleUrls: ['./listado-institucion.component.scss', '../../../../assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ListadoDemandasComponent implements OnInit {
+export class ListadoInstitucionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
@@ -34,11 +34,8 @@ export class ListadoDemandasComponent implements OnInit {
 
   // column header
   public columns = [
-    { name: 'Codigo', prop: 'Codigo Demanda' },
-    { prop: 'Demanda' },
-    { prop: 'Año' },
-    { name: 'Origen', prop: 'Origen Demanda' },
-    { name: 'Estado', prop: 'Estado Ejecucion' }
+    { name: 'Nombre Institucion', prop: 'Nombre' },
+
   ];
 
   // multi Purpose datatable Row data
@@ -87,7 +84,7 @@ export class ListadoDemandasComponent implements OnInit {
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
-      return d.Demanda.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.Nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
@@ -211,4 +208,5 @@ export class ListadoDemandasComponent implements OnInit {
       }
     };
   }
+
 }

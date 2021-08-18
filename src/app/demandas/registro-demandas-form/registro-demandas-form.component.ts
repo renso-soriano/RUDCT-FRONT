@@ -246,10 +246,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     } else {
       this.serviceStr.typeError('No ha seleccionado politica');
     }
+    this.politica.setValue(null);
 
-    this.registerForm.patchValue({
-      politica: null
-    });
   }
 
   eliminarPolitica(id: number) {
@@ -349,9 +347,9 @@ export class RegistroDemandasFormComponent implements OnInit {
     }
   }
 
-  agregarBeneficiario(tipoSelected: string, _id: string) {
+  agregarBeneficiario(tipoSelected: string, id: string) {
     const beneficiariosFormGroup = this.formBuilder.group({
-      idTipo: _id,
+      idTipo: id,
       tipo: tipoSelected,
       directos: '',
       indirectos: ''

@@ -10,6 +10,10 @@ export const Full_ROUTES: Routes = [
   {
     path: 'demandas',
     loadChildren: () => import('../../demandas/demandas.module').then(m => m.DemandasModule)
+  },
+  {
+    path: 'institucion',
+    loadChildren: () => import('../../mantenimientos/institucion/institucion.module').then(m => m.InstitucionModule)
   }
 /*   {
     path: 'calendar',
