@@ -4,7 +4,7 @@
     <!-- Kick start -->
     <div id="kick-start" class="card">
       <div class="card-header">
-        <h4 class="card-title">{{mode}} institucion</h4>
+        <h4 class="card-title">{{mode}} fuente de demanda</h4>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -15,7 +15,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <label for="nombre">Nombre institucion</label>
+                      <label for="nombre">Nombre de fuente</label>
                       <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
 
                       <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
@@ -64,7 +64,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/institucion']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/fuente']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>

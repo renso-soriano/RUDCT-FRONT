@@ -11,6 +11,8 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '', title: 'Mantenimientos', icon: 'fa fa-wrench', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
       { path: 'institucion', title: 'Institucion', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: 'fuente', title: 'Fuente de demandas', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
 
     ]
   },

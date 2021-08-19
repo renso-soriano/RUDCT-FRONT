@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-12">
+    <div class="w-100 d-flex justify-content-end">
+      <a [routerLink]="['/fuente/Create']" data-toggle="tooltip" data-placement="bottom"
+        title="Agregar Fuente" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
+
+      <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
+        title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Filter Datatables -->
+<section id="ngx-datatable-filter">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Listado de fuente de demandas</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+            <!-- ngx-datatable-filter -->
+            <fieldset class="form-group">
+              <label for="ngx-filter-ref">Buscar:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Nombre de fuente..." (keyup)="filterUpdate($event)" />
+              </label>
+            </fieldset>
+            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
+              <ngx-datatable-column name="Fuente de demanda" prop="Nombre" [width]="200"> </ngx-datatable-column>
+
+              <ngx-datatable-column name="Acciones" [width]="70">
+                <ng-template ngx-datatable-cell-template>
+
+                  <a class="btn-sm      btn-warning text-white  ft-eye" title="ver detalles"></a>
+                  <a class="btn-sm ml-1 btn-success text-white ft-edit" title="Editar"></a>
+                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" title="Eliminar"></a>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+            <!-- ngx-datatable-filter -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Filter Datatables -->

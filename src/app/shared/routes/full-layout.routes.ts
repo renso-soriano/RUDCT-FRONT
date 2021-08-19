@@ -14,6 +14,10 @@ export const Full_ROUTES: Routes = [
   {
     path: 'institucion',
     loadChildren: () => import('../../mantenimientos/institucion/institucion.module').then(m => m.InstitucionModule)
+  },
+  {
+    path: 'fuente',
+    loadChildren: () => import('../../mantenimientos/fuente-demanda/fuente-demanda.module').then(m => m.FuenteDemandaModule)
   }
 /*   {
     path: 'calendar',
