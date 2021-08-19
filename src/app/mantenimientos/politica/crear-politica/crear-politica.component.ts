@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { InstitucionService } from 'app/shared/services/institucion.service';
+import { Ipolitica } from 'app/shared/models/ipolitica';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { PoliticaService } from 'app/shared/services/politica.service';
 
 @Component({
-  selector: 'app-crear-institucion',
-  templateUrl: './crear-institucion.component.html',
-  styleUrls: ['./crear-institucion.component.scss'],
+  selector: 'app-crear-politica',
+  templateUrl: './crear-politica.component.html',
+  styleUrls: ['./crear-politica.component.scss'],
   providers: [NGXToastrService]
 })
-export class CrearInstitucionComponent implements OnInit {
+export class CrearPoliticaComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-     private institucionService: InstitucionService) { }
+     private politicaService: PoliticaService) { }
 
   ngOnInit(): void {
     this.typeEdit = false;
@@ -27,44 +27,45 @@ export class CrearInstitucionComponent implements OnInit {
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
     activo: [true],
-    InstitucionId: [0]
+    PoliticaId: [0]
   });
 
   //getters
   get nombre() {
     return this.registerForm.get('nombre');
   }
-  get InstitucionId() {
-    return this.registerForm.get('InstitucionId');
+  get PoliticaId() {
+    return this.registerForm.get('PoliticaId');
   }
   get activo() {
     return this.registerForm.get('activo');
   }
 
   //CrudMethods
-  guardar(institucion: Iinstitucion) {
+  guardar(politica: Ipolitica) {
     if (this.typeEdit) {
-      this.institucionService.updateInstitucion(institucion.InstitucionId, institucion);
+      this.politicaService.updatePolitica(politica.PoliticaId, politica);
     } else {
-      this.institucionService.createInstitucion(institucion);
+      this.politicaService.createPolitica(politica);
     }
 
   }
+
 
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
-    const institucion = {
-      InstitucionId: this.InstitucionId.value,
+    const politica = {
+      PoliticaId: this.PoliticaId.value,
       Nombre: this.nombre.value,
       Activo: this.activo.value
     }
 
-    console.log(institucion);
+    console.log(politica);
 
-    //this.guardar(institucion);
+    //this.guardar(politica);
 
     this.refrescar();
   }

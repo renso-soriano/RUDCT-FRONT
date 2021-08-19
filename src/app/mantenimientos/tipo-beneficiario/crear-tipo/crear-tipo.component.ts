@@ -1,24 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { InstitucionService } from 'app/shared/services/institucion.service';
+import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
 
 @Component({
-  selector: 'app-crear-institucion',
-  templateUrl: './crear-institucion.component.html',
-  styleUrls: ['./crear-institucion.component.scss'],
+  selector: 'app-crear-tipo',
+  templateUrl: './crear-tipo.component.html',
+  styleUrls: ['./crear-tipo.component.scss'],
   providers: [NGXToastrService]
 })
-export class CrearInstitucionComponent implements OnInit {
+export class CrearTipoComponent implements OnInit {
+
 
   constructor(private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-     private institucionService: InstitucionService) { }
+     private tipoBeneficiarioService: TipoBeneficiarioService) { }
 
   ngOnInit(): void {
     this.typeEdit = false;
-    this.mode = this.typeEdit ? 'Editar' : 'Registrar nueva';
+    this.mode = this.typeEdit ? 'Editar' : 'Registrar nuevo';
   }
 
   mode: string;
@@ -27,26 +28,26 @@ export class CrearInstitucionComponent implements OnInit {
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
     activo: [true],
-    InstitucionId: [0]
+    Id: [0]
   });
 
   //getters
   get nombre() {
     return this.registerForm.get('nombre');
   }
-  get InstitucionId() {
-    return this.registerForm.get('InstitucionId');
+  get Id() {
+    return this.registerForm.get('Id');
   }
   get activo() {
     return this.registerForm.get('activo');
   }
 
   //CrudMethods
-  guardar(institucion: Iinstitucion) {
+  guardar(tipo: ItipoBeneficiario) {
     if (this.typeEdit) {
-      this.institucionService.updateInstitucion(institucion.InstitucionId, institucion);
+      this.tipoBeneficiarioService.updateTipo(tipo.Id, tipo);
     } else {
-      this.institucionService.createInstitucion(institucion);
+      this.tipoBeneficiarioService.createTipo(tipo);
     }
 
   }
@@ -56,15 +57,15 @@ export class CrearInstitucionComponent implements OnInit {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
-    const institucion = {
-      InstitucionId: this.InstitucionId.value,
+    const tipoBeneficiario = {
+      Id: this.Id.value,
       Nombre: this.nombre.value,
       Activo: this.activo.value
     }
 
-    console.log(institucion);
+    console.log(tipoBeneficiario);
 
-    //this.guardar(institucion);
+    //this.guardar(tipoBeneficiario);
 
     this.refrescar();
   }

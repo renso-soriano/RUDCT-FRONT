@@ -1,0 +1,71 @@
+<!-- start -->
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{mode}} tipo de beneficiario</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div class="div">
+              <form (submit)="submit()" [formGroup]="registerForm">
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="nombre">Tipo Beneficiario</label>
+                      <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
+
+                      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="nombre.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="nombre.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <div class="btn-group">
+                        <label class="btn-outline-primary" ngbButtonLabel>
+                          <input type="checkbox" formControlName="activo" ngbButton> activa
+                        </label>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
+                  title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/tipoBeneficiario']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>
+

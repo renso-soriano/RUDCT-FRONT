@@ -17,7 +17,7 @@ export class CrearFuenteComponent implements OnInit {
 
   ngOnInit(): void {
     this.typeEdit = false;
-    this.mode = this.typeEdit ? 'Editar' : 'Registar nueva';
+    this.mode = this.typeEdit ? 'Editar' : 'Registrar nueva';
 
   }
 

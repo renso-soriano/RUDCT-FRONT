@@ -18,6 +18,14 @@ export const Full_ROUTES: Routes = [
   {
     path: 'fuente',
     loadChildren: () => import('../../mantenimientos/fuente-demanda/fuente-demanda.module').then(m => m.FuenteDemandaModule)
+  },
+  {
+    path: 'politica',
+    loadChildren: () => import('../../mantenimientos/politica/politica.module').then(m => m.PoliticaModule)
+  },
+  {
+    path: 'tipoBeneficiario',
+    loadChildren: () => import('../../mantenimientos/tipo-beneficiario/tipo-beneficiario.module').then(m => m.TipoBeneficiarioModule)
   }
 /*   {
     path: 'calendar',
