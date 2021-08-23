@@ -1,0 +1,13 @@
+﻿[
+        {
+            "Id": "001",
+            "Nombre": "Directos",
+            "Activo": "1"
+        },
+        {
+            "Id": "002",
+            "Nombre": "Indirectos",
+            "Activo": "1"
+        }
+        
+    ]

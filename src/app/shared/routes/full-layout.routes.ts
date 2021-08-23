@@ -26,6 +26,10 @@ export const Full_ROUTES: Routes = [
   {
     path: 'tipoBeneficiario',
     loadChildren: () => import('../../mantenimientos/tipo-beneficiario/tipo-beneficiario.module').then(m => m.TipoBeneficiarioModule)
+  },
+  {
+    path: 'categoriaBeneficiario',
+    loadChildren: () => import('../../mantenimientos/categoria-beneficiario/categoria-beneficiario.module').then(m => m.CategoriaBeneficiarioModule)
   }
 /*   {
     path: 'calendar',

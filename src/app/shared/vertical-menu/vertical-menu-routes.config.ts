@@ -14,6 +14,8 @@ export const ROUTES: RouteInfo[] = [
       { path: 'fuente', title: 'Fuente de demandas', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
       { path: 'politica', title: 'Politica PNPSP', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
       { path: 'tipoBeneficiario', title: 'Tipos de beneficiarios', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: 'categoriaBeneficiario', title: 'Categoria de beneficiarios', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+
 
     ]
   },

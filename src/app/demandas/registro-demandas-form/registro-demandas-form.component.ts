@@ -50,10 +50,13 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoEjes: any[];
   listadoInversion: any[];
   InversionesSelected: any[] = [];
+  listadoTipoBeneficiarios: Observable<any[]>;
+  listadoCategoriaBeneficiarios: Observable<any[]>;
   listadoBeneficiarios: any[];
   beneficiariosSelected: any[] = [];
 
   activCount = 0;
+  benCount = 0;
   notFound = false;
   otrosTiposShow = false;
 
@@ -80,8 +83,10 @@ export class RegistroDemandasFormComponent implements OnInit {
     tiposInversion: [null],
     otrosTiposInversion: ['', { validators: [Validators.required] }],
     inversionchkBox: [null],
-    beneficiariochkBox: [null],
-    beneficiarios: this.formBuilder.array([])
+    tipo: [null],
+    categoria: [null],
+    cantidad: [null],
+    beneficiarios:[null]
     /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
@@ -91,9 +96,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   //getters
   get comentarios() {
     return this.registerForm.get('comentarios');
-  }
-  get beneficiarios() {
-    return this.registerForm.get('beneficiarios') as FormArray;
   }
   get password() {
     return this.registerForm.get('password');
@@ -143,6 +145,18 @@ export class RegistroDemandasFormComponent implements OnInit {
   get otrosTiposInversion() {
     return this.registerForm.get('otrosTiposInversion');
   }
+  get tipo() {
+    return this.registerForm.get('tipo');
+  }
+  get categoria() {
+    return this.registerForm.get('categoria');
+  }
+  get cantidad() {
+    return this.registerForm.get('cantidad');
+  }
+  get beneficiarios() {
+    return this.registerForm.get('beneficiarios');
+  }
 
 
   // rellena DropDowns.
@@ -178,14 +192,12 @@ export class RegistroDemandasFormComponent implements OnInit {
         this.notFound = true;
       });
 
+
     //tipoBeneficiario
-    this.dropDownService.getTipoBeneficiarios()
-      .subscribe((beneficiariosFromTheAPI: ItipoBeneficiario[]) => {
-        this.listadoBeneficiarios = beneficiariosFromTheAPI;
-      }, (err: any) => {
-        console.error(err);
-        this.notFound = true;
-      });
+    this.listadoTipoBeneficiarios = this.dropDownService.getTipoBeneficiarios();
+
+    //categoriaBeneficiario
+    this.listadoCategoriaBeneficiarios = this.dropDownService.getCategoriasBeneficiarios();
 
   } // fin llenarDropDownFijos
 
@@ -337,30 +349,35 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   }
 
-  onTipoBeneficiarioChange(evento: any, id: string) {
 
-    if (evento.target.checked) {
-      this.agregarBeneficiario(evento.target.value, id);
-    }
-    else {
-      this.removerBeneficiario(evento.target.value);
-    }
-  }
+  agregarBeneficiario() {
+    let tipoSelected = this.tipo.value;
+    let categoriaSelected = this.categoria.value;
+    let cantidad = this.cantidad.value;
 
-  agregarBeneficiario(tipoSelected: string, id: string) {
-    const beneficiariosFormGroup = this.formBuilder.group({
-      idTipo: id,
-      tipo: tipoSelected,
-      directos: '',
-      indirectos: ''
+    if (tipoSelected != null && categoriaSelected != null && cantidad != null) {
+      if (this.listadoBeneficiarios == null) {
+        this.listadoBeneficiarios = [];
+      }
+      this.benCount++;
+      this.listadoBeneficiarios.push({ Id: this.benCount, tipoId:tipoSelected.Id, tipoNombre:tipoSelected.Nombre,
+        categoriaId:categoriaSelected.Id, categoriaNombre:categoriaSelected.Nombre,
+      cantidad:cantidad, Activo: 1,codigoDemanda:this.codigoDemanda });
+
+
+    } else {
+      this.serviceStr.typeError('No ha rellenado todos los campos de beneficiarios');
+    }
+    this.registerForm.patchValue({
+      tipo: '',
+      categoria: '',
+      cantidad: '',
     });
-    this.beneficiarios.push(beneficiariosFormGroup);
 
   }
 
-  removerBeneficiario(tipoSelected: string) {
-    let remover = this.beneficiarios.controls.findIndex(b => b.get('tipo').value == tipoSelected);
-    this.beneficiarios.removeAt(remover);
+  removerBeneficiario(index: number) {
+    this.listadoBeneficiarios.splice(index, 1);
   }
 
   submit() {
@@ -375,7 +392,8 @@ export class RegistroDemandasFormComponent implements OnInit {
       politica: this.listadoPoliticas,
       institucionesColaboradoras: this.listadoInstituciones,
       actividad: this.listadoActividades,
-      tiposInversion: this.InversionesSelected
+      tiposInversion: this.InversionesSelected,
+      beneficiarios: this.listadoBeneficiarios
     });
     console.log(this.registerForm.value);
     this.refrescar();
@@ -387,9 +405,9 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoPoliticas = null;
     this.listadoInstituciones = null;
     this.listadoActividades = null;
+    this.listadoBeneficiarios  = null;
     this.InversionesSelected = [];
     this.otrosTiposShow = false;
-    this.beneficiarios.controls.splice(0, this.beneficiarios.length);
 
   }
 

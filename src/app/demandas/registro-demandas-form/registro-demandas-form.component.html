@@ -191,51 +191,71 @@
                         </div>
 
                       </div>
+                      <div>
+                        <span>Agregar Beneficiarios</span>
+                        <hr>
+                      </div>
 
                       <div class="row">
-                        <div class="col-md-12">
+
+                        <div class="col-sm-3">
                           <div class="form-group">
-                            <label for="">Tipo(s) Beneficiarios</label>
-                            <div *ngFor='let tipo of listadoBeneficiarios'>
-                              <div class="checkbox">
-                                <input type="checkbox" name="{{tipo.Nombre}}" id="{{tipo.Nombre}}" [value]="tipo.Nombre"
-                                  (change)="onTipoBeneficiarioChange($event,tipo.Id)"
-                                  formControlName="beneficiariochkBox">
-                                <label class="form-check-label" for="{{tipo.Nombre}}">
-                                  {{tipo.Nombre}}
-                                </label>
-                              </div>
-                            </div>
+                            <label for="tipo">Tipo Beneficiarios</label>
+                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="Nombre" name="tipo"
+                              id="tipo" placeholder="Seleccione tipo" formControlName="tipo">
+                            </ng-select>
                           </div>
                         </div>
-                      </div>
 
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div formArrayName="beneficiarios"
-                            *ngFor="let beneficiario of beneficiarios.controls; let i = index">
-                            <div [formGroupName]="i">
-                              <div class="form-group row">
-                                <div class="col-md-4">
-                                  <label [attr.for]="'tipo' + i">Tipo:</label>
-                                  <input type="text" [readonly]="true" [attr.id]="'tipo' + i" class="form-control" formControlName="tipo">
-                                </div>
-                                <div class="col-md-4">
-                                  <label [attr.for]="'directos' + i">Directos</label>
-                                  <input type="number" [attr.id]="'directos' + i" class="form-control mr-10"
-                                    formControlName="directos">
-                                </div>
-                                <div class="col-md-4">
-                                  <label [attr.for]="'indirectos' + i">Indirectos</label>
-                                  <input type="number" [attr.id]="'indirectos' + i" class="form-control"
-                                    formControlName="indirectos">
-                                </div>
-
-                              </div>
-                            </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="tipo">Categoria Beneficiarios</label>
+                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="Nombre"
+                              name="categoria" id="categoria" placeholder="Seleccione categoria"
+                              formControlName="categoria">
+                            </ng-select>
                           </div>
                         </div>
+
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="tipo">Cantidad beneficiarios</label>
+                            <input type="text" class="form-control" name="cantidad" id="cantidad"
+                              formControlName="cantidad">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2 mt-3">
+                          <div class="form-group">
+                            <button class="btn btn-primary ft-plus" (click)="agregarBeneficiario()"></button>
+                          </div>
+                        </div>
+
                       </div>
+
+                      <div class="div" *ngIf="listadoBeneficiarios">
+                        <table class="table table-hover table-sm">
+                          <thead>
+                            <tr>
+                              <th>Tipo Beneficiario</th>
+                              <th>Categoria Beneficiario</th>
+                              <th>Cantidad</th>
+                              <th>Eliminar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let beneficiario of listadoBeneficiarios; let i = index">
+                              <td>{{ beneficiario.tipoNombre }}</td>
+                              <td>{{ beneficiario.categoriaNombre }}</td>
+                              <td>{{ beneficiario.cantidad }}</td>
+                              <td><a class="btn btn-danger ft-trash-2" (click)="removerBeneficiario(i)"></a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+
 
                       <div class="form-group">
                         <label for="comentarios">Comentarios</label>
@@ -333,7 +353,8 @@
                                 <tr *ngFor="let politica of listadoPoliticas">
                                   <td>{{ politica.Nombre }}</td>
                                   <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarPolitica(politica.PoliticaId)"></a></td>
+                                      (click)="eliminarPolitica(politica.PoliticaId)"></a>
+                                  </td>
                                 </tr>
                               </tbody>
                             </table>

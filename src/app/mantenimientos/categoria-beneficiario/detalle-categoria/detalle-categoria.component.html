@@ -4,18 +4,17 @@
     <!-- Kick start -->
     <div id="kick-start" class="card">
       <div class="card-header">
-        <h4 class="card-title">Detalles de fuente de demanda</h4>
+        <h4 class="card-title">Detalles de la categoria de beneficiario</h4>
       </div>
       <div class="card-content">
         <div class="card-body">
           <div class="card-text">
-
             <div class="div">
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Id: </span>
-                    <label for="FuenteId">{{fuente.FuenteId}}</label>
+                    <label for="Id">{{categoriaBeneficiario.Id}}</label>
                   </div>
                 </div>
               </div>
@@ -26,7 +25,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Nombre: </span>
-                    <label for="nombre">{{fuente.Nombre}}</label>
+                    <label for="nombre">{{categoriaBeneficiario.Nombre}}</label>
                   </div>
                 </div>
               </div>
@@ -37,12 +36,11 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Activa: </span>
-                    <label for="activo">{{fuente.Activo == 1?"Si":"No"}}</label>
+                    <label for="activo">{{categoriaBeneficiario.Activo == 1?"Si":"No"}}</label>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -52,8 +50,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/fuente']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/categoriaBeneficiario']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>
-
