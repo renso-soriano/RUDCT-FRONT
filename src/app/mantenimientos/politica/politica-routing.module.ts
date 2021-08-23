@@ -20,6 +20,10 @@ const routes: Routes = [
         {
           path: 'Details/:PoliticaId',
           component: DetallePoliticaComponent
+        },
+        {
+          path: 'Edit/:PoliticaId',
+          component: CrearPoliticaComponent
         }
       ]
   }

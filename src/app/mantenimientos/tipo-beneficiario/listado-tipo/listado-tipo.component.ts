@@ -7,7 +7,9 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { DemandasService } from 'app/shared/services/demandas.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../../shared/data/sweet-alerts';
+import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
 
 declare var require: any;
 const data: any = require('../../../shared/data/tipoBeneficiario.json');
@@ -160,11 +162,25 @@ export class ListadoTipoComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService) {
+  constructor(private http: HttpClient, private tipoBeneficiarioService: TipoBeneficiarioService, private router: Router) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
+
+   //Actions Methods
+
+   verDetalles(Id: string) {
+    this.router.navigate(["/tipoBeneficiario", 'Details', Id]);
+  }
+  editar(Id: string) {
+    this.router.navigate(["/tipoBeneficiario", 'Edit', Id]);
+  }
+  eliminar(Id: number) {
+    alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
+
+  }
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------

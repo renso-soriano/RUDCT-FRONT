@@ -20,6 +20,10 @@ const routes: Routes = [
         {
           path: 'Details/:Id',
           component: DetalleTipoComponent
+        },
+        {
+          path: 'Edit/:Id',
+          component: CrearTipoComponent
         }
       ]
   }

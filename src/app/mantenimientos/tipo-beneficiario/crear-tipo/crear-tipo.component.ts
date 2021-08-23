@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
@@ -15,12 +16,22 @@ export class CrearTipoComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-     private tipoBeneficiarioService: TipoBeneficiarioService) { }
+     private tipoBeneficiarioService: TipoBeneficiarioService,
+     private route: ActivatedRoute,
+     private router: Router) { }
 
   ngOnInit(): void {
-    this.typeEdit = false;
-    this.mode = this.typeEdit ? 'Editar' : 'Registrar nuevo';
+    this.route.paramMap.subscribe(params => {
+      if (params.has("Id")) {
+        this.getTipoBeneficiarioParaEditar(parseInt(params.get("Id")));
+        this.typeEdit = true;
+      }
+    })
+    this.mode = this.typeEdit ? 'Editar' : 'Registrar nueva';
   }
+
+  tipoBeneficiario: ItipoBeneficiario;
+  notFound = false;
 
   mode: string;
   typeEdit: boolean;
@@ -50,6 +61,25 @@ export class CrearTipoComponent implements OnInit {
       this.tipoBeneficiarioService.createTipo(tipo);
     }
 
+  }
+
+  getTipoBeneficiarioParaEditar(Id: number) {
+    this.notFound = false;
+    this.tipoBeneficiario = null;
+
+    this.tipoBeneficiarioService.getTipoBeneficiariosById(Id).subscribe((tipoBeneficiarioFromTheAPI: ItipoBeneficiario[]) => {
+      this.tipoBeneficiario = tipoBeneficiarioFromTheAPI[0];
+
+      this.registerForm.patchValue({
+        nombre: this.tipoBeneficiario.Nombre,
+        activo: this.tipoBeneficiario.Activo == 1 ? true : false,
+        InstitucionId: this.tipoBeneficiario.Id
+      });
+
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
   }
 
   submit() {

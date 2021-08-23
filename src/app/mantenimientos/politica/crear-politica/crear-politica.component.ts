@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Ipolitica } from 'app/shared/models/ipolitica';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { PoliticaService } from 'app/shared/services/politica.service';
@@ -14,12 +15,22 @@ export class CrearPoliticaComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-     private politicaService: PoliticaService) { }
+     private politicaService: PoliticaService,
+     private route: ActivatedRoute,
+     private router: Router) { }
 
   ngOnInit(): void {
-    this.typeEdit = false;
+    this.route.paramMap.subscribe(params => {
+      if (params.has("PoliticaId")) {
+        this.getPoliticaParaEditar(parseInt(params.get("PoliticaId")));
+        this.typeEdit = true;
+      }
+    })
     this.mode = this.typeEdit ? 'Editar' : 'Registrar nueva';
   }
+
+  politica: Ipolitica;
+  notFound = false;
 
   mode: string;
   typeEdit: boolean;
@@ -51,6 +62,24 @@ export class CrearPoliticaComponent implements OnInit {
 
   }
 
+  getPoliticaParaEditar(PoliticaId: number) {
+    this.notFound = false;
+    this.politica = null;
+
+    this.politicaService.getPoliticaById(PoliticaId).subscribe((politicasFromTheAPI: Ipolitica[]) => {
+      this.politica = politicasFromTheAPI[0];
+
+      this.registerForm.patchValue({
+        nombre: this.politica.Nombre,
+        activo: this.politica.Activo == 1 ? true : false,
+        PoliticaId: this.politica.PoliticaId
+      });
+
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
+  }
 
   submit() {
     if (!this.registerForm.valid) {

@@ -20,7 +20,7 @@ export class TipoBeneficiarioService {
     return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json');
   }
 
-  getTiposBeneficiariosById(Id: number): Observable<ItipoBeneficiario[]> {
+  getTipoBeneficiariosById(Id: number): Observable<ItipoBeneficiario[]> {
     //return this.http.get<Iinstitucion>(this.URL + idInstitucion, {params: params});
 
     return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json').pipe(

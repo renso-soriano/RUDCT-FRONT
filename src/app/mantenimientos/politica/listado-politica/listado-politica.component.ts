@@ -8,6 +8,9 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
+import { PoliticaService } from 'app/shared/services/politica.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../../shared/data/sweet-alerts';
 
 declare var require: any;
 const data: any = require('../../../shared/data/politicas.json');
@@ -159,12 +162,24 @@ export class ListadoPoliticaComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService) {
+  constructor(private http: HttpClient, private politicaService: PoliticaService, private router: Router) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
 
+   //Actions Methods
+
+   verDetalles(InstitucionId: string) {
+    this.router.navigate(["/politica", 'Details', InstitucionId]);
+  }
+  editar(InstitucionId: string) {
+    this.router.navigate(["/politica", 'Edit', InstitucionId]);
+  }
+  eliminar(InstitucionId: number) {
+    alertFunctions.EliminarRegistro("politica", InstitucionId);
+
+  }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -175,8 +190,8 @@ export class ListadoPoliticaComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
-      this.data = demandasFromTheAPI;
+    /* this.politicaService.getDemandas().subscribe((politicasFromTheAPI : any) => {
+      this.data = politicasFromTheAPI;
       this.rows =this.data;
     }, (err: any) => {
       console.error(err);
