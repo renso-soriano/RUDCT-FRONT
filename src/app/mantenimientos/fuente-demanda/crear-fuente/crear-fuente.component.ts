@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
 import { FuenteService } from 'app/shared/services/fuente.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
@@ -13,13 +14,24 @@ import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 export class CrearFuenteComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-    private serviceStr: NGXToastrService, private fuenteService: FuenteService) { }
+    private serviceStr: NGXToastrService,
+     private fuenteService: FuenteService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.typeEdit = false;
+    this.route.paramMap.subscribe(params => {
+      if (params.has("FuenteId")) {
+        this.getFuenteParaEditar(parseInt(params.get("FuenteId")));
+        this.typeEdit = true;
+      }
+    })
     this.mode = this.typeEdit ? 'Editar' : 'Registrar nueva';
 
   }
+
+  fuente: IfuenteDemanda;
+  notFound = false;
 
   mode: string;
   typeEdit: boolean;
@@ -49,6 +61,25 @@ export class CrearFuenteComponent implements OnInit {
       this.fuenteService.createFuente(fuente);
     }
 
+  }
+
+  getFuenteParaEditar(FuenteId: number) {
+    this.notFound = false;
+    this.fuente = null;
+
+    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI: IfuenteDemanda[]) => {
+      this.fuente = fuenteFromTheAPI[0];
+
+      this.registerForm.patchValue({
+        nombre: this.fuente.Nombre,
+        activo: this.fuente.Activo == 1 ? true : false,
+        FuenteId: this.fuente.FuenteId
+      });
+
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
   }
 
   submit() {

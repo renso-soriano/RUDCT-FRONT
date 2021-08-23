@@ -1,1 +1,59 @@
-<p>detalle-fuente works!</p>
+<!-- start -->
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">Detalles de fuente de demanda</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Id: </span>
+                    <label for="InstitucionId">{{fuente.FuenteId}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Nombre: </span>
+                    <label for="nombre">{{fuente.Nombre}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Activa: </span>
+                    <label for="activo">{{fuente.Activo == 1?"Si":"No"}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/fuente']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>
+

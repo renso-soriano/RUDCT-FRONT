@@ -8,6 +8,9 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
+import { Router } from '@angular/router';
+import { FuenteService } from 'app/shared/services/fuente.service';
+import * as alertFunctions from '../../../shared/data/sweet-alerts';
 
 declare var require: any;
 const data: any = require('../../../shared/data/fuenteDemandas.json');
@@ -159,10 +162,23 @@ export class ListadoFuenteComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService) {
+  constructor(private http: HttpClient, private fuenteService: FuenteService, private router: Router) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+
+  //Actions Methods
+
+  verDetalles(InstitucionId: string) {
+    this.router.navigate(["/fuente", 'Details', InstitucionId]);
+  }
+  editar(InstitucionId: string) {
+    this.router.navigate(["/fuente", 'Edit', InstitucionId]);
+  }
+  eliminar(InstitucionId: number) {
+    alertFunctions.EliminarRegistro("fuente", InstitucionId);
+
   }
 
   // Lifecycle Hooks

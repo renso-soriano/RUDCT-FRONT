@@ -20,6 +20,10 @@ const routes: Routes = [
         {
           path: 'Details/:FuenteId',
           component: DetalleFuenteComponent
+        },
+        {
+          path: 'Edit/:FuenteId',
+          component: CrearFuenteComponent
         }
       ]
   }

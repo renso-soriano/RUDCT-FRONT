@@ -7,7 +7,10 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { DemandasService } from 'app/shared/services/demandas.service';
+import { InstitucionService } from 'app/shared/services/institucion.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../../shared/data/sweet-alerts';
+
 
 declare var require: any;
 const data: any = require('../../../shared/data/Instituciones.json');
@@ -159,11 +162,25 @@ export class ListadoInstitucionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService) {
+  constructor(private http: HttpClient, private institucionService: InstitucionService, private router: Router) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
+
+  //Actions Methods
+
+  verDetalles(InstitucionId: string) {
+    this.router.navigate(["/institucion", 'Details', InstitucionId]);
+  }
+  editar(InstitucionId: string) {
+    this.router.navigate(["/institucion", 'Edit', InstitucionId]);
+  }
+  eliminar(InstitucionId: number) {
+    alertFunctions.EliminarRegistro("institucion", InstitucionId);
+
+  }
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -175,8 +192,8 @@ export class ListadoInstitucionComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
-      this.data = demandasFromTheAPI;
+    /* this.institucionService.getInstituciones().subscribe((institucionesFromTheAPI : any) => {
+      this.data = institucionesFromTheAPI;
       this.rows =this.data;
     }, (err: any) => {
       console.error(err);
@@ -208,5 +225,7 @@ export class ListadoInstitucionComponent implements OnInit {
       }
     };
   }
+
+
 
 }

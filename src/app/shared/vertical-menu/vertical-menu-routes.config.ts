@@ -12,13 +12,13 @@ export const ROUTES: RouteInfo[] = [
     path: '', title: 'Mantenimientos', icon: 'fa fa-wrench', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
       { path: 'institucion', title: 'Institucion', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
       { path: 'fuente', title: 'Fuente de demandas', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: 'politica', title: 'PNPSP', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: 'politica', title: 'Politica PNPSP', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
       { path: 'tipoBeneficiario', title: 'Tipos de beneficiarios', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
 
     ]
   },
   {
-    path: '', title: 'Centro de reportes', icon: 'fa fa-file', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
+    path: '', title: 'Centro de reportes', icon: 'fa fa-print', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false, submenu: [
 
     ]
   },
