@@ -424,13 +424,20 @@ export class RegistroDemandasFormComponent implements OnInit {
     if (this.otrosTiposShow) {
       this.InversionesSelected.push(this.otrosTiposInversion.value);
     }
+    
+      let listadoEjes = [];
+      for (let item of this.listadoObjetivos) {
+          listadoEjes.push({ ejeId: item.EjeId});
+      }
+
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
       institucionesColaboradoras: this.listadoInstituciones,
       actividad: this.listadoActividades,
       tiposInversion: this.InversionesSelected,
       beneficiarios: this.listadoBeneficiarios,
-      objetivo: this.listadoObjetivos
+      objetivo: this.listadoObjetivos,
+      eje:listadoEjes
 
     });
     console.log(this.registerForm.value);
