@@ -45,6 +45,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   tecnicos: Observable<any[]>;
 
   listadoPoliticas: any[];
+  listadoObjetivos: any[];
   listadoInstituciones: any[];
   listadoActividades: any[];
   listadoEjes: any[];
@@ -56,7 +57,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   beneficiariosSelected: any[] = [];
 
   activCount = 0;
-  benCount = 0;
   notFound = false;
   otrosTiposShow = false;
 
@@ -68,8 +68,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     municipio: [null, { validators: [Validators.required] }],
     distrito: [],
     fuente: [null, { validators: [Validators.required] }],
-    eje: [null, { validators: [Validators.required] }],
-    objetivo: [null, { validators: [Validators.required] }],
+    eje: [null],
+    objetivo: [null],
     demanda: ['', {
       validators: [Validators.required, Validators.minLength(15)],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
@@ -86,7 +86,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     tipo: [null],
     categoria: [null],
     cantidad: [null],
-    beneficiarios:[null]
+    beneficiarios: [null]
     /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
@@ -263,8 +263,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   eliminarPolitica(id: number) {
-    let remover = this.listadoPoliticas.findIndex(item => item.PoliticaId == id);
-    this.listadoPoliticas.splice(remover, 1);
+    this.listadoPoliticas.splice(id, 1);
   }
 
   agregarInstitucion() {
@@ -296,8 +295,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   eliminarInstitucion(id: number) {
-    let remover = this.listadoInstituciones.findIndex(item => item.InstitucionId == id);
-    this.listadoInstituciones.splice(remover, 1);
+    this.listadoInstituciones.splice(id, 1);
   }
 
   onInstitucionPrimariaChange(): void {
@@ -330,8 +328,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   eliminarActividad(id: number) {
-    let remover = this.listadoActividades.findIndex(item => item.ActividadId == id);
-    this.listadoActividades.splice(remover, 1);
+    this.listadoActividades.splice(id, 1);
   }
 
   onTipoInversionChange(evento: any, tipo: string) {
@@ -359,25 +356,64 @@ export class RegistroDemandasFormComponent implements OnInit {
       if (this.listadoBeneficiarios == null) {
         this.listadoBeneficiarios = [];
       }
-      this.benCount++;
-      this.listadoBeneficiarios.push({ Id: this.benCount, tipoId:tipoSelected.Id, tipoNombre:tipoSelected.Nombre,
-        categoriaId:categoriaSelected.Id, categoriaNombre:categoriaSelected.Nombre,
-      cantidad:cantidad, Activo: 1,codigoDemanda:this.codigoDemanda });
 
+      let combinedSelection = tipoSelected.Nombre + categoriaSelected.Nombre;
+      let repetido = this.listadoBeneficiarios.findIndex(item => item.seleccionCombinada == combinedSelection);
 
+      if (repetido == -1) {
+        this.listadoBeneficiarios.push({
+          Id: 0, tipoId: tipoSelected.Id, tipoNombre: tipoSelected.Nombre,
+          categoriaId: categoriaSelected.Id, categoriaNombre: categoriaSelected.Nombre,
+          cantidad: cantidad, Activo: 1, codigoDemanda: this.codigoDemanda,
+          seleccionCombinada: combinedSelection
+        });
+
+        this.registerForm.patchValue({
+          tipo: null,
+          categoria: null,
+          cantidad: null,
+        });
+
+      } else {
+        this.serviceStr.typeError('Ya hay una seleccion con esa combinacion tipo-categoria');
+      }
     } else {
       this.serviceStr.typeError('No ha rellenado todos los campos de beneficiarios');
     }
-    this.registerForm.patchValue({
-      tipo: '',
-      categoria: '',
-      cantidad: '',
-    });
 
   }
 
   removerBeneficiario(index: number) {
     this.listadoBeneficiarios.splice(index, 1);
+  }
+
+  agregarObjetivo() {
+
+    let objetivoSelected = this.objetivo.value;
+
+    if (objetivoSelected != null) {
+      if (this.listadoObjetivos == null) {
+        this.listadoObjetivos = [];
+      }
+      if (this.listadoObjetivos.findIndex(item => item.ObjetivoId == objetivoSelected.ObjetivoId) == -1) {
+        this.listadoObjetivos.push({
+          EjeId: objetivoSelected.EjeId, ObjetivoId: objetivoSelected.ObjetivoId,
+          CodigoEje: objetivoSelected.CodigoEje, Nombre: objetivoSelected.Nombre, Activo: objetivoSelected.Activo
+        })
+      }
+      else {
+        this.serviceStr.typeWarning('No puede repetir objetivos');
+      }
+    } else {
+      this.serviceStr.typeError('No ha seleccionado objetivo');
+    }
+    this.objetivo.setValue(null);
+    this.eje.setValue(null);
+
+  }
+
+  eliminarObjetivo(id: number) {
+    this.listadoObjetivos.splice(id, 1);
   }
 
   submit() {
@@ -393,7 +429,9 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionesColaboradoras: this.listadoInstituciones,
       actividad: this.listadoActividades,
       tiposInversion: this.InversionesSelected,
-      beneficiarios: this.listadoBeneficiarios
+      beneficiarios: this.listadoBeneficiarios,
+      objetivo: this.listadoObjetivos
+
     });
     console.log(this.registerForm.value);
     this.refrescar();
@@ -403,9 +441,10 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     this.registerForm.reset();
     this.listadoPoliticas = null;
+    this.listadoObjetivos = null;
     this.listadoInstituciones = null;
     this.listadoActividades = null;
-    this.listadoBeneficiarios  = null;
+    this.listadoBeneficiarios = null;
     this.InversionesSelected = [];
     this.otrosTiposShow = false;
 

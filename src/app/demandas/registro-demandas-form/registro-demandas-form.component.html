@@ -227,7 +227,7 @@
 
                         <div class="col-md-2 mt-3">
                           <div class="form-group">
-                            <button class="btn btn-primary ft-plus" (click)="agregarBeneficiario()"></button>
+                            <a class="btn btn-primary ft-plus" (click)="agregarBeneficiario()"></a>
                           </div>
                         </div>
 
@@ -288,13 +288,6 @@
                                 <input ngbButton type="radio" [value]="004"> Medio Ambiental
                               </label>
                             </div>
-                            <div *ngIf="eje.invalid && (eje.dirty || eje.touched)" class="help-block mt-1 text-danger">
-
-                              <div *ngIf="eje.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
 
                           </div>
                         </div>
@@ -303,20 +296,39 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="objetivo">Objetivo</label>
-                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" bindValue="ObjetivoId"
-                              name="objetivo" id="objetivo" placeholder="Seleccione objetivo"
-                              formControlName="objetivo">
+                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" name="objetivo" id="objetivo"
+                              placeholder="Seleccione objetivo" formControlName="objetivo">
                             </ng-select>
-
-                            <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
-                              class="help-block mt-1 text-danger">
-                              <div *ngIf="objetivo.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-                            </div>
 
                           </div>
                         </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <a class="btn btn-primary mt-3 ft-plus" (click)="agregarObjetivo()"
+                              title="Agregar objetivo"></a>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="div" *ngIf="listadoObjetivos">
+                        <table class="table table-hover table-sm">
+                          <thead>
+                            <tr>
+                              <th>Eje</th>
+                              <th>Objetivo</th>
+                              <th>Eliminar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let objetivo of listadoObjetivos; let i=index">
+                              <td>{{ objetivo.EjeId }}</td>
+                              <td>{{ objetivo.Nombre }}</td>
+                              <td><a class="btn btn-danger ft-trash-2" (click)="eliminarObjetivo(i)"></a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
 
                       <div class="row">
@@ -350,10 +362,10 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr *ngFor="let politica of listadoPoliticas">
+                                <tr *ngFor="let politica of listadoPoliticas; let i = index">
                                   <td>{{ politica.Nombre }}</td>
                                   <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarPolitica(politica.PoliticaId)"></a>
+                                      (click)="eliminarPolitica(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>
@@ -440,10 +452,10 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr *ngFor="let institucion of listadoInstituciones">
+                                <tr *ngFor="let institucion of listadoInstituciones; let i=index">
                                   <td>{{ institucion.Nombre }}</td>
                                   <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarInstitucion(institucion.InstitucionId)"></a>
+                                      (click)="eliminarInstitucion(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>
@@ -487,10 +499,10 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr *ngFor="let actividad of listadoActividades">
+                                <tr *ngFor="let actividad of listadoActividades;let i=index">
                                   <td>{{ actividad.Actividad }}</td>
                                   <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarActividad(actividad.ActividadId)"></a>
+                                      (click)="eliminarActividad(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>
