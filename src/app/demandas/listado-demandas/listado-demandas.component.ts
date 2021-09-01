@@ -8,6 +8,8 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../shared/data/sweet-alerts';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -34,11 +36,11 @@ export class ListadoDemandasComponent implements OnInit {
 
   // column header
   public columns = [
-    { name: 'Codigo', prop: 'Codigo Demanda' },
+    { name: 'Codigo', prop: 'CodigoDemanda' },
     { prop: 'Demanda' },
     { prop: 'Año' },
-    { name: 'Origen', prop: 'Origen Demanda' },
-    { name: 'Estado', prop: 'Estado Ejecucion' }
+    { name: 'Origen', prop: 'OrigenDemanda' },
+    { name: 'Estado', prop: 'EstadoEjecucion' }
   ];
 
   // multi Purpose datatable Row data
@@ -162,10 +164,23 @@ export class ListadoDemandasComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService) {
+  constructor(private http: HttpClient, private demandasService: DemandasService,private router: Router) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+
+  //Actions Methods
+
+  verDetalles(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
+  }
+  editar(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Edit', CodigoDemanda]);
+  }
+  eliminar(CodigoDemanda: number) {
+    alertFunctions.EliminarRegistro("demandas", CodigoDemanda);
+
   }
 
   // Lifecycle Hooks

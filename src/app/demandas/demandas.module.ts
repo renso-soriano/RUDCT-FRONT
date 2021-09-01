@@ -13,6 +13,7 @@ import { UsernameUnicoDirective } from './validations/username-unico.directive';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
     ListadoDemandasComponent,
     PasswordValidationDirective,
     UsernameUnicoDirective,
+    DetalleDemandasComponent,
   ],
   imports: [
     CommonModule,
