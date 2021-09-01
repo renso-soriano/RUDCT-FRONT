@@ -10,6 +10,8 @@ import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { IejeEnd } from 'app/shared/models/ieje-end';
 import { ItipoInversion } from 'app/shared/models/iTipoInversion';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
+import { DemandasService } from 'app/shared/services/demandas.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -23,11 +25,22 @@ export class RegistroDemandasFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private usernameUnicoService: UsernameUnicoService,
     private dropDownService: DropDownServiceService,
+    private demandaService: DemandasService,
+    private route: ActivatedRoute,
+    private router: Router,
     private serviceStr: NGXToastrService) { }
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
+    this.route.paramMap.subscribe(params => {
+      if (params.has("CodigoDemanda")) {
+        this.getDemandaParaEditar(params.get("CodigoDemanda"));
+        this.typeEdit = true;
+      }
+    })
+    this.mode = this.typeEdit ? 'Editar' : 'Registro de';
+
   }
 
   //propiedades
@@ -59,6 +72,9 @@ export class RegistroDemandasFormComponent implements OnInit {
   activCount = 0;
   notFound = false;
   otrosTiposShow = false;
+  mode: string;
+  typeEdit = false;
+  demandaForEdit: any;
 
 
   registerForm = this.formBuilder.group({
@@ -242,6 +258,45 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   //****************************otros metodos******************************* */
 
+  getDemandaParaEditar(CodigoDemanda: string) {
+    this.notFound = false;
+    this.demandaForEdit = null;
+
+    this.demandaService.getDemandaByCodigo(CodigoDemanda).subscribe((demandaFromTheAPI: any[]) => {
+      this.demandaForEdit = demandaFromTheAPI[0];
+
+      // pendiente hasta que haya backend
+      this.registerForm.patchValue({
+        anio: [],
+        region: [],
+        provincia: [],
+        municipio: [],
+        distrito: [],
+        fuente: [],
+        eje: [],
+        objetivo: [],
+        demanda: [],
+        tecnico: [],
+        institucionResponsable: [],
+        institucionesColaboradoras: [],
+        comentarios: this.demandaForEdit.Comentarios,
+        actividad: [],
+        politica: [],
+        tiposInversion: [],
+        otrosTiposInversion: [],
+        inversionchkBox: [],
+        tipo: [],
+        categoria: [],
+        cantidad: [],
+        beneficiarios: []
+      });
+
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    });
+  }
+
   agregarPolitica() {
 
     let politicaSelected = this.politica.value;
@@ -424,11 +479,11 @@ export class RegistroDemandasFormComponent implements OnInit {
     if (this.otrosTiposShow) {
       this.InversionesSelected.push(this.otrosTiposInversion.value);
     }
-    
-      let listadoEjes = [];
-      for (let item of this.listadoObjetivos) {
-          listadoEjes.push({ ejeId: item.EjeId});
-      }
+
+    let listadoEjes = [];
+    for (let item of this.listadoObjetivos) {
+      listadoEjes.push({ ejeId: item.EjeId });
+    }
 
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
@@ -437,7 +492,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       tiposInversion: this.InversionesSelected,
       beneficiarios: this.listadoBeneficiarios,
       objetivo: this.listadoObjetivos,
-      eje:listadoEjes
+      eje: listadoEjes
 
     });
     console.log(this.registerForm.value);
