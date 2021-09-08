@@ -1,26 +1,26 @@
+import { IBeneficiario } from './iBeneficiario';
 import { Iactividad } from "./iactividad";
 
 export interface IDemanda {
-  idDemanda:number;
+  idDemanda?:number;
   codigo:string;
   año:number;
   regionId:number;
-  provinciaId:number;
-  municipioId:number;
-  distritoMunicipalId:number;
+  provinciaKey:number;
+  municipioKey:number;
+  distritoMunicipalKey:number;
   fuenteOrigenId:number;
   descripcionDemanda:string;
-  ejeId:number;
-  objetivoId:number;
-  beneficiariosDirectosFamilias:number;
-  beneficiariosDirectosPersonas:number;
-  beneficiariosIndirectosFamilias:number;
-  beneficiariosIndirectosPersonas:number;
+  ejeId:number[];
+  objetivoId:number[];
+  beneficiarios:IBeneficiario[];
   institucionResponsableId:number;
   tecnicoOMPPId:number;
   estadoEjecucionId:number;
   politicasIds:number[];
   actividades:Iactividad[];
   institucionesColaboradorasIds:number[];
+  tiposInversionIds:number[];
+  otroTipoInversion:string;
   comentarios:string;
 }

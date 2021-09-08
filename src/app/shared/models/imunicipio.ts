@@ -5,6 +5,6 @@ export interface Imunicipio {
   MunicipioId: number,
   Nombre: string,
   Activo: number,
-  ProviceKey: number,
+  ProvinceKey: number,
   Key: number
 }

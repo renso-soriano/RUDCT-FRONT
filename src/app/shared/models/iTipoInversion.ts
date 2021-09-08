@@ -1,5 +1,5 @@
 export interface ItipoInversion {
-  Id: number,
+  Id?: number,
   Nombre: string,
   Activo: number
 }

@@ -76,7 +76,7 @@ export class DropDownServiceService {
   getMunicipiosByProvincia(key: number): Observable<Imunicipio[]> {
     return this.http.get<Imunicipio[]>(this.baseUrl + 'municipios.json').pipe(
       map(municipios =>
-        municipios.filter(municipio => municipio.ProviceKey == key)
+        municipios.filter(municipio => municipio.ProvinceKey == key)
       )
     );
   }
