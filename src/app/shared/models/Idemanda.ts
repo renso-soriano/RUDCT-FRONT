@@ -21,6 +21,6 @@ export interface IDemanda {
   actividades:Iactividad[];
   institucionesColaboradorasIds:number[];
   tiposInversionIds:number[];
-  otroTipoInversion:string;
+  otroTipoInversion?:string;
   comentarios:string;
 }

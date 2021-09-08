@@ -141,15 +141,14 @@
                                 <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
                               </div>
 
-                              <!-- <div *ngIf="demanda.errors.usernameUnico">
-                                Esa demanda ya existe
-                              </div> -->
 
                             </div>
 
                           </div>
                         </div>
                       </div>
+
+
 
                       <div class="row">
                         <div class="col-md-4">
@@ -190,6 +189,46 @@
 
                         </div>
 
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="actividad">Actividades</label>
+                                <input type="text" class="form-control" formControlName="actividad">
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
+                                  title="Agregar actividad"></a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="div" *ngIf="listadoActividades">
+                            <table class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Actividad</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let actividad of listadoActividades;let i=index">
+                                  <td>{{ actividad.Actividad }}</td>
+                                  <td><a class="btn btn-danger ft-trash-2"
+                                      (click)="eliminarActividad(i)"></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+
+                        </div>
                       </div>
                       <div>
                         <span>Agregar Beneficiarios</span>
@@ -461,57 +500,11 @@
                               </tbody>
                             </table>
                           </div>
-
                         </div>
                       </div>
 
                     </ng-template>
-                  </li>
-                  <li ngbNavItem>
-                    <a ngbNavLink>Actividades</a>
-                    <ng-template ngbNavContent>
 
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="actividad">Actividades</label>
-                                <input type="text" class="form-control" formControlName="actividad">
-
-                              </div>
-                            </div>
-
-                            <div class="col-sm-4">
-                              <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
-                                  title="Agregar actividad"></a>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="div" *ngIf="listadoActividades">
-                            <table class="table table-hover table-sm">
-                              <thead>
-                                <tr>
-                                  <th>Nombre</th>
-                                  <th>Eliminar</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="let actividad of listadoActividades;let i=index">
-                                  <td>{{ actividad.Actividad }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarActividad(i)"></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-
-                        </div>
-                      </div>
-                    </ng-template>
                   </li>
 
                 </ul>

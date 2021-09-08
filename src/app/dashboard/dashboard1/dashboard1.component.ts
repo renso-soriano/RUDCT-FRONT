@@ -52,10 +52,10 @@ export class Dashboard1Component implements OnInit {
       this.data2 = demandasFromTheAPI;
 
       this.totalDemandas = this.data2.length;
-      this.ejeInstitucional = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Institucionalidad).length;
-      this.ejeSocial = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Social).length;
-      this.ejeEconomico = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.Economico).length;
-      this.ejeMedioAmbiental = this.data2.filter(demanda => demanda['Eje END'] == EjeEnd.MedioAmbiental).length;
+      this.ejeInstitucional = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Institucionalidad).length;
+      this.ejeSocial = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Social).length;
+      this.ejeEconomico = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Economico).length;
+      this.ejeMedioAmbiental = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.MedioAmbiental).length;
 
       this.cibaoNorte = 50; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoNorte).length * 100 / this.totalDemandas;
       this.cibaoCentral = 15; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoCentral).length * 100 / this.totalDemandas;
