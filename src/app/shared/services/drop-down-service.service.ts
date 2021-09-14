@@ -15,6 +15,9 @@ import { Iprovincia } from '../models/iprovincia';
 import { Iregion } from '../models/iregion';
 import { Itecnico } from '../models/itecnico';
 import { map } from 'rxjs/operators';
+import { ItipoInversion } from '../models/iTipoInversion';
+import { ItipoBeneficiario } from '../models/iTipoBeneficiario';
+import { IcategoriaBeneficiario } from '../models/iCategoriaBeneficiario';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +76,7 @@ export class DropDownServiceService {
   getMunicipiosByProvincia(key: number): Observable<Imunicipio[]> {
     return this.http.get<Imunicipio[]>(this.baseUrl + 'municipios.json').pipe(
       map(municipios =>
-        municipios.filter(municipio => municipio.ProviceKey == key)
+        municipios.filter(municipio => municipio.ProvinceKey == key)
       )
     );
   }
@@ -171,5 +174,32 @@ export class DropDownServiceService {
 
   getTecnicoById(Id: string): Observable<Itecnico> {
     return this.http.get<Itecnico>(this.baseUrl + 'tecnicoOMPP.json/' + Id);
+  }
+
+  // getTipoInversion
+  getTipoInversion(): Observable<ItipoInversion[]> {
+    return this.http.get<ItipoInversion[]>(this.baseUrl + 'tipoInversion.json');
+  }
+
+  getTipoInversionById(Id: string): Observable<ItipoInversion> {
+    return this.http.get<ItipoInversion>(this.baseUrl + 'tipoInversion.json/' + Id);
+  }
+
+  // getTipoBeneficiarios
+  getTipoBeneficiarios(): Observable<ItipoBeneficiario[]> {
+    return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json');
+  }
+
+  getTipoBeneficiariosById(Id: string): Observable<ItipoBeneficiario> {
+    return this.http.get<ItipoBeneficiario>(this.baseUrl + 'tipoBeneficiario.json/' + Id);
+  }
+
+   // getCategoriaBeneficiarios
+   getCategoriasBeneficiarios(): Observable<IcategoriaBeneficiario[]> {
+    return this.http.get<IcategoriaBeneficiario[]>(this.baseUrl + 'categoriaBeneficiario.json');
+  }
+
+  getCategoriaBeneficiariosById(Id: string): Observable<IcategoriaBeneficiario> {
+    return this.http.get<IcategoriaBeneficiario>(this.baseUrl + 'categoriaBeneficiario.json/' + Id);
   }
 }

@@ -10,6 +10,26 @@ export const Full_ROUTES: Routes = [
   {
     path: 'demandas',
     loadChildren: () => import('../../demandas/demandas.module').then(m => m.DemandasModule)
+  },
+  {
+    path: 'institucion',
+    loadChildren: () => import('../../mantenimientos/institucion/institucion.module').then(m => m.InstitucionModule)
+  },
+  {
+    path: 'fuente',
+    loadChildren: () => import('../../mantenimientos/fuente-demanda/fuente-demanda.module').then(m => m.FuenteDemandaModule)
+  },
+  {
+    path: 'politica',
+    loadChildren: () => import('../../mantenimientos/politica/politica.module').then(m => m.PoliticaModule)
+  },
+  {
+    path: 'tipoBeneficiario',
+    loadChildren: () => import('../../mantenimientos/tipo-beneficiario/tipo-beneficiario.module').then(m => m.TipoBeneficiarioModule)
+  },
+  {
+    path: 'categoriaBeneficiario',
+    loadChildren: () => import('../../mantenimientos/categoria-beneficiario/categoria-beneficiario.module').then(m => m.CategoriaBeneficiarioModule)
   }
 /*   {
     path: 'calendar',

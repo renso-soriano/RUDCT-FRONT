@@ -8,38 +8,40 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../shared/data/sweet-alerts';
 
-/* declare var require: any;
-const data: any = require('../../shared/data/Demandas.json'); */
-
+declare var require: any;
+const data: any = require('../../shared/data/Demandas.json');
 
 @Component({
   selector: 'app-listado-demandas',
   templateUrl: './listado-demandas.component.html',
   styleUrls: ['./listado-demandas.component.scss', '../../../assets/sass/libs/datatables.scss'],
-  encapsulation: ViewEncapsulation.None})
+  encapsulation: ViewEncapsulation.None
+})
 export class ListadoDemandasComponent implements OnInit {
 
-    loadingIndicator: boolean = true;
-    reorderable: boolean = true;
+  loadingIndicator: boolean = true;
+  reorderable: boolean = true;
 
   // public
   public contentHeader: object;
 
-  data:any[];
-  notFound =false;
+  //data:any[];
+  notFound = false;
 
   // row data
-  public rows;
+  public rows = data;
 
   // column header
   public columns = [
-    { name:'Codigo', prop: 'Codigo Demanda'},
-    { prop: 'Demanda'},
-    { prop: 'Año'},
-    { name:'Origen', prop: 'Origen Demanda'},
-    { name:'Estado', prop: 'Estado Ejecucion'}
-];
+    { name: 'Codigo', prop: 'CodigoDemanda' },
+    { prop: 'Demanda' },
+    { prop: 'Año' },
+    { name: 'Origen', prop: 'OrigenDemanda' },
+    { name: 'Estado', prop: 'EstadoEjecucion' }
+  ];
 
   // multi Purpose datatable Row data
   public multiPurposeRows = DatatableData;
@@ -162,10 +164,23 @@ export class ListadoDemandasComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService:DemandasService ) {
-    this.tempData = DatatableData;
+  constructor(private http: HttpClient, private demandasService: DemandasService,private router: Router) {
+    this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+
+  //Actions Methods
+
+  verDetalles(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
+  }
+  editar(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Edit', CodigoDemanda]);
+  }
+  eliminar(CodigoDemanda: number) {
+    alertFunctions.EliminarRegistro("demandas", CodigoDemanda);
+
   }
 
   // Lifecycle Hooks
@@ -178,13 +193,13 @@ export class ListadoDemandasComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
+    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
       this.data = demandasFromTheAPI;
       this.rows =this.data;
     }, (err: any) => {
       console.error(err);
       this.notFound = true;
-    });
+    }); */
 
     // content header
     this.contentHeader = {
@@ -212,38 +227,3 @@ export class ListadoDemandasComponent implements OnInit {
     };
   }
 }
-
-
-
-
-
-
-/* implements OnInit {
-
-  ngOnInit(): void {
-  }
-
-  rows = [];
-  loadingIndicator: boolean = true;
-  reorderable: boolean = true;
-
-  columns = [
-      { name:'Codigo', prop: 'Codigo Demanda'},
-      { prop: 'Demanda'},
-      { prop: 'Año'},
-      { name:'Origen', prop: 'Origen Demanda'},
-      { prop: 'Provincia'},
-      { name:'Estado', prop: 'Estado Ejecucion'},
-      { name: 'Acciones'}
-
-
-  ];
-
-  constructor() {
-
-      this.rows = data;
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
-  }
-
-
-} */

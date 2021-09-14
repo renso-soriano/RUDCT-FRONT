@@ -1,5 +1,5 @@
 export interface Itecnico {
-  Id: number,
+  Id?: number,
   Nombre: string,
   Activo: number
 }

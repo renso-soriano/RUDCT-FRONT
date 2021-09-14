@@ -6,6 +6,6 @@
 export const environment = {
   production: false,
   apiUrl: "",
-  appName: "Aplicación MEPyD",
-  appShortName: "APP-MEPyD"
+  appName: "Registro de Demandas Territoriales",
+  appShortName: "Demandas"
 };

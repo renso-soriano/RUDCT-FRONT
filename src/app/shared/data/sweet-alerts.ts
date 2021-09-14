@@ -1,6 +1,7 @@
 import swal from 'sweetalert2';
 
 
+
 //-------------- Basic --------------
 
 
@@ -462,7 +463,45 @@ export function ConfirmColor() {
   });
 }
 
+//eliminar Registro
 
+export function EliminarRegistro(tipo: string, id: number) {
+  swal.fire({
+    title: 'Esta seguro de eliminarlo?',
+    text: "Luego de hacerlo no podrá revertirlo!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#2F8BE6',
+    cancelButtonColor: '#F55252',
+    confirmButtonText: 'Si, Eliminelo!',
+    customClass: {
+      confirmButton: 'btn btn-primary',
+      cancelButton: 'btn btn-danger ml-1'
+    },
+    buttonsStyling: false,
+  }).then(function (result) {
+    if (result.value) {
+      console.log('Ahi debe eliminar la fila');
 
+      swal.fire({
+        icon: "success",
+        title: 'Borrado!',
+        text: 'El registro fue eliminado con exito',
+        customClass: {
+          confirmButton: 'btn btn-success'
+        },
+      })
 
+    } else if (result.dismiss === swal.DismissReason.cancel) {
+      swal.fire({
+        title: 'Cancelado',
+        text: 'Su registro aun sigue con vida',
+        icon: 'error',
+        customClass: {
+          confirmButton: 'btn btn-success'
+        },
+      })
+    }
+  });
+}
 

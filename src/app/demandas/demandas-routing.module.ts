@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.component';
 import { ListadoDemandasComponent } from './listado-demandas/listado-demandas.component';
 import { RegistroDemandasFormComponent } from './registro-demandas-form/registro-demandas-form.component';
 
@@ -16,6 +17,14 @@ const routes: Routes =
       },
       {
         path: 'registroDemandas',
+        component: RegistroDemandasFormComponent
+      },
+      {
+        path: 'Details/:CodigoDemanda',
+        component: DetalleDemandasComponent
+      },
+      {
+        path: 'Edit/:CodigoDemanda',
         component: RegistroDemandasFormComponent
       }
     ]

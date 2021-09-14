@@ -1,39 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Iaño } from 'app/shared/models/iaño';
-import { IdistritoMunicipal } from 'app/shared/models/idistrito-municipal';
-import { IDropDown } from 'app/shared/models/Idrop-down';
-import { IejeEnd } from 'app/shared/models/ieje-end';
-import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
-import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { Imunicipio } from 'app/shared/models/imunicipio';
-import { IobjetivoEnd } from 'app/shared/models/iobjetivo-end';
-import { Ipolitica } from 'app/shared/models/ipolitica';
-import { Iprovincia } from 'app/shared/models/iprovincia';
-import { Iregion } from 'app/shared/models/iregion';
-import { Itecnico } from 'app/shared/models/itecnico';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 import { passwordValidation } from '../validations/password-validation.directive';
 import { UsernameUnicoService } from '../validations/username-unico.directive';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { Observable, of } from 'rxjs';
-
+import { map } from 'rxjs/operators';
+import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { IejeEnd } from 'app/shared/models/ieje-end';
+import { ItipoInversion } from 'app/shared/models/iTipoInversion';
+import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
+import { DemandasService } from 'app/shared/services/demandas.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-registro-demandas-form',
   templateUrl: './registro-demandas-form.component.html',
-  styleUrls: ['./registro-demandas-form.component.scss']
+  styleUrls: ['./registro-demandas-form.component.scss'],
+  providers: [NGXToastrService]
 })
 export class RegistroDemandasFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private usernameUnicoService: UsernameUnicoService,
-    private dropDownService: DropDownServiceService) { }
+    private dropDownService: DropDownServiceService,
+    private demandaService: DemandasService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private serviceStr: NGXToastrService) { }
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
+    this.route.paramMap.subscribe(params => {
+      if (params.has("CodigoDemanda")) {
+        this.getDemandaParaEditar(params.get("CodigoDemanda"));
+        this.typeEdit = true;
+      }
+    })
+    this.mode = this.typeEdit ? 'Editar' : 'Registro de';
+
   }
 
   //propiedades
@@ -51,32 +58,51 @@ export class RegistroDemandasFormComponent implements OnInit {
   tecnicos: Observable<any[]>;
 
   listadoPoliticas: any[];
+  listadoObjetivos: any[];
   listadoInstituciones: any[];
   listadoActividades: any[];
+  listadoEjes: any[];
+  listadoInversion: any[];
+  InversionesSelected: any[] = [];
+  listadoTipoBeneficiarios: Observable<any[]>;
+  listadoCategoriaBeneficiarios: Observable<any[]>;
+  listadoBeneficiarios: any[];
+  beneficiariosSelected: any[] = [];
 
-  activCount=0;
+  activCount = 0;
+  notFound = false;
+  otrosTiposShow = false;
+  mode: string;
+  typeEdit = false;
+  demandaForEdit: any;
+
 
   registerForm = this.formBuilder.group({
-    año: [],
-    region: [],
-    provincia: [],
-    municipio: [],
+    anio: [null, { validators: [Validators.required] }],
+    region: [null, { validators: [Validators.required] }],
+    provincia: [null, { validators: [Validators.required] }],
+    municipio: [null, { validators: [Validators.required] }],
     distrito: [],
-    fuente: [],
-    eje: [],
-    objetivo: [],
+    fuente: [null, { validators: [Validators.required] }],
+    eje: [null],
+    objetivo: [null],
     demanda: ['', {
       validators: [Validators.required, Validators.minLength(15)],
       asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
     }],
-    tecnico: [],
-    institucionResponsable: [],
+    tecnico: [null, { validators: [Validators.required] }],
+    institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
-    beneficiarios: ['', { validators: [Validators.required], updateOn: 'blur' }],
-    unidad: [''],
     comentarios: [''],
-    actividad: [''],
-    politica: []
+    actividad: [null],
+    politica: [],
+    tiposInversion: [null],
+    otrosTiposInversion: ['', { validators: [Validators.required] }],
+    inversionchkBox: [null],
+    tipo: [null],
+    categoria: [null],
+    cantidad: [null],
+    beneficiarios: [null]
     /*
     password: ['', {
       validators: [Validators.required, Validators.minLength(4), passwordValidation()]
@@ -86,12 +112,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   //getters
   get comentarios() {
     return this.registerForm.get('comentarios');
-  }
-  get beneficiarios() {
-    return this.registerForm.get('beneficiarios');
-  }
-  get telefonos() {
-    return this.registerForm.get('telefonos') as FormArray;
   }
   get password() {
     return this.registerForm.get('password');
@@ -114,7 +134,6 @@ export class RegistroDemandasFormComponent implements OnInit {
   get region() {
     return this.registerForm.get('region');
   }
-
   get provincia() {
     return this.registerForm.get('provincia');
   }
@@ -133,9 +152,30 @@ export class RegistroDemandasFormComponent implements OnInit {
   get objetivo() {
     return this.registerForm.get('objetivo');
   }
+  get tecnico() {
+    return this.registerForm.get('tecnico');
+  }
+  get anio() {
+    return this.registerForm.get('anio');
+  }
+  get otrosTiposInversion() {
+    return this.registerForm.get('otrosTiposInversion');
+  }
+  get tipo() {
+    return this.registerForm.get('tipo');
+  }
+  get categoria() {
+    return this.registerForm.get('categoria');
+  }
+  get cantidad() {
+    return this.registerForm.get('cantidad');
+  }
+  get beneficiarios() {
+    return this.registerForm.get('beneficiarios');
+  }
+
 
   // rellena DropDowns.
-
   llenarDropDownFijos(): void {
 
     // llena el año
@@ -148,16 +188,32 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.fuenteDemandas = this.dropDownService.getFuentes();
 
     // llena ejeEnd
-    this.ejesEnd= this.dropDownService.getEjes();
+    this.ejesEnd = this.dropDownService.getEjes();
 
     // llena Tecnicos
     this.tecnicos = this.dropDownService.getTecnicos();
 
     // llena Instituciones Responsables
-   this.instituciones = this.dropDownService.getInstituciones();
+    this.instituciones = this.dropDownService.getInstituciones();
 
     // llena Politicas
     this.politicas = this.dropDownService.getPoliticas();
+
+    //tipoInversion
+    this.dropDownService.getTipoInversion()
+      .subscribe((inversionesFromTheAPI: ItipoInversion[]) => {
+        this.listadoInversion = inversionesFromTheAPI;
+      }, (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      });
+
+
+    //tipoBeneficiario
+    this.listadoTipoBeneficiarios = this.dropDownService.getTipoBeneficiarios();
+
+    //categoriaBeneficiario
+    this.listadoCategoriaBeneficiarios = this.dropDownService.getCategoriasBeneficiarios();
 
   } // fin llenarDropDownFijos
 
@@ -169,9 +225,9 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.municipios = null;
     this.distritosMunicipales = null;
     this.registerForm.patchValue({
-         provincia:null,
-         municipio: null,
-         distrito:null
+      provincia: null,
+      municipio: null,
+      distrito: null
     });
   }
 
@@ -181,115 +237,278 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.municipios = this.dropDownService.getMunicipiosByProvincia(id);
     this.distritosMunicipales = null;
     this.registerForm.patchValue({
-      municipio:null,
-      distrito:null
+      municipio: null,
+      distrito: null
     });
   }
 
   // llena Los distritos de acuerdo a los municipios
   onMunicipiosChange(id: number): void {
-
     this.distritosMunicipales = this.dropDownService.getDistritosByMunicipio(id);
-    this.registerForm.patchValue({
-      distrito:null
-    });
+    this.distrito.setValue(null);
   }
 
   // llena Los objetivos de acuerdo a los ejes
   onEjeChange(id: number): void {
+    console.log(id);
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
-    this.registerForm.patchValue({
-      objetivo:null
-    });
+    this.objetivo.setValue(null);
   }
   //end dropDowns
 
   //****************************otros metodos******************************* */
 
-  agregarPolitica() {
-    if(this.listadoPoliticas == null)
-    {
-      this.listadoPoliticas = [];
-    }
-    let politicaSelected = this.politica.value;
-    this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
-    this.registerForm.patchValue({
-      politica:null
+  getDemandaParaEditar(CodigoDemanda: string) {
+    this.notFound = false;
+    this.demandaForEdit = null;
+
+    this.demandaService.getDemandaByCodigo(CodigoDemanda).subscribe((demandaFromTheAPI: any[]) => {
+      this.demandaForEdit = demandaFromTheAPI[0];
+
+      // pendiente hasta que haya backend
+      this.registerForm.patchValue({
+        anio: [],
+        region: [],
+        provincia: [],
+        municipio: [],
+        distrito: [],
+        fuente: [],
+        eje: [],
+        objetivo: [],
+        demanda: [],
+        tecnico: [],
+        institucionResponsable: [],
+        institucionesColaboradoras: [],
+        comentarios: this.demandaForEdit.Comentarios,
+        actividad: [],
+        politica: [],
+        tiposInversion: [],
+        otrosTiposInversion: [],
+        inversionchkBox: [],
+        tipo: [],
+        categoria: [],
+        cantidad: [],
+        beneficiarios: []
+      });
+
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
     });
   }
 
-  eliminarPolitica(id: number) {
+  agregarPolitica() {
 
-    this.listadoPoliticas.splice(
-      this.listadoPoliticas.find((item, index) => {
-        if (item.PoliticaId == id)
-          return index
-      }), 1
-    );
+    let politicaSelected = this.politica.value;
+    if (politicaSelected != null) {
+      if (this.listadoPoliticas == null) {
+        this.listadoPoliticas = [];
+      }
+      if (this.listadoPoliticas.findIndex(item => item.PoliticaId == politicaSelected.PoliticaId) == -1) {
+        this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
+      }
+      else {
+        this.serviceStr.typeWarning('No puede repetir politicas');
+      }
+    } else {
+      this.serviceStr.typeError('No ha seleccionado politica');
+    }
+    this.politica.setValue(null);
+
+  }
+
+  eliminarPolitica(id: number) {
+    this.listadoPoliticas.splice(id, 1);
   }
 
   agregarInstitucion() {
-    if(this.listadoInstituciones == null)
-    {
-      this.listadoInstituciones = [];
-    }
+
     let institucionSelected = this.institucionesColaboradoras.value;
-    console.log(institucionSelected);
-    this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+
+    if (institucionSelected != null) {
+      if (institucionSelected.InstitucionId != this.institucionResponsable.value) {
+        if (this.listadoInstituciones == null) {
+          this.listadoInstituciones = [];
+        }
+        if (this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected.InstitucionId) == -1) {
+          this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+        }
+        else {
+          this.serviceStr.typeWarning('No puede repetir Instituciones');
+        }
+      } else {
+        this.serviceStr.typeError('Esa ya es la institucion primaria');
+      }
+
+    } else {
+      this.serviceStr.typeError('No ha seleccionado institucion colaboradora');
+    }
+
     this.registerForm.patchValue({
-      institucionesColaboradoras:null
+      institucionesColaboradoras: null
     });
   }
 
   eliminarInstitucion(id: number) {
+    this.listadoInstituciones.splice(id, 1);
+  }
 
-    this.listadoInstituciones.splice(
-      this.listadoInstituciones.find((item, index) => {
-        if (item.InstitucionId == id)
-          return index
-      }), 1
-    );
+  onInstitucionPrimariaChange(): void {
+    let institucionSelected = this.institucionResponsable.value;
+    if (this.listadoInstituciones != null) {
+      let indice = this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected);
+      if (indice != -1) {
+        this.serviceStr.typeError('Esa ya es una institución colaboradora');
+        this.institucionResponsable.setValue(null);
+      }
+    }
   }
 
   agregarActividad() {
-    if(this.listadoActividades == null)
-    {
-      this.listadoActividades = [];
+
+    if (this.actividad.value != null) {
+      if (this.listadoActividades == null) {
+        this.listadoActividades = [];
+      }
+      this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: this.actividad.value })
+      this.activCount++;
     }
-    this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: "" + (this.activCount + 1) + "-" + this.actividad.value })
-    this.activCount++;
+    else {
+      this.serviceStr.typeError('No puede añadir actividades vacias');
+    }
+
     this.registerForm.patchValue({
       actividad: null
     });
   }
 
   eliminarActividad(id: number) {
+    this.listadoActividades.splice(id, 1);
+  }
 
-    this.listadoActividades.splice(
-      this.listadoActividades.find((item, index) => {
-        if (item.ActividadId == id)
-          return index
-      }), 1
-    );
+  onTipoInversionChange(evento: any, tipo: string) {
+    if (tipo != 'Otro') {
+      if (evento.target.checked) {
+        this.InversionesSelected.push(tipo);
+      }
+      else {
+        this.InversionesSelected = this.InversionesSelected.filter(t => t != tipo);
+      }
+    }
+    else {
+      this.otrosTiposShow = !this.otrosTiposShow;
+    }
+
+  }
+
+
+  agregarBeneficiario() {
+    let tipoSelected = this.tipo.value;
+    let categoriaSelected = this.categoria.value;
+    let cantidad = this.cantidad.value;
+
+    if (tipoSelected != null && categoriaSelected != null && cantidad != null) {
+      if (this.listadoBeneficiarios == null) {
+        this.listadoBeneficiarios = [];
+      }
+
+      let combinedSelection = tipoSelected.Nombre + categoriaSelected.Nombre;
+      let repetido = this.listadoBeneficiarios.findIndex(item => item.seleccionCombinada == combinedSelection);
+
+      if (repetido == -1) {
+        this.listadoBeneficiarios.push({
+          Id: 0, tipoId: tipoSelected.Id, tipoNombre: tipoSelected.Nombre,
+          categoriaId: categoriaSelected.Id, categoriaNombre: categoriaSelected.Nombre,
+          cantidad: cantidad, Activo: 1, codigoDemanda: this.codigoDemanda,
+          seleccionCombinada: combinedSelection
+        });
+
+        this.registerForm.patchValue({
+          tipo: null,
+          categoria: null,
+          cantidad: null,
+        });
+
+      } else {
+        this.serviceStr.typeError('Ya hay una seleccion con esa combinacion tipo-categoria');
+      }
+    } else {
+      this.serviceStr.typeError('No ha rellenado todos los campos de beneficiarios');
+    }
+
+  }
+
+  removerBeneficiario(index: number) {
+    this.listadoBeneficiarios.splice(index, 1);
+  }
+
+  agregarObjetivo() {
+
+    let objetivoSelected = this.objetivo.value;
+
+    if (objetivoSelected != null) {
+      if (this.listadoObjetivos == null) {
+        this.listadoObjetivos = [];
+      }
+      if (this.listadoObjetivos.findIndex(item => item.ObjetivoId == objetivoSelected.ObjetivoId) == -1) {
+        this.listadoObjetivos.push({
+          EjeId: objetivoSelected.EjeId, ObjetivoId: objetivoSelected.ObjetivoId,
+          CodigoEje: objetivoSelected.CodigoEje, Nombre: objetivoSelected.Nombre, Activo: objetivoSelected.Activo
+        })
+      }
+      else {
+        this.serviceStr.typeWarning('No puede repetir objetivos');
+      }
+    } else {
+      this.serviceStr.typeError('No ha seleccionado objetivo');
+    }
+    this.objetivo.setValue(null);
+    this.eje.setValue(null);
+
+  }
+
+  eliminarObjetivo(id: number) {
+    this.listadoObjetivos.splice(id, 1);
   }
 
   submit() {
     if (!this.registerForm.valid) {
-      alert('Alguna regla de validación no se está cumpliendo');
+      this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
+    if (this.otrosTiposShow) {
+      this.InversionesSelected.push(this.otrosTiposInversion.value);
+    }
+
+    let listadoEjes = [];
+    for (let item of this.listadoObjetivos) {
+      listadoEjes.push({ ejeId: item.EjeId });
+    }
+
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
       institucionesColaboradoras: this.listadoInstituciones,
-      actividad: this.listadoActividades
+      actividad: this.listadoActividades,
+      tiposInversion: this.InversionesSelected,
+      beneficiarios: this.listadoBeneficiarios,
+      objetivo: this.listadoObjetivos,
+      eje: listadoEjes
+
     });
     console.log(this.registerForm.value);
+    this.refrescar();
   }
 
   refrescar() {
-    this.registerForm.patchValue({
 
-    });
+    this.registerForm.reset();
+    this.listadoPoliticas = null;
+    this.listadoObjetivos = null;
+    this.listadoInstituciones = null;
+    this.listadoActividades = null;
+    this.listadoBeneficiarios = null;
+    this.InversionesSelected = [];
+    this.otrosTiposShow = false;
 
   }
 

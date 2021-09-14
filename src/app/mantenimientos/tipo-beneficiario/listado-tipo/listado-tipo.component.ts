@@ -1,0 +1,229 @@
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { DatatableData } from './data/datatables.data';
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType
+} from '@swimlane/ngx-datatable';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../../shared/data/sweet-alerts';
+import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
+
+declare var require: any;
+const data: any = require('../../../shared/data/tipoBeneficiario.json');
+
+@Component({
+  selector: 'app-listado-tipo',
+  templateUrl: './listado-tipo.component.html',
+  styleUrls: ['./listado-tipo.component.scss', '../../../../assets/sass/libs/datatables.scss'],
+  encapsulation: ViewEncapsulation.None
+})
+export class ListadoTipoComponent implements OnInit {
+
+
+  loadingIndicator: boolean = true;
+  reorderable: boolean = true;
+
+  // public
+  public contentHeader: object;
+
+  //data:any[];
+  notFound = false;
+
+  // row data
+  public rows = data;
+
+  // column header
+  public columns = [
+    { name: 'Tipo beneficiario', prop: 'Nombre' },
+
+  ];
+
+  // multi Purpose datatable Row data
+  public multiPurposeRows = DatatableData;
+
+  public ColumnMode = ColumnMode;
+
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  @ViewChild('tableResponsive') tableResponsive: any;
+
+  public expanded: any = {};
+
+  public editing = {};
+
+  public chkBoxSelected = [];
+  public SelectionType = SelectionType;
+
+  // server side row data
+  public serverSideRowData;
+
+  // private
+  private tempData = [];
+  private multiPurposeTemp = [];
+
+  /**
+   * inlineEditingUpdate
+   *
+   * @param event
+   * @param cell
+   * @param rowIndex
+   */
+  inlineEditingUpdate(event, cell, rowIndex) {
+    this.editing[rowIndex + '-' + cell] = false;
+    this.rows[rowIndex][cell] = event.target.value;
+    this.rows = [...this.rows];
+  }
+
+  /**
+   * filterUpdate
+   *
+   * @param code
+   */
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.tempData.filter(function (d) {
+      return d.Nombre.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
+  /**
+   * rowDetailsToggleExpand
+   *
+   * @param row
+   */
+  rowDetailsToggleExpand(row) {
+    this.tableRowDetails.rowDetail.toggleExpandRow(row);
+  }
+
+  /**
+   * toggleExpandRowResponsive
+   *
+   * @param row
+   */
+  toggleExpandRowResponsive(row) {
+    this.tableResponsive.rowDetail.toggleExpandRow(row);
+  }
+
+  /**
+   * customChkboxOnSelect
+   *
+   * @param { selected }
+   */
+  customChkboxOnSelect({ selected }) {
+    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
+    this.chkBoxSelected.push(...selected);
+  }
+
+  /**
+   * serverSideSetPage
+   *
+   * @param event
+   */
+  serverSideSetPage(event) {
+    this.http
+      .get('assets/data/datatable-data.json')
+      .pipe(map((data) => data as Array<any>))
+      .subscribe((data) => {
+        this.serverSideRowData = data;
+      });
+  }
+
+  /**
+   * MultiPurposeFilterUpdate
+   *
+   * @param event
+   */
+  MultiPurposeFilterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.multiPurposeTemp.filter(function (d) {
+      return d.full_name.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.multiPurposeRows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
+  /**
+   * Constructor
+   *
+   * @param {HttpClient} http
+   */
+  constructor(private http: HttpClient, private tipoBeneficiarioService: TipoBeneficiarioService, private router: Router) {
+    this.tempData = data;
+    this.multiPurposeTemp = DatatableData;
+    setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+
+   //Actions Methods
+
+   verDetalles(Id: string) {
+    this.router.navigate(["/tipoBeneficiario", 'Details', Id]);
+  }
+  editar(Id: string) {
+    this.router.navigate(["/tipoBeneficiario", 'Edit', Id]);
+  }
+  eliminar(Id: number) {
+    alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
+
+  }
+
+
+  // Lifecycle Hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
+  ngOnInit() {
+    // Initially load first page
+    this.serverSideSetPage({ offset: 0 });
+
+    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
+      this.data = demandasFromTheAPI;
+      this.rows =this.data;
+    }, (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    }); */
+
+    // content header
+    this.contentHeader = {
+      headerTitle: 'Datatables',
+      actionButton: true,
+      breadcrumb: {
+        type: '',
+        links: [
+          {
+            name: 'Home',
+            isLink: true,
+            link: '#'
+          },
+          {
+            name: 'Forms & Tables',
+            isLink: true,
+            link: ''
+          },
+          {
+            name: 'Datatables',
+            isLink: false
+          }
+        ]
+      }
+    };
+  }
+
+}

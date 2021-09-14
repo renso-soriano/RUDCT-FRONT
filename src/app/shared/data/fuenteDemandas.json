@@ -1,0 +1,27 @@
+﻿ [
+        {
+            "FuenteId": "001",
+            "Nombre": "PLAN MUNICIPAL DE DESARROLLO",
+            "Activo": "1"
+        },
+        {
+            "FuenteId": "002",
+            "Nombre": "DEMANDAS PROVINCIALES",
+            "Activo": "1"
+        },
+        {
+            "FuenteId": "003",
+            "Nombre": "PLAN REGIONAL DE DESARROLLO",
+            "Activo": "1"
+        },
+        {
+            "FuenteId": "004",
+            "Nombre": "PLAN DESARROLLO ECONOMICO LOCAL",
+            "Activo": "1"
+        },
+        {
+            "FuenteId": "005",
+            "Nombre": "OTROS",
+            "Activo": "1"
+        }
+]
