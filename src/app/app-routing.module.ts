@@ -6,8 +6,7 @@ import { ContentLayoutComponent } from "./layouts/content/content-layout.compone
 
 import { Full_ROUTES } from "./shared/routes/full-layout.routes";
 import { CONTENT_ROUTES } from "./shared/routes/content-layout.routes";
-
-import { AuthGuard } from './shared/auth/auth-guard.service';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const appRoutes: Routes = [
   {

@@ -2,8 +2,8 @@ import {
   Component, OnInit, ViewChild, OnDestroy,
   ElementRef, AfterViewInit, ChangeDetectorRef, HostListener
 } from "@angular/core";
-import { ROUTES } from './vertical-menu-routes.config';
-import { HROUTES } from '../horizontal-menu/navigation-routes.config';
+//import { this.bcMenu } from './vertical-menu-routes.config';
+//import { this.bcMenu } from '../horizontal-menu/navigation-routes.config';
 
 import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
+import { AuthService } from "../services/core/auth.service";
+import { RouteInfo } from "./vertical-menu.metadata";
 
 @Component({
   selector: "app-sidebar",
@@ -31,6 +33,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   perfectScrollbarEnable = true;
   collapseSidebar = false;
   resizeTimeout;
+  bcMenu: RouteInfo[];
 
   constructor(
     private router: Router,
@@ -38,16 +41,18 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private authService: AuthService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
     this.isTouchDevice();
+    this.bcMenu = this.authService.getMenu();
   }
 
 
   ngOnInit() {
-    this.menuItems = ROUTES;
+    this.menuItems = this.bcMenu;
   }
 
   ngAfterViewInit() {
@@ -86,11 +91,11 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.config.layout.menuPosition === "Top") { // Horizontal Menu
       if (this.innerWidth < 1200) { // Screen size < 1200
-        this.menuItems = HROUTES;
+        this.menuItems = this.bcMenu;
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = ROUTES;
+      this.menuItems = this.bcMenu;
     }
 
 

@@ -7,7 +7,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 
 import { ComingSoonPageComponent } from "./coming-soon/coming-soon-page.component";
-import { ErrorPageComponent } from "./error/error-page.component";
+import { ErrorPageComponent } from "./error1/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
 import { LockScreenPageComponent } from "./lock-screen/lock-screen-page.component";
 import { MaintenancePageComponent } from "./maintenance/maintenance-page.component";
@@ -15,6 +15,7 @@ import { RegisterPageComponent } from "./register/register-page.component";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Error401Component } from './error401/error401.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -42,7 +43,8 @@ export function createTranslateLoader(http: HttpClient) {
     ForgotPasswordPageComponent,
     LockScreenPageComponent,
     MaintenancePageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    Error401Component
   ]
 })
 export class ContentPagesModule { }

@@ -1,13 +1,15 @@
 import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { DOCUMENT } from '@angular/common';
 import { CustomizerService } from '../services/customizer.service';
 import { FormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/core/auth.service';
+import { map, share } from 'rxjs/operators';
 
 @Component({
   selector: "app-navbar",
@@ -30,6 +32,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
+  completeName: string;
 
   @ViewChild('search') searchElement: ElementRef;
   @ViewChildren('searchResults') searchResults: QueryList<any>;
@@ -45,9 +48,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public config: any = {};
 
+  rxTime = new Date();
+  timer: Subscription;
+
   constructor(public translate: TranslateService,
     private layoutService: LayoutService,
     private router: Router,
+    private authService: AuthService,
     private configService: ConfigService, private cdr: ChangeDetectorRef) {
 
     const browserLang: string = translate.getBrowserLang();
@@ -71,6 +78,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
+
+    this.completeName = this.authService.getUserCompleteName();
+
+    this.timer = timer(0, 1000)
+      .pipe(
+        map(() => new Date()),
+        share()
+      )
+      .subscribe(time => {
+        this.rxTime = time;
+      });
   }
 
   ngAfterViewInit() {
@@ -91,6 +109,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.configSub) {
       this.configSub.unsubscribe();
+    }
+
+    if (this.timer) {
+      this.timer.unsubscribe();
     }
   }
 
@@ -224,5 +246,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleSidebar() {
     this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
+  }
+
+  logOut(): void {
+    this.authService.logOut();
   }
 }

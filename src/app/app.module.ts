@@ -7,7 +7,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrModule } from "ngx-toastr";
 import { AgmCoreModule } from "@agm/core";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
@@ -26,9 +26,11 @@ import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
 
-import { AuthService } from "./shared/auth/auth.service";
-import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
+import { AuthService } from "./shared/services/core/auth.service";
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { RoleGuard } from "./shared/guards/role.guard";
+import { InterceptorService } from "./shared/services/core/interceptor.service";
 
 
 
@@ -80,13 +82,15 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     AuthService,
     AuthGuard,
+    RoleGuard,
     DragulaService,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    WINDOW_PROVIDERS
+    WINDOW_PROVIDERS,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

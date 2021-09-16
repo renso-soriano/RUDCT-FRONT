@@ -9,11 +9,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from 'app/app.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

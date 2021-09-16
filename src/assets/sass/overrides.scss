@@ -99,3 +99,28 @@ html body.layout-dark {
     }
   }
 }
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  border: 1px solid #003876;
+  border-left: 0!important;
+  border-top-right-radius: .35rem;
+  border-bottom-right-radius: .35rem;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: #003876;
+  color: #fff;
+  border-radius: .35rem;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon {
+  border: 1px solid #003876;
+  border-right: 0!important;
+  border-top-left-radius: .35rem;
+  border-bottom-left-radius: .35rem;
+  padding: 1px 0 1px 5px;
+}
+
+section#error {
+  background: #c3c3c3;
+}

@@ -64,25 +64,15 @@
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">John Doe</span><span
-                  class="text-right text-muted font-small-3">Available</span>
+                <span class="text-right">{{ completeName }}</span><span
+                  class="text-right text-muted font-small-3">{{ rxTime | date: 'hh:mm:ss a' }}</span>
               </div>
               <img class="avatar" src="assets/img/no_user.png" alt="avatar" height="35" width="35" />
             </a>
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
-              <a class="dropdown-item" routerLink="/pages/profile">
-                <div class="d-flex align-items-center">
-                  <i class="ft-edit mr-2"></i><span>Edit Profile</span>
-                </div>
-              </a>
-<!--               <a class="dropdown-item" routerLink="/inbox">
-                <div class="d-flex align-items-center">
-                  <i class="ft-mail mr-2"></i><span>My Inbox</span>
-                </div>
-              </a> -->
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" routerLink="/auth/login">
+              <a class="dropdown-item" (click)="logOut()">
                 <div class="d-flex align-items-center">
                   <i class="ft-power mr-2"></i><span>Logout</span>
                 </div>
