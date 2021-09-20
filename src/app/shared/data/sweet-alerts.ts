@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import swal from 'sweetalert2';
 
 
@@ -465,7 +466,7 @@ export function ConfirmColor() {
 
 //eliminar Registro
 
-export function EliminarRegistro(tipo: string, id: number) {
+export function EliminarRegistro(tipo: string, id: number, observable?: Observable<any>) {
   swal.fire({
     title: 'Esta seguro de eliminarlo?',
     text: "Luego de hacerlo no podrá revertirlo!",
@@ -482,16 +483,22 @@ export function EliminarRegistro(tipo: string, id: number) {
   }).then(function (result) {
     if (result.value) {
       console.log('Ahi debe eliminar la fila');
-
-      swal.fire({
-        icon: "success",
-        title: 'Borrado!',
-        text: 'El registro fue eliminado con exito',
-        customClass: {
-          confirmButton: 'btn btn-success'
-        },
-      })
-
+      if(observable !== undefined) {
+        observable.subscribe(
+          () => {},
+          (err) => console.error(err),
+          () => {
+            swal.fire({
+              icon: "success",
+              title: 'Borrado!',
+              text: 'El registro fue eliminado con exito',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              },
+            })
+          }
+        )
+      }
     } else if (result.dismiss === swal.DismissReason.cancel) {
       swal.fire({
         title: 'Cancelado',

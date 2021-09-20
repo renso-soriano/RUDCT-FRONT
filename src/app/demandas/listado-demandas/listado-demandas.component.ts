@@ -179,7 +179,7 @@ export class ListadoDemandasComponent implements OnInit {
     this.router.navigate(["/demandas", 'Edit', CodigoDemanda]);
   }
   eliminar(CodigoDemanda: number) {
-    alertFunctions.EliminarRegistro("demandas", CodigoDemanda);
+    alertFunctions.EliminarRegistro("demandas", CodigoDemanda, this.demandasService.deletePersona(""));
 
   }
 
