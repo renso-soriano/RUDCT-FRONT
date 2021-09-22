@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
-import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
+import { TipoBeneficiarioService } from 'app/shared/services/mantenimientos/tipo-beneficiario.service';
 
 declare var require: any;
 const data: any = require('../../../shared/data/tipoBeneficiario.json');

@@ -39,12 +39,19 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <div class="btn-group">
-                        <label class="btn-outline-primary" ngbButtonLabel>
-                          <input type="checkbox" formControlName="activo" ngbButton> activa
-                        </label>
+                      <label for="estatus">Estatus</label>
+                      <input type="text" class="form-control" name="estatus" id="estatus" formControlName="estatus">
+
+                      <div *ngIf="nombre.invalid && (estatus.dirty || estatus.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="estatus.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
 
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -64,7 +71,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/categoriaBeneficiario']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/mantenimientos/categoria_beneficiarios']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>

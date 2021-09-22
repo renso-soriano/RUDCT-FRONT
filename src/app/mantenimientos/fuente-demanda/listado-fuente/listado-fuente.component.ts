@@ -7,9 +7,9 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { DemandasService } from 'app/shared/services/demandas.service';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
-import { FuenteService } from 'app/shared/services/fuente.service';
+import { FuenteService } from 'app/shared/services/mantenimientos/fuente.service';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
 
 declare var require: any;

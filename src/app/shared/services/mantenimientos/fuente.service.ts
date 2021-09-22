@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IfuenteDemanda } from '../models/ifuente-demanda';
+import { IfuenteDemanda } from '../../models/ifuente-demanda';
 
 @Injectable({
   providedIn: 'root'

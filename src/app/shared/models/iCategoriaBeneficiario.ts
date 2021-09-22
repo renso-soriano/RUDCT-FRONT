@@ -1,5 +1,5 @@
 export interface IcategoriaBeneficiario {
-  Id?: number,
-  Nombre: string,
-  Activo: number
+  id?: number,
+  nombre: string,
+  estatus: string
 }

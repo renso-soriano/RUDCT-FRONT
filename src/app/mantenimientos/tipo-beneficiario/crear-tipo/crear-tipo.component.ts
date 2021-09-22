@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
-import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
+import { TipoBeneficiarioService } from 'app/shared/services/mantenimientos/tipo-beneficiario.service';
 
 @Component({
   selector: 'app-crear-tipo',
@@ -67,8 +67,8 @@ export class CrearTipoComponent implements OnInit {
     this.notFound = false;
     this.tipoBeneficiario = null;
 
-    this.tipoBeneficiarioService.getTipoBeneficiariosById(Id).subscribe((tipoBeneficiarioFromTheAPI: ItipoBeneficiario[]) => {
-      this.tipoBeneficiario = tipoBeneficiarioFromTheAPI[0];
+    this.tipoBeneficiarioService.getTipoBeneficiariosById(Id).subscribe((tipoBeneficiarioFromTheAPI: ItipoBeneficiario) => {
+      this.tipoBeneficiario = tipoBeneficiarioFromTheAPI;
 
       this.registerForm.patchValue({
         nombre: this.tipoBeneficiario.Nombre,

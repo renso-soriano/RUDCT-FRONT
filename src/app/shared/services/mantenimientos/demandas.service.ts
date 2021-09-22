@@ -1,6 +1,6 @@
-import { environment } from './../../../environments/environment';
-import { IDropDown } from './../models/Idrop-down';
-import { IDemanda } from './../models/Idemanda';
+import { environment } from '../../../../environments/environment';
+import { IDropDown } from '../../models/Idrop-down';
+import { IDemanda } from '../../models/Idemanda';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { InstitucionService } from 'app/shared/services/institucion.service';
+import { InstitucionService } from 'app/shared/services/mantenimientos/institucion.service';
 
 @Component({
   selector: 'app-detalle-institucion',

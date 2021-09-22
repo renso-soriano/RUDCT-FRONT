@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ipolitica } from 'app/shared/models/ipolitica';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
-import { PoliticaService } from 'app/shared/services/politica.service';
+import { PoliticaService } from 'app/shared/services/mantenimientos/politica.service';
 
 @Component({
   selector: 'app-crear-politica',

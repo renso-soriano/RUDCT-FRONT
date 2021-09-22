@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
-import { FuenteService } from 'app/shared/services/fuente.service';
+import { FuenteService } from 'app/shared/services/mantenimientos/fuente.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 
 @Component({

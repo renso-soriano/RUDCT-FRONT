@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
-import { passwordValidation } from '../validations/password-validation.directive';
-import { UsernameUnicoService } from '../validations/username-unico.directive';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,7 +8,7 @@ import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { IejeEnd } from 'app/shared/models/ieje-end';
 import { ItipoInversion } from 'app/shared/models/iTipoInversion';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
-import { DemandasService } from 'app/shared/services/demandas.service';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -23,7 +21,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class RegistroDemandasFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-    private usernameUnicoService: UsernameUnicoService,
     private dropDownService: DropDownServiceService,
     private demandaService: DemandasService,
     private route: ActivatedRoute,
@@ -87,8 +84,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     eje: [null],
     objetivo: [null],
     demanda: ['', {
-      validators: [Validators.required, Validators.minLength(15)],
-      asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)]
+      validators: [Validators.required, Validators.minLength(15)]
     }],
     tecnico: [null, { validators: [Validators.required] }],
     institucionResponsable: [null, { validators: [Validators.required] }],
@@ -103,10 +99,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     categoria: [null],
     cantidad: [null],
     beneficiarios: [null]
-    /*
-    password: ['', {
-      validators: [Validators.required, Validators.minLength(4), passwordValidation()]
-    }], */
   });
 
   //getters

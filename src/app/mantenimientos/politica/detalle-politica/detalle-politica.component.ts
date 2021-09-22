@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ipolitica } from 'app/shared/models/ipolitica';
-import { PoliticaService } from 'app/shared/services/politica.service';
+import { PoliticaService } from 'app/shared/services/mantenimientos/politica.service';
 
 @Component({
   selector: 'app-detalle-politica',

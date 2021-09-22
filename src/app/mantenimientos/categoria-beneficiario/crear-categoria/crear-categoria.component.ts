@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IcategoriaBeneficiario } from 'app/shared/models/iCategoriaBeneficiario';
-import { CategoriaBeneficiarioService } from 'app/shared/services/categoria-beneficiario.service';
+import { CategoriaBeneficiarioService } from 'app/shared/services/mantenimientos/categoria-beneficiario.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 
 @Component({
@@ -37,27 +37,27 @@ export class CrearCategoriaComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
-    activo: [true],
-    Id: [0]
+    estatus: [null, { validators: [Validators.required] }],
+    id: [null]
   });
 
   //getters
   get nombre() {
     return this.registerForm.get('nombre');
   }
-  get Id() {
-    return this.registerForm.get('Id');
+  get id() {
+    return this.registerForm.get('id');
   }
-  get activo() {
-    return this.registerForm.get('activo');
+  get estatus() {
+    return this.registerForm.get('estatus');
   }
 
   //CrudMethods
-  guardar(tipo: IcategoriaBeneficiario) {
+  guardar(categoria: IcategoriaBeneficiario) {
     if (this.typeEdit) {
-      this.categoriaBeneficiarioService.updateTipo(tipo.Id, tipo);
+      this.categoriaBeneficiarioService.updateCategoria(categoria.id, categoria);
     } else {
-      this.categoriaBeneficiarioService.createTipo(tipo);
+      this.categoriaBeneficiarioService.createCategoria(categoria);
     }
 
   }
@@ -66,13 +66,13 @@ export class CrearCategoriaComponent implements OnInit {
     this.notFound = false;
     this.categoriaBeneficiario = null;
 
-    this.categoriaBeneficiarioService.getCategoriaBeneficiariosById(Id).subscribe((categoriaBeneficiarioFromTheAPI: IcategoriaBeneficiario[]) => {
-      this.categoriaBeneficiario = categoriaBeneficiarioFromTheAPI[0];
+    this.categoriaBeneficiarioService.getCategoriaBeneficiariosById(Id).subscribe((categoriaBeneficiarioFromTheAPI: IcategoriaBeneficiario) => {
+      this.categoriaBeneficiario = categoriaBeneficiarioFromTheAPI;
 
       this.registerForm.patchValue({
-        nombre: this.categoriaBeneficiario.Nombre,
-        activo: this.categoriaBeneficiario.Activo == 1 ? true : false,
-        InstitucionId: this.categoriaBeneficiario.Id
+        nombre: this.categoriaBeneficiario.nombre,
+        estatus: this.categoriaBeneficiario.estatus,
+        id: this.categoriaBeneficiario.id
       });
 
     }, (err: any) => {
@@ -87,9 +87,9 @@ export class CrearCategoriaComponent implements OnInit {
       return;
     }
     const categoriaBeneficiario = {
-      Id: this.Id.value,
-      Nombre: this.nombre.value,
-      Activo: this.activo.value
+      id: this.id.value,
+      nombre: this.nombre.value,
+      status: this.estatus.value
     }
 
     console.log(categoriaBeneficiario);

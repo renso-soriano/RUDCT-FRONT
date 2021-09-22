@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
-import { FuenteService } from 'app/shared/services/fuente.service';
+import { FuenteService } from 'app/shared/services/mantenimientos/fuente.service';
 
 @Component({
   selector: 'app-detalle-fuente',

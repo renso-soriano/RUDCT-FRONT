@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ItipoBeneficiario } from '../models/iTipoBeneficiario';
+import { ItipoBeneficiario } from '../../models/iTipoBeneficiario';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class TipoBeneficiarioService {
 
   constructor(private http: HttpClient) { }
 
-  private URL = environment.apiUrl + "/demandas/tipoBeneficiario/";
+  private URL = environment.apiUrl + "tipoBeneficiario/";
   private baseUrl = './assets/data/';
 
 
@@ -20,14 +20,14 @@ export class TipoBeneficiarioService {
     return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json');
   }
 
-  getTipoBeneficiariosById(Id: number): Observable<ItipoBeneficiario[]> {
-    //return this.http.get<Iinstitucion>(this.URL + idInstitucion, {params: params});
+  getTipoBeneficiariosById(Id: number): Observable<ItipoBeneficiario> {
+    return this.http.get<ItipoBeneficiario>(this.URL + Id);
 
-    return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json').pipe(
+    /* return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json').pipe(
       map(tipos =>
         tipos.filter(tipo => tipo.Id == Id)
       )
-    );
+    ); */
   }
 
   createTipo(tipo: ItipoBeneficiario):void
