@@ -34,8 +34,8 @@ export class DetalleFuenteComponent implements OnInit {
     this.notFound = false;
     this.fuente = null;
 
-    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI : IfuenteDemanda[]) => {
-      this.fuente = fuenteFromTheAPI[0];
+    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI : IfuenteDemanda) => {
+      this.fuente = fuenteFromTheAPI;
 
     }, (err: any) => {
       console.error(err);

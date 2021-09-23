@@ -28,5 +28,10 @@ export const Full_ROUTES: Routes = [
     canActivate: [RoleGuard],
     path: 'mantenimientos/categoria_beneficiarios',
     loadChildren: () => import('../../mantenimientos/categoria-beneficiario/categoria-beneficiario.module').then(m => m.CategoriaBeneficiarioModule)
+  },
+  {
+    canActivate: [RoleGuard],
+    path: 'mantenimientos/tecnicos',
+    loadChildren: () => import('../../mantenimientos/tecnicos/tecnicos.module').then(m => m.TecnicosModule)
   }
 ];

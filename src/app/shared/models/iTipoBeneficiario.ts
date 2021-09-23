@@ -1,5 +1,5 @@
 export interface ItipoBeneficiario {
-  Id?: number,
-  Nombre: string,
-  Activo: number
+  id?: number,
+  nombre: string,
+  estatus: number
 }

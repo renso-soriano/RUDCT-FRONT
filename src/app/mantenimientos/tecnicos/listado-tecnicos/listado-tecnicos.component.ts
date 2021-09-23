@@ -11,25 +11,18 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
-import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { Router } from "@angular/router";
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
-import { CategoriaBeneficiarioService } from "app/shared/services/mantenimientos/categoria-beneficiario.service";
-
-/* declare var require: any;
-const data: any = require('../../../shared/data/categoriaBeneficiario.json'); */
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { TecnicosService } from 'app/shared/services/mantenimientos/tecnicos.service';
 
 @Component({
-  selector: "app-listado-categoria",
-  templateUrl: "./listado-categoria.component.html",
-  styleUrls: [
-    "./listado-categoria.component.scss",
-    "../../../../assets/sass/libs/datatables.scss",
-  ],
-  encapsulation: ViewEncapsulation.None,
+  selector: 'app-listado-tecnicos',
+  templateUrl: './listado-tecnicos.component.html',
+  styleUrls: ['./listado-tecnicos.component.scss']
 })
-export class ListadoCategoriaComponent implements OnInit {
+export class ListadoTecnicosComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
@@ -168,7 +161,7 @@ export class ListadoCategoriaComponent implements OnInit {
    */
   constructor(
     private http: HttpClient,
-    private categoriaBeneficiarioService: CategoriaBeneficiarioService,
+    private tecnicosService: TecnicosService,
     private router: Router
   ) {
     this.tempData = [];
@@ -183,7 +176,7 @@ export class ListadoCategoriaComponent implements OnInit {
   verDetalles(Id: string) {
     this.router.navigate([
       "/mantenimientos",
-      "categoria_beneficiarios",
+      "tecnicos",
       "Details",
       Id,
     ]);
@@ -191,7 +184,7 @@ export class ListadoCategoriaComponent implements OnInit {
   editar(Id: string) {
     this.router.navigate([
       "/mantenimientos",
-      "categoria_beneficiarios",
+      "tecnicos",
       "Edit",
       Id,
     ]);
@@ -219,9 +212,9 @@ export class ListadoCategoriaComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    this.categoriaBeneficiarioService.getCategoriasBeneficiarios().subscribe(
-      (categoriasFromTheAPI: any) => {
-        this.data = categoriasFromTheAPI;
+    this.tecnicosService.getTecnicos().subscribe(
+      (tecnicosFromTheAPI: any) => {
+        this.data = tecnicosFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
         this.triggerFalseClick();

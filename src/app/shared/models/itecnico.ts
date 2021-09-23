@@ -1,5 +1,10 @@
 export interface Itecnico {
-  Id?: number,
-  Nombre: string,
-  Activo: number
+  municipioId: number;
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  extension: string;
+  flota?: string;
+  id: number;
+  estatus: string;
 }

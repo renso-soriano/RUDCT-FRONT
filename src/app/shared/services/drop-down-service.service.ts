@@ -26,7 +26,7 @@ export class DropDownServiceService {
 
   constructor(private http: HttpClient) { }
 
-  private URL = environment.apiUrl + "/demandas";
+  private URL = environment.apiUrl;
   private baseUrl = './assets/data/';
 
   // getAños

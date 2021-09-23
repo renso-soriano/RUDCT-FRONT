@@ -12,22 +12,16 @@ export class FuenteService {
 
   constructor(private http: HttpClient) { }
 
-  private URL = environment.apiUrl + "/demandas/fuente/";
+  private URL = environment.apiUrl + "FuenteDemanda/";
   private baseUrl = './assets/data/';
 
 
   getFuentes(): Observable<IfuenteDemanda[]> {
-    return this.http.get<IfuenteDemanda[]>(this.baseUrl + 'fuenteDemandas.json');
+    return this.http.get<IfuenteDemanda[]>(this.URL);
   }
 
-  getFuenteById(FuenteId: number): Observable<IfuenteDemanda[]> {
-    //return this.http.get<Iinstitucion>(this.URL + idInstitucion, {params: params});
-
-    return this.http.get<IfuenteDemanda[]>(this.baseUrl + 'fuenteDemandas.json').pipe(
-      map(fuentes =>
-        fuentes.filter(fuente => fuente.FuenteId == FuenteId)
-      )
-    );
+  getFuenteById(FuenteId: number): Observable<IfuenteDemanda> {
+    return this.http.get<IfuenteDemanda>(this.URL + FuenteId);
   }
 
   createFuente(fuente: IfuenteDemanda):void

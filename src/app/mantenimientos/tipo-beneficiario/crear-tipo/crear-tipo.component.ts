@@ -38,25 +38,25 @@ export class CrearTipoComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
-    activo: [true],
-    Id: [0]
+    estatus: [null, { validators: [Validators.required] }],
+    id: [null]
   });
 
   //getters
   get nombre() {
     return this.registerForm.get('nombre');
   }
-  get Id() {
-    return this.registerForm.get('Id');
+  get id() {
+    return this.registerForm.get('id');
   }
-  get activo() {
-    return this.registerForm.get('activo');
+  get estatus() {
+    return this.registerForm.get('estatus');
   }
 
   //CrudMethods
   guardar(tipo: ItipoBeneficiario) {
     if (this.typeEdit) {
-      this.tipoBeneficiarioService.updateTipo(tipo.Id, tipo);
+      this.tipoBeneficiarioService.updateTipo(tipo.id, tipo);
     } else {
       this.tipoBeneficiarioService.createTipo(tipo);
     }
@@ -71,9 +71,9 @@ export class CrearTipoComponent implements OnInit {
       this.tipoBeneficiario = tipoBeneficiarioFromTheAPI;
 
       this.registerForm.patchValue({
-        nombre: this.tipoBeneficiario.Nombre,
-        activo: this.tipoBeneficiario.Activo == 1 ? true : false,
-        InstitucionId: this.tipoBeneficiario.Id
+        nombre: this.tipoBeneficiario.nombre,
+        estatus: this.tipoBeneficiario.estatus,
+        id: this.tipoBeneficiario.id
       });
 
     }, (err: any) => {
@@ -88,9 +88,9 @@ export class CrearTipoComponent implements OnInit {
       return;
     }
     const tipoBeneficiario = {
-      Id: this.Id.value,
-      Nombre: this.nombre.value,
-      Activo: this.activo.value
+      id: this.id.value,
+      nombre: this.nombre.value,
+      estatus: this.estatus.value
     }
 
     console.log(tipoBeneficiario);

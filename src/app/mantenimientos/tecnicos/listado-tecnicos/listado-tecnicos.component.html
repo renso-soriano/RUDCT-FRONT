@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
     <div class="w-100 d-flex justify-content-end">
-      <a [routerLink]="['/mantenimientos/categoria_beneficiarios/Create']" data-toggle="tooltip" data-placement="bottom"
+      <a [routerLink]="['/mantenimientos/tecnicos/Create']" data-toggle="tooltip" data-placement="bottom"
         title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
 
       <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
@@ -17,7 +17,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Listado de categorias de beneficiarios</h4>
+          <h4 class="card-title">Listado de tecnicos OMPP</h4>
         </div>
         <div class="card-content">
           <div class="card-body">
@@ -26,12 +26,14 @@
             <fieldset class="form-group">
               <label for="ngx-filter-ref">Buscar:
                 <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
-                  placeholder="Categoria de beneficiario..." (keyup)="filterUpdate($event)" />
+                  placeholder="nombre de tecnico..." (keyup)="filterUpdate($event)" />
               </label>
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
               [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
-              <ngx-datatable-column name="Categoria de beneficiario" prop="nombre" [width]="200"> </ngx-datatable-column>
+              <ngx-datatable-column name="Nombre" prop="nombre" [width]="100"> </ngx-datatable-column>
+              <ngx-datatable-column name="Apellido" prop="apellido" [width]="100"></ngx-datatable-column>
+              <ngx-datatable-column name="Telefono" prop="telefono" [width]="50"></ngx-datatable-column>
 
               <ngx-datatable-column name="Acciones" [width]="70">
                 <ng-template let-row="row" ngx-datatable-cell-template>

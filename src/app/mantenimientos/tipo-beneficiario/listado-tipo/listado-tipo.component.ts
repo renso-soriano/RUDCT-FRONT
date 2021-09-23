@@ -1,45 +1,49 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { DatatableData } from './data/datatables.data';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { DatatableData } from "./data/datatables.data";
 import {
   ColumnMode,
   DatatableComponent,
-  SelectionType
-} from '@swimlane/ngx-datatable';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import * as alertFunctions from '../../../shared/data/sweet-alerts';
-import { TipoBeneficiarioService } from 'app/shared/services/mantenimientos/tipo-beneficiario.service';
+  SelectionType,
+} from "@swimlane/ngx-datatable";
+import { HttpClient } from "@angular/common/http";
+import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
+import * as alertFunctions from "../../../shared/data/sweet-alerts";
+import { TipoBeneficiarioService } from "app/shared/services/mantenimientos/tipo-beneficiario.service";
 
-declare var require: any;
-const data: any = require('../../../shared/data/tipoBeneficiario.json');
+// declare var require: any;
+// const data: any = require('../../../shared/data/tipoBeneficiario.json');
 
 @Component({
-  selector: 'app-listado-tipo',
-  templateUrl: './listado-tipo.component.html',
-  styleUrls: ['./listado-tipo.component.scss', '../../../../assets/sass/libs/datatables.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-listado-tipo",
+  templateUrl: "./listado-tipo.component.html",
+  styleUrls: [
+    "./listado-tipo.component.scss",
+    "../../../../assets/sass/libs/datatables.scss",
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ListadoTipoComponent implements OnInit {
-
-
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
   // public
   public contentHeader: object;
 
-  //data:any[];
+  data: any[];
   notFound = false;
 
   // row data
-  public rows = data;
+  public rows = [];
 
   // column header
-  public columns = [
-    { name: 'Tipo beneficiario', prop: 'Nombre' },
-
-  ];
+  public columns = [{ name: "Tipo beneficiario", prop: "nombre" }];
 
   // multi Purpose datatable Row data
   public multiPurposeRows = DatatableData;
@@ -47,8 +51,8 @@ export class ListadoTipoComponent implements OnInit {
   public ColumnMode = ColumnMode;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild('tableRowDetails') tableRowDetails: any;
-  @ViewChild('tableResponsive') tableResponsive: any;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+  @ViewChild("tableResponsive") tableResponsive: any;
 
   public expanded: any = {};
 
@@ -72,7 +76,7 @@ export class ListadoTipoComponent implements OnInit {
    * @param rowIndex
    */
   inlineEditingUpdate(event, cell, rowIndex) {
-    this.editing[rowIndex + '-' + cell] = false;
+    this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
   }
@@ -87,7 +91,7 @@ export class ListadoTipoComponent implements OnInit {
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
-      return d.Nombre.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
@@ -131,7 +135,7 @@ export class ListadoTipoComponent implements OnInit {
    */
   serverSideSetPage(event) {
     this.http
-      .get('assets/data/datatable-data.json')
+      .get("assets/data/datatable-data.json")
       .pipe(map((data) => data as Array<any>))
       .subscribe((data) => {
         this.serverSideRowData = data;
@@ -162,25 +166,36 @@ export class ListadoTipoComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private tipoBeneficiarioService: TipoBeneficiarioService, private router: Router) {
-    this.tempData = data;
+  constructor(
+    private http: HttpClient,
+    private tipoBeneficiarioService: TipoBeneficiarioService,
+    private router: Router
+  ) {
+    this.tempData = [];
     this.multiPurposeTemp = DatatableData;
-    setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    setTimeout(() => {
+      this.loadingIndicator = false;
+    }, 1500);
   }
 
-   //Actions Methods
+  //Actions Methods
 
-   verDetalles(Id: string) {
-    this.router.navigate(["/tipoBeneficiario", 'Details', Id]);
+  verDetalles(Id: string) {
+    this.router.navigate(["/mantenimientos/tipos_beneficiarios", "Details", Id]);
   }
   editar(Id: string) {
-    this.router.navigate(["/tipoBeneficiario", 'Edit', Id]);
+    this.router.navigate(["/mantenimientos/tipos_beneficiarios", "Edit", Id]);
   }
   eliminar(Id: number) {
     alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
-
   }
 
+  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
+
+  triggerFalseClick() {
+    let el: HTMLElement = this.myDiv.nativeElement;
+    el.click();
+  }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -192,38 +207,42 @@ export class ListadoTipoComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
-      this.data = demandasFromTheAPI;
-      this.rows =this.data;
-    }, (err: any) => {
-      console.error(err);
-      this.notFound = true;
-    }); */
+    this.tipoBeneficiarioService.getTiposBeneficiarios().subscribe(
+      (tiposFromTheAPI: any) => {
+        this.data = tiposFromTheAPI;
+        this.rows = this.data;
+        this.tempData = this.data;
+        this.triggerFalseClick();
+      },
+      (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      }
+    );
 
     // content header
     this.contentHeader = {
-      headerTitle: 'Datatables',
+      headerTitle: "Datatables",
       actionButton: true,
       breadcrumb: {
-        type: '',
+        type: "",
         links: [
           {
-            name: 'Home',
+            name: "Home",
             isLink: true,
-            link: '#'
+            link: "#",
           },
           {
-            name: 'Forms & Tables',
+            name: "Forms & Tables",
             isLink: true,
-            link: ''
+            link: "",
           },
           {
-            name: 'Datatables',
-            isLink: false
-          }
-        ]
-      }
+            name: "Datatables",
+            isLink: false,
+          },
+        ],
+      },
     };
   }
-
 }

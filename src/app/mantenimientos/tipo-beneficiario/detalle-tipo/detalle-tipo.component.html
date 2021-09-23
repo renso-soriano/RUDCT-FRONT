@@ -14,7 +14,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Id: </span>
-                    <label for="Id">{{tipoBeneficiario.Id}}</label>
+                    <label for="Id">{{tipoBeneficiario.id}}</label>
                   </div>
                 </div>
               </div>
@@ -25,7 +25,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Nombre: </span>
-                    <label for="nombre">{{tipoBeneficiario.Nombre}}</label>
+                    <label for="nombre">{{tipoBeneficiario.nombre}}</label>
                   </div>
                 </div>
               </div>
@@ -35,8 +35,8 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <span class="primary">Activa: </span>
-                    <label for="activo">{{tipoBeneficiario.Activo == 1?"Si":"No"}}</label>
+                    <span class="primary">Estatus: </span>
+                    <label for="estatus">{{tipoBeneficiario.estatus}}</label>
                   </div>
                 </div>
               </div>
@@ -50,7 +50,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/tipoBeneficiario']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/mantenimientos/tipos_beneficiarios']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>

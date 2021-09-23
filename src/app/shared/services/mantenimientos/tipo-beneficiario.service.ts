@@ -12,22 +12,17 @@ export class TipoBeneficiarioService {
 
   constructor(private http: HttpClient) { }
 
-  private URL = environment.apiUrl + "tipoBeneficiario/";
+  private URL = environment.apiUrl + "BeneficiarioTipo/";
   private baseUrl = './assets/data/';
 
 
   getTiposBeneficiarios(): Observable<ItipoBeneficiario[]> {
-    return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json');
+    return this.http.get<ItipoBeneficiario[]>(this.URL);
   }
 
   getTipoBeneficiariosById(Id: number): Observable<ItipoBeneficiario> {
     return this.http.get<ItipoBeneficiario>(this.URL + Id);
 
-    /* return this.http.get<ItipoBeneficiario[]>(this.baseUrl + 'tipoBeneficiario.json').pipe(
-      map(tipos =>
-        tipos.filter(tipo => tipo.Id == Id)
-      )
-    ); */
   }
 
   createTipo(tipo: ItipoBeneficiario):void

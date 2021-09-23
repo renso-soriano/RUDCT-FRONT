@@ -94,7 +94,7 @@ export class CrearCategoriaComponent implements OnInit {
 
     console.log(categoriaBeneficiario);
 
-    //this.guardar(tipoBeneficiario);
+    //this.guardar(categoriaBeneficiario);
 
     this.refrescar();
   }

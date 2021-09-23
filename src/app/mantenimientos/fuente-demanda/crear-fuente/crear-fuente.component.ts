@@ -38,25 +38,25 @@ export class CrearFuenteComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
-    activo: [true],
-    FuenteId: [0]
+    estatus: [null, { validators: [Validators.required] }],
+    id: [null]
   });
 
   //getters
   get nombre() {
     return this.registerForm.get('nombre');
   }
-  get FuenteId() {
-    return this.registerForm.get('FuenteId');
+  get id() {
+    return this.registerForm.get('id');
   }
-  get activo() {
-    return this.registerForm.get('activo');
+  get estatus() {
+    return this.registerForm.get('estatus');
   }
 
   //CrudMethods
   guardar(fuente: IfuenteDemanda) {
     if (this.typeEdit) {
-      this.fuenteService.updateFuente(fuente.FuenteId, fuente);
+      this.fuenteService.updateFuente(fuente.id, fuente);
     } else {
       this.fuenteService.createFuente(fuente);
     }
@@ -67,13 +67,13 @@ export class CrearFuenteComponent implements OnInit {
     this.notFound = false;
     this.fuente = null;
 
-    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI: IfuenteDemanda[]) => {
-      this.fuente = fuenteFromTheAPI[0];
+    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI: IfuenteDemanda) => {
+      this.fuente = fuenteFromTheAPI;
 
       this.registerForm.patchValue({
-        nombre: this.fuente.Nombre,
-        activo: this.fuente.Activo == 1 ? true : false,
-        FuenteId: this.fuente.FuenteId
+        nombre: this.fuente.nombre,
+        estatus: this.fuente.estatus ,
+        id: this.fuente.id
       });
 
     }, (err: any) => {
@@ -88,9 +88,9 @@ export class CrearFuenteComponent implements OnInit {
       return;
     }
     const fuente = {
-      FuenteId: this.FuenteId.value,
-      Nombre: this.nombre.value,
-      Activo: this.activo.value
+      id: this.id.value,
+      nombre: this.nombre.value,
+      estatus: this.estatus.value
     }
 
     console.log(fuente);
