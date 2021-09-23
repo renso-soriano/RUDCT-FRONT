@@ -57,14 +57,34 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="provincia">Provincia</label>
+                      <ng-select [items]="provincias | async" bindLabel="name" bindValue="id" name="provincia"
+                        id="provincia" placeholder="Seleccione provincia"
+                        (change)="getMunicipiosByProvincia(provincia.value)" formControlName="provincia">
+                      </ng-select>
+                      <div *ngIf="provincia.invalid && (provincia.dirty || provincia.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="provincia.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
 
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="municipio">Municipio</label>
-                      <ng-select [items]="municipios | async" bindLabel="Nombre" bindValue="MunicipioId" name="municipio"
-                        id="municipio" placeholder="Seleccione municipio"
-                        formControlName="municipioId">
+                      <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
+                        id="municipio" placeholder="Seleccione municipio" formControlName="municipioId">
                       </ng-select>
 
                       <div *ngIf="municipioId.invalid && (municipioId.dirty || municipioId.touched)"
@@ -102,7 +122,8 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="extension">Extension</label>
-                      <input type="text" class="form-control" name="extension" id="extension" formControlName="extension">
+                      <input type="text" class="form-control" name="extension" id="extension"
+                        formControlName="extension">
 
 
                     </div>

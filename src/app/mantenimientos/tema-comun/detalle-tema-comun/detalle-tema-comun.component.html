@@ -1,0 +1,56 @@
+<!-- start -->
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">Detalles del tema comun</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Id: </span>
+                    <label for="Id">{{temaComun.id}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Nombre: </span>
+                    <label for="nombre">{{temaComun.nombre}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="div">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <span class="primary">Estatus: </span>
+                    <label for="estatus">{{temaComun.estatus}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/mantenimientos/temaComun']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>

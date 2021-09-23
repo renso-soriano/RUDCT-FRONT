@@ -24,6 +24,7 @@ export class CrearTecnicoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getProvincias();
     this.route.paramMap.subscribe((params) => {
       if (params.has("Id")) {
         this.getTecnicoParaEditar(parseInt(params.get("Id")));
@@ -31,11 +32,11 @@ export class CrearTecnicoComponent implements OnInit {
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
-    this.getMunicipios();
   }
 
   tecnico: Itecnico;
   notFound = false;
+  provincias: Observable<any[]>;
   municipios: Observable<any[]>;
 
   mode: string;
@@ -53,9 +54,10 @@ export class CrearTecnicoComponent implements OnInit {
     estatus: [null, { validators: [Validators.required] }],
     id: [null],
     municipioId: [null],
-    telefono: [  null,   { validators: [Validators.required] } ],
+    telefono: [null, { validators: [Validators.required] }],
     extension: [null],
     flota: [null],
+    provincia: [null],
   });
 
   //getters
@@ -71,6 +73,10 @@ export class CrearTecnicoComponent implements OnInit {
   get municipioId() {
     return this.registerForm.get("municipioId");
   }
+  get provincia() {
+    return this.registerForm.get("provincia");
+  }
+
   get apellido() {
     return this.registerForm.get("apellido");
   }
@@ -121,8 +127,14 @@ export class CrearTecnicoComponent implements OnInit {
     );
   }
 
-  getMunicipios() {
-    this.municipios = this.dropDownService.getMunicipios();
+  getProvincias() {
+    this.provincias = this.dropDownService.getProvincias();
+  }
+
+  getMunicipiosByProvincia(provinciaId: number) {
+    this.municipios =
+      this.dropDownService.getMunicipiosByProvincia(provinciaId);
+    this.municipioId.setValue(null);
   }
 
   submit() {
@@ -142,7 +154,6 @@ export class CrearTecnicoComponent implements OnInit {
       extension: this.extension.value,
       flota: this.flota.value,
     };
-
 
     console.log(tecnico);
 

@@ -11,35 +11,35 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
+import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { TecnicosService } from 'app/shared/services/mantenimientos/tecnicos.service';
+import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.service";
 
 @Component({
-  selector: 'app-listado-tecnicos',
-  templateUrl: './listado-tecnicos.component.html',
-  styleUrls: ['./listado-tecnicos.component.scss',
+  selector: 'app-listado-tema-comun',
+  templateUrl: './listado-tema-comun.component.html',
+  styleUrls: ['./listado-tema-comun.component.scss',
   "../../../../assets/sass/libs/datatables.scss",
 ],
-encapsulation: ViewEncapsulation.None
+encapsulation: ViewEncapsulation.None,
 })
-export class ListadoTecnicosComponent implements OnInit {
+export class ListadoTemaComunComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
   // public
   public contentHeader: object;
+
   data: any[];
   notFound = false;
 
   // row data
-  // public rows = data;
   public rows = [];
 
   // column header
-  public columns = [{ name: "Categoria beneficiario", prop: "nombre" }];
+  public columns = [{ name: "Temas comunes", prop: "nombre" }];
 
   // multi Purpose datatable Row data
   public multiPurposeRows = DatatableData;
@@ -164,7 +164,7 @@ export class ListadoTecnicosComponent implements OnInit {
    */
   constructor(
     private http: HttpClient,
-    private tecnicosService: TecnicosService,
+    private temaComunService: TemaComunService,
     private router: Router
   ) {
     this.tempData = [];
@@ -177,20 +177,13 @@ export class ListadoTecnicosComponent implements OnInit {
   //Actions Methods
 
   verDetalles(Id: string) {
-    this.router.navigate([
-      "/mantenimientos",
-      "tecnicos",
-      "Details",
-      Id,
-    ]);
+    this.router.navigate(["/mantenimientos/temaComun", "Details", Id]);
   }
   editar(Id: string) {
-    this.router.navigate([
-      "/mantenimientos",
-      "tecnicos",
-      "Edit",
-      Id,
-    ]);
+    this.router.navigate(["/mantenimientos/temaComun", "Edit", Id]);
+  }
+  eliminar(Id: number) {
+    alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
   }
 
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
@@ -199,11 +192,6 @@ export class ListadoTecnicosComponent implements OnInit {
     let el: HTMLElement = this.myDiv.nativeElement;
     el.click();
   }
-
-  // eliminar(Id: number) {
-  //   alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
-
-  // }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -215,9 +203,9 @@ export class ListadoTecnicosComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    this.tecnicosService.getTecnicos().subscribe(
-      (tecnicosFromTheAPI: any) => {
-        this.data = tecnicosFromTheAPI;
+    this.temaComunService.getTemasComunes().subscribe(
+      (temasComunesFromTheAPI: any) => {
+        this.data = temasComunesFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
         this.triggerFalseClick();
@@ -254,3 +242,4 @@ export class ListadoTecnicosComponent implements OnInit {
     };
   }
 }
+
