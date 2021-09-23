@@ -27,11 +27,13 @@ export class CrearTecnicoComponent implements OnInit {
     this.getProvincias();
     this.route.paramMap.subscribe((params) => {
       if (params.has("Id")) {
+        this.getMunicipios();
         this.getTecnicoParaEditar(parseInt(params.get("Id")));
         this.typeEdit = true;
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
+
   }
 
   tecnico: Itecnico;
@@ -51,7 +53,7 @@ export class CrearTecnicoComponent implements OnInit {
       null,
       { validators: [Validators.required, Validators.minLength(2)] },
     ],
-    estatus: [null, { validators: [Validators.required] }],
+    estatus: ['A'],
     id: [null],
     municipioId: [null],
     telefono: [null, { validators: [Validators.required] }],
@@ -129,6 +131,9 @@ export class CrearTecnicoComponent implements OnInit {
 
   getProvincias() {
     this.provincias = this.dropDownService.getProvincias();
+  }
+  getMunicipios() {
+    this.municipios = this.dropDownService.getMunicipios();
   }
 
   getMunicipiosByProvincia(provinciaId: number) {

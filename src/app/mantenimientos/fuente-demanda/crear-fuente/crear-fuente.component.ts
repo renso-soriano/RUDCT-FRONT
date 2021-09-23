@@ -38,8 +38,8 @@ export class CrearFuenteComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
-    estatus: [null, { validators: [Validators.required] }],
-    id: [null]
+    estatus: ['A'],
+    id: [0]
   });
 
   //getters

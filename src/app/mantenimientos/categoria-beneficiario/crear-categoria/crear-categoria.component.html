@@ -36,26 +36,6 @@
                 </div>
 
 
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="estatus">Estatus</label>
-                      <input type="text" class="form-control" name="estatus" id="estatus" formControlName="estatus">
-
-                      <div *ngIf="nombre.invalid && (estatus.dirty || estatus.touched)"
-                        class="help-block mt-1 text-danger">
-
-                        <div *ngIf="estatus.errors.required">
-                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                        </div>
-
-
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
                 <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
                   title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
