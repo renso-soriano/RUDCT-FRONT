@@ -1,5 +1,5 @@
 export interface IfuenteDemanda {
   id: number,
-  nombre: string,
-  estatus: number
+  estatus: number,
+  nombre: string
 }

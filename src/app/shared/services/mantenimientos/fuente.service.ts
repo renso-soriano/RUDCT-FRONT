@@ -30,15 +30,15 @@ export class FuenteService {
 
   }
 
-  updateFuente(FuenteId: number, fuente: IfuenteDemanda):void
+  updateFuente(key: number, fuente: IfuenteDemanda):void
   {
-    this.http.put(this.URL + FuenteId , fuente);
+    this.http.put(this.URL + key , fuente);
 
   }
 
-  deleteFuente(FuenteId: number):void
+  deleteFuente(key: number):void
   {
-    this.http.delete(this.URL + FuenteId);
+    this.http.delete(this.URL + key);
 
   }
 }

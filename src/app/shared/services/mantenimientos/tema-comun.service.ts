@@ -32,15 +32,15 @@ export class TemaComunService {
 
   }
 
-  updateTemaComun(Id: number, temaComun: ItemaComun):void
+  updateTemaComun(key: number, temaComun: ItemaComun):void
   {
-    this.http.put(this.URL + Id , temaComun);
+    this.http.put(this.URL + key , temaComun);
 
   }
 
-  deleteTemaComun(Id: number):void
+  deleteTemaComun(key: number):void
   {
-    this.http.delete(this.URL + Id);
+    this.http.delete(this.URL + key);
 
   }
 }

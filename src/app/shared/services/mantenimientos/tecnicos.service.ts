@@ -34,15 +34,15 @@ export class TecnicosService {
 
   }
 
-  updateTecnico(Id: number, tecnico: Itecnico):void
+  updateTecnico(key: number, tecnico: Itecnico):void
   {
-    this.http.put(this.URL + Id , tecnico);
+    this.http.put(this.URL + key , tecnico);
 
   }
 
-  deleteTecnico(Id: number):void
+  deleteTecnico(key: number):void
   {
-    this.http.delete(this.URL + Id);
+    this.http.delete(this.URL + key);
 
   }
 }

@@ -39,7 +39,7 @@ export class CrearTipoComponent implements OnInit {
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
     estatus: ['A'],
-    id: [null]
+    id: [0]
   });
 
   //getters
@@ -89,13 +89,13 @@ export class CrearTipoComponent implements OnInit {
     }
     const tipoBeneficiario = {
       id: this.id.value,
-      nombre: this.nombre.value,
-      estatus: this.estatus.value
+      estatus: this.estatus.value,
+      nombre: this.nombre.value
     }
 
     console.log(tipoBeneficiario);
 
-    //this.guardar(tipoBeneficiario);
+    this.guardar(tipoBeneficiario);
 
     this.refrescar();
   }

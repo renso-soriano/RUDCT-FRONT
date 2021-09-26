@@ -89,13 +89,13 @@ export class CrearFuenteComponent implements OnInit {
     }
     const fuente = {
       id: this.id.value,
-      nombre: this.nombre.value,
-      estatus: this.estatus.value
+      estatus: this.estatus.value,
+      nombre: this.nombre.value
     }
 
     console.log(fuente);
 
-    //this.guardar(fuente);
+    this.guardar(fuente);
 
     this.refrescar();
   }

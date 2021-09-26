@@ -31,9 +31,9 @@ export class TipoBeneficiarioService {
 
   }
 
-  updateTipo(Id: number, tipo: ItipoBeneficiario):void
+  updateTipo(key: number, tipo: ItipoBeneficiario):void
   {
-    this.http.put(this.URL + Id , tipo);
+    this.http.put(this.URL + key , tipo);
 
   }
 

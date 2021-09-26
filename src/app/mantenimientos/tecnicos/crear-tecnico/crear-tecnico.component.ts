@@ -54,7 +54,7 @@ export class CrearTecnicoComponent implements OnInit {
       { validators: [Validators.required, Validators.minLength(2)] },
     ],
     estatus: ['A'],
-    id: [null],
+    id: [0],
     municipioId: [null],
     telefono: [null, { validators: [Validators.required] }],
     extension: [null],
@@ -78,7 +78,6 @@ export class CrearTecnicoComponent implements OnInit {
   get provincia() {
     return this.registerForm.get("provincia");
   }
-
   get apellido() {
     return this.registerForm.get("apellido");
   }
@@ -93,7 +92,8 @@ export class CrearTecnicoComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(tecnico: Itecnico) {
+  guardar(data:any) {
+   let  tecnico:Itecnico = data;
     if (this.typeEdit) {
       this.tecnicoService.updateTecnico(tecnico.id, tecnico);
     } else {
@@ -162,7 +162,7 @@ export class CrearTecnicoComponent implements OnInit {
 
     console.log(tecnico);
 
-    //this.guardar(tecnico);
+    this.guardar(tecnico);
 
     this.refrescar();
   }

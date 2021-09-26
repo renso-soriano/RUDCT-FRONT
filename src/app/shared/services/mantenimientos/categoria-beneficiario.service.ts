@@ -22,15 +22,9 @@ export class CategoriaBeneficiarioService {
   }
 
   getCategoriaBeneficiariosById(Id: number): Observable<IcategoriaBeneficiario> {
-    console.log(this.URL + Id);
 
     return this.http.get<IcategoriaBeneficiario>(this.URL + Id);
 
-    /* return this.http.get<IcategoriaBeneficiario[]>(this.baseUrl + 'categoriaBeneficiario.json').pipe(
-      map(tipos =>
-        tipos.filter(tipo => tipo.Id == Id)
-      )
-    ); */
   }
 
   createCategoria(categoria: IcategoriaBeneficiario):void
@@ -39,9 +33,9 @@ export class CategoriaBeneficiarioService {
 
   }
 
-  updateCategoria(Id: number, categoria: IcategoriaBeneficiario):void
+  updateCategoria(key: number, categoria: IcategoriaBeneficiario):void
   {
-    this.http.put(this.URL + Id , categoria);
+    this.http.put(this.URL + key , categoria);
 
   }
 

@@ -197,6 +197,10 @@ export class ListadoCategoriaComponent implements OnInit {
     ]);
   }
 
+  eliminar(Id: number) {
+    alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
+  }
+
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
 
   triggerFalseClick() {
@@ -204,10 +208,7 @@ export class ListadoCategoriaComponent implements OnInit {
     el.click();
   }
 
-  // eliminar(Id: number) {
-  //   alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
 
-  // }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
