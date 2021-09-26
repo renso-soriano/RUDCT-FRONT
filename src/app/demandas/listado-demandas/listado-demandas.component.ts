@@ -5,11 +5,16 @@ import {
   DatatableComponent,
   SelectionType
 } from '@swimlane/ngx-datatable';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
+import { Observable } from 'rxjs';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { FiltrosDinamicos } from 'app/shared/models/Core/filtros-dinamicos.model';
+import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
+import { environment } from 'environments/environment';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -33,14 +38,42 @@ export class ListadoDemandasComponent implements OnInit {
 
   // row data
   public rows = data;
+  limitSelected: any = 10;
+
+  page = {
+    limit: this.limitSelected,
+    count: 0,
+    offset: 0
+  }
+
+  limitSelect: any = [
+    { value: 10, label: 10 },
+    { value: 25, label: 25 },
+    { value: 50, label: 50 },
+    { value: 100, label: 100 },
+  ];
+
+  public filtros: FiltrosDinamicos[];
+
+  filtrosActivos: any = {
+    "anio": null,
+    "regionId": null,
+    "provinciaId": null,
+    "municipioId": null,
+    "fuenteDemandaId": null,
+    "temaComunId": null,
+    "institucionId": null
+  }
 
   // column header
   public columns = [
-    { name: 'Codigo', prop: 'CodigoDemanda' },
-    { prop: 'Demanda' },
-    { prop: 'Año' },
-    { name: 'Origen', prop: 'OrigenDemanda' },
-    { name: 'Estado', prop: 'EstadoEjecucion' }
+    { name: 'Código', prop: 'codigo', sorteable: false },
+    { name: 'Año', prop: 'anio', sorteable: false },
+    { name: 'Región', prop: 'nombreRegion', sorteable: false },
+    { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
+    { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false },
+    { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
+    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
   ];
 
   // multi Purpose datatable Row data
@@ -60,24 +93,11 @@ export class ListadoDemandasComponent implements OnInit {
   public SelectionType = SelectionType;
 
   // server side row data
-  public serverSideRowData;
+  public rowService: Observable<any>;
 
   // private
   private tempData = [];
   private multiPurposeTemp = [];
-
-  /**
-   * inlineEditingUpdate
-   *
-   * @param event
-   * @param cell
-   * @param rowIndex
-   */
-  inlineEditingUpdate(event, cell, rowIndex) {
-    this.editing[rowIndex + '-' + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
-    this.rows = [...this.rows];
-  }
 
   /**
    * filterUpdate
@@ -117,54 +137,11 @@ export class ListadoDemandasComponent implements OnInit {
   }
 
   /**
-   * customChkboxOnSelect
-   *
-   * @param { selected }
-   */
-  customChkboxOnSelect({ selected }) {
-    this.chkBoxSelected.splice(0, this.chkBoxSelected.length);
-    this.chkBoxSelected.push(...selected);
-  }
-
-  /**
-   * serverSideSetPage
-   *
-   * @param event
-   */
-  serverSideSetPage(event) {
-    this.http
-      .get('assets/data/datatable-data.json')
-      .pipe(map((data) => data as Array<any>))
-      .subscribe((data) => {
-        this.serverSideRowData = data;
-      });
-  }
-
-  /**
-   * MultiPurposeFilterUpdate
-   *
-   * @param event
-   */
-  MultiPurposeFilterUpdate(event) {
-    const val = event.target.value.toLowerCase();
-
-    // filter our data
-    const temp = this.multiPurposeTemp.filter(function (d) {
-      return d.full_name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-    this.multiPurposeRows = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
-  }
-
-  /**
    * Constructor
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService,private router: Router) {
+  constructor(private http: HttpClient, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -191,39 +168,130 @@ export class ListadoDemandasComponent implements OnInit {
    */
   ngOnInit() {
     // Initially load first page
-    this.serverSideSetPage({ offset: 0 });
+    this.pageCallback({ offset: 0 });
+    this.filtros = [
+      new FiltrosDinamicos().deserialize({
+        name: 'anio',
+        label: 'Año',
+        servicio: this.setFilterAnnios(),
+        tipo: 'select',
+        placeholder: 'Seleccione un año',
+        async: false,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'regionId',
+        label: 'Región',
+        servicio: this.dropdownService.getRegiones(),
+        tipo: 'select',
+        placeholder: 'Seleccione una región',
+        async: true,
+        multiple: false,
+        filtroHijo: 'provinciaId',
+        servicioHijo: 'getProvinciasByRegion',
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'provinciaId',
+        label: 'Provincia',
+        servicio: this.dropdownService.getProvinciasByRegion(null),
+        tipo: 'select',
+        placeholder: 'Seleccione una provincia',
+        async: true,
+        multiple: false,
+        filtroHijo: 'municipioId',
+        servicioHijo: 'getMunicipiosByProvincia',
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'municipioId',
+        label: 'Municipio',
+        servicio: this.dropdownService.getMunicipiosByProvincia(null),
+        tipo: 'select',
+        placeholder: 'Seleccione un municipio',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'fuenteDemandaId',
+        label: 'Fuente',
+        servicio: this.dropdownService.getFuentes(),
+        tipo: 'select',
+        placeholder: 'Seleccione una fuente de demanda',
+        async: true,
+        multiple: false
+      }),
+      /* new FiltrosDinamicos().deserialize({
+        name: 'estadoId',
+        label: 'Estado',
+        servicio: this.dropdownService.getEstados(),
+        tipo: 'select',
+        placeholder: 'Seleccione un estado',
+        async: true,
+        multiple: false
+      }), */
+      new FiltrosDinamicos().deserialize({
+        name: 'temaComunId',
+        label: 'Tema común',
+        servicio: this.dropdownService.getTemasComunes(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tema común',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'institucionId',
+        label: 'Institución responsable',
+        servicio: this.dropdownService.getInstituciones(),
+        tipo: 'select',
+        placeholder: 'Seleccione una región',
+        async: true,
+        multiple: false
+      })
+    ];
+    this.loadingIndicator = false;
+  }
 
-    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
-      this.data = demandasFromTheAPI;
-      this.rows =this.data;
-    }, (err: any) => {
-      console.error(err);
-      this.notFound = true;
-    }); */
+  setFilterAnnios(): any[] {
+    const annioInicial = environment.appStartYear;
+    const annioActual = new Date().getFullYear();
+    let annios = [];
+    for (let i = annioInicial; i <= annioActual; i++) {
+      annios.push({ id: i, name: i });
+    }
+    return annios;
+  }
 
-    // content header
-    this.contentHeader = {
-      headerTitle: 'Datatables',
-      actionButton: true,
-      breadcrumb: {
-        type: '',
-        links: [
-          {
-            name: 'Home',
-            isLink: true,
-            link: '#'
-          },
-          {
-            name: 'Forms & Tables',
-            isLink: true,
-            link: ''
-          },
-          {
-            name: 'Datatables',
-            isLink: false
-          }
-        ]
-      }
-    };
+  async pageCallback(pageInfo: { count?: number, pageSize?: number, limit?: number, offset?: number }) {
+    this.page.offset = pageInfo.offset;
+    await this.reloadTable();
+  }
+
+  async getFilters(event) {
+    this.filtrosActivos = event;
+    this.page.offset = 0;
+    await this.reloadTable();
+  }
+
+  async reloadTable() {
+    const params = new HttpParams()
+      .set('Page', `${this.page.offset + 1}`)
+      .set('Take', `${this.page.limit}`)
+      .set('anio', this.filtrosActivos.anio)
+      .set('regionId', this.filtrosActivos.regionId)
+      .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
+      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+      .set('temaComunId', this.filtrosActivos.temaComunId)
+      .set('institucionId', this.filtrosActivos.institucionId)
+    this.demandasService.getDemandas(params).subscribe((data: any) => {
+      // NOTE: the format of the returned data depends on your API!
+      this.page.count = data.total;
+      this.rows = data.items;
+      document.body.click();
+    });
+  }
+
+  public async _changeRowLimits(event: any) {
+    this.page.limit = this.limitSelected;
+    await this.reloadTable();
   }
 }

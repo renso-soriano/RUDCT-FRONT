@@ -14,6 +14,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.co
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,
-     ToastrModule
+    ToastrModule,
+    NgxSpinnerModule,
+    SharedModule,
   ]
 })
 export class DemandasModule { }

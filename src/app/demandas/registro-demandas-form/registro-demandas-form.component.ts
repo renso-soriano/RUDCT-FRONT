@@ -12,6 +12,11 @@ import { ItipoInversion } from 'app/shared/models/iTipoInversion';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 import { DemandasService } from 'app/shared/services/demandas.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DropdownResponse } from 'app/shared/models/Core/DropdownResponse.model';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { DemandaActividad } from 'app/shared/models/Demandas/DemandaActividad.model';
+import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -28,24 +33,30 @@ export class RegistroDemandasFormComponent implements OnInit {
     private demandaService: DemandasService,
     private route: ActivatedRoute,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private serviceStr: NGXToastrService) { }
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
     this.route.paramMap.subscribe(params => {
-      if (params.has("CodigoDemanda")) {
-        this.getDemandaParaEditar(params.get("CodigoDemanda"));
+      if (params.has("id")) {
+        this.demandaId = params.get("id");
+        this.getDemandaParaEditar(params.get("id"));
         this.typeEdit = true;
+      } else {
+        this.demandaForEdit = new Demanda();
       }
     })
     this.mode = this.typeEdit ? 'Editar' : 'Registro de';
-
   }
 
+  private _demanda: Demanda;
+  private demandaId: string;
+
   //propiedades
-  codigoDemanda: string = 'codigoPrueba';
-  anios: Observable<any[]>;
+  codigoDemanda: number = 0;
+  anios: any;
   regiones: Observable<any[]>;
   provincias: Observable<any[]>;
   municipios: Observable<any[]>;
@@ -97,7 +108,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     actividad: [null],
     politica: [],
     tiposInversion: [null],
-    otrosTiposInversion: ['', { validators: [Validators.required] }],
+    otrosTiposInversion: [''],
     inversionchkBox: [null],
     tipo: [null],
     categoria: [null],
@@ -190,9 +201,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     // llena ejeEnd
     this.ejesEnd = this.dropDownService.getEjes();
 
-    // llena Tecnicos
-    this.tecnicos = this.dropDownService.getTecnicos();
-
     // llena Instituciones Responsables
     this.instituciones = this.dropDownService.getInstituciones();
 
@@ -201,8 +209,9 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     //tipoInversion
     this.dropDownService.getTipoInversion()
-      .subscribe((inversionesFromTheAPI: ItipoInversion[]) => {
+      .subscribe((inversionesFromTheAPI: DropdownResponse[]) => {
         this.listadoInversion = inversionesFromTheAPI;
+        this.unCheck();
       }, (err: any) => {
         console.error(err);
         this.notFound = true;
@@ -231,6 +240,22 @@ export class RegistroDemandasFormComponent implements OnInit {
     });
   }
 
+
+  setProvinciaDropdown(regionId: number, provinciaId?: number) {
+    this.onRegionChange(regionId);
+    return provinciaId == null ? null : provinciaId.toString();
+  }
+
+  setMunicipioDropdown(provinciaId: number, municipioId?: number) {
+    this.onProvinciaChange(provinciaId);
+    return municipioId == null ? null : municipioId.toString();
+  }
+
+  setDistritoDropdown(municipioId: number, distritoid?: number) {
+    this.onMunicipiosChange(municipioId);
+    return distritoid == null ? null : distritoid.toString();
+  }
+
   // llena Los municipios de acuerdo a la provincia
   onProvinciaChange(id: number): void {
 
@@ -246,11 +271,14 @@ export class RegistroDemandasFormComponent implements OnInit {
   onMunicipiosChange(id: number): void {
     this.distritosMunicipales = this.dropDownService.getDistritosByMunicipio(id);
     this.distrito.setValue(null);
+
+    // llena Tecnicos
+    this.tecnicos = this.dropDownService.getTecnicos(id);
+    this.tecnico.setValue(null);
   }
 
   // llena Los objetivos de acuerdo a los ejes
   onEjeChange(id: number): void {
-    console.log(id);
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(id);
     this.objetivo.setValue(null);
   }
@@ -261,39 +289,70 @@ export class RegistroDemandasFormComponent implements OnInit {
   getDemandaParaEditar(CodigoDemanda: string) {
     this.notFound = false;
     this.demandaForEdit = null;
+    this.spinner.show();
+    this.demandaService.getDemandaById(CodigoDemanda).subscribe(
+      (demanda: Demanda) => {
+        this.demandaForEdit = demanda;
+        this.checkTipoInversion(demanda.demandaTipoInversiones);
+        this.setListasDemandas(demanda);
+        // pendiente hasta que haya backend
+        this.registerForm.patchValue({
+          anio: demanda.anio,
+          region: demanda.regionId.toString(),
+          provincia: this.setProvinciaDropdown(demanda.regionId, demanda.provinciaId),
+          municipio: this.setMunicipioDropdown(demanda.provinciaId, demanda.municipioId),
+          distrito: this.setDistritoDropdown(demanda.municipioId, demanda.distritoMunicipalId),
+          fuente: demanda.fuenteDemandaId.toString(),
+          eje: [],
+          objetivo: [],
+          demanda: demanda.descripcion,
+          tecnico: demanda.tecnicoOMPPId.toString(),
+          institucionResponsable: demanda.institucionId.toString(),
+          institucionesColaboradoras: [],
+          comentarios: null,
+          actividad: [],
+          politica: [],
+          tiposInversion: [null],
+          otrosTiposInversion: [],
+          tipo: [],
+          categoria: [],
+          cantidad: [],
+          beneficiarios: []
+        });
 
-    this.demandaService.getDemandaByCodigo(CodigoDemanda).subscribe((demandaFromTheAPI: any[]) => {
-      this.demandaForEdit = demandaFromTheAPI[0];
+      },
+      (err: any) => {
+        console.error(err);
+        this.notFound = true;
+        document.body.click();
+        this.spinner.hide();
+      },
+      () => {
+        document.body.click();
+        this.spinner.hide();
+      }
+    );
+  }
 
-      // pendiente hasta que haya backend
-      this.registerForm.patchValue({
-        anio: [],
-        region: [],
-        provincia: [],
-        municipio: [],
-        distrito: [],
-        fuente: [],
-        eje: [],
-        objetivo: [],
-        demanda: [],
-        tecnico: [],
-        institucionResponsable: [],
-        institucionesColaboradoras: [],
-        comentarios: this.demandaForEdit.Comentarios,
-        actividad: [],
-        politica: [],
-        tiposInversion: [],
-        otrosTiposInversion: [],
-        inversionchkBox: [],
-        tipo: [],
-        categoria: [],
-        cantidad: [],
-        beneficiarios: []
-      });
+  checkTipoInversion(tipos: any[]) {
+    this.InversionesSelected = tipos.map((item: any) => {
+      return {
+        Id: item.id,
+        CodigoDemanda: item.demandaId,
+        id: item.tipoInversionId
+      }
+    });
 
-    }, (err: any) => {
-      console.error(err);
-      this.notFound = true;
+    tipos.forEach(tipo => {
+      const cbx: any = document.getElementById(`cbkTipoInversion-${tipo.tipoInversionId}`);
+      cbx.checked = 'checked';
+    });
+  }
+
+  unCheck(checked = false) {
+    const cbs = document.getElementsByClassName('inversionCbk');
+    Array.from(cbs).forEach((cb: any) => {
+      cb.checked = checked;
     });
   }
 
@@ -304,8 +363,8 @@ export class RegistroDemandasFormComponent implements OnInit {
       if (this.listadoPoliticas == null) {
         this.listadoPoliticas = [];
       }
-      if (this.listadoPoliticas.findIndex(item => item.PoliticaId == politicaSelected.PoliticaId) == -1) {
-        this.listadoPoliticas.push({ PoliticaId: politicaSelected.PoliticaId, Nombre: politicaSelected.Nombre, Activo: politicaSelected.Activo })
+      if (this.listadoPoliticas.findIndex(item => item.PoliticaId == politicaSelected.id) == -1) {
+        this.listadoPoliticas.push({ PoliticaId: politicaSelected.id, Nombre: politicaSelected.name, CodigoDemanda: 0 })
       }
       else {
         this.serviceStr.typeWarning('No puede repetir politicas');
@@ -326,12 +385,12 @@ export class RegistroDemandasFormComponent implements OnInit {
     let institucionSelected = this.institucionesColaboradoras.value;
 
     if (institucionSelected != null) {
-      if (institucionSelected.InstitucionId != this.institucionResponsable.value) {
+      if (institucionSelected.id != this.institucionResponsable.value) {
         if (this.listadoInstituciones == null) {
           this.listadoInstituciones = [];
         }
-        if (this.listadoInstituciones.findIndex(item => item.InstitucionId == institucionSelected.InstitucionId) == -1) {
-          this.listadoInstituciones.push({ InstitucionId: institucionSelected.InstitucionId, Nombre: institucionSelected.Nombre, Activo: institucionSelected.Activo })
+        if (this.listadoInstituciones.findIndex(item => item.id == institucionSelected.id) == -1) {
+          this.listadoInstituciones.push({ InstitucionId: institucionSelected.id, Nombre: institucionSelected.name, CodigoDemanda: 0 })
         }
         else {
           this.serviceStr.typeWarning('No puede repetir Instituciones');
@@ -370,7 +429,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       if (this.listadoActividades == null) {
         this.listadoActividades = [];
       }
-      this.listadoActividades.push({ ActividadId: this.activCount, CodigoDemanda: this.codigoDemanda, Actividad: this.actividad.value })
+      this.listadoActividades.push({ ActividadId: 0, CodigoDemanda: 0, Actividad: this.actividad.value })
       this.activCount++;
     }
     else {
@@ -386,10 +445,10 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoActividades.splice(id, 1);
   }
 
-  onTipoInversionChange(evento: any, tipo: string) {
-    if (tipo != 'Otro') {
+  onTipoInversionChange(evento: any, tipo: any) {
+    if (tipo.name != 'Otro') {
       if (evento.target.checked) {
-        this.InversionesSelected.push(tipo);
+        this.InversionesSelected.push({ id: tipo.id, name: tipo.name, CodigoDemanda: 0 });
       }
       else {
         this.InversionesSelected = this.InversionesSelected.filter(t => t != tipo);
@@ -412,13 +471,13 @@ export class RegistroDemandasFormComponent implements OnInit {
         this.listadoBeneficiarios = [];
       }
 
-      let combinedSelection = tipoSelected.Nombre + categoriaSelected.Nombre;
+      let combinedSelection = tipoSelected.name + categoriaSelected.name;
       let repetido = this.listadoBeneficiarios.findIndex(item => item.seleccionCombinada == combinedSelection);
 
       if (repetido == -1) {
         this.listadoBeneficiarios.push({
-          Id: 0, tipoId: tipoSelected.Id, tipoNombre: tipoSelected.Nombre,
-          categoriaId: categoriaSelected.Id, categoriaNombre: categoriaSelected.Nombre,
+          Id: 0, tipoId: tipoSelected.id, tipoNombre: tipoSelected.name,
+          categoriaId: categoriaSelected.id, categoriaNombre: categoriaSelected.name,
           cantidad: cantidad, Activo: 1, codigoDemanda: this.codigoDemanda,
           seleccionCombinada: combinedSelection
         });
@@ -444,16 +503,17 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   agregarObjetivo() {
 
-    let objetivoSelected = this.objetivo.value;
+    let objetivoSelected: DropdownResponse = this.objetivo.value;
 
     if (objetivoSelected != null) {
       if (this.listadoObjetivos == null) {
         this.listadoObjetivos = [];
       }
-      if (this.listadoObjetivos.findIndex(item => item.ObjetivoId == objetivoSelected.ObjetivoId) == -1) {
+      if (this.listadoObjetivos.findIndex(item => item.ObjetivoId == objetivoSelected.id) == -1) {
         this.listadoObjetivos.push({
-          EjeId: objetivoSelected.EjeId, ObjetivoId: objetivoSelected.ObjetivoId,
-          CodigoEje: objetivoSelected.CodigoEje, Nombre: objetivoSelected.Nombre, Activo: objetivoSelected.Activo
+          EjeId: this.eje.value, ObjetivoId: objetivoSelected.id,
+          CodigoEje: objetivoSelected.extraInfo, Nombre: objetivoSelected.name,
+          CodigoDemanda: 0
         })
       }
       else {
@@ -474,16 +534,16 @@ export class RegistroDemandasFormComponent implements OnInit {
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
-      return;
+      //return;
     }
     if (this.otrosTiposShow) {
-      this.InversionesSelected.push(this.otrosTiposInversion.value);
+      //this.InversionesSelected.push(this.otrosTiposInversion.value);
     }
 
     let listadoEjes = [];
-    for (let item of this.listadoObjetivos) {
+    /* for (let item of this.listadoObjetivos) {
       listadoEjes.push({ ejeId: item.EjeId });
-    }
+    } */
 
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
@@ -493,10 +553,121 @@ export class RegistroDemandasFormComponent implements OnInit {
       beneficiarios: this.listadoBeneficiarios,
       objetivo: this.listadoObjetivos,
       eje: listadoEjes
-
     });
-    console.log(this.registerForm.value);
-    this.refrescar();
+
+    const formValue = this.registerForm.value;
+
+    this._demanda = new Demanda().deserialize({
+      estatus: 'A',
+      anio: formValue.anio,
+      regionId: formValue.region,
+      provinciaId: formValue.provincia,
+      municipioId: formValue.municipio,
+      distritoMunicipalId: formValue.distrito,
+      fuenteDemandaId: formValue.fuente,
+      descripcion: formValue.demanda,
+      tecnicoOMPPId: formValue.tecnico,
+      institucionId: formValue.institucionResponsable,
+      estadoId: 1,
+      temaComunId: 1,
+      demandaActividades: formValue.actividad.map((item: any, i: number) => {
+        return {
+          id: item.ActividadId,
+          estatus: "A",
+          demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+          numero: i + 1,
+          descripcion: item.Actividad
+        }
+      }),
+      demandaBeneficiarios: formValue.beneficiarios.map((item: any) => {
+        return {
+          id: item.Id,
+          estatus: "A",
+          demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+          beneficiarioCategoriaId: item.categoriaId,
+          beneficiarioTipoId: item.tipoId,
+          cantidad: item.cantidad
+
+        }
+      }),
+      demandaResultadosEND: formValue.objetivo.map((item: any) => {
+        return {
+          id: item.Id,
+          estatus: "A",
+          demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+          ejeENDId: item.EjeId,
+          objetivoENDId: item.ObjetivoId
+        }
+      }),
+      demandaPoliticasPNPSP: formValue.politica.map((item: any) => {
+        return {
+          id: item.Id,
+          estatus: "A",
+          demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+          politicaPNPSPId: item.PoliticaId
+        }
+      }),
+      demandaTipoInversiones: formValue.tiposInversion.map((item: any) => {
+        return {
+          id: item.Id,
+          estatus: "A",
+          demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+          tipoInversionId: item.id
+        }
+      }),
+      demandaComentarios: formValue.comentarios != null ? [
+        new DemandaComentario().deserialize({
+          id: 0,
+          estatus: "A",
+          demandaId: 0,
+          comentrio: formValue.comentarios
+        })
+      ] : null,
+      institucionesInvolucradas: formValue.institucionesColaboradoras.map((item: any) => {
+        return {
+          id: 0,
+          estatus: "A",
+          demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+          institucionId: parseInt(item.InstitucionId, 10)
+        }
+      })
+    });
+    console.log(this._demanda)
+    console.log(formValue)
+
+    this.spinner.show();
+    if (this.typeEdit) {
+      this._demanda.id = parseInt(this.demandaId, 10);
+      this.demandaService.updateDemanda(this._demanda).toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess('La demanda se actualizó con éxito')
+          this.router.navigate(['/demandas']);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError('Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC');
+        this.spinner.hide();
+      });
+
+    } else {
+      this.demandaService.createDemanda(this._demanda).toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess('La demanda se registró con éxito')
+          this.router.navigate(['/demandas']);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError('Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC');
+        this.spinner.hide();
+      });
+    }
+    //this.refrescar();
   }
 
   refrescar() {
@@ -512,6 +683,55 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   }
 
+  setListasDemandas(demanda: Demanda): void {
+
+    this.listadoPoliticas = demanda.demandaPoliticasPNPSP.map((item: any) => {
+      return {
+        id: item.id,
+        CodigoDemanda: item.demandaId,
+        PoliticaId: item.politicaPNPSPId,
+        Nombre: item.nombrePolitica
+      }
+    });
+    this.listadoInstituciones = demanda.institucionesInvolucradas.map((item: any) => {
+      return {
+        Id: item.id,
+        CodigoDemanda: item.demandaId,
+        InstitucionId: item.institucionId,
+        Nombre: item.nombreInstitucion
+      }
+    });
+    this.listadoActividades = demanda.demandaActividades.map((item: any, i: number) => {
+      return {
+        ActividadId: item.id,
+        CodigoDemanda: item.demandaId,
+        Actividad: item.descripcion
+      }
+    });
+    this.listadoBeneficiarios = demanda.demandaBeneficiarios.map((item: any) => {
+      return {
+        Id: item.id,
+        codigoDemanda: item.demandaId,
+        categoriaId: item.beneficiarioCategoriaId,
+        tipoId: item.beneficiarioTipoId,
+        cantidad: item.cantidad,
+        tipoNombre: item.nombreTipo,
+        categoriaNombre: item.nombreCategoria,
+        seleccionCombinada: item.nombreTipo + item.nombreCategoria
+      }
+    });
+
+    this.listadoObjetivos = demanda.demandaResultadosEND.map((item: any) => {
+      return {
+        Id: item.id,
+        CodigoDemanda: item.demandaId,
+        EjeId: item.ejeENDId,
+        ObjetivoId: item.objetivoENDId,
+        CodigoEje: item.nombreEjeEnd,
+        Nombre: item.nombreObjetivoEnd
+      }
+    });
+  }
 
 }
 

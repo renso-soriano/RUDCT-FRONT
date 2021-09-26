@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { IDemanda } from "app/shared/models/Idemanda";
 import { DemandasService } from "app/shared/services/demandas.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-detalle-demandas",
@@ -17,30 +19,35 @@ export class DetalleDemandasComponent implements OnInit {
   constructor(
     private demandaService: DemandasService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService,
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      if (params.has("CodigoDemanda")) {
-        this.getDemanda(params.get("CodigoDemanda"));
+      if (params.has("id")) {
+        this.getDemanda(params.get("id"));
       }
     });
   }
 
   /**************************** */
 
-  getDemanda(CodigoDemanda: string) {
+  getDemanda(demandaId: string) {
     this.notFound = false;
     this.demanda = null;
-
-    this.demandaService.getDemandaByCodigo(CodigoDemanda).subscribe(
-      (demandasFromTheAPI: any[]) => {
-        this.demanda = demandasFromTheAPI[0];
+    this.spinner.show();
+    this.demandaService.getDemandaById(demandaId).subscribe(
+      (demanda: Demanda) => {
+        this.demanda = demanda;
       },
       (err: any) => {
         console.error(err);
         this.notFound = true;
+        this.spinner.hide();
+      },
+      () =>{
+        this.spinner.hide();
       }
     );
   }
