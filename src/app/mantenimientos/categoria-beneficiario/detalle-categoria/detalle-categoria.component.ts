@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IcategoriaBeneficiario } from 'app/shared/models/iCategoriaBeneficiario';
-import { CategoriaBeneficiarioService } from 'app/shared/services/categoria-beneficiario.service';
+import { CategoriaBeneficiarioService } from 'app/shared/services/mantenimientos/categoria-beneficiario.service';
 
 @Component({
   selector: 'app-detalle-categoria',
@@ -34,8 +34,8 @@ export class DetalleCategoriaComponent implements OnInit {
     this.notFound = false;
     this.categoriaBeneficiario = null;
 
-    this.categoriaBeneficiarioService.getCategoriaBeneficiariosById(Id).subscribe((categoriasBeneficiariosFromTheAPI : IcategoriaBeneficiario[]) => {
-      this.categoriaBeneficiario = categoriasBeneficiariosFromTheAPI[0];
+    this.categoriaBeneficiarioService.getCategoriaBeneficiariosById(Id).subscribe((categoriasBeneficiariosFromTheAPI : IcategoriaBeneficiario) => {
+      this.categoriaBeneficiario = categoriasBeneficiariosFromTheAPI;
 
     }, (err: any) => {
       console.error(err);

@@ -7,8 +7,8 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { DemandasService } from 'app/shared/services/demandas.service';
-import { PoliticaService } from 'app/shared/services/politica.service';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
+import { PoliticaService } from 'app/shared/services/mantenimientos/politica.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
 

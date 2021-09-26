@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
     <div class="w-100 d-flex justify-content-end">
-      <a [routerLink]="['/tipoBeneficiario/Create']" data-toggle="tooltip" data-placement="bottom"
+      <a [routerLink]="['/mantenimientos/tipos_beneficiarios/Create']" data-toggle="tooltip" data-placement="bottom"
         title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
 
       <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
@@ -31,14 +31,14 @@
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
               [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
-              <ngx-datatable-column name="Tipo de beneficiario" prop="Nombre" [width]="200"> </ngx-datatable-column>
+              <ngx-datatable-column name="Tipo de beneficiario" prop="nombre" [width]="200"> </ngx-datatable-column>
 
               <ngx-datatable-column name="Acciones" [width]="70">
                 <ng-template let-row="row" ngx-datatable-cell-template>
 
-                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.Id)" title="ver detalles"></a>
-                  <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.Id)" title="Editar"></a>
-                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.Id)" title="Eliminar"></a>
+                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)" title="ver detalles"></a>
+                  <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)" title="Eliminar"></a>
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>
@@ -52,3 +52,4 @@
 </section>
 <!--/ Filter Datatables -->
 
+<div #myDiv id="false-click"></div>

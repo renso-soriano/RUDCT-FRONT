@@ -7,7 +7,7 @@ import {
 } from '@swimlane/ngx-datatable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { InstitucionService } from 'app/shared/services/institucion.service';
+import { InstitucionService } from 'app/shared/services/mantenimientos/institucion.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
 

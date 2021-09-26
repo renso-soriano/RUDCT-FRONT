@@ -13,7 +13,7 @@
               <form (submit)="submit()" [formGroup]="registerForm">
 
                 <div class="row">
-                  <div class="col-sm-12">
+                  <div class="col-sm-4">
                     <div class="form-group">
                       <label for="nombre">Tipo Beneficiario</label>
                       <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
@@ -35,20 +35,6 @@
                   </div>
                 </div>
 
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <div class="btn-group">
-                        <label class="btn-outline-primary" ngbButtonLabel>
-                          <input type="checkbox" formControlName="activo" ngbButton> activa
-                        </label>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
                 <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
                   title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>
@@ -64,7 +50,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/tipoBeneficiario']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/mantenimientos/tipos_beneficiarios']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>

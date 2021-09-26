@@ -15,7 +15,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'politica', title: 'Politica PNPSP', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isEternalLink: false, submenu: [] },
       { path: 'tipoBeneficiario', title: 'Tipos de beneficiarios', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isEternalLink: false, submenu: [] },
       { path: 'categoriaBeneficiario', title: 'Categoria de beneficiarios', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isEternalLink: false, submenu: [] },
-
+      { path: 'tecnicos', title: 'TecnicosOMPP', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isEternalLink: false, submenu: [] },
 
     ]
   },

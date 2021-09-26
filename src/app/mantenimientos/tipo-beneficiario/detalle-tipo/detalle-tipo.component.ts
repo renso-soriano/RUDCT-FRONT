@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
-import { TipoBeneficiarioService } from 'app/shared/services/tipo-beneficiario.service';
+import { TipoBeneficiarioService } from 'app/shared/services/mantenimientos/tipo-beneficiario.service';
 
 @Component({
   selector: 'app-detalle-tipo',
@@ -34,8 +34,8 @@ export class DetalleTipoComponent implements OnInit {
     this.notFound = false;
     this.tipoBeneficiario = null;
 
-    this.tipoBeneficiarioService.getTipoBeneficiariosById(Id).subscribe((tiposBeneficiariosFromTheAPI : ItipoBeneficiario[]) => {
-      this.tipoBeneficiario = tiposBeneficiariosFromTheAPI[0];
+    this.tipoBeneficiarioService.getTipoBeneficiariosById(Id).subscribe((tiposBeneficiariosFromTheAPI : ItipoBeneficiario) => {
+      this.tipoBeneficiario = tiposBeneficiariosFromTheAPI;
 
     }, (err: any) => {
       console.error(err);

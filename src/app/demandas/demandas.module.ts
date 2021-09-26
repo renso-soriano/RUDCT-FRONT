@@ -8,8 +8,6 @@ import { ListadoDemandasComponent } from './listado-demandas/listado-demandas.co
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { PasswordValidationDirective } from './validations/password-validation.directive';
-import { UsernameUnicoDirective } from './validations/username-unico.directive';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
@@ -21,9 +19,7 @@ import { SharedModule } from 'app/shared/shared.module';
   declarations: [
     RegistroDemandasFormComponent,
     ListadoDemandasComponent,
-    PasswordValidationDirective,
-    UsernameUnicoDirective,
-    DetalleDemandasComponent,
+    DetalleDemandasComponent
   ],
   imports: [
     CommonModule,

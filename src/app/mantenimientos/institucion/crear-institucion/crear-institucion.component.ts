@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Iinstitucion } from 'app/shared/models/iinstitucion';
-import { InstitucionService } from 'app/shared/services/institucion.service';
+import { InstitucionService } from 'app/shared/services/mantenimientos/institucion.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 
 @Component({

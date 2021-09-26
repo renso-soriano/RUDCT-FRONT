@@ -22,7 +22,7 @@ import { DropdownRequest } from '../models/Core/DropdownRequest.model';
 import { DropdownResponse } from '../models/Core/DropdownResponse.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DropDownServiceService {
 
@@ -39,7 +39,7 @@ export class DropDownServiceService {
   }
 
   getAñoById(idAño: string): Observable<Iaño> {
-    return this.http.get<Iaño>(this.baseUrl + 'Años.json/' + idAño);
+    return this.http.get<Iaño>(this.baseUrl + "Años.json/" + idAño);
     //return this.http.get<Iaño>(this.URL + '/años' + idAño, {params: params});
   }
 
@@ -50,13 +50,16 @@ export class DropDownServiceService {
   }
 
   getRegionById(RegionId: string): Observable<Iregion> {
-    return this.http.get<Iregion>(this.baseUrl + 'regiones.json/' + RegionId);
+    return this.http.get<Iregion>(this.baseUrl + "regiones.json/" + RegionId);
   }
 
   // getProvincias
   getProvincias(): Observable<Iprovincia[]> {
-    /* return this.http.get<Iprovincia[]>(this.baseUrl);  */
-    return this.http.get<Iprovincia[]>(this.baseUrl + 'provincias.json');
+    let body = {
+      nombreLista: "PROVINCIAS",
+      padreId: null
+    };
+    return this.http.post<Iprovincia[]>(this.URL + "Listas/GetDropdown", body);
   }
 
   getProvinciasByRegion(idRegion: number): Observable<DropdownResponse[]> {
@@ -68,13 +71,19 @@ export class DropDownServiceService {
   }
 
   getProvinciaById(ProvinciaId: string): Observable<Iprovincia> {
-
-    return this.http.get<Iprovincia>(this.baseUrl + 'provincias.json/' + ProvinciaId);
+    return this.http.get<Iprovincia>(
+      this.baseUrl + "provincias.json/" + ProvinciaId
+    );
   }
 
   // getMunicipios
   getMunicipios(): Observable<Imunicipio[]> {
-    return this.http.get<Imunicipio[]>(this.baseUrl + 'municipios.json');
+    //return this.http.get<Imunicipio[]>(this.URL );
+    let body = {
+      nombreLista: "MUNICIPIOS",
+      padreId: null
+    };
+    return this.http.post<Imunicipio[]>(this.URL + "Listas/GetDropdown", body);
   }
 
   getMunicipiosByProvincia(key: any): Observable<DropdownResponse[]> {
@@ -85,17 +94,22 @@ export class DropDownServiceService {
   }
 
   getMunicipioById(MunicipioId: string): Observable<Imunicipio> {
-
-    return this.http.get<Imunicipio>(this.baseUrl + 'municipios.json/' + MunicipioId);
+    return this.http.get<Imunicipio>(
+      this.baseUrl + "municipios.json/" + MunicipioId
+    );
   }
 
   // getDistritos
   getDistritos(): Observable<IdistritoMunicipal[]> {
-    return this.http.get<IdistritoMunicipal[]>(this.baseUrl + 'distritosMunicipales.json');
+    return this.http.get<IdistritoMunicipal[]>(
+      this.baseUrl + "distritosMunicipales.json"
+    );
   }
 
   getDistritoById(DistritoId: string): Observable<IdistritoMunicipal> {
-    return this.http.get<IdistritoMunicipal>(this.baseUrl + 'distritosMunicipales.json/' + DistritoId);
+    return this.http.get<IdistritoMunicipal>(
+      this.baseUrl + "distritosMunicipales.json/" + DistritoId
+    );
   }
 
   getDistritosByMunicipio(key: any): Observable<DropdownResponse[]> {
@@ -112,7 +126,7 @@ export class DropDownServiceService {
   }
 
   getEjeById(EjeId: string): Observable<IejeEnd> {
-    return this.http.get<IejeEnd>(this.baseUrl + 'ejesEnd.json/' + EjeId);
+    return this.http.get<IejeEnd>(this.baseUrl + "ejesEnd.json/" + EjeId);
   }
 
   // getObjetivos
@@ -122,7 +136,9 @@ export class DropDownServiceService {
   }
 
   getObjetivoById(ObjetivoId: string): Observable<IobjetivoEnd> {
-    return this.http.get<IobjetivoEnd>(this.baseUrl + 'objetivosEnd.json/' + ObjetivoId);
+    return this.http.get<IobjetivoEnd>(
+      this.baseUrl + "objetivosEnd.json/" + ObjetivoId
+    );
   }
 
   getObjetivosByEjeId(ejeId: number): Observable<DropdownResponse[]> {
@@ -132,11 +148,15 @@ export class DropDownServiceService {
 
   // getEstados
   getEstados(): Observable<IestadoEjecucion[]> {
-    return this.http.get<IestadoEjecucion[]>(this.baseUrl + 'estadoEjecucion.json');
+    return this.http.get<IestadoEjecucion[]>(
+      this.baseUrl + "estadoEjecucion.json"
+    );
   }
 
   getEstadoById(EstadoId: string): Observable<IestadoEjecucion> {
-    return this.http.get<IestadoEjecucion>(this.baseUrl + 'estadoEjecucion.json/' + EstadoId);
+    return this.http.get<IestadoEjecucion>(
+      this.baseUrl + "estadoEjecucion.json/" + EstadoId
+    );
   }
 
   // getFuentes
@@ -148,7 +168,9 @@ export class DropDownServiceService {
   }
 
   getFuenteById(FuenteId: string): Observable<IfuenteDemanda> {
-    return this.http.get<IfuenteDemanda>(this.baseUrl + 'fuenteDemandas.json/' + FuenteId);
+    return this.http.get<IfuenteDemanda>(
+      this.baseUrl + "fuenteDemandas.json/" + FuenteId
+    );
   }
 
   // getInstituciones
@@ -158,9 +180,10 @@ export class DropDownServiceService {
   }
 
   getInstitucionById(InstitucionId: string): Observable<Iinstitucion> {
-    return this.http.get<Iinstitucion>(this.baseUrl + 'Instituciones.json/' + InstitucionId);
+    return this.http.get<Iinstitucion>(
+      this.baseUrl + "Instituciones.json/" + InstitucionId
+    );
   }
-
 
   // getPoliticas
   getPoliticas(): Observable<DropdownResponse[]> {
@@ -174,7 +197,9 @@ export class DropDownServiceService {
   }
 
   getPoliticaById(PoliticaId: string): Observable<Ipolitica> {
-    return this.http.get<Ipolitica>(this.baseUrl + 'politicas.json/' + PoliticaId);
+    return this.http.get<Ipolitica>(
+      this.baseUrl + "politicas.json/" + PoliticaId
+    );
   }
 
   // getTecnicos
@@ -184,7 +209,7 @@ export class DropDownServiceService {
   }
 
   getTecnicoById(Id: string): Observable<Itecnico> {
-    return this.http.get<Itecnico>(this.baseUrl + 'tecnicoOMPP.json/' + Id);
+    return this.http.get<Itecnico>(this.baseUrl + "tecnicoOMPP.json/" + Id);
   }
 
   // getTipoInversion
@@ -194,7 +219,9 @@ export class DropDownServiceService {
   }
 
   getTipoInversionById(Id: string): Observable<ItipoInversion> {
-    return this.http.get<ItipoInversion>(this.baseUrl + 'tipoInversion.json/' + Id);
+    return this.http.get<ItipoInversion>(
+      this.baseUrl + "tipoInversion.json/" + Id
+    );
   }
 
   // getTipoBeneficiarios
@@ -204,7 +231,9 @@ export class DropDownServiceService {
   }
 
   getTipoBeneficiariosById(Id: string): Observable<ItipoBeneficiario> {
-    return this.http.get<ItipoBeneficiario>(this.baseUrl + 'tipoBeneficiario.json/' + Id);
+    return this.http.get<ItipoBeneficiario>(
+      this.baseUrl + "tipoBeneficiario.json/" + Id
+    );
   }
 
   // getCategoriaBeneficiarios
@@ -213,8 +242,12 @@ export class DropDownServiceService {
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
-  getCategoriaBeneficiariosById(Id: string): Observable<IcategoriaBeneficiario> {
-    return this.http.get<IcategoriaBeneficiario>(this.baseUrl + 'categoriaBeneficiario.json/' + Id);
+  getCategoriaBeneficiariosById(
+    Id: string
+  ): Observable<IcategoriaBeneficiario> {
+    return this.http.get<IcategoriaBeneficiario>(
+      this.baseUrl + "categoriaBeneficiario.json/" + Id
+    );
   }
 
   calculateYears(start: number, end: number): Iaño[] {

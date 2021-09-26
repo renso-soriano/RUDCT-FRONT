@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
-import { DemandasService } from 'app/shared/services/demandas.service';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { EjeEnd } from 'app/shared/models/ejeEnd.enum';
 import { Region } from 'app/shared/models/region.enum';
 import { JsonPipe } from '@angular/common';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
-import { FuenteService } from 'app/shared/services/fuente.service';
+import { FuenteService } from 'app/shared/services/mantenimientos/fuente.service';
 
 @Component({
   selector: 'app-detalle-fuente',
@@ -34,8 +34,8 @@ export class DetalleFuenteComponent implements OnInit {
     this.notFound = false;
     this.fuente = null;
 
-    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI : IfuenteDemanda[]) => {
-      this.fuente = fuenteFromTheAPI[0];
+    this.fuenteService.getFuenteById(FuenteId).subscribe((fuenteFromTheAPI : IfuenteDemanda) => {
+      this.fuente = fuenteFromTheAPI;
 
     }, (err: any) => {
       console.error(err);

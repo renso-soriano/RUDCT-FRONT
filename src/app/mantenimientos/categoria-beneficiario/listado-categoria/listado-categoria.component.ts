@@ -1,44 +1,49 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { DatatableData } from './data/datatables.data';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import { DatatableData } from "./data/datatables.data";
 import {
   ColumnMode,
   DatatableComponent,
-  SelectionType
-} from '@swimlane/ngx-datatable';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import * as alertFunctions from '../../../shared/data/sweet-alerts';
-import { CategoriaBeneficiarioService } from 'app/shared/services/categoria-beneficiario.service';
+  SelectionType,
+} from "@swimlane/ngx-datatable";
+import { HttpClient } from "@angular/common/http";
+import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
+import * as alertFunctions from "../../../shared/data/sweet-alerts";
+import { CategoriaBeneficiarioService } from "app/shared/services/mantenimientos/categoria-beneficiario.service";
 
-declare var require: any;
-const data: any = require('../../../shared/data/categoriaBeneficiario.json');
+/* declare var require: any;
+const data: any = require('../../../shared/data/categoriaBeneficiario.json'); */
 
 @Component({
-  selector: 'app-listado-categoria',
-  templateUrl: './listado-categoria.component.html',
-  styleUrls: ['./listado-categoria.component.scss', '../../../../assets/sass/libs/datatables.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-listado-categoria",
+  templateUrl: "./listado-categoria.component.html",
+  styleUrls: [
+    "./listado-categoria.component.scss",
+    "../../../../assets/sass/libs/datatables.scss",
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ListadoCategoriaComponent implements OnInit {
-
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
   // public
   public contentHeader: object;
-
-  //data:any[];
+  data: any[];
   notFound = false;
 
   // row data
-  public rows = data;
+  // public rows = data;
+  public rows = [];
 
   // column header
-  public columns = [
-    { name: 'Categoria beneficiario', prop: 'Nombre' },
-
-  ];
+  public columns = [{ name: "Categoria beneficiario", prop: "nombre" }];
 
   // multi Purpose datatable Row data
   public multiPurposeRows = DatatableData;
@@ -46,8 +51,8 @@ export class ListadoCategoriaComponent implements OnInit {
   public ColumnMode = ColumnMode;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild('tableRowDetails') tableRowDetails: any;
-  @ViewChild('tableResponsive') tableResponsive: any;
+  @ViewChild("tableRowDetails") tableRowDetails: any;
+  @ViewChild("tableResponsive") tableResponsive: any;
 
   public expanded: any = {};
 
@@ -71,7 +76,7 @@ export class ListadoCategoriaComponent implements OnInit {
    * @param rowIndex
    */
   inlineEditingUpdate(event, cell, rowIndex) {
-    this.editing[rowIndex + '-' + cell] = false;
+    this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
   }
@@ -86,7 +91,7 @@ export class ListadoCategoriaComponent implements OnInit {
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
-      return d.Nombre.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
@@ -130,7 +135,7 @@ export class ListadoCategoriaComponent implements OnInit {
    */
   serverSideSetPage(event) {
     this.http
-      .get('assets/data/datatable-data.json')
+      .get("assets/data/datatable-data.json")
       .pipe(map((data) => data as Array<any>))
       .subscribe((data) => {
         this.serverSideRowData = data;
@@ -161,25 +166,48 @@ export class ListadoCategoriaComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private categoriaBeneficiarioService: CategoriaBeneficiarioService, private router: Router) {
-    this.tempData = data;
+  constructor(
+    private http: HttpClient,
+    private categoriaBeneficiarioService: CategoriaBeneficiarioService,
+    private router: Router
+  ) {
+    this.tempData = [];
     this.multiPurposeTemp = DatatableData;
-    setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    setTimeout(() => {
+      this.loadingIndicator = false;
+    }, 1500);
   }
 
-   //Actions Methods
+  //Actions Methods
 
-   verDetalles(Id: string) {
-    this.router.navigate(["/categoriaBeneficiario", 'Details', Id]);
+  verDetalles(Id: string) {
+    this.router.navigate([
+      "/mantenimientos",
+      "categoria_beneficiarios",
+      "Details",
+      Id,
+    ]);
   }
   editar(Id: string) {
-    this.router.navigate(["/categoriaBeneficiario", 'Edit', Id]);
+    this.router.navigate([
+      "/mantenimientos",
+      "categoria_beneficiarios",
+      "Edit",
+      Id,
+    ]);
   }
-  eliminar(Id: number) {
-    alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
 
+  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
+
+  triggerFalseClick() {
+    let el: HTMLElement = this.myDiv.nativeElement;
+    el.click();
   }
 
+  // eliminar(Id: number) {
+  //   alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
+
+  // }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -191,38 +219,42 @@ export class ListadoCategoriaComponent implements OnInit {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
 
-    /* this.demandasService.getDemandas().subscribe((demandasFromTheAPI : any) => {
-      this.data = demandasFromTheAPI;
-      this.rows =this.data;
-    }, (err: any) => {
-      console.error(err);
-      this.notFound = true;
-    }); */
+    this.categoriaBeneficiarioService.getCategoriasBeneficiarios().subscribe(
+      (categoriasFromTheAPI: any) => {
+        this.data = categoriasFromTheAPI;
+        this.rows = this.data;
+        this.tempData = this.data;
+        this.triggerFalseClick();
+      },
+      (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      }
+    );
 
     // content header
     this.contentHeader = {
-      headerTitle: 'Datatables',
+      headerTitle: "Datatables",
       actionButton: true,
       breadcrumb: {
-        type: '',
+        type: "",
         links: [
           {
-            name: 'Home',
+            name: "Home",
             isLink: true,
-            link: '#'
+            link: "#",
           },
           {
-            name: 'Forms & Tables',
+            name: "Forms & Tables",
             isLink: true,
-            link: ''
+            link: "",
           },
           {
-            name: 'Datatables',
-            isLink: false
-          }
-        ]
-      }
+            name: "Datatables",
+            isLink: false,
+          },
+        ],
+      },
     };
   }
-
 }

@@ -15,7 +15,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Id: </span>
-                    <label for="FuenteId">{{fuente.FuenteId}}</label>
+                    <label for="id">{{fuente.id}}</label>
                   </div>
                 </div>
               </div>
@@ -26,18 +26,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <span class="primary">Nombre: </span>
-                    <label for="nombre">{{fuente.Nombre}}</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="div">
-              <div class="row">
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <span class="primary">Activa: </span>
-                    <label for="activo">{{fuente.Activo == 1?"Si":"No"}}</label>
+                    <label for="nombre">{{fuente.nombre}}</label>
                   </div>
                 </div>
               </div>
@@ -52,7 +41,7 @@
 </div>
 
 <div>
-  <a [routerLink]="['/fuente']" class="btn btn-primary"><span>Volver a listado</span>
+  <a [routerLink]="['/mantenimientos/fuentes']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
 
 </div>
