@@ -29,7 +29,7 @@
                   placeholder="Nombre de demanda..." (keyup)="filterUpdate($event)" />
               </label>
             </fieldset> -->
-            <div class="col-12">
+            <div class="col-12 mb-2">
               <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)" ></app-data-filter>
             </div>
             <div class="col-sm-4">

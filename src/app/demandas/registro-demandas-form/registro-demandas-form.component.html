@@ -261,7 +261,7 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Cantidad beneficiarios</label>
-                            <input type="text" class="form-control" name="cantidad" id="cantidad"
+                            <input type="number" min="0" class="form-control" name="cantidad" id="cantidad"
                               formControlName="cantidad">
                           </div>
                         </div>
@@ -288,7 +288,7 @@
                             <tr *ngFor="let beneficiario of listadoBeneficiarios; let i = index">
                               <td>{{ beneficiario.tipoNombre }}</td>
                               <td>{{ beneficiario.categoriaNombre }}</td>
-                              <td>{{ beneficiario.cantidad }}</td>
+                              <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td>
                               <td><a class="btn btn-danger ft-trash-2" (click)="removerBeneficiario(i)"></a>
                               </td>
                             </tr>

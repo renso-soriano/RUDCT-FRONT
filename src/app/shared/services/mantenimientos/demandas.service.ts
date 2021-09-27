@@ -5,7 +5,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Demanda } from '../models/Demandas/Demanda.model';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+
 
 @Injectable({
   providedIn: 'root'

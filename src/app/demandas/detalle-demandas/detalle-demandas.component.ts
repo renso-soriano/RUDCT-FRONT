@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { IDemanda } from "app/shared/models/Idemanda";
-import { DemandasService } from "app/shared/services/demandas.service";
+import { DemandasService } from "app/shared/services/mantenimientos/demandas.service";
+
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({

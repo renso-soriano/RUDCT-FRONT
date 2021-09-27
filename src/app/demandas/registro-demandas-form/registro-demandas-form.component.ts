@@ -562,7 +562,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionId: formValue.institucionResponsable,
       estadoId: 1,
       temaComunId: 1,
-      demandaActividades: formValue.actividad.map((item: any, i: number) => {
+      demandaActividades: formValue.actividad != undefined ? formValue.actividad.map((item: any, i: number) => {
         return {
           id: item.ActividadId,
           estatus: "A",
@@ -570,8 +570,8 @@ export class RegistroDemandasFormComponent implements OnInit {
           numero: i + 1,
           descripcion: item.Actividad
         }
-      }),
-      demandaBeneficiarios: formValue.beneficiarios.map((item: any) => {
+      }) : null,
+      demandaBeneficiarios: formValue.beneficiarios != undefined ? formValue.beneficiarios.map((item: any) => {
         return {
           id: item.Id,
           estatus: "A",
@@ -579,10 +579,9 @@ export class RegistroDemandasFormComponent implements OnInit {
           beneficiarioCategoriaId: item.categoriaId,
           beneficiarioTipoId: item.tipoId,
           cantidad: item.cantidad
-
         }
-      }),
-      demandaResultadosEND: formValue.objetivo.map((item: any) => {
+      }) : null,
+      demandaResultadosEND: formValue.objetivo != undefined ? formValue.objetivo.map((item: any) => {
         return {
           id: item.Id,
           estatus: "A",
@@ -590,23 +589,23 @@ export class RegistroDemandasFormComponent implements OnInit {
           ejeENDId: item.EjeId,
           objetivoENDId: item.ObjetivoId
         }
-      }),
-      demandaPoliticasPNPSP: formValue.politica.map((item: any) => {
+      }) : null,
+      demandaPoliticasPNPSP: formValue.politica != undefined ? formValue.politica.map((item: any) => {
         return {
           id: item.Id,
           estatus: "A",
           demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
           politicaPNPSPId: item.PoliticaId
         }
-      }),
-      demandaTipoInversiones: formValue.tiposInversion.map((item: any) => {
+      }) : null,
+      demandaTipoInversiones: formValue.tiposInversion != undefined ? formValue.tiposInversion.map((item: any) => {
         return {
           id: item.Id,
           estatus: "A",
           demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
           tipoInversionId: item.id
         }
-      }),
+      }) : null,
       demandaComentarios: formValue.comentarios != null ? [
         new DemandaComentario().deserialize({
           id: 0,
@@ -615,17 +614,15 @@ export class RegistroDemandasFormComponent implements OnInit {
           comentrio: formValue.comentarios
         })
       ] : null,
-      institucionesInvolucradas: formValue.institucionesColaboradoras.map((item: any) => {
+      institucionesInvolucradas: formValue.institucionesColaboradoras != undefined ? formValue.institucionesColaboradoras.map((item: any) => {
         return {
           id: 0,
           estatus: "A",
           demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
           institucionId: parseInt(item.InstitucionId, 10)
         }
-      })
+      }) : null
     });
-    console.log(this._demanda)
-    console.log(formValue)
 
     this.spinner.show();
     if (this.typeEdit) {

@@ -1,40 +1,24 @@
-<div class="card bg-primary border-0 shadow">
-  <div class="card-header">
-    <h4 class="card-title"><i class="ft-filter"></i> Filtros din&aacute;micos</h4>
-  </div>
-  <div class="card-content">
-    <div class="card-body">
+<ngb-accordion #acc="ngbAccordion" class="filtro" [closeOthers]="true" activeIds="">
+  <ngb-panel id="static-1">
+    <ng-template class="bg-primary" ngbPanelTitle>
+      <h4 class="card-title"><i class="ft-filter"></i> Filtros din&aacute;micos</h4>
+    </ng-template>
+    <ng-template class="bg-primary" ngbPanelContent>
       <form class="form-bordered" [formGroup]="formGroup">
         <div class="row">
           <div *ngFor="let filtro of filtros" class="form-group col-md-3">
             <label for="bordered-form-1" class="col-md-12 label-control">{{ filtro.label }}</label>
             <div class="col-md-12">
               <!-- <i class="ft-aperture font-medium-4 fa fa-spin"></i> -->
-              <ng-select
-                formControlName="{{ filtro.name }}"
-                name="{{ filtro.name }}"
-                [(ngModel)]="values[filtro.name]"
-                *ngIf="filtro.tipo == 'select' && filtro.async"
-                [items]="filtro.servicio | async"
-                [multiple]="filtro.multiple"
-                (change)="getFilters()"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="{{ filtro.placeholder }}"
-                id="{{ filtro.name }}">
+              <ng-select formControlName="{{ filtro.name }}" name="{{ filtro.name }}" [(ngModel)]="values[filtro.name]"
+                *ngIf="filtro.tipo == 'select' && filtro.async" [items]="filtro.servicio | async"
+                [multiple]="filtro.multiple" (change)="getFilters()" bindLabel="name" bindValue="id"
+                placeholder="{{ filtro.placeholder }}" id="{{ filtro.name }}">
               </ng-select>
-              <ng-select
-                formControlName="{{ filtro.name }}"
-                name="{{ filtro.name }}"
-                [(ngModel)]="values[filtro.name]"
-                *ngIf="filtro.tipo == 'select' && !filtro.async"
-                [items]="filtro.servicio"
-                [multiple]="filtro.multiple"
-                (change)="getFilters()"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="{{ filtro.placeholder }}"
-                id="{{ filtro.name }}" >
+              <ng-select formControlName="{{ filtro.name }}" name="{{ filtro.name }}" [(ngModel)]="values[filtro.name]"
+                *ngIf="filtro.tipo == 'select' && !filtro.async" [items]="filtro.servicio" [multiple]="filtro.multiple"
+                (change)="getFilters()" bindLabel="name" bindValue="id" placeholder="{{ filtro.placeholder }}"
+                id="{{ filtro.name }}">
               </ng-select>
             </div>
           </div>
@@ -47,6 +31,17 @@
           </div>
         </div>
       </form>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<!-- <div class="card bg-primary border-0 shadow">
+  <div class="card-header">
+    <h4 class="card-title"><i class="ft-filter"></i> Filtros din&aacute;micos</h4>
+  </div>
+  <div class="card-content">
+    <div class="card-body">
+
     </div>
   </div>
-</div>
+</div> -->
