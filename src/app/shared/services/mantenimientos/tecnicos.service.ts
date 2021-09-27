@@ -31,11 +31,11 @@ export class TecnicosService {
   createTecnico(tecnico: Itecnico):void
   {
     this.http.post(this.URL, tecnico);
-
   }
 
   updateTecnico(key: number, tecnico: Itecnico):void
   {
+
     this.http.put(this.URL + key , tecnico);
 
   }

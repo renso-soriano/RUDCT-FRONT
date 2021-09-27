@@ -92,8 +92,7 @@ export class CrearTecnicoComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(data:any) {
-   let  tecnico:Itecnico = data;
+  guardar(tecnico:Itecnico) {
     if (this.typeEdit) {
       this.tecnicoService.updateTecnico(tecnico.id, tecnico);
     } else {
@@ -149,9 +148,9 @@ export class CrearTecnicoComponent implements OnInit {
       );
       return;
     }
-    const tecnico = {
+    const tecnico:Itecnico = {
       id: this.id.value,
-      status: this.estatus.value,
+      estatus: this.estatus.value,
       municipioId: this.municipioId.value,
       nombre: this.nombre.value,
       apellido: this.apellido.value,
