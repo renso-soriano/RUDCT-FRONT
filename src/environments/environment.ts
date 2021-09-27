@@ -7,5 +7,6 @@ export const environment = {
   production: false,
   apiUrl: "http://apidemandas.economia.local/api/",
   appName: "Registro Único de Demandas Territoriales",
-  appShortName: "RUDT"
+  appShortName: "RUDT",
+  appStartYear: 2018
 };

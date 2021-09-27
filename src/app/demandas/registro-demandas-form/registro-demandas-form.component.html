@@ -1,4 +1,5 @@
 <!-- start -->
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="row">
   <div class="col-12">
     <!-- Kick start -->
@@ -9,18 +10,18 @@
       <div class="card-content">
         <div class="card-body">
           <div class="card-text">
-            <div class="div">
+            <div class="div" >
               <form (submit)="submit()" [formGroup]="registerForm">
                 <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-between">
                   <li ngbNavItem>
-                    <a ngbNavLink>Informacion de la demanda</a>
+                    <a ngbNavLink>Información de la demanda</a>
                     <ng-template ngbNavContent>
 
                       <div class="row">
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="año">Año</label>
-                            <ng-select [items]="anios | async" bindLabel="Year" bindValue="id" name="año" id="año"
+                            <ng-select [items]="anios" bindLabel="Year" bindValue="id" name="año" id="año"
                               placeholder="Seleccione año demanda" formControlName="anio">
                             </ng-select>
                             <div *ngIf="anio.invalid && (anio.dirty || anio.touched)"
@@ -36,8 +37,8 @@
 
                         <div class="col-sm-4">
                           <div class="form-group">
-                            <label for="region">Region</label>
-                            <ng-select [items]="regiones | async" bindLabel="Nombre" bindValue="RegionId" name="region"
+                            <label for="region">Región</label>
+                            <ng-select [items]="regiones | async" bindLabel="name" bindValue="id" name="region"
                               id="region" placeholder="Seleccione region" (change)="onRegionChange(region.value)"
                               formControlName="region">
                             </ng-select>
@@ -56,7 +57,7 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="provincia">Provincia</label>
-                            <ng-select [items]="provincias | async" bindLabel="Nombre" bindValue="Key" name="provincia"
+                            <ng-select [items]="provincias | async" bindLabel="name" bindValue="id" name="provincia"
                               id="provincia" placeholder="Seleccione provincia"
                               (change)="onProvinciaChange(provincia.value)" formControlName="provincia">
                             </ng-select>
@@ -78,7 +79,7 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="municipio">Municipio</label>
-                            <ng-select [items]="municipios | async" bindLabel="Nombre" bindValue="Key" name="municipio"
+                            <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
                               id="municipio" placeholder="Seleccione municipio"
                               (change)="onMunicipiosChange(municipio.value)" formControlName="municipio">
                             </ng-select>
@@ -97,7 +98,7 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
-                            <ng-select [items]="distritosMunicipales | async" bindLabel="Nombre" bindValue="DistritoKey"
+                            <ng-select [items]="distritosMunicipales | async" bindLabel="name" bindValue="id"
                               name="distrito" id="distrito" placeholder="Seleccione distrito"
                               formControlName="distrito">
                             </ng-select>
@@ -107,7 +108,7 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="fuente">Fuente de demanda</label>
-                            <ng-select [items]="fuenteDemandas | async" bindLabel="Nombre" bindValue="FuenteId"
+                            <ng-select [items]="fuenteDemandas | async" bindLabel="name" bindValue="id"
                               name="fuente" id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
                             </ng-select>
 
@@ -154,14 +155,14 @@
                         <div class="col-md-4">
                           <div class="form-group">
 
-                            <label for="">Tipo(s) Inversion</label>
+                            <label for="">Tipo(s) Inversión</label>
                             <div *ngFor='let tipo of listadoInversion'>
                               <div class="checkbox">
-                                <input type="checkbox" name="{{tipo.Nombre}}" id="{{tipo.Nombre}}" [value]="tipo.Nombre"
-                                  (change)="onTipoInversionChange($event,tipo.Nombre)"
+                                <input type="checkbox" name="{{tipo.name}}" id="cbkTipoInversion-{{tipo.id}}" class="inversionCbk" [value]="tipo.id"
+                                  (change)="onTipoInversionChange($event,tipo)"
                                   formControlName="inversionchkBox">
-                                <label class="form-check-label" for="{{tipo.Nombre}}">
-                                  {{tipo.Nombre}}
+                                <label class="form-check-label" for="cbkTipoInversion-{{tipo.id}}">
+                                  {{tipo.name}}
                                 </label>
                               </div>
                             </div>
@@ -241,7 +242,7 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Tipo Beneficiarios</label>
-                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="Nombre" name="tipo"
+                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="name" name="tipo"
                               id="tipo" placeholder="Seleccione tipo" formControlName="tipo">
                             </ng-select>
                           </div>
@@ -250,7 +251,7 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Categoria Beneficiarios</label>
-                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="Nombre"
+                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="name"
                               name="categoria" id="categoria" placeholder="Seleccione categoria"
                               formControlName="categoria">
                             </ng-select>
@@ -315,17 +316,8 @@
                             <label for="eje">Eje End</label><br>
                             <div class="btn-group" ngbRadioGroup name="radioBasic1" formControlName="eje"
                               (change)="onEjeChange(eje.value)">
-                              <label ngbButtonLabel class="btn-outline-info">
-                                <input ngbButton type="radio" [value]="001"> Institucionalidad
-                              </label>
-                              <label ngbButtonLabel class="btn-outline-warning ">
-                                <input ngbButton type="radio" [value]="002"> Social
-                              </label>
-                              <label ngbButtonLabel class="btn-outline-danger ">
-                                <input ngbButton type="radio" [value]="003"> Economico
-                              </label>
-                              <label ngbButtonLabel class="btn-outline-success ">
-                                <input ngbButton type="radio" [value]="004"> Medio Ambiental
+                              <label *ngFor="let eje of ejesEnd | async" ngbButtonLabel class="btn-outline-{{eje.extraInfo}}">
+                                <input ngbButton type="radio" [value]="eje.id"> {{eje.name}}
                               </label>
                             </div>
 
@@ -336,7 +328,7 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="objetivo">Objetivo</label>
-                            <ng-select [items]="objetivosEnd | async" bindLabel="Nombre" name="objetivo" id="objetivo"
+                            <ng-select [items]="objetivosEnd | async" bindLabel="name" name="objetivo" id="objetivo"
                               placeholder="Seleccione objetivo" formControlName="objetivo">
                             </ng-select>
 
@@ -362,7 +354,7 @@
                           </thead>
                           <tbody>
                             <tr *ngFor="let objetivo of listadoObjetivos; let i=index">
-                              <td>{{ objetivo.EjeId }}</td>
+                              <td>{{ objetivo.CodigoEje }}</td>
                               <td>{{ objetivo.Nombre }}</td>
                               <td><a class="btn btn-danger ft-trash-2" (click)="eliminarObjetivo(i)"></a>
                               </td>
@@ -378,7 +370,7 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="politica">Politica</label>
-                                <ng-select [items]="politicas | async" bindLabel="Nombre" name="politica" id="politica"
+                                <ng-select [items]="politicas | async" bindLabel="name" name="politica" id="politica"
                                   placeholder="Seleccione politica" formControlName="politica">
                                 </ng-select>
 
@@ -424,7 +416,7 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="tecnico">Técnico OMPP</label>
-                            <ng-select [items]="tecnicos | async" bindLabel="Nombre" bindValue="Id" name="tecnico"
+                            <ng-select [items]="tecnicos | async" bindLabel="name" bindValue="id" name="tecnico"
                               id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
                             </ng-select>
 
@@ -443,7 +435,7 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="institucionResponsable">Institucion primaria</label>
-                            <ng-select [items]="instituciones | async" bindLabel="Nombre" bindValue="InstitucionId"
+                            <ng-select [items]="instituciones | async" bindLabel="name" bindValue="id"
                               name="institucionResponsable" id="institucionResponsable"
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable"
                               (change)="onInstitucionPrimariaChange()">
@@ -468,7 +460,7 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="institucionesColaboradoras">Instituciones colaboradoras</label>
-                                <ng-select [items]="instituciones | async" bindLabel="Nombre"
+                                <ng-select [items]="instituciones | async" bindLabel="name"
                                   name="institucionesColaboradoras" id="institucionesColaboradoras"
                                   placeholder="Seleccione Institucion" formControlName="institucionesColaboradoras">
                                 </ng-select>

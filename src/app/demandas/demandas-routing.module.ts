@@ -20,11 +20,11 @@ const routes: Routes =
         component: RegistroDemandasFormComponent
       },
       {
-        path: 'Details/:CodigoDemanda',
+        path: 'Details/:id',
         component: DetalleDemandasComponent
       },
       {
-        path: 'Edit/:CodigoDemanda',
+        path: 'Edit/:id',
         component: RegistroDemandasFormComponent
       }
     ]

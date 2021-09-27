@@ -30,6 +30,8 @@ import { TopMenuDirective } from './directives/topmenu.directive';
 import { TopMenuLinkDirective } from './directives/topmenu-link.directive';
 import { TopMenuDropdownDirective } from './directives/topmenu-dropdown.directive';
 import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle.directive';
+import { DataFilterComponent } from './components/data-filter/data-filter.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TopMenuDirective,
         NgbModule,
         TranslateModule,
+        DataFilterComponent,
     ],
     imports: [
         RouterModule,
@@ -54,11 +57,12 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TranslateModule,
         FormsModule,
         OverlayModule,
-        ReactiveFormsModule ,
+        ReactiveFormsModule,
         PerfectScrollbarModule,
         ClickOutsideModule,
         AutocompleteModule,
-        PipeModule
+        PipeModule,
+        NgSelectModule
     ],
     declarations: [
         FooterComponent,
@@ -76,6 +80,7 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TopMenuDropdownDirective,
         TopMenuAnchorToggleDirective,
         TopMenuDirective,
+        DataFilterComponent,
     ]
 })
 export class SharedModule { }

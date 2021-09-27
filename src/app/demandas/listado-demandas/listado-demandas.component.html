@@ -23,36 +23,77 @@
           <div class="card-body">
 
             <!-- ngx-datatable-filter -->
-            <fieldset class="form-group">
+            <!-- <fieldset class="form-group">
               <label for="ngx-filter-ref">Buscar:
                 <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
                   placeholder="Nombre de demanda..." (keyup)="filterUpdate($event)" />
               </label>
-            </fieldset>
-            <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
-              [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
-              <ngx-datatable-column name="Codigo" prop="CodigoDemanda" [width]="100"></ngx-datatable-column>
-              <ngx-datatable-column name="Año" prop="Año" [width]="50"></ngx-datatable-column>
-              <ngx-datatable-column name="Demanda" prop="Demanda" [width]="100"></ngx-datatable-column>
-              <ngx-datatable-column name="Origen" prop="OrigenDemanda" [width]="100"></ngx-datatable-column>
-              <ngx-datatable-column name="Estado" prop="EstadoEjecucion" [width]="50">
-                <ng-template let-estado="value" ngx-datatable-cell-template>
-                  <div class="badge badge-pill"
-                    [ngClass]="{'bg-light-danger': estado == 'NO INICIADA', 'bg-light-success':estado == 'INICIADA'}">
-                    {{ estado == 'NO INICIADA' ? "NO INICIADA" : "INICIADA" }}
+            </fieldset> -->
+            <div class="col-12">
+              <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)" ></app-data-filter>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="distrito">Registros por página</label>
+                <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
+                  name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
+                </ng-select>
+              </div>
+            </div>
+            <ngx-datatable class="bootstrap core-bootstrap"
+              [rows]="rows"
+              [columns]="columns"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [externalPaging]="true"
+              [externalSorting]="false"
+              [count]="page.count"
+              [offset]="page.offset"
+              [limit]="page.limit"
+              [sortType]="'single'"
+              (page)="pageCallback($event)"
+              rowHeight="auto"
+              [reorderable]="reorderable">
+              <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
+                prop="{{column.prop}}">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <span *ngIf="column.prop != 'nombreEstadoDemanda'">
+                    {{value}}
+                  </span>
+                  <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
+                    [ngClass]="{'bg-danger': value == 'NO INICIADA', 'bg-warning':value == 'ACEPTADA POR LA INSTITUCION', 'bg-info':value == 'EN EJECUCION', 'bg-success':value == 'EJECUTADA'}">
+                    {{ value }}
                   </div>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Acciones" [width]="70">
+              <!-- Acciones -->
+              <ngx-datatable-column name="Acciones">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.CodigoDemanda)" title="Ver detalles"></a>
-                  <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.CodigoDemanda)" title="Editar"></a>
-                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.CodigoDemanda)" title="Eliminar"></a>
+                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                    title="Ver detalles"></a>
+                  <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                    title="Eliminar"></a>
                 </ng-template>
               </ngx-datatable-column>
-            </ngx-datatable>
-            <!-- ngx-datatable-filter -->
 
+              <ngx-datatable-footer>
+                <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+                  let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+                  <div class="page-count">
+                    Mostrando {{(offset * pageSize)+1}} a {{(rowCount>
+                    (curPage*pageSize))?(curPage*pageSize):(rowCount)}} de
+                    {{(rowCount)}} registros.
+                  </div>
+                  <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                    [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+                    [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+                  </datatable-pager>
+                </ng-template>
+              </ngx-datatable-footer>
+            </ngx-datatable>
           </div>
         </div>
       </div>
