@@ -1,29 +1,28 @@
-import { Observable } from 'rxjs';
-import swal from 'sweetalert2';
-
-
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import swal from "sweetalert2";
+router: Router;
 
 //-------------- Basic --------------
-
 
 // Simple Alert
 export function BasicAlert() {
   swal.fire({
-    title: 'Any fool can use a computer',
+    title: "Any fool can use a computer",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
-    buttonsStyling: false
+    buttonsStyling: false,
   });
 }
 
 // Alert with Title
 export function WithTitle() {
   swal.fire({
-    title: 'The Internet?',
+    title: "The Internet?",
     text: "That thing is still around?",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -32,36 +31,37 @@ export function WithTitle() {
 // Alert with footer
 export function WithFooter() {
   swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: 'Something went wrong!',
+    icon: "error",
+    title: "Oops...",
+    text: "Something went wrong!",
     footer: '<a href = "javascript:void(0);">Why do I have this issue?</a>',
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
-    buttonsStyling: false
+    buttonsStyling: false,
   });
 }
 
 //  HTML Alert
 export function HtmlAlert() {
   swal.fire({
-    title: '<strong>HTML <u>example</u></strong>',
-    icon: 'info',
-    html: 'You can use <b>bold text</b>, ' +
+    title: "<strong>HTML <u>example</u></strong>",
+    icon: "info",
+    html:
+      "You can use <b>bold text</b>, " +
       '<a href="https://pixinvent.com/" target="_blank">links</a> ' +
-      'and other HTML tags',
+      "and other HTML tags",
     showCloseButton: true,
     showCancelButton: true,
     focusConfirm: false,
     confirmButtonText: '<i class="fa fa-thumbs-o-up"></i> Great!',
-    confirmButtonAriaLabel: 'Thumbs up, great!',
+    confirmButtonAriaLabel: "Thumbs up, great!",
     cancelButtonText: '<i class="fa fa-thumbs-o-down"></i>',
-    cancelButtonAriaLabel: 'Thumbs down',
+    cancelButtonAriaLabel: "Thumbs down",
     buttonsStyling: false,
     customClass: {
-      confirmButton: 'btn btn-primary',
-      cancelButton: 'btn btn-danger ml-1'
+      confirmButton: "btn btn-primary",
+      cancelButton: "btn btn-danger ml-1",
     },
   });
 }
@@ -71,13 +71,13 @@ export function HtmlAlert() {
 // Top-start
 export function PositionTopStart() {
   swal.fire({
-    position: 'top-start',
-    icon: 'success',
-    title: 'Your work has been saved',
+    position: "top-start",
+    icon: "success",
+    title: "Your work has been saved",
     showConfirmButton: false,
     timer: 1500,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -86,13 +86,13 @@ export function PositionTopStart() {
 // Top-end
 export function PositionTopEnd() {
   swal.fire({
-    position: 'top-end',
-    icon: 'success',
-    title: 'Your work has been saved',
+    position: "top-end",
+    icon: "success",
+    title: "Your work has been saved",
     showConfirmButton: false,
     timer: 1500,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -101,13 +101,13 @@ export function PositionTopEnd() {
 // Bottom-start
 export function PositionBottomStart() {
   swal.fire({
-    position: 'bottom-start',
-    icon: 'success',
-    title: 'Your work has been saved',
+    position: "bottom-start",
+    icon: "success",
+    title: "Your work has been saved",
     showConfirmButton: false,
     timer: 1500,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -116,30 +116,29 @@ export function PositionBottomStart() {
 // Bottom-end
 export function PositionBottomEnd() {
   swal.fire({
-    position: 'bottom-end',
-    icon: 'success',
-    title: 'Your work has been saved',
+    position: "bottom-end",
+    icon: "success",
+    title: "Your work has been saved",
     showConfirmButton: false,
     timer: 1500,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
 }
-
 
 //-------------- Animations --------------
 
 // Bounce-in
 export function BounceInAnimation() {
   swal.fire({
-    title: 'Bounce In Animation',
+    title: "Bounce In Animation",
     showClass: {
-      popup: 'animated bounceIn'
+      popup: "animated bounceIn",
     },
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -148,26 +147,26 @@ export function BounceInAnimation() {
 // Fade-in
 export function FadeInAnimation() {
   swal.fire({
-    title: 'Fade In Animation',
+    title: "Fade In Animation",
     showClass: {
-      popup: 'animated fadeIn'
+      popup: "animated fadeIn",
     },
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
-    buttonsStyling: false
+    buttonsStyling: false,
   });
 }
 
 // Flip-in
 export function FlipXAnimation() {
   swal.fire({
-    title: 'Flip In Animation',
+    title: "Flip In Animation",
     showClass: {
-      popup: 'animated flipInX'
+      popup: "animated flipInX",
     },
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -176,12 +175,12 @@ export function FlipXAnimation() {
 // Tada
 export function TadaAnimation() {
   swal.fire({
-    title: 'Tada Animation',
+    title: "Tada Animation",
     showClass: {
-      popup: 'animated tada'
+      popup: "animated tada",
     },
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -190,12 +189,12 @@ export function TadaAnimation() {
 // Shake
 export function ShakeAnimation() {
   swal.fire({
-    title: 'Shake Animation',
+    title: "Shake Animation",
     showClass: {
-      popup: 'animated shake'
+      popup: "animated shake",
     },
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -210,7 +209,7 @@ export function TypeSuccess() {
     text: "You clicked the button!",
     icon: "success",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -223,7 +222,7 @@ export function TypeInfo() {
     text: "You clicked the button!",
     icon: "info",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -236,7 +235,7 @@ export function TypeWarning() {
     text: "You clicked the button!",
     icon: "warning",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -249,7 +248,7 @@ export function TypeError() {
     text: "You clicked the button!",
     icon: "error",
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -260,15 +259,15 @@ export function TypeError() {
 // Custom Icon
 export function CustomIcon() {
   swal.fire({
-    title: 'Sweet!',
-    text: 'Modal with a custom image.',
-    imageUrl: 'assets/img/gallery/13.jpg',
+    title: "Sweet!",
+    text: "Modal with a custom image.",
+    imageUrl: "assets/img/gallery/13.jpg",
     imageWidth: 400,
     imageHeight: 200,
-    imageAlt: 'Custom image',
+    imageAlt: "Custom image",
     animation: false,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -276,47 +275,49 @@ export function CustomIcon() {
 
 // Auto close
 export function AutoClose() {
-  let timerInterval
-  swal.fire({
-    title: 'Auto close alert!',
-    html: 'I will close in <b></b> milliseconds.',
-    timer: 2000,
-    timerProgressBar: true,
-    customClass: {
-      confirmButton: 'btn btn-primary'
-    },
-    buttonsStyling: false,
-    onBeforeOpen: () => {
-      swal.showLoading()
-      timerInterval = setInterval(() => {
-        const content = swal.getContent()
-        if (content) {
-          const b = content.querySelector('b')
-          if (b) {
-            b.textContent = swal.getTimerLeft().toString()
+  let timerInterval;
+  swal
+    .fire({
+      title: "Auto close alert!",
+      html: "I will close in <b></b> milliseconds.",
+      timer: 2000,
+      timerProgressBar: true,
+      customClass: {
+        confirmButton: "btn btn-primary",
+      },
+      buttonsStyling: false,
+      onBeforeOpen: () => {
+        swal.showLoading();
+        timerInterval = setInterval(() => {
+          const content = swal.getContent();
+          if (content) {
+            const b = content.querySelector("b");
+            if (b) {
+              b.textContent = swal.getTimerLeft().toString();
+            }
           }
-        }
-      }, 100)
-    },
-    onClose: () => {
-      clearInterval(timerInterval)
-    }
-  }).then((result) => {
-    /* Read more about handling dismissals below */
-    if (result.dismiss === swal.DismissReason.timer) {
-      console.log('I was closed by the timer')
-    }
-  })
+        }, 100);
+      },
+      onClose: () => {
+        clearInterval(timerInterval);
+      },
+    })
+    .then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
 }
 
 // Allow Outside Click
 export function OutsideClick() {
   swal.fire({
-    title: 'Outside click is disabled!',
-    text: 'This is a cool message!',
+    title: "Outside click is disabled!",
+    text: "This is a cool message!",
     allowOutsideClick: false,
     customClass: {
-      confirmButton: 'btn btn-primary'
+      confirmButton: "btn btn-primary",
     },
     buttonsStyling: false,
   });
@@ -324,191 +325,205 @@ export function OutsideClick() {
 
 // Prompt Function
 export function PromptFunction() {
-  swal.mixin({
-    input: 'text',
-    confirmButtonText: 'Next &rarr;',
-    showCancelButton: true,
-    progressSteps: ['1', '2', '3'],
-    customClass: {
-      confirmButton: 'btn btn-primary',
-      cancelButton: 'btn btn-danger ml-1'
-    },
-    buttonsStyling: false,
-  }).queue([{
-    title: 'Question 1',
-    text: 'Chaining swal2 modals is easy'
-  },
-    'Question 2',
-    'Question 3'
-  ]).then(function (result: any) {
-    if (result.value) {
-      swal.fire({
-        title: 'All done!',
-        html: 'Your answers: <pre><code>' +
-          JSON.stringify(result.value) +
-          '</code></pre>',
-        confirmButtonText: 'Lovely!'
-      })
-    }
-  });
+  swal
+    .mixin({
+      input: "text",
+      confirmButtonText: "Next &rarr;",
+      showCancelButton: true,
+      progressSteps: ["1", "2", "3"],
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ml-1",
+      },
+      buttonsStyling: false,
+    })
+    .queue([
+      {
+        title: "Question 1",
+        text: "Chaining swal2 modals is easy",
+      },
+      "Question 2",
+      "Question 3",
+    ])
+    .then(function (result: any) {
+      if (result.value) {
+        swal.fire({
+          title: "All done!",
+          html:
+            "Your answers: <pre><code>" +
+            JSON.stringify(result.value) +
+            "</code></pre>",
+          confirmButtonText: "Lovely!",
+        });
+      }
+    });
 }
 
 // Ajax Request
 export function AjaxRequest() {
-  swal.fire({
-    title: 'Submit your Github username',
-    input: 'text',
-    inputAttributes: {
-      autocapitalize: 'off'
-    },
-    buttonsStyling: false,
-    showCancelButton: true,
-    confirmButtonText: 'Look up',
-    showLoaderOnConfirm: true,
-    customClass: {
-      confirmButton: 'btn btn-primary',
-      cancelButton: 'btn btn-danger ml-1'
-    },
-    preConfirm: (login) => {
-      return fetch(`//api.github.com/users/${login}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(response.statusText)
-          }
-          return response.json()
-        })
-        .catch(error => {
-          swal.showValidationMessage(
-            `Request failed: ${error}`
-          )
-        })
-    },
-    allowOutsideClick: () => !swal.isLoading()
-  }).then((result) => {
-    if (result.value) {
-      swal.fire({
-        title: `${result.value.login}'s avatar`,
-        imageUrl: result.value.avatar_url
-      })
-    }
-  })
+  swal
+    .fire({
+      title: "Submit your Github username",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      buttonsStyling: false,
+      showCancelButton: true,
+      confirmButtonText: "Look up",
+      showLoaderOnConfirm: true,
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ml-1",
+      },
+      preConfirm: (login) => {
+        return fetch(`//api.github.com/users/${login}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(response.statusText);
+            }
+            return response.json();
+          })
+          .catch((error) => {
+            swal.showValidationMessage(`Request failed: ${error}`);
+          });
+      },
+      allowOutsideClick: () => !swal.isLoading(),
+    })
+    .then((result) => {
+      if (result.value) {
+        swal.fire({
+          title: `${result.value.login}'s avatar`,
+          imageUrl: result.value.avatar_url,
+        });
+      }
+    });
 }
 
 //-------------- Confirm-options --------------
 
-
 // Confirm Text
 export function ConfirmText() {
-  swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#2F8BE6',
-    cancelButtonColor: '#F55252',
-    confirmButtonText: 'Your text here!',
-    customClass: {
-      confirmButton: 'btn btn-primary',
-      cancelButton: 'btn btn-danger ml-1'
-    },
-    buttonsStyling: false,
-  }).then(function (result) {
-    if (result.value) {
-      swal.fire({
-        icon: "success",
-        title: 'Deleted!',
-        text: 'Your file has been deleted.',
-        customClass: {
-          confirmButton: 'btn btn-success'
-        },
-      })
-    }
-  });
+  swal
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2F8BE6",
+      cancelButtonColor: "#F55252",
+      confirmButtonText: "Your text here!",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ml-1",
+      },
+      buttonsStyling: false,
+    })
+    .then(function (result) {
+      if (result.value) {
+        swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
 }
 
 // Confirm Color
 export function ConfirmColor() {
-  swal.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#2F8BE6',
-    cancelButtonColor: '#F55252',
-    confirmButtonText: 'Yes, delete it!',
-    customClass: {
-      confirmButton: 'btn btn-warning',
-      cancelButton: 'btn btn-danger ml-1'
-    },
-    buttonsStyling: false,
-  }).then(function (result) {
-    if (result.value) {
-      swal.fire({
-        icon: "success",
-        title: 'Deleted!',
-        text: 'Your imaginary file has been deleted.',
-        customClass: {
-          confirmButton: 'btn btn-success'
-        },
-      })
-    } else if (result.dismiss === swal.DismissReason.cancel) {
-      swal.fire({
-        title: 'Cancelled',
-        text: 'Your imaginary file is safe :)',
-        icon: 'error',
-        customClass: {
-          confirmButton: 'btn btn-success'
-        },
-      })
-    }
-  });
+  swal
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2F8BE6",
+      cancelButtonColor: "#F55252",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        confirmButton: "btn btn-warning",
+        cancelButton: "btn btn-danger ml-1",
+      },
+      buttonsStyling: false,
+    })
+    .then(function (result) {
+      if (result.value) {
+        swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: "Your imaginary file has been deleted.",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        swal.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
 }
 
 //eliminar Registro
 
-export function EliminarRegistro(tipo: string, id: number, observable?: Observable<any>) {
-  swal.fire({
-    title: 'Esta seguro de eliminarlo?',
-    text: "Luego de hacerlo no podrá revertirlo!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#2F8BE6',
-    cancelButtonColor: '#F55252',
-    confirmButtonText: 'Si, Eliminelo!',
-    customClass: {
-      confirmButton: 'btn btn-primary',
-      cancelButton: 'btn btn-danger ml-1'
-    },
-    buttonsStyling: false,
-  }).then(function (result) {
-    if (result.value) {
-      console.log('Ahi debe eliminar la fila');
-      if(observable !== undefined) {
-        observable.subscribe(
-          () => {},
-          (err) => console.error(err),
-          () => {
-            swal.fire({
-              icon: "success",
-              title: 'Borrado!',
-              text: 'El registro fue eliminado con exito',
-              customClass: {
-                confirmButton: 'btn btn-success'
-              },
-            })
-          }
-        )
-      }
-    } else if (result.dismiss === swal.DismissReason.cancel) {
-      swal.fire({
-        title: 'Cancelado',
-        text: 'Su registro aun sigue con vida',
-        icon: 'error',
-        customClass: {
-          confirmButton: 'btn btn-success'
-        },
-      })
-    }
-  });
-}
+export function EliminarRegistro(ruta:string, observable?: Observable<any>) {
+  swal
+    .fire({
+      title: "Esta seguro de eliminarlo?",
+      text: "Luego de hacerlo no podrá revertirlo!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2F8BE6",
+      cancelButtonColor: "#F55252",
+      confirmButtonText: "Si, Eliminelo!",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-danger ml-1",
+      },
+      buttonsStyling: false,
+    })
+    .then(function (result) {
+      if (result.value) {
+        console.log("Ahi debe eliminar la fila");
 
+        if (observable !== undefined) {
+          //router.navigate(["/mantenimientos/temaComun"]);
+          observable.subscribe(
+            () => {},
+            (err) => console.error(err),
+            () => {
+              swal.fire({
+                icon: "success",
+                title: "Borrado!",
+                text: "El registro fue eliminado con exito",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              }).then((res: any) => {
+                  window.location.href = ruta;
+              });
+            }
+          );
+
+        }
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        swal.fire({
+          title: "Cancelado",
+          text: "Su registro aun sigue con vida",
+          icon: "error",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+}

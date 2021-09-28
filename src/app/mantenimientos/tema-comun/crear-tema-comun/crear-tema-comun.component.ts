@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ItipoBeneficiario } from 'app/shared/models/iTipoBeneficiario';
 import { TemaComunService } from 'app/shared/services/mantenimientos/tema-comun.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-crear-tema-comun',
@@ -19,7 +20,8 @@ export class CrearTemaComunComponent implements OnInit {
     private serviceStr: NGXToastrService,
      private temaComunService: TemaComunService,
      private route: ActivatedRoute,
-     private router: Router) { }
+     private router: Router,
+     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -55,14 +57,14 @@ export class CrearTemaComunComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(tema: ItemaComun) {
-    if (this.typeEdit) {
-      this.temaComunService.updateTemaComun(tema.id, tema);
-    } else {
-      this.temaComunService.createTemaComun(tema);
-    }
+  // guardar(tema: ItemaComun) {
+  //   if (this.typeEdit) {
+  //     this.temaComunService.updateTemaComun(tema.id, tema);
+  //   } else {
+  //     this.temaComunService.createTemaComun(tema);
+  //   }
 
-  }
+  // }
 
   getTemaComunParaEditar(Id: number) {
     this.notFound = false;
@@ -88,17 +90,60 @@ export class CrearTemaComunComponent implements OnInit {
       this.serviceStr.typeError('Alguna regla de validación no se está cumpliendo');
       return;
     }
-    const temacomun = {
+    const temaComun = {
       id: this.id.value,
       estatus: this.estatus.value,
       nombre: this.nombre.value
     }
 
-    console.log(temacomun);
+    console.log(temaComun);
 
-    this.guardar(temacomun);
+    //this.guardar(temaComun);
 
-    this.refrescar();
+    this.spinner.show();
+
+    if (this.typeEdit) {
+      temaComun.id = this.temaComun.id;
+      this.temaComunService
+        .updateTemaComun(temaComun)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("El tema comun se actualizó con éxito");
+            this.router.navigate(["/mantenimientos", "temaComun"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el tema comun, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    } else {
+      this.temaComunService
+        .createTemaComun(temaComun)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess(
+              "El tema comun  se registró con éxito"
+            );
+            this.router.navigate(["/mantenimientos", "temaComun"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el tema comun, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    }
+
+    //this.refrescar();
   }
 
   refrescar() {

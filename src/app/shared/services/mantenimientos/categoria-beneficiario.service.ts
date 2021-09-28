@@ -27,21 +27,15 @@ export class CategoriaBeneficiarioService {
 
   }
 
-  createCategoria(categoria: IcategoriaBeneficiario):void
-  {
-    this.http.post(this.URL, categoria);
-
+  createCategoria(categoria: IcategoriaBeneficiario): Observable<IcategoriaBeneficiario> {
+    return this.http.post<IcategoriaBeneficiario>(this.URL, categoria);
   }
 
-  updateCategoria(key: number, categoria: IcategoriaBeneficiario):void
-  {
-    this.http.put(this.URL + key , categoria);
-
+  updateCategoria(categoria: IcategoriaBeneficiario): Observable<IcategoriaBeneficiario> {
+    return this.http.put<IcategoriaBeneficiario>(`${this.URL}${categoria.id}`, categoria);
   }
 
-  deleteCategoria(Id: number):void
-  {
-    this.http.delete(this.URL + Id);
-
+  deleteCategoria(categoriaId: string): Observable<IcategoriaBeneficiario> {
+    return this.http.delete<IcategoriaBeneficiario>(this.URL +  categoriaId);
   }
 }

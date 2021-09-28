@@ -155,8 +155,8 @@ export class ListadoDemandasComponent implements OnInit {
   editar(CodigoDemanda: string) {
     this.router.navigate(["/demandas", 'Edit', CodigoDemanda]);
   }
-  eliminar(CodigoDemanda: number) {
-    alertFunctions.EliminarRegistro("demandas", CodigoDemanda, this.demandasService.deletePersona(""));
+  eliminar(CodigoDemanda: string) {
+    alertFunctions.EliminarRegistro("/demandas",this.demandasService.deleteDemanda(CodigoDemanda));
 
   }
 

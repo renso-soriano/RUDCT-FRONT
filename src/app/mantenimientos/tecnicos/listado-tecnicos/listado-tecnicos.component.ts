@@ -193,8 +193,9 @@ export class ListadoTecnicosComponent implements OnInit {
     ]);
   }
 
-  eliminar(Id: number) {
-    alertFunctions.EliminarRegistro("tecnicos", Id);
+  eliminar(idTecnico: string) {
+    alertFunctions.EliminarRegistro("/mantenimientos/tecnicos",this.tecnicosService.deleteTecnico(idTecnico));
+
   }
 
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;

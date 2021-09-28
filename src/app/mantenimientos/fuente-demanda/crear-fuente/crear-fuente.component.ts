@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IfuenteDemanda } from 'app/shared/models/ifuente-demanda';
 import { FuenteService } from 'app/shared/services/mantenimientos/fuente.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-crear-fuente',
@@ -17,7 +18,8 @@ export class CrearFuenteComponent implements OnInit {
     private serviceStr: NGXToastrService,
      private fuenteService: FuenteService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -54,14 +56,14 @@ export class CrearFuenteComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(fuente: IfuenteDemanda) {
-    if (this.typeEdit) {
-      this.fuenteService.updateFuente(fuente.id, fuente);
-    } else {
-      this.fuenteService.createFuente(fuente);
-    }
+  // guardar(fuente: IfuenteDemanda) {
+  //   if (this.typeEdit) {
+  //     this.fuenteService.updateFuente(fuente.id, fuente);
+  //   } else {
+  //     this.fuenteService.createFuente(fuente);
+  //   }
 
-  }
+  // }
 
   getFuenteParaEditar(FuenteId: number) {
     this.notFound = false;
@@ -95,9 +97,52 @@ export class CrearFuenteComponent implements OnInit {
 
     console.log(fuente);
 
-    this.guardar(fuente);
+    //this.guardar(fuente);
 
-    this.refrescar();
+    this.spinner.show();
+
+    if (this.typeEdit) {
+      fuente.id = this.fuente.id;
+      this.fuenteService
+        .updateFuente(fuente)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("La fuente de demanda se actualizó con éxito");
+            this.router.navigate(["/mantenimientos", "fuentes"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar la fuente de demanda, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    } else {
+      this.fuenteService
+        .createFuente(fuente)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess(
+              "La fuente de demanda se registró con éxito"
+            );
+            this.router.navigate(["/mantenimientos", "fuentes"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar la fuente de demanda, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    }
+
+   // this.refrescar();
   }
 
   refrescar() {

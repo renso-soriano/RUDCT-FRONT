@@ -25,21 +25,15 @@ export class TipoBeneficiarioService {
 
   }
 
-  createTipo(tipo: ItipoBeneficiario):void
-  {
-    this.http.post(this.URL, tipo);
-
+  createTipo(tipo: ItipoBeneficiario): Observable<ItipoBeneficiario> {
+    return this.http.post<ItipoBeneficiario>(this.URL, tipo);
   }
 
-  updateTipo(key: number, tipo: ItipoBeneficiario):void
-  {
-    this.http.put(this.URL + key , tipo);
-
+  updateTipo(tipo: ItipoBeneficiario): Observable<ItipoBeneficiario> {
+    return this.http.put<ItipoBeneficiario>(`${this.URL}${tipo.id}`, tipo);
   }
 
-  deleteTipo(Id: number):void
-  {
-    this.http.delete(this.URL + Id);
-
+  deleteTipo(tipoId: string): Observable<ItipoBeneficiario> {
+    return this.http.delete<ItipoBeneficiario>(this.URL +  tipoId);
   }
 }

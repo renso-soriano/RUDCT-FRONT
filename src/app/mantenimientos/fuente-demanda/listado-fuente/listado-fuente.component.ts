@@ -175,14 +175,15 @@ export class ListadoFuenteComponent implements OnInit {
 
   //Actions Methods
 
-  verDetalles(InstitucionId: string) {
-    this.router.navigate(["/mantenimientos/fuentes", "Details", InstitucionId]);
+  verDetalles(fuentesId: string) {
+    this.router.navigate(["/mantenimientos/fuentes", "Details", fuentesId]);
   }
-  editar(InstitucionId: string) {
-    this.router.navigate(["/mantenimientos/fuentes", "Edit", InstitucionId]);
+  editar(fuentesId: string) {
+    this.router.navigate(["/mantenimientos/fuentes", "Edit", fuentesId]);
   }
-  eliminar(InstitucionId: number) {
-    alertFunctions.EliminarRegistro("fuente", InstitucionId);
+  eliminar(fuentesId: string) {
+    alertFunctions.EliminarRegistro("/mantenimientos/fuentes",this.fuenteService.deleteFuente(fuentesId));
+
   }
 
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;

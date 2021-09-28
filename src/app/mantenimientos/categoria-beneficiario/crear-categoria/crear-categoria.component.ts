@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { IcategoriaBeneficiario } from "app/shared/models/iCategoriaBeneficiario";
 import { CategoriaBeneficiarioService } from "app/shared/services/mantenimientos/categoria-beneficiario.service";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-crear-categoria",
@@ -17,7 +18,8 @@ export class CrearCategoriaComponent implements OnInit {
     private serviceStr: NGXToastrService,
     private categoriaBeneficiarioService: CategoriaBeneficiarioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,7 @@ export class CrearCategoriaComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(data: any) {
+ /*  guardar(data: any) {
     let categoria:IcategoriaBeneficiario = data;
 
     if (this.typeEdit) {
@@ -68,7 +70,7 @@ export class CrearCategoriaComponent implements OnInit {
     } else {
       this.categoriaBeneficiarioService.createCategoria(categoria);
     }
-  }
+  } */
 
   getCategoriaBeneficiarioParaEditar(Id: number) {
     this.notFound = false;
@@ -108,9 +110,50 @@ export class CrearCategoriaComponent implements OnInit {
 
     console.log(categoriaBeneficiario);
 
-    this.guardar(categoriaBeneficiario);
+    //this.guardar(categoriaBeneficiario);
 
-    this.refrescar();
+    this.spinner.show();
+
+    if (this.typeEdit) {
+      categoriaBeneficiario.id = this.categoriaBeneficiario.id;
+      this.categoriaBeneficiarioService
+        .updateCategoria(categoriaBeneficiario)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("La categoria se actualizó con éxito");
+            this.router.navigate(["/mantenimientos","categoria_beneficiarios"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar la categoria, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    } else {
+      this.categoriaBeneficiarioService
+        .createCategoria(categoriaBeneficiario)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("La categoria se registró con éxito");
+            this.router.navigate(["/mantenimientos","categoria_beneficiarios"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar la categoria, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    }
+
+    //this.refrescar();
   }
 
   refrescar() {

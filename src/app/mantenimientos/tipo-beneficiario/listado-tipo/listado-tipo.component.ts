@@ -186,8 +186,9 @@ export class ListadoTipoComponent implements OnInit {
   editar(Id: string) {
     this.router.navigate(["/mantenimientos/tipos_beneficiarios", "Edit", Id]);
   }
-  eliminar(Id: number) {
-    alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
+  eliminar(idTipo: string) {
+    alertFunctions.EliminarRegistro("/mantenimientos/tipos_beneficiarios",this.tipoBeneficiarioService.deleteTipo(idTipo));
+
   }
 
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;

@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Demanda } from '../models/Demandas/Demanda.model';
+import { Demanda } from '../../models/Demandas/Demanda.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class DemandasService {
     return this.http.put<Demanda>(`${this.URL}/${demanda.id}`, demanda);
   }
 
-  deletePersona(idDemanda: string): Observable<IDemanda> {
+  deleteDemanda(idDemanda: string): Observable<IDemanda> {
     return this.http.delete<IDemanda>(this.URL + "/" + idDemanda);
   }
 
