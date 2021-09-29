@@ -102,7 +102,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(15)],
       },
     ],
-    tecnico: [null, { validators: [Validators.required] }],
+    tecnico: [null],
     institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
     comentarios: [""],

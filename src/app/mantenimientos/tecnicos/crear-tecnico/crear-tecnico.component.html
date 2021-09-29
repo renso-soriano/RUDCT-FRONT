@@ -135,6 +135,14 @@
                     <div class="form-group">
                       <label for="flota">Flota</label>
                       <input type="text" class="form-control" name="flota" id="flota" formControlName="flota">
+                      <div *ngIf="flota.invalid && (flota.dirty || flota.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="flota.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> minimo 10 caracteres
+                        </div>
+
+                      </div>
                     </div>
                   </div>
                 </div>

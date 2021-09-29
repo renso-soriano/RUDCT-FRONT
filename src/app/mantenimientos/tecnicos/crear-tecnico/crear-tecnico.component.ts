@@ -59,7 +59,7 @@ export class CrearTecnicoComponent implements OnInit {
     municipioId: [null],
     telefono: [null, { validators: [Validators.required] }],
     extension: [null],
-    flota: [null],
+    flota: [null,  { validators:  [Validators.minLength(10)] } ],
     provincia: [null],
   });
 
@@ -149,7 +149,7 @@ export class CrearTecnicoComponent implements OnInit {
       );
       return;
     }
-    const tecnico = {
+    const tecnico:Itecnico = {
       id: this.id.value,
       estatus: this.estatus.value,
       municipioId: this.municipioId.value,
@@ -159,6 +159,7 @@ export class CrearTecnicoComponent implements OnInit {
       extension: this.extension.value,
       flota: this.flota.value,
     };
+
 
     console.log(tecnico);
 
@@ -179,7 +180,7 @@ export class CrearTecnicoComponent implements OnInit {
           }, 1000);
         })
         .catch((err) => {
-          console.error(err);
+          console.error(err.message);
           this.serviceStr.typeError(
             "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
           );
