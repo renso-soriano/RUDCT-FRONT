@@ -26,21 +26,15 @@ export class TemaComunService {
 
   }
 
-  createTemaComun(temaComun: ItemaComun):void
-  {
-    this.http.post(this.URL, temaComun);
-
+  createTemaComun(tema: ItemaComun): Observable<ItemaComun> {
+    return this.http.post<ItemaComun>(this.URL, tema);
   }
 
-  updateTemaComun(Id: number, temaComun: ItemaComun):void
-  {
-    this.http.put(this.URL + Id , temaComun);
-
+  updateTemaComun(tema: ItemaComun): Observable<ItemaComun> {
+    return this.http.put<ItemaComun>(`${this.URL}${tema.id}`, tema);
   }
 
-  deleteTemaComun(Id: number):void
-  {
-    this.http.delete(this.URL + Id);
-
+  deleteTemaComun(temaId: string): Observable<ItemaComun> {
+    return this.http.delete<ItemaComun>(this.URL +  temaId);
   }
 }

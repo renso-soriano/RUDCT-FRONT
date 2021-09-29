@@ -182,10 +182,10 @@ export class ListadoTemaComunComponent implements OnInit {
   editar(Id: string) {
     this.router.navigate(["/mantenimientos/temaComun", "Edit", Id]);
   }
-  eliminar(Id: number) {
-    alertFunctions.EliminarRegistro("tipoBeneficiario", Id);
-  }
+  eliminar(idTema: string) {
+    alertFunctions.EliminarRegistro("/mantenimientos/temaComun",this.temaComunService.deleteTemaComun(idTema));
 
+  }
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
 
   triggerFalseClick() {

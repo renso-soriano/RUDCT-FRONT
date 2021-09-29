@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TecnicosService } from "app/shared/services/mantenimientos/tecnicos.service";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
 import { Observable } from "rxjs";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-crear-tecnico",
@@ -20,7 +21,8 @@ export class CrearTecnicoComponent implements OnInit {
     private tecnicoService: TecnicosService,
     private dropDownService: DropDownServiceService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +35,6 @@ export class CrearTecnicoComponent implements OnInit {
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
-
   }
 
   tecnico: Itecnico;
@@ -53,8 +54,8 @@ export class CrearTecnicoComponent implements OnInit {
       null,
       { validators: [Validators.required, Validators.minLength(2)] },
     ],
-    estatus: ['A'],
-    id: [null],
+    estatus: ["A"],
+    id: [0],
     municipioId: [null],
     telefono: [null, { validators: [Validators.required] }],
     extension: [null],
@@ -78,7 +79,6 @@ export class CrearTecnicoComponent implements OnInit {
   get provincia() {
     return this.registerForm.get("provincia");
   }
-
   get apellido() {
     return this.registerForm.get("apellido");
   }
@@ -93,13 +93,13 @@ export class CrearTecnicoComponent implements OnInit {
   }
 
   //CrudMethods
-  guardar(tecnico: Itecnico) {
+  /* guardar(tecnico:Itecnico) {
     if (this.typeEdit) {
       this.tecnicoService.updateTecnico(tecnico.id, tecnico);
     } else {
       this.tecnicoService.createTecnico(tecnico);
     }
-  }
+  } */
 
   getTecnicoParaEditar(Id: number) {
     this.notFound = false;
@@ -151,7 +151,7 @@ export class CrearTecnicoComponent implements OnInit {
     }
     const tecnico = {
       id: this.id.value,
-      status: this.estatus.value,
+      estatus: this.estatus.value,
       municipioId: this.municipioId.value,
       nombre: this.nombre.value,
       apellido: this.apellido.value,
@@ -162,9 +162,50 @@ export class CrearTecnicoComponent implements OnInit {
 
     console.log(tecnico);
 
-    //this.guardar(tecnico);
+    // this.guardar(tecnico);
 
-    this.refrescar();
+    this.spinner.show();
+
+    if (this.typeEdit) {
+      tecnico.id = this.tecnico.id;
+      this.tecnicoService
+        .updateTecnico(tecnico)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("El tecnico se actualizó con éxito");
+            this.router.navigate(["/mantenimientos", "tecnicos"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    } else {
+      this.tecnicoService
+        .createTecnico(tecnico)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("El tecnico  se registró con éxito");
+            this.router.navigate(["/mantenimientos", "tecnicos"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    }
+
+    //this.refrescar();
   }
 
   refrescar() {

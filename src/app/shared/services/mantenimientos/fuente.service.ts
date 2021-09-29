@@ -24,21 +24,16 @@ export class FuenteService {
     return this.http.get<IfuenteDemanda>(this.URL + FuenteId);
   }
 
-  createFuente(fuente: IfuenteDemanda):void
-  {
-    this.http.post(this.URL, fuente);
-
+  createFuente(fuente: IfuenteDemanda): Observable<IfuenteDemanda> {
+    return this.http.post<IfuenteDemanda>(this.URL, fuente);
   }
 
-  updateFuente(FuenteId: number, fuente: IfuenteDemanda):void
-  {
-    this.http.put(this.URL + FuenteId , fuente);
-
+  updateFuente(fuente: IfuenteDemanda): Observable<IfuenteDemanda> {
+    return this.http.put<IfuenteDemanda>(`${this.URL}${fuente.id}`, fuente);
   }
 
-  deleteFuente(FuenteId: number):void
-  {
-    this.http.delete(this.URL + FuenteId);
-
+  deleteFuente(fuenteId: string): Observable<IfuenteDemanda> {
+    console.log(this.URL +  fuenteId);
+    return this.http.delete<IfuenteDemanda>(this.URL +  fuenteId);
   }
 }

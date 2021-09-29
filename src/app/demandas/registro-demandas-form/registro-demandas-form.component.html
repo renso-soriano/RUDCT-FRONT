@@ -1,5 +1,7 @@
 <!-- start -->
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Cargando... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
 <div class="row">
   <div class="col-12">
     <!-- Kick start -->
@@ -10,7 +12,7 @@
       <div class="card-content">
         <div class="card-body">
           <div class="card-text">
-            <div class="div" >
+            <div class="div">
               <form (submit)="submit()" [formGroup]="registerForm">
                 <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-between">
                   <li ngbNavItem>
@@ -108,8 +110,8 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="fuente">Fuente de demanda</label>
-                            <ng-select [items]="fuenteDemandas | async" bindLabel="name" bindValue="id"
-                              name="fuente" id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
+                            <ng-select [items]="fuenteDemandas | async" bindLabel="name" bindValue="id" name="fuente"
+                              id="fuente" placeholder="Seleccione fuente" formControlName="fuente">
                             </ng-select>
 
                             <div *ngIf="fuente.invalid && (fuente.dirty || fuente.touched)"
@@ -142,7 +144,6 @@
                                 <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
                               </div>
 
-
                             </div>
 
                           </div>
@@ -150,16 +151,15 @@
                       </div>
 
 
-
                       <div class="row">
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                           <div class="form-group">
 
                             <label for="">Tipo(s) Inversión</label>
-                            <div *ngFor='let tipo of listadoInversion'>
+                            <div *ngFor='let tipo of listadoInversion; let i = index'>
                               <div class="checkbox">
-                                <input type="checkbox" name="{{tipo.name}}" id="cbkTipoInversion-{{tipo.id}}" class="inversionCbk" [value]="tipo.id"
-                                  (change)="onTipoInversionChange($event,tipo)"
+                                <input type="checkbox" name="{{tipo.name}}" id="cbkTipoInversion-{{tipo.id}}"
+                                  class="inversionCbk" [value]="tipo.id" (change)="onTipoInversionChange($event,tipo)"
                                   formControlName="inversionchkBox">
                                 <label class="form-check-label" for="cbkTipoInversion-{{tipo.id}}">
                                   {{tipo.name}}
@@ -167,7 +167,28 @@
                               </div>
                             </div>
                           </div>
+                        </div> -->
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="tipo">Tipo(s) inversion</label>
+                            <ng-select class="primary" [multiple]="true" [items]="tipoInversiones | async"
+                              bindLabel="name" bindValue="id" name="tipo" id="tipo"
+                              placeholder="Seleccione los tipos de inversion" (change)="onTipoChange()"
+                              formControlName="tiposInversion">
+                            </ng-select>
+                            <div *ngIf="tiposInversion.invalid && (tiposInversion.dirty || tiposInversion.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="tiposInversion.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
+                          </div>
                         </div>
+
 
                         <div class="col-md-8">
                           <div class="form-group">
@@ -191,6 +212,8 @@
                         </div>
 
                       </div>
+
+
 
                       <div class="row">
                         <div class="col-12">
@@ -221,8 +244,7 @@
                               <tbody>
                                 <tr *ngFor="let actividad of listadoActividades;let i=index">
                                   <td>{{ actividad.Actividad }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarActividad(i)"></a>
+                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarActividad(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>
@@ -242,8 +264,8 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Tipo Beneficiarios</label>
-                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="name" name="tipo"
-                              id="tipo" placeholder="Seleccione tipo" formControlName="tipo">
+                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="name" name="tipo" id="tipo"
+                              placeholder="Seleccione tipo" formControlName="tipo">
                             </ng-select>
                           </div>
                         </div>
@@ -251,9 +273,8 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Categoria Beneficiarios</label>
-                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="name"
-                              name="categoria" id="categoria" placeholder="Seleccione categoria"
-                              formControlName="categoria">
+                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="name" name="categoria"
+                              id="categoria" placeholder="Seleccione categoria" formControlName="categoria">
                             </ng-select>
                           </div>
                         </div>
@@ -316,7 +337,8 @@
                             <label for="eje">Eje End</label><br>
                             <div class="btn-group" ngbRadioGroup name="radioBasic1" formControlName="eje"
                               (change)="onEjeChange(eje.value)">
-                              <label *ngFor="let eje of ejesEnd | async" ngbButtonLabel class="btn-outline-{{eje.extraInfo}}">
+                              <label *ngFor="let eje of ejesEnd | async" ngbButtonLabel
+                                class="btn-outline-{{eje.extraInfo}}">
                                 <input ngbButton type="radio" [value]="eje.id"> {{eje.name}}
                               </label>
                             </div>
@@ -396,8 +418,7 @@
                               <tbody>
                                 <tr *ngFor="let politica of listadoPoliticas; let i = index">
                                   <td>{{ politica.Nombre }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarPolitica(i)"></a>
+                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarPolitica(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>
@@ -486,8 +507,7 @@
                               <tbody>
                                 <tr *ngFor="let institucion of listadoInstituciones; let i=index">
                                   <td>{{ institucion.Nombre }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2"
-                                      (click)="eliminarInstitucion(i)"></a>
+                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarInstitucion(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>

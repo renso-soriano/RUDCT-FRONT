@@ -22,32 +22,20 @@ export class CategoriaBeneficiarioService {
   }
 
   getCategoriaBeneficiariosById(Id: number): Observable<IcategoriaBeneficiario> {
-    console.log(this.URL + Id);
 
     return this.http.get<IcategoriaBeneficiario>(this.URL + Id);
 
-    /* return this.http.get<IcategoriaBeneficiario[]>(this.baseUrl + 'categoriaBeneficiario.json').pipe(
-      map(tipos =>
-        tipos.filter(tipo => tipo.Id == Id)
-      )
-    ); */
   }
 
-  createCategoria(categoria: IcategoriaBeneficiario):void
-  {
-    this.http.post(this.URL, categoria);
-
+  createCategoria(categoria: IcategoriaBeneficiario): Observable<IcategoriaBeneficiario> {
+    return this.http.post<IcategoriaBeneficiario>(this.URL, categoria);
   }
 
-  updateCategoria(Id: number, categoria: IcategoriaBeneficiario):void
-  {
-    this.http.put(this.URL + Id , categoria);
-
+  updateCategoria(categoria: IcategoriaBeneficiario): Observable<IcategoriaBeneficiario> {
+    return this.http.put<IcategoriaBeneficiario>(`${this.URL}${categoria.id}`, categoria);
   }
 
-  deleteCategoria(Id: number):void
-  {
-    this.http.delete(this.URL + Id);
-
+  deleteCategoria(categoriaId: string): Observable<IcategoriaBeneficiario> {
+    return this.http.delete<IcategoriaBeneficiario>(this.URL +  categoriaId);
   }
 }

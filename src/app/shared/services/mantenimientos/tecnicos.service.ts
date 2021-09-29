@@ -28,21 +28,16 @@ export class TecnicosService {
 
   }
 
-  createTecnico(tecnico: Itecnico):void
-  {
-    this.http.post(this.URL, tecnico);
+  createTecnico(tecnico: Itecnico): Observable<Itecnico> {
 
+    return this.http.post<Itecnico>(this.URL, tecnico);
   }
 
-  updateTecnico(Id: number, tecnico: Itecnico):void
-  {
-    this.http.put(this.URL + Id , tecnico);
-
+  updateTecnico(tecnico: Itecnico): Observable<Itecnico> {
+    return this.http.put<Itecnico>(`${this.URL}${tecnico.id}`, tecnico);
   }
 
-  deleteTecnico(Id: number):void
-  {
-    this.http.delete(this.URL + Id);
-
+  deleteTecnico(tecnicoId: string): Observable<Itecnico> {
+    return this.http.delete<Itecnico>(this.URL +  tecnicoId);
   }
 }

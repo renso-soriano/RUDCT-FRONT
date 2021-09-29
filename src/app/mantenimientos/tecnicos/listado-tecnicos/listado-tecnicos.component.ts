@@ -193,6 +193,11 @@ export class ListadoTecnicosComponent implements OnInit {
     ]);
   }
 
+  eliminar(idTecnico: string) {
+    alertFunctions.EliminarRegistro("/mantenimientos/tecnicos",this.tecnicosService.deleteTecnico(idTecnico));
+
+  }
+
   @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
 
   triggerFalseClick() {
@@ -200,10 +205,7 @@ export class ListadoTecnicosComponent implements OnInit {
     el.click();
   }
 
-  // eliminar(Id: number) {
-  //   alertFunctions.EliminarRegistro("categoriaBeneficiario", Id);
 
-  // }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
