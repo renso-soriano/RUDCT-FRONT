@@ -1,9 +1,9 @@
 export enum Region {
-  CibaoNorte = '01-CIBAO NORTE',
-  CibaoCentral = '02-CIBAO CENTRAL',
-  Metropolitana = '03-METROPOLITANA',
-  Este = '04-ESTE',
-  SurOeste = '05-SUR-OESTE'
+  CibaoNorte = '1',
+  CibaoCentral = '2',
+  Metropolitana = '3',
+  Este = '4',
+  SurOeste = '5'
 }
 
 

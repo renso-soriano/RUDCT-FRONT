@@ -32,6 +32,8 @@ import { TopMenuDropdownDirective } from './directives/topmenu-dropdown.directiv
 import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle.directive';
 import { DataFilterComponent } from './components/data-filter/data-filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MapaComponent } from './components/mapa/mapa.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -49,6 +51,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         NgbModule,
         TranslateModule,
         DataFilterComponent,
+        MapaComponent,
     ],
     imports: [
         RouterModule,
@@ -62,7 +65,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ClickOutsideModule,
         AutocompleteModule,
         PipeModule,
-        NgSelectModule
+        NgSelectModule,
+        NgxSpinnerModule,
     ],
     declarations: [
         FooterComponent,
@@ -81,6 +85,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         TopMenuAnchorToggleDirective,
         TopMenuDirective,
         DataFilterComponent,
+        MapaComponent,
     ]
 })
 export class SharedModule { }

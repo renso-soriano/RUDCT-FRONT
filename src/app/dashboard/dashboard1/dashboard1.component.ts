@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
@@ -6,6 +6,9 @@ import { DemandasService } from 'app/shared/services/mantenimientos/demandas.ser
 import { EjeEnd } from 'app/shared/models/ejeEnd.enum';
 import { Region } from 'app/shared/models/region.enum';
 import { JsonPipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
+import { MapaComponent } from 'app/shared/components/mapa/mapa.component';
 
 declare var require: any;
 
@@ -27,6 +30,7 @@ export interface Chart {
 })
 
 export class Dashboard1Component implements OnInit {
+  @ViewChild(MapaComponent) mapaComponent: MapaComponent;
 
   constructor(private demandasService: DemandasService) { }
 
@@ -45,23 +49,34 @@ export class Dashboard1Component implements OnInit {
   metropolitana: number;
   este: number;
   surOeste: number;
+  mapSettings: MapSettings = {
+    servicio: null,
+    BindProperty: 'demandasPorProvincia',
+    BindValue: 'totalDemandas',
+    GeoDataFile: 'do_provincias',
+    Label: 'Provincia'
+  }
+  referenciaMapa: string = 'provincias';
 
 
   ngOnInit() {
-    this.demandasService.getDemandas().subscribe((demandasFromTheAPI: any) => {
+    this.mapSettings.servicio = this.demandasService.getDemandasForDashboard();
+    this.demandasService.getDemandasForDashboard().subscribe((demandasFromTheAPI: any) => {
       this.data2 = demandasFromTheAPI;
 
-      this.totalDemandas = this.data2.length;
-      this.ejeInstitucional = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Institucionalidad).length;
-      this.ejeSocial = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Social).length;
-      this.ejeEconomico = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.Economico).length;
-      this.ejeMedioAmbiental = this.data2.filter(demanda => demanda['EjeEND'] == EjeEnd.MedioAmbiental).length;
+      this.totalDemandas = this.data2.totalDemandas;
+      this.ejeInstitucional = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Institucionalidad).cantidad;
+      this.ejeSocial = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.Social).cantidad;
+      this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.Economico).cantidad;
+      this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.MedioAmbiental).cantidad;
 
-      this.cibaoNorte = 50; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoNorte).length * 100 / this.totalDemandas;
-      this.cibaoCentral = 15; //this.data2.filter(demanda => demanda['Region'] == Region.CibaoCentral).length * 100 / this.totalDemandas;
-      this.metropolitana = 10; //this.data2.filter(demanda => demanda['Region'] == Region.Metropolitana).length * 100 / this.totalDemandas;
-      this.este = 10; //this.data2.filter(demanda => demanda['Region'] == Region.Este).length * 100 / this.totalDemandas;
-      this.surOeste = 15; //this.data2.filter(demanda => demanda['Region'] == Region.SurOeste).length * 100 / this.totalDemandas;
+      console.log(Region.CibaoNorte)
+
+      this.cibaoNorte = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoNorte).porcentaje;
+      this.cibaoCentral = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoCentral).porcentaje;
+      this.metropolitana = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Metropolitana).porcentaje;
+      this.este = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Este).porcentaje;
+      this.surOeste = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.SurOeste).porcentaje;
 
       this.dataDonuts =
       {
@@ -702,7 +717,28 @@ export class Dashboard1Component implements OnInit {
     window.dispatchEvent(evt);
   };
 
+  changeMap(event: any) {
+    switch (event.target.value) {
+      case '1':
+        this.mapSettings.GeoDataFile = 'do_provincias';
+        this.mapSettings.BindProperty = 'demandasPorProvincia';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Provincia';
+        this.referenciaMapa = 'Provincias';
+        break;
 
+      case '2':
+        this.mapSettings.GeoDataFile = 'do_municipios';
+        this.mapSettings.BindProperty = 'demandasPorMunicipio';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Municipio';
+        this.referenciaMapa = 'Municipios';
+        break;
 
+      default:
+        break;
+    }
 
+    this.mapaComponent.onReload(this.mapSettings);
+  }
 }

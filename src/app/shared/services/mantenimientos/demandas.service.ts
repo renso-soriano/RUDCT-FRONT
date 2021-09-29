@@ -23,6 +23,10 @@ export class DemandasService {
     return this.http.get<Demanda[]>(`${this.URL}/GetPaginate`, { params });
   }
 
+  getDemandasForDashboard(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
+  }
+
   getDemanda(idDemanda: string): Observable<IDemanda> {
     let params = new HttpParams().set('incluirDirecciones', "true");
     return this.http.get<IDemanda>(this.URL + '/' + idDemanda, {params: params});

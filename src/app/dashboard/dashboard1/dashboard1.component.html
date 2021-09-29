@@ -115,19 +115,18 @@
   <div class="col-xl-8 col-lg-12 col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title mb-0">Cantidad de demandas por año comparativo</h4>
+        <h4 class="card-title mb-0">Distribución de las demandas por {{ referenciaMapa }}</h4>
       </div>
       <div class="card-content">
-        <div class="card-body">
-          <div class="chart-info mb-2">
-            <span class="text-uppercase mr-3"><i class="fa fa-circle success font-small-2 mr-1"></i>2019</span>
-            <span class="text-uppercase"><i class="fa fa-circle info font-small-2 mr-1"></i>2020</span>
+        <div class="card-body" style="min-height: 500px;">
+          <div class="form-group w-25">
+            <label>Cambiar tipo de mapa</label>
+            <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
+              <option value="1">Provincial</option>
+              <option value="2">Municipal</option>
+            </select>
           </div>
-          <div id="line-area2" class="lineArea2">
-            <x-chartist class="height-400" [data]="lineArea2.data" [type]="lineArea2.type" [options]="lineArea2.options"
-              [responsiveOptions]="lineArea2.responsiveOptions" [events]="lineArea2.events">
-            </x-chartist>
-          </div>
+          <app-mapa [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile" [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty" [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
         </div>
       </div>
     </div>
@@ -136,7 +135,7 @@
   <div class="col-xl-4 col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Porcentaje de demandas por region</h4>
+        <h4 class="card-title">Porcentaje de demandas por región</h4>
       </div>
       <div class="card-content">
         <!-- <p class="font-medium-2 text-center mb-0 mt-2">Porcentaje por region</p> -->
@@ -200,76 +199,4 @@
       </div>
     </div>
   </div>
-
-  <!--  <div class="col-xl-4 col-lg-12 col-12">
-    <div class="card gradient-mepyd-blue">
-      <div class="card-content">
-        <div class="card-body">
-          <h4 class="card-title white">Statistics</h4>
-          <div class="p-2 text-center">
-            <a class="white font-medium-1">Month</a>
-            <a class="btn round bg-light-info mx-3 px-3">Week</a>
-            <a class="white font-medium-1">Day</a>
-          </div>
-          <div class="my-3 text-center white">
-            <div class="font-large-2 d-block mb-1">
-              <span>$78.89</span>
-              <i class="ft-arrow-up font-large-2"></i>
-            </div>
-            <span class="font-medium-1">Week2 +15.44</span>
-          </div>
-        </div>
-        <div id="lineChart" class="lineChart lineChartShadow">
-          <x-chartist class="height-250" [data]="lineChart.data" [type]="lineChart.type" [options]="lineChart.options"
-            [responsiveOptions]="lineChart.responsiveOptions" [events]="lineChart.events">
-          </x-chartist>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-xl-4 col-md-6 col-12">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">Statistics</h4>
-      </div>
-      <div class="card-content">
-
-        <p class="font-medium-2 text-center mb-0 mt-2">Hobbies</p>
-        <div id="bar-chart" class="BarChartShadow BarChart">
-          <x-chartist class="height-250" [data]="BarChart.data" [type]="BarChart.type" [options]="BarChart.options"
-            [responsiveOptions]="BarChart.responsiveOptions" [events]="BarChart.events">
-          </x-chartist>
-        </div>
-
-        <div class="card-body">
-          <div class="row">
-            <div class="col text-center">
-              <span class="gradient-starfall d-block rounded-circle mx-auto mb-2"
-                style="width:10px; height:10px;"></span>
-              <span class="font-medium-4 d-block mb-2">48</span>
-              <span class="font-small-3">Sport</span>
-            </div>
-            <div class="col text-center">
-              <span class="gradient-mint d-block rounded-circle mx-auto mb-2" style="width:10px; height:10px;"></span>
-              <span class="font-medium-4 d-block mb-2">9</span>
-              <span class="font-small-3">Music</span>
-            </div>
-            <div class="col text-center">
-              <span class="gradient-purple-bliss d-block rounded-circle mx-auto mb-2"
-                style="width:10px; height:10px;"></span>
-              <span class="font-medium-4 d-block mb-2">26</span>
-              <span class="font-small-3">Travel</span>
-            </div>
-            <div class="col text-center">
-              <span class="gradient-ibiza-sunset d-block rounded-circle mx-auto mb-2"
-                style="width:10px; height:10px;"></span>
-              <span class="font-medium-4 d-block mb-2">17</span>
-              <span class="font-small-3">News</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>
