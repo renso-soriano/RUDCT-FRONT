@@ -50,8 +50,8 @@ export class DemandasService {
     return this.http.put<Demanda>(`${this.URL}/${demanda.id}`, demanda);
   }
 
-  deleteDemanda(idDemanda: string): Observable<IDemanda> {
-    return this.http.delete<IDemanda>(this.URL + "/" + idDemanda);
+  deleteDemanda(idDemanda: string): Observable<Demanda> {
+    return this.http.delete<Demanda>(this.URL + "/" + idDemanda);
   }
 
 

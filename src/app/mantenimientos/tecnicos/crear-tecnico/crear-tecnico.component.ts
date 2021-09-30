@@ -92,14 +92,7 @@ export class CrearTecnicoComponent implements OnInit {
     return this.registerForm.get("flota");
   }
 
-  //CrudMethods
-  /* guardar(tecnico:Itecnico) {
-    if (this.typeEdit) {
-      this.tecnicoService.updateTecnico(tecnico.id, tecnico);
-    } else {
-      this.tecnicoService.createTecnico(tecnico);
-    }
-  } */
+
 
   getTecnicoParaEditar(Id: number) {
     this.notFound = false;
@@ -116,7 +109,7 @@ export class CrearTecnicoComponent implements OnInit {
           apellido: this.tecnico.apellido,
           estatus: this.tecnico.estatus,
           id: this.tecnico.id,
-          municipioId: this.tecnico.municipioId,
+          municipioId: this.tecnico.municipioId.toString(),
           telefono: this.tecnico.telefono,
           extension: this.tecnico.extension,
           flota: this.tecnico.flota,

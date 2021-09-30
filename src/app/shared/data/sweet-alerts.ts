@@ -496,7 +496,6 @@ export function EliminarRegistro(ruta:string, observable?: Observable<any>) {
         console.log("Ahi debe eliminar la fila");
 
         if (observable !== undefined) {
-          //router.navigate(["/mantenimientos/temaComun"]);
           observable.subscribe(
             () => {},
             (err) => console.error(err),
