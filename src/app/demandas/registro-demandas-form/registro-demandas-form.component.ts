@@ -359,29 +359,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     );
   }
 
-  // checkTipoInversion(tipos: any[]) {
-  //   this.InversionesSelected = tipos.map((item: any) => {
-  //     return {
-  //       Id: item.id,
-  //       CodigoDemanda: item.demandaId,
-  //       id: item.tipoInversionId,
-  //     };
-  //   });
-
-  //   tipos.forEach((tipo) => {
-  //     const cbx: any = document.getElementById(
-  //       `cbkTipoInversion-${tipo.tipoInversionId}`
-  //     );
-  //     cbx.checked = "checked";
-  //   });
-  // }
-
-  // unCheck(checked = false) {
-  //   const cbs = document.getElementsByClassName("inversionCbk");
-  //   Array.from(cbs).forEach((cb: any) => {
-  //     cb.checked = checked;
-  //   });
-  // }
 
   agregarPolitica() {
     let politicaSelected = this.politica.value;
@@ -486,23 +463,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoActividades.splice(id, 1);
   }
 
-  /* onTipoInversionChange(evento: any, tipo: any) {
-    if (tipo.name != "Otro") {
-      if (evento.target.checked) {
-        this.InversionesSelected.push({
-          id: tipo.id,
-          name: tipo.name,
-          CodigoDemanda: 0,
-        });
-      } else {
-        this.InversionesSelected = this.InversionesSelected.filter(
-          (t) => t != tipo
-        );
-      }
-    } else {
-      this.otrosTiposShow = !this.otrosTiposShow;
-    }
-  } */
 
   onTipoChange() {
     const otro = 8;

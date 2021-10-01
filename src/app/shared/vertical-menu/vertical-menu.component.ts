@@ -1,3 +1,4 @@
+import { environment } from 'environments/environment';
 import {
   Component, OnInit, ViewChild, OnDestroy,
   ElementRef, AfterViewInit, ChangeDetectorRef, HostListener
@@ -34,6 +35,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   collapseSidebar = false;
   resizeTimeout;
   bcMenu: RouteInfo[];
+  nombreApp = environment.appShortName;
 
   constructor(
     private router: Router,
