@@ -1,5 +1,13 @@
 import { TipoInversion } from "./../../shared/models/Mantenimientos/TipoInversion.model";
-import { Component, Inject, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  Inject,
+  NgModuleFactoryLoader,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from "@angular/core";
 import { FormBuilder, Validators, FormArray, FormGroup } from "@angular/forms";
 import { DropDownServiceService } from "app/shared/services/drop-down-service.service";
 import { NgSelectModule, NgOption } from "@ng-select/ng-select";
@@ -16,10 +24,14 @@ import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { DemandaActividad } from "app/shared/models/Demandas/DemandaActividad.model";
 import { DemandaComentario } from "app/shared/models/Demandas/DemandaComentario.model";
 import { NgxSpinnerService } from "ngx-spinner";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgTemplateOutlet } from "@angular/common";
+import { $ } from "protractor";
 
 @Component({
   selector: "app-registro-demandas-form",
   templateUrl: "./registro-demandas-form.component.html",
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ["./registro-demandas-form.component.scss"],
   providers: [NGXToastrService],
 })
@@ -31,12 +43,14 @@ export class RegistroDemandasFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private serviceStr: NGXToastrService
+    private serviceStr: NGXToastrService,
+    private modalService: NgbModal
   ) {}
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
+
     this.route.paramMap.subscribe((params) => {
       if (params.has("id")) {
         this.demandaId = params.get("id");
@@ -44,6 +58,8 @@ export class RegistroDemandasFormComponent implements OnInit {
         this.typeEdit = true;
       } else {
         this.demandaForEdit = new Demanda();
+        let miBotonModal = document.getElementById("miBoton");
+        miBotonModal.click();
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registro de";
@@ -51,6 +67,10 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   private _demanda: Demanda;
   private demandaId: string;
+
+  modal: NgbModal;
+
+  @ViewChild("content") content: ElementRef<HTMLElement>;
 
   //propiedades
   codigoDemanda: number = 0;
@@ -66,6 +86,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   politicas: Observable<any[]>;
   tecnicos: Observable<any[]>;
   tipoInversiones: Observable<any[]>;
+  listadoTipoDemandas: Observable<any[]>;
 
   listadoPoliticas: any[];
   listadoObjetivos: any[];
@@ -102,7 +123,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(15)],
       },
     ],
-    tecnico: [null],
+    tecnico: [null, { validators: [Validators.required] }],
     institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
     comentarios: [null],
@@ -115,6 +136,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     categoria: [null],
     cantidad: [null],
     beneficiarios: [null],
+    tipoDemanda: [null, { validators: [Validators.required] }],
+    contacto: [null, { validators: [Validators.required, Validators.minLength(10)] }]
   });
 
   //getters
@@ -163,6 +186,9 @@ export class RegistroDemandasFormComponent implements OnInit {
   get tecnico() {
     return this.registerForm.get("tecnico");
   }
+  get contacto() {
+    return this.registerForm.get("contacto");
+  }
   get anio() {
     return this.registerForm.get("anio");
   }
@@ -183,6 +209,10 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
   get tiposInversion() {
     return this.registerForm.get("tiposInversion");
+  }
+
+  get tipoDemanda() {
+    return this.registerForm.get("tipoDemanda");
   }
 
   // rellena DropDowns.
@@ -226,6 +256,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     //categoriaBeneficiario
     this.listadoCategoriaBeneficiarios =
       this.dropDownService.getCategoriasBeneficiarios();
+
+    this.listadoTipoDemandas = this.dropDownService.getTipoDemanda();
   } // fin llenarDropDownFijos
 
   //Metodos eventos change
@@ -257,17 +289,14 @@ export class RegistroDemandasFormComponent implements OnInit {
     return distritoid == null ? null : distritoid.toString();
   }
 
-  setOtrasInversiones(tipoInversiones:any[]){
-    let otroTipo = tipoInversiones.find(item => item.tipoInversionId == 8)
-    if(otroTipo != null)
-    {
+  setOtrasInversiones(tipoInversiones: any[]) {
+    let otroTipo = tipoInversiones.find((item) => item.tipoInversionId == 8);
+    if (otroTipo != null) {
       this.otrosTiposShow = true;
-      return  otroTipo.tipoInversionOtros;
+      return otroTipo.tipoInversionOtros;
     }
     return null;
   }
-
-
 
   // llena Los municipios de acuerdo a la provincia
   onProvinciaChange(id: number): void {
@@ -339,11 +368,15 @@ export class RegistroDemandasFormComponent implements OnInit {
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
             return item.tipoInversionId.toString();
           }),
-          otrosTiposInversion: this.setOtrasInversiones(demanda.demandaTipoInversiones),
+          otrosTiposInversion: this.setOtrasInversiones(
+            demanda.demandaTipoInversiones
+          ),
           tipo: [],
           categoria: [],
           cantidad: [],
           beneficiarios: [],
+          tipoDemanda: demanda.tipoId.toString(),
+          contacto:demanda.contacto,
         });
       },
       (err: any) => {
@@ -358,7 +391,6 @@ export class RegistroDemandasFormComponent implements OnInit {
       }
     );
   }
-
 
   agregarPolitica() {
     let politicaSelected = this.politica.value;
@@ -463,7 +495,6 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoActividades.splice(id, 1);
   }
 
-
   onTipoChange() {
     const otro = 8;
     let contieneOtro = this.tiposInversion.value.findIndex(
@@ -558,6 +589,14 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoObjetivos.splice(id, 1);
   }
 
+  openVerticallyCentered(content) {
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+  }
+
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError(
@@ -566,9 +605,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       //return;
     }
 
-
     let listadoEjes = [];
-
 
     this.registerForm.patchValue({
       politica: this.listadoPoliticas,
@@ -594,6 +631,8 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionId: formValue.institucionResponsable,
       estadoId: 1,
       temaComunId: 1,
+      tipoId: formValue.tipoDemanda,
+      contacto:formValue.contacto,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {

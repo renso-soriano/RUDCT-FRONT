@@ -14,10 +14,76 @@
           <div class="card-text">
             <div class="div">
               <form (submit)="submit()" [formGroup]="registerForm">
+
+                <!-- modalStart -->
+
+                <ng-template #content let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title">Seleccione su tipo de demanda</h4>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label for="tipoDemanda">Tipos de demandas</label>
+                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="nombre"
+                              bindValue="tipoDemandaId" name="tipoDemanda" id="tipoDemanda"
+                              placeholder="Seleccione tipo demanda" formControlName="tipoDemanda">
+                            </ng-select>
+                            <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="tipoDemanda.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <a [routerLink]="['/demandas']" class="btn btn-primary"
+                        (click)="modal.close('Close click')"><span>Volver a listado</span>
+                      </a>
+                      <input type="button" value="Continuar" [disabled]="tipoDemanda.invalid" class="btn btn-success"
+                        (click)="modal.close('Close click')">
+                    </div>
+
+                </ng-template>
+
+                <input type="button" value="ModalOculto" class="btn btn-outline-primary mb-2 mr-2"
+                  (click)="openVerticallyCentered(content)" id="miBoton" style='display:none'>
+
+                <!-- endModal -->
+
+                <!-- navStart -->
+
                 <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-between">
                   <li ngbNavItem>
                     <a ngbNavLink>Información de la demanda</a>
                     <ng-template ngbNavContent>
+
+                      <div class="row" *ngIf="typeEdit">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="tipoDemanda">Tipos de demandas</label>
+                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="nombre"
+                              bindValue="tipoDemandaId" name="tipoDemanda" id="tipoDemanda"
+                              placeholder="Seleccione tipo demanda" formControlName="tipoDemanda">
+                            </ng-select>
+                            <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="tipoDemanda.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                       <div class="row">
                         <div class="col-sm-4">
@@ -78,7 +144,7 @@
 
                       <div class="row">
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" *ngIf="tipoDemanda.value == 2">
                           <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
@@ -97,7 +163,7 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" *ngIf="tipoDemanda.value == 2">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
                             <ng-select [items]="distritosMunicipales | async" bindLabel="name" bindValue="id"
@@ -152,22 +218,6 @@
 
 
                       <div class="row">
-                        <!-- <div class="col-md-4">
-                          <div class="form-group">
-
-                            <label for="">Tipo(s) Inversión</label>
-                            <div *ngFor='let tipo of listadoInversion; let i = index'>
-                              <div class="checkbox">
-                                <input type="checkbox" name="{{tipo.name}}" id="cbkTipoInversion-{{tipo.id}}"
-                                  class="inversionCbk" [value]="tipo.id" (change)="onTipoInversionChange($event,tipo)"
-                                  formControlName="inversionchkBox">
-                                <label class="form-check-label" for="cbkTipoInversion-{{tipo.id}}">
-                                  {{tipo.name}}
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -434,24 +484,48 @@
                     <ng-template ngbNavContent>
 
                       <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" *ngIf="tipoDemanda.value == 2">
                           <div class="form-group">
                             <label for="tecnico">Técnico OMPP</label>
                             <ng-select [items]="tecnicos | async" bindLabel="name" bindValue="id" name="tecnico"
                               id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
                             </ng-select>
 
-                            <!-- <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)"
+                            <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="tecnico.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div> -->
+                            </div>
 
                           </div>
                         </div>
+
+
+                        <div class="col-sm-6" *ngIf="tipoDemanda.value == 1">
+                          <div class="form-group">
+                            <label for="contacto">Contacto</label>
+                            <input type="text" class="form-control" name="contacto" id="contacto"
+                              formControlName="contacto">
+
+                            <div *ngIf="contacto.invalid && (contacto.dirty || contacto.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="demanda.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                              <div *ngIf="contacto.errors.minlength">
+                                <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+
 
                         <div class="col-sm-6">
                           <div class="form-group">

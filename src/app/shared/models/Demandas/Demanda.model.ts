@@ -31,6 +31,8 @@ export class Demanda implements Deserializable {
   estadoId?: number;
   nombreEstadoDemanda?: string;
   estatus?: string;
+  tipoId?:number;
+  contacto?:string;
 
   demandaActividades: DemandaActividad[];
   demandaBeneficiarios: DemandaBeneficiario[];

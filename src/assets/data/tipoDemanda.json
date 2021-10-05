@@ -1,0 +1,12 @@
+﻿[
+        {
+            "tipoDemandaId": "1",
+            "nombre": "Provinciales",
+            "estatus": "A"
+        },
+        {
+            "tipoDemandaId": "2",
+            "nombre": "Municipales",
+            "estatus": "A"
+        }
+    ]
