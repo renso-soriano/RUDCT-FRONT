@@ -1,3 +1,4 @@
+import { TipoDemanda } from "./../../shared/models/tipoDemanda.enum";
 import { TipoInversion } from "./../../shared/models/Mantenimientos/TipoInversion.model";
 import {
   Component,
@@ -31,7 +32,7 @@ import { $ } from "protractor";
 @Component({
   selector: "app-registro-demandas-form",
   templateUrl: "./registro-demandas-form.component.html",
-  encapsulation: ViewEncapsulation.None,
+ // encapsulation: ViewEncapsulation.None,
   styleUrls: ["./registro-demandas-form.component.scss"],
   providers: [NGXToastrService],
 })
@@ -137,7 +138,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     cantidad: [null],
     beneficiarios: [null],
     tipoDemanda: [null, { validators: [Validators.required] }],
-    contacto: [null, { validators: [Validators.required, Validators.minLength(10)] }]
+    contacto: [null]
   });
 
   //getters
@@ -254,10 +255,18 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoTipoBeneficiarios = this.dropDownService.getTipoBeneficiarios();
 
     //categoriaBeneficiario
-    this.listadoCategoriaBeneficiarios =
-      this.dropDownService.getCategoriasBeneficiarios();
+    this.listadoCategoriaBeneficiarios = this.dropDownService.getCategoriasBeneficiarios();
 
-    this.listadoTipoDemandas = this.dropDownService.getTipoDemanda();
+    //listado de TipoDemanda
+    let listaTipos = [];
+
+    for (let item in TipoDemanda) {
+      if (isNaN(Number(item))) {
+        listaTipos.push({ text: item, value: TipoDemanda[item] });
+      }
+    }
+    this.listadoTipoDemandas = of(listaTipos);
+
   } // fin llenarDropDownFijos
 
   //Metodos eventos change
@@ -375,8 +384,8 @@ export class RegistroDemandasFormComponent implements OnInit {
           categoria: [],
           cantidad: [],
           beneficiarios: [],
-          tipoDemanda: demanda.tipoId.toString(),
-          contacto:demanda.contacto,
+          tipoDemanda:demanda.municipioId != null ? '2' : '1',
+          contacto: demanda.contacto,
         });
       },
       (err: any) => {
@@ -631,8 +640,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionId: formValue.institucionResponsable,
       estadoId: 1,
       temaComunId: 1,
-      tipoId: formValue.tipoDemanda,
-      contacto:formValue.contacto,
+      contacto: formValue.contacto,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {

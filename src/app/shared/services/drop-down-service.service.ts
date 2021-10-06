@@ -1,4 +1,3 @@
-import { DemandaTipoDemanda } from './../models/Demandas/DemandaTipoDemanda.model';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
@@ -225,16 +224,6 @@ export class DropDownServiceService {
     );
   }
 
-  // getTipoDemanda
-  // getTipoDemanda(): Observable<DropdownResponse[]> {
-  //   const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPO_DEMANDA' });
-  //   return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
-  // }
-
-  getTipoDemanda(): Observable<DemandaTipoDemanda[]> {
-    //const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPO_DEMANDA' });
-    return this.http.get<DemandaTipoDemanda[]>(this.baseUrl + "tipoDemanda.json/");
-  }
 
   getTipoDemandaById(Id: string): Observable<ItipoInversion> {
     return this.http.get<ItipoInversion>(

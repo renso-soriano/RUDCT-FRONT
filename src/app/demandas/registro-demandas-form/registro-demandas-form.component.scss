@@ -1,7 +1,7 @@
 
 ::ng-deep ng-select.primary .ng-value-icon, ::ng-deep ng-select.primary .ng-value-label {
-
-  background-color: #003876;
+  background-color: #003876 !important;
+  border: 1px solid #fff !important;
 }
 
 .dark-modal .modal-content {

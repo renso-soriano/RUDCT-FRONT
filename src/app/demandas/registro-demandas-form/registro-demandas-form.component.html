@@ -27,8 +27,8 @@
                         <div class="col-sm-8">
                           <div class="form-group">
                             <label for="tipoDemanda">Tipos de demandas</label>
-                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="nombre"
-                              bindValue="tipoDemandaId" name="tipoDemanda" id="tipoDemanda"
+                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="text"
+                              bindValue="value" name="tipoDemanda" id="tipoDemanda"
                               placeholder="Seleccione tipo demanda" formControlName="tipoDemanda">
                             </ng-select>
                             <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
@@ -64,26 +64,6 @@
                   <li ngbNavItem>
                     <a ngbNavLink>Información de la demanda</a>
                     <ng-template ngbNavContent>
-
-                      <div class="row" *ngIf="typeEdit">
-                        <div class="col-sm-4">
-                          <div class="form-group">
-                            <label for="tipoDemanda">Tipos de demandas</label>
-                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="nombre"
-                              bindValue="tipoDemandaId" name="tipoDemanda" id="tipoDemanda"
-                              placeholder="Seleccione tipo demanda" formControlName="tipoDemanda">
-                            </ng-select>
-                            <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="tipoDemanda.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       <div class="row">
                         <div class="col-sm-4">
@@ -510,10 +490,10 @@
                             <input type="text" class="form-control" name="contacto" id="contacto"
                               formControlName="contacto">
 
-                            <div *ngIf="contacto.invalid && (contacto.dirty || contacto.touched)"
+                            <!-- <div *ngIf="contacto.invalid && (contacto.dirty || contacto.touched)"
                               class="help-block mt-1 text-danger">
 
-                              <div *ngIf="demanda.errors.required">
+                              <div *ngIf="contacto.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
@@ -521,7 +501,7 @@
                                 <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
                               </div>
 
-                            </div>
+                            </div> -->
 
                           </div>
                         </div>
