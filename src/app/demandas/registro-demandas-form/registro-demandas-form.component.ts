@@ -28,11 +28,12 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgTemplateOutlet } from "@angular/common";
 import { $ } from "protractor";
+import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.service";
 
 @Component({
   selector: "app-registro-demandas-form",
   templateUrl: "./registro-demandas-form.component.html",
- // encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
   styleUrls: ["./registro-demandas-form.component.scss"],
   providers: [NGXToastrService],
 })
@@ -45,7 +46,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private serviceStr: NGXToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private temaComunService: TemaComunService,
   ) {}
 
   //Lleno todos los dropdowns fijos en el inicio
@@ -88,6 +90,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   tecnicos: Observable<any[]>;
   tipoInversiones: Observable<any[]>;
   listadoTipoDemandas: Observable<any[]>;
+  listadoTemaComun: Observable<any[]>;
 
   listadoPoliticas: any[];
   listadoObjetivos: any[];
@@ -100,6 +103,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoCategoriaBeneficiarios: Observable<any[]>;
   listadoBeneficiarios: any[];
   beneficiariosSelected: any[] = [];
+  listadoContactos: any[];
 
   activCount = 0;
   notFound = false;
@@ -113,7 +117,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     anio: [null, { validators: [Validators.required] }],
     region: [null, { validators: [Validators.required] }],
     provincia: [null, { validators: [Validators.required] }],
-    municipio: [null, { validators: [Validators.required] }],
+    municipio: [null],
     distrito: [],
     fuente: [null, { validators: [Validators.required] }],
     eje: [null],
@@ -124,7 +128,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         validators: [Validators.required, Validators.minLength(15)],
       },
     ],
-    tecnico: [null, { validators: [Validators.required] }],
+    tecnico: [null],
     institucionResponsable: [null, { validators: [Validators.required] }],
     institucionesColaboradoras: [],
     comentarios: [null],
@@ -138,12 +142,19 @@ export class RegistroDemandasFormComponent implements OnInit {
     cantidad: [null],
     beneficiarios: [null],
     tipoDemanda: [null, { validators: [Validators.required] }],
-    contacto: [null]
+    contacto: [null],
+    nombreCompletoContacto: [null],
+    telefonoContacto: [null],
+    descripcionContacto: [null],
+    temaComunId: [null, { validators: [Validators.required] }]
   });
 
   //getters
   get comentarios() {
     return this.registerForm.get("comentarios");
+  }
+  get temaComunId() {
+    return this.registerForm.get("temaComunId");
   }
   get password() {
     return this.registerForm.get("password");
@@ -215,6 +226,15 @@ export class RegistroDemandasFormComponent implements OnInit {
   get tipoDemanda() {
     return this.registerForm.get("tipoDemanda");
   }
+  get nombreCompletoContacto() {
+    return this.registerForm.get("nombreCompletoContacto");
+  }
+  get telefonoContacto() {
+    return this.registerForm.get("telefonoContacto");
+  }
+  get descripcionContacto() {
+    return this.registerForm.get("descripcionContacto");
+  }
 
   // rellena DropDowns.
   llenarDropDownFijos(): void {
@@ -255,7 +275,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoTipoBeneficiarios = this.dropDownService.getTipoBeneficiarios();
 
     //categoriaBeneficiario
-    this.listadoCategoriaBeneficiarios = this.dropDownService.getCategoriasBeneficiarios();
+    this.listadoCategoriaBeneficiarios =
+      this.dropDownService.getCategoriasBeneficiarios();
 
     //listado de TipoDemanda
     let listaTipos = [];
@@ -266,6 +287,9 @@ export class RegistroDemandasFormComponent implements OnInit {
       }
     }
     this.listadoTipoDemandas = of(listaTipos);
+
+    // listado de temas comunes
+    this.listadoTemaComun = this.temaComunService.getTemasComunes();
 
   } // fin llenarDropDownFijos
 
@@ -343,8 +367,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.spinner.show();
     this.demandaService.getDemandaById(CodigoDemanda).subscribe(
       (demanda: Demanda) => {
-        this.demandaForEdit = demanda;
-        // this.checkTipoInversion(demanda.demandaTipoInversiones);
+        this.demandaForEdit = demanda;        
         this.setListasDemandas(demanda);
         // pendiente hasta que haya backend
         this.registerForm.patchValue({
@@ -362,11 +385,13 @@ export class RegistroDemandasFormComponent implements OnInit {
             demanda.municipioId,
             demanda.distritoMunicipalId
           ),
+          temaComunId: demanda.temaComunId.toString(),
           fuente: demanda.fuenteDemandaId.toString(),
           eje: [],
           objetivo: [],
           demanda: demanda.descripcion,
-          tecnico: demanda.tecnicoOMPPId.toString(),
+          tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
+          estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: [],
           comentarios: demanda.demandaComentarios.map((item: any) => {
@@ -384,8 +409,11 @@ export class RegistroDemandasFormComponent implements OnInit {
           categoria: [],
           cantidad: [],
           beneficiarios: [],
-          tipoDemanda:demanda.municipioId != null ? '2' : '1',
-          contacto: demanda.contacto,
+          tipoDemanda: demanda.municipioId != null ? "2" : "1",
+          contacto: [null],
+          nombreCompletoContacto: [null],
+          telefonoContacto: [null],
+          descripcionContacto: [null],
         });
       },
       (err: any) => {
@@ -440,7 +468,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         }
         if (
           this.listadoInstituciones.findIndex(
-            (item) => item.id == institucionSelected.id
+            (item) => item.InstitucionId == institucionSelected.id
           ) == -1
         ) {
           this.listadoInstituciones.push({
@@ -598,6 +626,40 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoObjetivos.splice(id, 1);
   }
 
+  agregarContacto() {
+    if (
+      this.nombreCompletoContacto.value != null &&
+      this.telefonoContacto != null
+    ) {
+      if (this.listadoContactos == null) {
+        this.listadoContactos = [];
+      }
+      this.listadoContactos.push({
+        CodigoDemanda: 0,
+        id: 0,
+        nombreCompleto: this.nombreCompletoContacto.value,
+        telefono: this.telefonoContacto.value,
+        descripcion: this.descripcionContacto.value,
+      });
+    } else {
+      this.serviceStr.typeError(
+        "No puede añadir Contactos sin nombres y telefonos"
+      );
+    }
+
+    this.registerForm.patchValue({
+      nombreCompletoContacto: null,
+      telefonoContacto: null,
+      descripcionContacto: null,
+    });
+  }
+
+  eliminarContacto(id: number) {
+    this.listadoContactos.splice(id, 1);
+  }
+
+  //metodo para abrir el modal
+
   openVerticallyCentered(content) {
     this.modalService.open(content, {
       centered: true,
@@ -623,6 +685,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       beneficiarios: this.listadoBeneficiarios,
       objetivo: this.listadoObjetivos,
       eje: listadoEjes,
+      contacto: this.listadoContactos,
     });
 
     const formValue = this.registerForm.value;
@@ -639,8 +702,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       tecnicoOMPPId: formValue.tecnico,
       institucionId: formValue.institucionResponsable,
       estadoId: 1,
-      temaComunId: 1,
-      contacto: formValue.contacto,
+      temaComunId: formValue.temaComunId,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {
@@ -665,6 +727,17 @@ export class RegistroDemandasFormComponent implements OnInit {
                 cantidad: item.cantidad,
               };
             })
+          : null,
+          demandaComentarios:
+        formValue.comentarios != null
+          ? [
+              new DemandaComentario().deserialize({
+                id: 0,
+                estatus: "A",
+                demandaId: 0,
+                comentrio: formValue.comentarios,
+              }),
+            ]
           : null,
       demandaResultadosEND:
         formValue.objetivo != undefined
@@ -702,17 +775,20 @@ export class RegistroDemandasFormComponent implements OnInit {
               };
             })
           : null,
-      demandaComentarios:
-        formValue.comentarios != null
-          ? [
-              new DemandaComentario().deserialize({
-                id: 0,
-                estatus: "A",
-                demandaId: 0,
-                comentrio: formValue.comentarios,
-              }),
-            ]
+      demandaContactos:
+        formValue.contacto != null
+          ? formValue.contacto.map((item: any) => {
+              return {
+                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                nombreCompleto: item.nombreCompleto,
+                telefono: item.telefono,
+                descripcion: item.descripcion,
+                id: this.typeEdit ? item.id : 0,
+                estatus: "A"
+              };
+            })
           : null,
+
       institucionesInvolucradas:
         formValue.institucionesColaboradoras != undefined
           ? formValue.institucionesColaboradoras.map((item: any) => {
@@ -770,16 +846,19 @@ export class RegistroDemandasFormComponent implements OnInit {
           this.spinner.hide();
         });
     }
-    this.refrescar();
+    //this.refrescar();
   }
 
   refrescar() {
+    let tipo = this.tipoDemanda.value;
     this.registerForm.reset();
+    this.tipoDemanda.setValue(tipo);
     this.listadoPoliticas = null;
     this.listadoObjetivos = null;
     this.listadoInstituciones = null;
     this.listadoActividades = null;
     this.listadoBeneficiarios = null;
+    this.listadoContactos = null;
     this.InversionesSelected = [];
     this.otrosTiposShow = false;
   }
@@ -812,6 +891,16 @@ export class RegistroDemandasFormComponent implements OnInit {
         };
       }
     );
+    this.listadoContactos = demanda.demandaContactos.map((item: any) => {
+      return {
+        CodigoDemanda: item.demandaId,
+        id: item.id,
+        nombreCompleto: item.nombreCompleto,
+        telefono: item.telefono,
+        descripcion: item.descripcion,
+      };
+    });
+
     this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
       (item: any) => {
         return {

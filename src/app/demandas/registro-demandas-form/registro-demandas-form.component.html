@@ -18,38 +18,38 @@
                 <!-- modalStart -->
 
                 <ng-template #content let-modal>
-                    <div class="modal-header">
-                      <h4 class="modal-title">Seleccione su tipo de demanda</h4>
-                    </div>
-                    <div class="modal-body">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Seleccione su tipo de demanda</h4>
+                  </div>
+                  <div class="modal-body">
 
-                      <div class="row">
-                        <div class="col-sm-8">
-                          <div class="form-group">
-                            <label for="tipoDemanda">Tipos de demandas</label>
-                            <ng-select [items]="listadoTipoDemandas | async" bindLabel="text"
-                              bindValue="value" name="tipoDemanda" id="tipoDemanda"
-                              placeholder="Seleccione tipo demanda" formControlName="tipoDemanda">
-                            </ng-select>
-                            <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
-                              class="help-block mt-1 text-danger">
+                    <div class="row">
+                      <div class="col-sm-8">
+                        <div class="form-group">
+                          <label for="tipoDemanda">Tipos de demandas</label>
+                          <ng-select [items]="listadoTipoDemandas | async" bindLabel="text" bindValue="value"
+                            name="tipoDemanda" id="tipoDemanda" placeholder="Seleccione tipo demanda"
+                            formControlName="tipoDemanda">
+                          </ng-select>
+                          <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
+                            class="help-block mt-1 text-danger">
 
-                              <div *ngIf="tipoDemanda.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
+                            <div *ngIf="tipoDemanda.errors.required">
+                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
                             </div>
+
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="modal-footer">
-                      <a [routerLink]="['/demandas']" class="btn btn-primary"
-                        (click)="modal.close('Close click')"><span>Volver a listado</span>
-                      </a>
-                      <input type="button" value="Continuar" [disabled]="tipoDemanda.invalid" class="btn btn-success"
-                        (click)="modal.close('Close click')">
-                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a [routerLink]="['/demandas']" class="btn btn-primary"
+                      (click)="modal.close('Close click')"><span>Volver a listado</span>
+                    </a>
+                    <input type="button" value="Continuar" [disabled]="tipoDemanda.invalid" class="btn btn-success"
+                      (click)="modal.close('Close click')">
+                  </div>
 
                 </ng-template>
 
@@ -441,7 +441,7 @@
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
-                                  <th>Nombre</th>
+                                  <th>Politica</th>
                                   <th>Eliminar</th>
                                 </tr>
                               </thead>
@@ -457,11 +457,35 @@
 
                         </div>
                       </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="temaComun">Tema comun</label>
+                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" bindValue="id" name="temaComun" id="temaComun"
+                              placeholder="Seleccione tema comun" formControlName="temaComunId">
+                            </ng-select>
+
+                            <div
+                            *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                            class="help-block mt-1 text-danger">
+
+                            <div *ngIf="temaComunId.errors.required">
+                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                            </div>
+
+                          </div>
+                          </div>
+                        </div>
+
+                      </div>
+
                     </ng-template>
                   </li>
                   <li ngbNavItem>
                     <a ngbNavLink>Instituciones involucaradas</a>
                     <ng-template ngbNavContent>
+
 
                       <div class="row">
                         <div class="col-sm-6" *ngIf="tipoDemanda.value == 2">
@@ -471,41 +495,8 @@
                               id="tecnico" placeholder="Seleccione el tecnico" formControlName="tecnico">
                             </ng-select>
 
-                            <div *ngIf="tecnico.invalid && (tecnico.dirty || tecnico.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="tecnico.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div>
-
                           </div>
                         </div>
-
-
-                        <div class="col-sm-6" *ngIf="tipoDemanda.value == 1">
-                          <div class="form-group">
-                            <label for="contacto">Contacto</label>
-                            <input type="text" class="form-control" name="contacto" id="contacto"
-                              formControlName="contacto">
-
-                            <!-- <div *ngIf="contacto.invalid && (contacto.dirty || contacto.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="contacto.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                              <div *ngIf="contacto.errors.minlength">
-                                <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
-                              </div>
-
-                            </div> -->
-
-                          </div>
-                        </div>
-
 
                         <div class="col-sm-6">
                           <div class="form-group">
@@ -554,7 +545,7 @@
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
-                                  <th>Nombre</th>
+                                  <th>Instituciones colaboradoras</th>
                                   <th>Eliminar</th>
                                 </tr>
                               </thead>
@@ -562,6 +553,66 @@
                                 <tr *ngFor="let institucion of listadoInstituciones; let i=index">
                                   <td>{{ institucion.Nombre }}</td>
                                   <td><a class="btn btn-danger ft-trash-2" (click)="eliminarInstitucion(i)"></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" *ngIf="tipoDemanda.value == 1">
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="nombreCompletoContacto">Nombre contacto</label>
+                            <input type="text" class="form-control" name="nombreCompletoContacto"
+                              id="nombreCompletoContacto" formControlName="nombreCompletoContacto">
+
+                          </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="telefonoContacto">Telefono contacto</label>
+                            <input type="text" class="form-control" name="telefonoContacto" id="telefonoContacto"
+                              formControlName="telefonoContacto">
+
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="descripcionContacto">Descripcion</label>
+                            <input type="text" class="form-control" name="descripcionContacto"
+                              id="descripcionContacto" formControlName="descripcionContacto">
+                          </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <a class="btn btn-primary mt-3 ft-plus" (click)="agregarContacto()"
+                              title="Agregar contacto"></a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" *ngIf="listadoContactos">
+                        <div class="col-sm-12">
+                          <div class="div">
+                            <table class="table table-hover table-sm">
+                              <thead>
+                                <tr>
+                                  <th>Nombre completo</th>
+                                  <th>Telefono</th>
+                                  <th>Descripcion</th>
+                                  <th>Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let contacto of listadoContactos;let i=index">
+                                  <td>{{ contacto.nombreCompleto }}</td>
+                                  <td>{{ contacto.telefono }}</td>
+                                  <td>{{ contacto.descripcion }}</td>
+                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarContacto(i)"></a>
                                   </td>
                                 </tr>
                               </tbody>

@@ -1,3 +1,4 @@
+import { DemandaContacto } from "./DemandaContacto.model";
 import { Deserializable } from "../deserializable";
 import { DemandaActividad } from "./DemandaActividad.model";
 import { DemandaBeneficiario } from "./DemandaBeneficiario.model";
@@ -8,7 +9,6 @@ import { DemandaPolitica } from "./DemandaPolitica.model";
 import { DemandaTipoInversion } from "./DemandaTipoInversion.model";
 
 export class Demanda implements Deserializable {
-
   id?: number;
   anio?: number;
   regionId?: number;
@@ -31,8 +31,7 @@ export class Demanda implements Deserializable {
   estadoId?: number;
   nombreEstadoDemanda?: string;
   estatus?: string;
-  tipoId?:number;
-  contacto?:string;
+  tipoId?: number;
 
   demandaActividades: DemandaActividad[];
   demandaBeneficiarios: DemandaBeneficiario[];
@@ -41,10 +40,10 @@ export class Demanda implements Deserializable {
   demandaPoliticasPNPSP: DemandaPolitica[];
   institucionesInvolucradas: DemandaInstitucion[];
   demandaTipoInversiones: DemandaTipoInversion[];
+  demandaContactos: DemandaContacto[];
 
   deserialize(input: any): this {
     Object.assign(this, input);
     return this;
   }
-
 }
