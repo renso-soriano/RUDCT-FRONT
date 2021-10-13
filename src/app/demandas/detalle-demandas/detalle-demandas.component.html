@@ -189,7 +189,7 @@
                 <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
               </ng-template>
               <ng-template ngbPanelContent>
-                <div class="row">
+                <!-- <div class="row">
                   <div *ngFor="let item of demanda.demandaComentarios" class="col-4">
                     <div class="card card-inverse bg-info">
                       <div class="card-content">
@@ -198,6 +198,23 @@
                             <div class="media-body text-left">
                               <p>
                                 {{item.comentrio}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card card-inverse bg-info">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="media-body text-left">
+                              <p>
+                                {{demanda.demandaComentarios[demanda.demandaComentarios.length - 1].comentrio}}
                               </p>
                             </div>
                           </div>

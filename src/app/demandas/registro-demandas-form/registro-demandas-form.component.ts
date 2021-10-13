@@ -367,9 +367,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.spinner.show();
     this.demandaService.getDemandaById(CodigoDemanda).subscribe(
       (demanda: Demanda) => {
-        this.demandaForEdit = demanda;        
+        this.demandaForEdit = demanda;
         this.setListasDemandas(demanda);
-        // pendiente hasta que haya backend
         this.registerForm.patchValue({
           anio: demanda.anio,
           region: demanda.regionId.toString(),
@@ -385,7 +384,7 @@ export class RegistroDemandasFormComponent implements OnInit {
             demanda.municipioId,
             demanda.distritoMunicipalId
           ),
-          temaComunId: demanda.temaComunId.toString(),
+          temaComunId: demanda.temaComunId,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: [],
           objetivo: [],
@@ -394,9 +393,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: [],
-          comentarios: demanda.demandaComentarios.map((item: any) => {
-            return item.comentrio;
-          }),
+          comentarios: demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio'],
           actividad: [],
           politica: [],
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
@@ -693,23 +690,23 @@ export class RegistroDemandasFormComponent implements OnInit {
     this._demanda = new Demanda().deserialize({
       estatus: "A",
       anio: formValue.anio,
-      regionId: formValue.region,
-      provinciaId: formValue.provincia,
-      municipioId: formValue.municipio,
-      distritoMunicipalId: formValue.distrito,
-      fuenteDemandaId: formValue.fuente,
+      regionId: parseInt(formValue.region,10),
+      provinciaId: parseInt(formValue.provincia,10),
+      municipioId: formValue.municipio != null ? parseInt(formValue.municipio,10):null,
+      distritoMunicipalId: formValue.distrito != null ? parseInt(formValue.distrito,10):null,
+      fuenteDemandaId: parseInt(formValue.fuente,10),
       descripcion: formValue.demanda,
-      tecnicoOMPPId: formValue.tecnico,
-      institucionId: formValue.institucionResponsable,
+      tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico,10):null,
+      institucionId:  parseInt(formValue.institucionResponsable, 10),
       estadoId: 1,
-      temaComunId: formValue.temaComunId,
+      temaComunId:  parseInt(formValue.temaComunId, 10),
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {
               return {
                 id: item.ActividadId,
                 estatus: "A",
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
                 numero: i + 1,
                 descripcion: item.Actividad,
               };
@@ -721,7 +718,7 @@ export class RegistroDemandasFormComponent implements OnInit {
               return {
                 id: item.Id,
                 estatus: "A",
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
                 beneficiarioCategoriaId: item.categoriaId,
                 beneficiarioTipoId: item.tipoId,
                 cantidad: item.cantidad,
@@ -734,7 +731,7 @@ export class RegistroDemandasFormComponent implements OnInit {
               new DemandaComentario().deserialize({
                 id: 0,
                 estatus: "A",
-                demandaId: 0,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : 0,
                 comentrio: formValue.comentarios,
               }),
             ]
@@ -745,7 +742,7 @@ export class RegistroDemandasFormComponent implements OnInit {
               return {
                 id: item.Id,
                 estatus: "A",
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
                 ejeENDId: item.EjeId,
                 objetivoENDId: item.ObjetivoId,
               };
@@ -757,19 +754,19 @@ export class RegistroDemandasFormComponent implements OnInit {
               return {
                 id: item.Id,
                 estatus: "A",
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
                 politicaPNPSPId: item.PoliticaId,
               };
             })
           : null,
       demandaTipoInversiones:
-        formValue.tiposInversion != undefined
+        formValue.tiposInversion != null
           ? formValue.tiposInversion.map((item: any) => {
               return {
                 id: 0,
                 estatus: "A",
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
-                tipoInversionId: item,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+                tipoInversionId: parseInt(item, 10),
                 tipoInversionOtros:
                   item == 8 ? this.otrosTiposInversion.value : null,
               };
@@ -779,7 +776,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         formValue.contacto != null
           ? formValue.contacto.map((item: any) => {
               return {
-                demandaId: this.typeEdit ? this.demandaId : item.CodigoDemanda,
+                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
                 nombreCompleto: item.nombreCompleto,
                 telefono: item.telefono,
                 descripcion: item.descripcion,
@@ -891,7 +888,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         };
       }
     );
-    this.listadoContactos = demanda.demandaContactos.map((item: any) => {
+    this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
       return {
         CodigoDemanda: item.demandaId,
         id: item.id,
@@ -899,7 +896,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         telefono: item.telefono,
         descripcion: item.descripcion,
       };
-    });
+    }):undefined;
 
     this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
       (item: any) => {
