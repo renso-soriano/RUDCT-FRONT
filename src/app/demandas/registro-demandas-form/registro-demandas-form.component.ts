@@ -705,7 +705,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionId:  parseInt(formValue.institucionResponsable, 10),
       estadoId: 1,
       temaComunId:  parseInt(formValue.temaComunId, 10),
-     // prioridad:formValue.prioridad,
+      prioridad:formValue.prioridad,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {
