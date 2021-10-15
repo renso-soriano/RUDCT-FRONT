@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
     NgxDatatableModule,
     FormsModule,
     HttpClientModule,
+    NgxSpinnerModule,
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,

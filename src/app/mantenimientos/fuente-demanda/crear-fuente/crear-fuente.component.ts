@@ -55,15 +55,6 @@ export class CrearFuenteComponent implements OnInit {
     return this.registerForm.get('estatus');
   }
 
-  //CrudMethods
-  // guardar(fuente: IfuenteDemanda) {
-  //   if (this.typeEdit) {
-  //     this.fuenteService.updateFuente(fuente.id, fuente);
-  //   } else {
-  //     this.fuenteService.createFuente(fuente);
-  //   }
-
-  // }
 
   getFuenteParaEditar(FuenteId: number) {
     this.notFound = false;
@@ -94,10 +85,6 @@ export class CrearFuenteComponent implements OnInit {
       estatus: this.estatus.value,
       nombre: this.nombre.value
     }
-
-    console.log(fuente);
-
-    //this.guardar(fuente);
 
     this.spinner.show();
 
@@ -142,7 +129,7 @@ export class CrearFuenteComponent implements OnInit {
         });
     }
 
-   // this.refrescar();
+
   }
 
   refrescar() {

@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { DetalleInstitucionComponent } from './detalle-institucion/detalle-institucion.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { DetalleInstitucionComponent } from './detalle-institucion/detalle-insti
     NgxDatatableModule,
     FormsModule,
     HttpClientModule,
+    NgxSpinnerModule,
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,

@@ -153,11 +153,6 @@ export class CrearTecnicoComponent implements OnInit {
       flota: this.flota.value,
     };
 
-
-    console.log(tecnico);
-
-    // this.guardar(tecnico);
-
     this.spinner.show();
 
     if (this.typeEdit) {
@@ -199,7 +194,6 @@ export class CrearTecnicoComponent implements OnInit {
         });
     }
 
-    //this.refrescar();
   }
 
   refrescar() {

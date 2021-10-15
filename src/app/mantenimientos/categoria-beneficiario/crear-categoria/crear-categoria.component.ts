@@ -58,19 +58,7 @@ export class CrearCategoriaComponent implements OnInit {
     return this.registerForm.get("estatus");
   }
 
-  //CrudMethods
- /*  guardar(data: any) {
-    let categoria:IcategoriaBeneficiario = data;
 
-    if (this.typeEdit) {
-      this.categoriaBeneficiarioService.updateCategoria(
-        categoria.id,
-        categoria
-      );
-    } else {
-      this.categoriaBeneficiarioService.createCategoria(categoria);
-    }
-  } */
 
   getCategoriaBeneficiarioParaEditar(Id: number) {
     this.notFound = false;
@@ -108,9 +96,6 @@ export class CrearCategoriaComponent implements OnInit {
       nombre: this.nombre.value
     };
 
-    console.log(categoriaBeneficiario);
-
-    //this.guardar(categoriaBeneficiario);
 
     this.spinner.show();
 
@@ -153,7 +138,6 @@ export class CrearCategoriaComponent implements OnInit {
         });
     }
 
-    //this.refrescar();
   }
 
   refrescar() {

@@ -146,12 +146,16 @@ export class RegistroDemandasFormComponent implements OnInit {
     nombreCompletoContacto: [null],
     telefonoContacto: [null],
     descripcionContacto: [null],
-    temaComunId: [null, { validators: [Validators.required] }]
+    temaComunId: [null, { validators: [Validators.required] }],
+    prioridad: [null, { validators: [Validators.required] }]
   });
 
   //getters
   get comentarios() {
     return this.registerForm.get("comentarios");
+  }
+  get prioridad() {
+    return this.registerForm.get("prioridad");
   }
   get temaComunId() {
     return this.registerForm.get("temaComunId");
@@ -411,6 +415,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           nombreCompletoContacto: [null],
           telefonoContacto: [null],
           descripcionContacto: [null],
+          prioridad:demanda.prioridad
         });
       },
       (err: any) => {
@@ -700,6 +705,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       institucionId:  parseInt(formValue.institucionResponsable, 10),
       estadoId: 1,
       temaComunId:  parseInt(formValue.temaComunId, 10),
+     // prioridad:formValue.prioridad,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {
@@ -896,7 +902,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         telefono: item.telefono,
         descripcion: item.descripcion,
       };
-    }):undefined;
+    }):null;
 
     this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
       (item: any) => {

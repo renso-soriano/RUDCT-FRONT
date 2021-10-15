@@ -11,6 +11,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { ListadoTemaComunComponent } from "./listado-tema-comun/listado-tema-comun.component";
 import { CrearTemaComunComponent } from "./crear-tema-comun/crear-tema-comun.component";
 import { DetalleTemaComunComponent } from "./detalle-tema-comun/detalle-tema-comun.component";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DetalleTemaComunComponent } from "./detalle-tema-comun/detalle-tema-com
     NgxDatatableModule,
     FormsModule,
     HttpClientModule,
+    NgxSpinnerModule,
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,

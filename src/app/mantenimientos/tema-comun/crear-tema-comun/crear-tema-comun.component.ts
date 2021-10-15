@@ -56,15 +56,6 @@ export class CrearTemaComunComponent implements OnInit {
     return this.registerForm.get('estatus');
   }
 
-  //CrudMethods
-  // guardar(tema: ItemaComun) {
-  //   if (this.typeEdit) {
-  //     this.temaComunService.updateTemaComun(tema.id, tema);
-  //   } else {
-  //     this.temaComunService.createTemaComun(tema);
-  //   }
-
-  // }
 
   getTemaComunParaEditar(Id: number) {
     this.notFound = false;
@@ -95,10 +86,6 @@ export class CrearTemaComunComponent implements OnInit {
       estatus: this.estatus.value,
       nombre: this.nombre.value
     }
-
-    console.log(temaComun);
-
-    //this.guardar(temaComun);
 
     this.spinner.show();
 
@@ -143,7 +130,7 @@ export class CrearTemaComunComponent implements OnInit {
         });
     }
 
-    //this.refrescar();
+
   }
 
   refrescar() {

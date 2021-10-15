@@ -58,15 +58,6 @@ export class CrearTipoComponent implements OnInit {
     return this.registerForm.get("estatus");
   }
 
-  //CrudMethods
-  // guardar(tipo: ItipoBeneficiario) {
-  //   if (this.typeEdit) {
-  //     this.tipoBeneficiarioService.updateTipo(tipo.id, tipo);
-  //   } else {
-  //     this.tipoBeneficiarioService.createTipo(tipo);
-  //   }
-
-  // }
 
   getTipoBeneficiarioParaEditar(Id: number) {
     this.notFound = false;
@@ -102,9 +93,6 @@ export class CrearTipoComponent implements OnInit {
       nombre: this.nombre.value,
     };
 
-    console.log(tipoBeneficiario);
-
-    //this.guardar(tipoBeneficiario);
 
     this.spinner.show();
 
@@ -149,10 +137,10 @@ export class CrearTipoComponent implements OnInit {
         });
     }
 
-    //this.refrescar();
+
   }
 
-  // this.refrescar();
+
 
   refrescar() {
     this.registerForm.reset();
