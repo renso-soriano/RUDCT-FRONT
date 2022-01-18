@@ -1,12 +1,128 @@
-<!-- start -->
+<div class="row">
+  <div class="col-12">
+    <div class="w-100 d-flex justify-content-end">
+      <a [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
+        title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
+
+      <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
+        title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Filter Datatables -->
+<section id="ngx-datatable-filter">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Listado de demandas para consolidación</h4>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+
+            <!-- ngx-datatable-filter -->
+            <!-- <fieldset class="form-group">
+              <label for="ngx-filter-ref">Buscar:
+                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                  placeholder="Nombre de demanda..." (keyup)="filterUpdate($event)" />
+              </label>
+            </fieldset> -->
+            <div class="col-12 mb-2">
+              <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)" ></app-data-filter>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="distrito">Registros por página</label>
+                <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
+                  name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
+                </ng-select>
+              </div>
+            </div>
+            <ngx-datatable class="bootstrap core-bootstrap"
+              [rows]="rows"
+              [columns]="columns"
+              [columnMode]="ColumnMode.force"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [externalPaging]="true"
+              [externalSorting]="false"
+              [count]="page.count"
+              [offset]="page.offset"
+              [limit]="page.limit"
+              [sortType]="'single'"
+              (page)="pageCallback($event)"
+              rowHeight="auto"
+              [reorderable]="reorderable">
+              <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
+                prop="{{column.prop}}">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <span *ngIf="column.prop != 'nombreEstadoDemanda'">
+                    {{value}}
+                  </span>
+                  <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
+                    [ngClass]="{'bg-danger': value == 'NO INICIADA', 'bg-warning':value == 'ACEPTADA POR LA INSTITUCION', 'bg-info':value == 'EN EJECUCION', 'bg-success':value == 'EJECUTADA'}">
+                    {{ value }}
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <!-- Acciones -->
+              <ngx-datatable-column name="Acciones">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a class="btn-sm btn-warning text-white ft-eye" (click)="openVerticallyCentered(content,row.id)"
+                    title="Ver detalles"></a>
+                      <label class="btn-sm ml-1 btn-primary" ngbButtonLabel>
+                        <input type="checkbox" #checkboxes   [id]="row.id" [name]="row.id" [value]="row.id" ngbButton (change)="onBotonConsolidarChange($event,row.id)"> Consolidar
+                      </label>
+
+
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-footer>
+                <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+                  let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+                  <div class="page-count">
+                    Mostrando {{(offset * pageSize)+1}} a {{(rowCount>
+                    (curPage*pageSize))?(curPage*pageSize):(rowCount)}} de
+                    {{(rowCount)}} registros.
+                  </div>
+                  <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                    [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+                    [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+                  </datatable-pager>
+                </ng-template>
+              </ngx-datatable-footer>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Filter Datatables -->
+
+ <!-- modalStart -->
+
+ <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Detalle de la demanda</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+   <!-- start -->
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Cargando... </p></ngx-spinner>
 <div class="row">
   <div class="col-12">
     <!-- Kick start -->
     <div id="kick-start" class="card">
-      <div class="card-header">
-        <h4 class="card-title">Detalles de demanda</h4>
-      </div>
+
       <div class="card-content">
         <div class="card-body">
           <h5 class="danger" *ngIf="notFound">
@@ -239,9 +355,15 @@
   </div>
 </div>
 
-<div>
-  <a  class="btn btn-primary" (click)="goBack()"><span>Volver a listado</span>
-  </a>
+  </div>
+  <div class="modal-footer">
 
-</div>
+    <input type="button" value="Volver"  class="btn btn-primary"
+      (click)="modal.close('Close click')">
+  </div>
 
+</ng-template>
+
+
+
+<!-- endModal -->

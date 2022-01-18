@@ -4,6 +4,7 @@ import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { IDemanda } from "app/shared/models/Idemanda";
 import { DemandasService } from "app/shared/services/mantenimientos/demandas.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { Location } from '@angular/common';
 
 @Component({
   selector: "app-detalle-demandas",
@@ -21,6 +22,7 @@ export class DetalleDemandasComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private _location: Location
   ) {}
 
   ngOnInit() {
@@ -51,4 +53,9 @@ export class DetalleDemandasComponent implements OnInit {
       }
     );
   }
+
+  goBack(){
+    this._location.back();
+  }
+
 }
