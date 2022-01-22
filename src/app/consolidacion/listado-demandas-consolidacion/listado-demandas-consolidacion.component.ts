@@ -17,6 +17,7 @@ import { DropDownServiceService } from 'app/shared/services/drop-down-service.se
 import { environment } from 'environments/environment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormBuilder, Validators } from '@angular/forms';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -41,6 +42,16 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
   modal: NgbModal;
   demanda: any;
+
+  consolidationForm = this.formBuilder.group({
+    comentarios: [null],
+    //tipoDemanda: [null, { validators: [Validators.required] }],
+    prioridad: [null, { validators: [Validators.required] }]
+  });
+
+  get cf() {
+    return this.consolidationForm.controls;
+  }
 
   // row data
   public rows = data;
@@ -142,7 +153,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient,private modalService: NgbModal,private demandaService: DemandasService,private spinner: NgxSpinnerService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
+  constructor(private http: HttpClient,private formBuilder: FormBuilder,private modalService: NgbModal,private demandaService: DemandasService,private spinner: NgxSpinnerService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -301,6 +312,12 @@ getDemanda(demandaId: string) {
       this.spinner.hide();
     }
   );
+}
+
+submit()
+{
+console.log("Probando");
+
 }
 
 
