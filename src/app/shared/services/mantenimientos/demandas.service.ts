@@ -55,4 +55,9 @@ export class DemandasService {
   }
 
 
+  consolidarDemandas(params?: HttpParams): Observable<Demanda[]> {
+
+    return this.http.get<Demanda[]>(`${this.URL}/Consolidar`, { params });
+  }
+
 }

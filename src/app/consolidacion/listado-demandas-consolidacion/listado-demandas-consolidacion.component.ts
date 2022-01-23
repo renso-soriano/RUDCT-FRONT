@@ -38,13 +38,13 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   //data:any[];
   notFound = false;
-  demandasSelected: any[] = [];
+  demandasSelected: number[] = [];
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
   modal: NgbModal;
   demanda: any;
 
   consolidationForm = this.formBuilder.group({
-    comentarios: [null],
+    comentario: [null],
     //tipoDemanda: [null, { validators: [Validators.required] }],
     prioridad: [null, { validators: [Validators.required] }]
   });
@@ -75,7 +75,9 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   filtrosActivos: any = {
     "provinciaId": null,
     "temaComunId": null,
-    "institucionId": null
+    "institucionId": null,
+    "estadoId": null
+
   }
 
   // column header
@@ -153,7 +155,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient,private formBuilder: FormBuilder,private modalService: NgbModal,private demandaService: DemandasService,private spinner: NgxSpinnerService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
+  constructor(private http: HttpClient,private formBuilder: FormBuilder,private modalService: NgbModal,
+    private demandaService: DemandasService,private spinner: NgxSpinnerService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -188,7 +191,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         label: 'Provincia',
         servicio: this.dropdownService.getProvincias(),
         tipo: 'select',
-        placeholder: 'Seleccione una provincia',
+        placeholder: 'Seleccione',
         async: true,
         multiple: false
       }),
@@ -198,7 +201,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         label: 'Tema común',
         servicio: this.dropdownService.getTemasComunes(),
         tipo: 'select',
-        placeholder: 'Seleccione un tema común',
+        placeholder: 'Seleccione',
         async: true,
         multiple: false
       }),
@@ -207,10 +210,20 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         label: 'Institución responsable',
         servicio: this.dropdownService.getInstituciones(),
         tipo: 'select',
-        placeholder: 'Seleccione una institución',
+        placeholder: 'Seleccione',
         async: true,
         multiple: false
-      })
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'estadoId',
+        label: 'Estado',
+        servicio: this.dropdownService.getEstados(),
+        tipo: 'select',
+        placeholder: 'Seleccione',
+        async: true,
+        multiple: false
+      }),
+
     ];
     this.loadingIndicator = false;
   }
@@ -243,6 +256,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('provinciaId', this.filtrosActivos.provinciaId)
       .set('temaComunId', this.filtrosActivos.temaComunId)
       .set('institucionId', this.filtrosActivos.institucionId)
+      .set('estadoDemandaId', this.filtrosActivos.estadoId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
@@ -257,7 +271,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     await this.reloadTable();
   }
 
-  onBotonConsolidarChange(evento: any, tipo: string) {
+  onBotonConsolidarChange(evento: any, tipo: number) {
 
     if (evento.target.checked) {
       if (this.demandasSelected.findIndex(item => item == tipo) == -1) {
@@ -288,7 +302,7 @@ openVerticallyCentered(content,id) {
 
   this.modalService.open(content, {
     //centered: true,
-    backdrop: "static",
+    //backdrop: "static",
     keyboard: false,
     size: 'xl',
     //windowClass: 'modal-xl'
@@ -316,7 +330,20 @@ getDemanda(demandaId: string) {
 
 submit()
 {
-console.log("Probando");
+this.consolidar();
+
+}
+
+consolidar(){
+  let params = new HttpParams();
+  for (let id of this.demandasSelected) {
+    params = params.append('ids', id);
+  }
+
+this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
+  // NOTE: the format of the returned data depends on your API!
+  console.log(data);
+});
 
 }
 

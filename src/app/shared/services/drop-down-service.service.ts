@@ -147,10 +147,9 @@ export class DropDownServiceService {
   }
 
   // getEstados
-  getEstados(): Observable<IestadoEjecucion[]> {
-    return this.http.get<IestadoEjecucion[]>(
-      this.baseUrl + "estadoEjecucion.json"
-    );
+  getEstados(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS', padreId: null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
   getEstadoById(EstadoId: string): Observable<IestadoEjecucion> {
