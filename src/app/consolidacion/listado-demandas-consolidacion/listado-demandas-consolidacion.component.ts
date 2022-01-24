@@ -18,6 +18,8 @@ import { environment } from 'environments/environment';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
+import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -44,6 +46,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   demanda: any;
 
   consolidationForm = this.formBuilder.group({
+    descripcion: [null, { validators: [Validators.required] }],
     comentario: [null],
     //tipoDemanda: [null, { validators: [Validators.required] }],
     prioridad: [null, { validators: [Validators.required] }]
@@ -335,10 +338,29 @@ this.consolidar();
 }
 
 consolidar(){
-  let params = new HttpParams();
-  for (let id of this.demandasSelected) {
-    params = params.append('ids', id);
-  }
+  // let params = new HttpParams();
+  // for (let id of this.demandasSelected) {
+  //   params = params.append('ids', id);
+  // }
+
+  let params = new ConsolidationRequest().deserialize({
+
+    ids : this.demandasSelected,
+  descripcion : this.cf.descripcion.value,
+  prioridad : this.cf.prioridad.value,
+  demandaComentarios:
+  this.cf.comentario != null
+    ? [
+        new DemandaComentario().deserialize({
+          id: 0,
+          estatus: "A",
+          demandaId: 0,
+          comentrio: this.cf.comentario.value,
+        }),
+      ]
+    : null,
+  demandaContactos: null
+  });
 
 this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
   // NOTE: the format of the returned data depends on your API!

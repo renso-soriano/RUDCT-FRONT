@@ -6,6 +6,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 
 
 @Injectable({
@@ -55,9 +56,9 @@ export class DemandasService {
   }
 
 
-  consolidarDemandas(params?: HttpParams): Observable<Demanda[]> {
+  consolidarDemandas(params?: ConsolidationRequest): Observable<Demanda[]> {
 
-    return this.http.get<Demanda[]>(`${this.URL}/Consolidar`, { params });
+    return this.http.post<Demanda[]>(`${this.URL}/Consolidar`,  params );
   }
 
 }
