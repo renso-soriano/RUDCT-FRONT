@@ -9,7 +9,7 @@ export class ConsolidationRequest implements Deserializable {
   descripcion?: number;
   prioridad?:number;
 
-  demandaComentarios: DemandaComentario[];
+  comentarioConsolidacion: string;
   demandaContactos: DemandaContacto[];
 
   deserialize(input: any): this {

@@ -56,9 +56,9 @@ export class DemandasService {
   }
 
 
-  consolidarDemandas(params?: ConsolidationRequest): Observable<Demanda[]> {
+  consolidarDemandas(params?: ConsolidationRequest): Observable<Demanda> {
 
-    return this.http.post<Demanda[]>(`${this.URL}/Consolidar`,  params );
+    return this.http.post<Demanda>(`${this.URL}/Consolidar`,  params );
   }
 
 }

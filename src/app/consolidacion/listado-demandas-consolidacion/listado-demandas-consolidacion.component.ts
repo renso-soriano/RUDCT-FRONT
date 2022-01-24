@@ -279,12 +279,10 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     if (evento.target.checked) {
       if (this.demandasSelected.findIndex(item => item == tipo) == -1) {
         this.demandasSelected.push(tipo);
-        console.log(this.demandasSelected);
       }
     }
     else {
       this.demandasSelected = this.demandasSelected.filter(t => t != tipo);
-      console.log(this.demandasSelected);
     }
   }
 
@@ -348,18 +346,7 @@ consolidar(){
     ids : this.demandasSelected,
   descripcion : this.cf.descripcion.value,
   prioridad : this.cf.prioridad.value,
-  demandaComentarios:
-  this.cf.comentario != null
-    ? [
-        new DemandaComentario().deserialize({
-          id: 0,
-          estatus: "A",
-          demandaId: 0,
-          comentrio: this.cf.comentario.value,
-        }),
-      ]
-    : null,
-  demandaContactos: null
+  comentarioConsolidacion:this.cf.comentario.value
   });
 
 this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
