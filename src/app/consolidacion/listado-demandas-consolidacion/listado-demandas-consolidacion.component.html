@@ -48,11 +48,15 @@
               <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
                 prop="{{column.prop}}">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                  <span *ngIf="column.prop != 'nombreEstadoDemanda'">
+                  <span *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreTipoDemanda'">
                     {{value}}
                   </span>
                   <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
                     [ngClass]="{'bg-danger': value == 'NO INICIADA', 'bg-warning':value == 'ACEPTADA POR LA INSTITUCION', 'bg-info':value == 'EN EJECUCION', 'bg-success':value == 'EJECUTADA'}">
+                    {{ value }}
+                  </div>
+                  <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
+                    [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante'}">
                     {{ value }}
                   </div>
                 </ng-template>
@@ -95,113 +99,15 @@
 </section>
 <!--/ Filter Datatables -->
 
-<!--Formulario-->
-<form (submit)="submit()" [formGroup]="consolidationForm">
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="descripcion">Nueva demanda</label>
-        <textarea class="form-control" formControlName="descripcion" rows="4"> </textarea>
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="comentarios">Comentario</label>
-        <textarea class="form-control" formControlName="comentario" rows="4"> </textarea>
-      </div>
+<div class="row">
+  <div class="col-12">
+    <div class="w-100 d-flex justify-content-end">
+      <a type="submit" class="btn mt-3 btn-primary" (click)="openVertically(content2)">Completar consolidacion</a>
     </div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="form-group">
-        <label for="nombreCompletoContacto">Nombre contacto</label>
-        <input type="text" class="form-control" name="nombreCompletoContacto" id="nombreCompletoContacto"
-          formControlName="nombreCompletoContacto">
-
-      </div>
-    </div>
-
-    <div class="col-sm-3">
-      <div class="form-group">
-        <label for="telefonoContacto">Telefono contacto</label>
-        <input type="text" class="form-control" name="telefonoContacto" id="telefonoContacto"
-          formControlName="telefonoContacto">
-
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="form-group">
-        <label for="descripcionContacto">Descripcion</label>
-        <input type="text" class="form-control" name="descripcionContacto" id="descripcionContacto"
-          formControlName="descripcionContacto">
-      </div>
-    </div>
-
-    <div class="col-sm-2">
-      <div class="form-group">
-        <a class="btn btn-primary mt-3 ft-plus ml-10" (click)="agregarContacto()" title="Agregar contacto"></a>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="listadoContactos">
-    <div class="col-sm-12">
-      <div class="div">
-        <table class="table table-hover table-sm">
-          <thead>
-            <tr>
-              <th>Nombre completo</th>
-              <th>Telefono</th>
-              <th>Descripcion</th>
-              <th>Eliminar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let contacto of listadoContactos;let i=index">
-              <td>{{ contacto.nombreCompleto }}</td>
-              <td>{{ contacto.telefono }}</td>
-              <td>{{ contacto.descripcion }}</td>
-              <td><a class="btn btn-danger ft-trash-2" (click)="eliminarContacto(i)"></a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="form-group">
-        <label for="prioridad">Prioridad</label>
-        <input type="number" min="0" class="form-control" name="prioridad" id="prioridad" formControlName="prioridad">
-
-        <div *ngIf="cf.prioridad.invalid && (cf.prioridad.dirty || cf.prioridad.touched)"
-          class="help-block mt-1 text-danger">
-
-          <div *ngIf="cf.prioridad.errors.required">
-            <i class="ft-alert-circle align-middle"></i> El campo es requerido
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-
-    <div class="col-sm-3">
-      <div class="form-group">
-        <button type="submit" class="btn mt-3 btn-success" [disabled]="consolidationForm.invalid">Enviar</button>
-      </div>
-    </div>
-  </div>
-
-
-</form>
-
-
-<!-- modalStart -->
+<!-- modal1Start -->
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -464,3 +370,142 @@
 </ng-template>
 
 <!-- endModal -->
+
+
+<!-- modal2Start -->
+
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Completar datos de la demanda</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <!-- start -->
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+      <p style="color: white"> Cargando... </p>
+    </ngx-spinner>
+    <div class="row">
+      <div class="col-12">
+        <!-- Kick start -->
+
+        <!--Formulario-->
+        <form [formGroup]="consolidationForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="descripcion">Nueva demanda</label>
+                <textarea class="form-control" formControlName="descripcion" rows="4"> </textarea>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="comentarios">Comentario</label>
+                <textarea class="form-control" formControlName="comentario" rows="4"> </textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="nombreCompletoContacto">Nombre contacto</label>
+                <input type="text" class="form-control" name="nombreCompletoContacto" id="nombreCompletoContacto"
+                  formControlName="nombreCompletoContacto">
+
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="telefonoContacto">Telefono contacto</label>
+                <input type="text" class="form-control" name="telefonoContacto" id="telefonoContacto"
+                  formControlName="telefonoContacto">
+
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="descripcionContacto">Descripcion</label>
+                <input type="text" class="form-control" name="descripcionContacto" id="descripcionContacto"
+                  formControlName="descripcionContacto">
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="form-group">
+                <a class="btn btn-primary mt-3 ft-plus ml-10" (click)="agregarContacto()" title="Agregar contacto"></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="listadoContactos">
+            <div class="col-sm-12">
+              <div class="div">
+                <table class="table table-hover table-sm">
+                  <thead>
+                    <tr>
+                      <th>Nombre completo</th>
+                      <th>Telefono</th>
+                      <th>Descripcion</th>
+                      <th>Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let contacto of listadoContactos;let i=index">
+                      <td>{{ contacto.nombreCompleto }}</td>
+                      <td>{{ contacto.telefono }}</td>
+                      <td>{{ contacto.descripcion }}</td>
+                      <td><a class="btn btn-danger ft-trash-2" (click)="eliminarContacto(i)"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="prioridad">Prioridad</label>
+                <input type="number" min="0" class="form-control" name="prioridad" id="prioridad"
+                  formControlName="prioridad">
+
+                <div *ngIf="cf.prioridad.invalid && (cf.prioridad.dirty || cf.prioridad.touched)"
+                  class="help-block mt-1 text-danger">
+
+                  <div *ngIf="cf.prioridad.errors.required">
+                    <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </form>
+        <!--EndForm-->
+
+        <!--/ Kick start -->
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+
+    <input type="button" value="Volver" class="btn btn-primary" (click)="modal.close('Close click')">
+
+    <button type="submit" class="btn btn-success" (click)="submit()" [disabled]="consolidationForm.invalid">Enviar</button>
+
+
+  </div>
+
+</ng-template>
+
+<!-- endModal2 -->

@@ -21,6 +21,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
+import { Console } from 'console';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -87,17 +88,17 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     "temaComunId": null,
     "institucionId": null,
     "estadoId": null
-
   }
 
   // column header
   public columns = [
-    { name: 'Código', prop: 'codigo', sorteable: false },
+    //{ name: 'Código', prop: 'codigo', sorteable: false },
     { name: 'Año', prop: 'anio', sorteable: false },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
     { name: 'Tema común', prop: 'nombreTemaComun', sorteable: false },
-    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false }
+    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
+    { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false }
   ];
 
   // multi Purpose datatable Row data
@@ -168,27 +169,15 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private modalService: NgbModal,
     private demandaService: DemandasService,
     private spinner: NgxSpinnerService,
-    private serviceStr: NGXToastrService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
+    private serviceStr: NGXToastrService,
+    private demandasService: DemandasService,
+    private router: Router,
+    private dropdownService: DropDownServiceService)
+     {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
-
-  //Actions Methods
-
-  verDetalles(CodigoDemanda: string) {
-    this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
-  }
-  editar(CodigoDemanda: string) {
-    this.router.navigate(["/demandas", 'Edit', CodigoDemanda]);
-  }
-  eliminar(CodigoDemanda: string) {
-    alertFunctions.EliminarRegistro("/demandas", this.demandasService.deleteDemanda(CodigoDemanda));
-
-  }
-
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
 
   /**
    * On init
@@ -318,6 +307,23 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       //windowClass: 'modal-xl'
     });
   }
+  openVertically(content) {
+    if (this.demandasSelected.length < 2) {
+      this.serviceStr.typeError(
+        "Debe seleccionar 2 demandas o más para consolidar"
+      );
+    }
+    else {
+      this.modalService.open(content, {
+        //centered: true,
+        //backdrop: "static",
+        keyboard: false,
+        size: 'xl',
+        //windowClass: 'modal-xl'
+      });
+    }
+
+  }
 
   getDemanda(demandaId: string) {
     this.notFound = false;
@@ -372,35 +378,40 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   submit() {
     this.consolidar();
-
   }
 
   consolidar() {
-    // let params = new HttpParams();
-    // for (let id of this.demandasSelected) {
-    //   params = params.append('ids', id);
-    // }
 
-    if (this.demandasSelected.length < 1) {
-      this.serviceStr.typeError(
-        "No ha seleccionado ninguna demanda para consolidar"
-      );
-    }
-    else {
-      let params = new ConsolidationRequest().deserialize({
+    this.spinner.show();
 
-        ids: this.demandasSelected,
-        descripcion: this.cf.descripcion.value,
-        prioridad: this.cf.prioridad.value,
-        comentarioConsolidacion: this.cf.comentario.value,
-        demandaContactos: this.listadoContactos
+    let params = new ConsolidationRequest().deserialize({
+
+      ids: this.demandasSelected,
+      descripcion: this.cf.descripcion.value,
+      prioridad: this.cf.prioridad.value,
+      comentarioConsolidacion: this.cf.comentario.value,
+      demandaContactos: this.listadoContactos
+    });
+
+
+    this.demandasService
+    .consolidarDemandas(params).toPromise()
+      .then((res: any) => {
+        this.serviceStr.typeSuccess("La demanda se consolidó con éxito");
+          this.spinner.hide();
+        setTimeout(() => {
+          //this.router.navigate(["/consolidacion"]);
+          window.location.href = "/consolidacion";
+        }, 2000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al consolidar la demanda, contacte con Soporte TIC"
+        );
+        this.spinner.hide();
       });
 
-      this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
-        // NOTE: the format of the returned data depends on your API!
-        console.log(data);
-      });
-    }
 
 
 
