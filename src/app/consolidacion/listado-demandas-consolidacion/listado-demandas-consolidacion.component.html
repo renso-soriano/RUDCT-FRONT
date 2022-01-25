@@ -96,7 +96,7 @@
 <!--/ Filter Datatables -->
 
 <!--Formulario-->
-<form (submit)="submit()" [formGroup]="consolidationForm" *ngIf="demandasSelected != []">
+<form (submit)="submit()" [formGroup]="consolidationForm">
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
@@ -111,45 +111,93 @@
         <textarea class="form-control" formControlName="comentario" rows="4"> </textarea>
       </div>
     </div>
+  </div>
 
-    <div class="col-6">
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label for="prioridad">Prioridad</label>
-            <input type="number" min="0" class="form-control" name="prioridad" id="prioridad"
-              formControlName="prioridad">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="nombreCompletoContacto">Nombre contacto</label>
+        <input type="text" class="form-control" name="nombreCompletoContacto" id="nombreCompletoContacto"
+          formControlName="nombreCompletoContacto">
 
-            <div *ngIf="cf.prioridad.invalid && (cf.prioridad.dirty || cf.prioridad.touched)"
-              class="help-block mt-1 text-danger">
-
-              <div *ngIf="cf.prioridad.errors.required">
-                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-              </div>
-
-            </div>
-
-          </div>
-        </div>
       </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group">
-            <button type="submit" class="btn btn-success" [disabled]="consolidationForm.invalid">Enviar</button>
-          </div>
-        </div>
-      </div>
-
-
-
     </div>
 
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="telefonoContacto">Telefono contacto</label>
+        <input type="text" class="form-control" name="telefonoContacto" id="telefonoContacto"
+          formControlName="telefonoContacto">
 
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="descripcionContacto">Descripcion</label>
+        <input type="text" class="form-control" name="descripcionContacto" id="descripcionContacto"
+          formControlName="descripcionContacto">
+      </div>
+    </div>
 
-
-
+    <div class="col-sm-2">
+      <div class="form-group">
+        <a class="btn btn-primary mt-3 ft-plus ml-10" (click)="agregarContacto()" title="Agregar contacto"></a>
+      </div>
+    </div>
   </div>
+
+  <div class="row" *ngIf="listadoContactos">
+    <div class="col-sm-12">
+      <div class="div">
+        <table class="table table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Nombre completo</th>
+              <th>Telefono</th>
+              <th>Descripcion</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let contacto of listadoContactos;let i=index">
+              <td>{{ contacto.nombreCompleto }}</td>
+              <td>{{ contacto.telefono }}</td>
+              <td>{{ contacto.descripcion }}</td>
+              <td><a class="btn btn-danger ft-trash-2" (click)="eliminarContacto(i)"></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="prioridad">Prioridad</label>
+        <input type="number" min="0" class="form-control" name="prioridad" id="prioridad" formControlName="prioridad">
+
+        <div *ngIf="cf.prioridad.invalid && (cf.prioridad.dirty || cf.prioridad.touched)"
+          class="help-block mt-1 text-danger">
+
+          <div *ngIf="cf.prioridad.errors.required">
+            <i class="ft-alert-circle align-middle"></i> El campo es requerido
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <button type="submit" class="btn mt-3 btn-success" [disabled]="consolidationForm.invalid">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+
 </form>
 
 

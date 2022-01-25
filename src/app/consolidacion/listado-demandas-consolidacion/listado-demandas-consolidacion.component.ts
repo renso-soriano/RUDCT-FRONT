@@ -20,6 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
+import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -28,7 +29,8 @@ const data: any = require('../../shared/data/Demandas.json');
   selector: 'app-listado-demandas-consolidacion',
   templateUrl: './listado-demandas-consolidacion.component.html',
   styleUrls: ['./listado-demandas-consolidacion.component.scss', '../../../assets/sass/libs/datatables.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [NGXToastrService]
 })
 export class ListadoDemandasConsolidacionComponent implements OnInit {
 
@@ -44,12 +46,17 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
   modal: NgbModal;
   demanda: any;
+  listadoContactos: any[];
 
   consolidationForm = this.formBuilder.group({
     descripcion: [null, { validators: [Validators.required] }],
     comentario: [null],
     //tipoDemanda: [null, { validators: [Validators.required] }],
-    prioridad: [null, { validators: [Validators.required] }]
+    prioridad: [null, { validators: [Validators.required] }],
+    contacto: [null],
+    nombreCompletoContacto: [null],
+    telefonoContacto: [null],
+    descripcionContacto: [null]
   });
 
   get cf() {
@@ -158,8 +165,10 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient,private formBuilder: FormBuilder,private modalService: NgbModal,
-    private demandaService: DemandasService,private spinner: NgxSpinnerService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private modalService: NgbModal,
+    private demandaService: DemandasService,
+    private spinner: NgxSpinnerService,
+    private serviceStr: NGXToastrService, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -296,65 +305,106 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   }
 
-//metodo para abrir el modal
+  //metodo para abrir el modal
 
-openVerticallyCentered(content,id) {
-  this.getDemanda(id);
+  openVerticallyCentered(content, id) {
+    this.getDemanda(id);
 
-  this.modalService.open(content, {
-    //centered: true,
-    //backdrop: "static",
-    keyboard: false,
-    size: 'xl',
-    //windowClass: 'modal-xl'
-  });
-}
+    this.modalService.open(content, {
+      //centered: true,
+      //backdrop: "static",
+      keyboard: false,
+      size: 'xl',
+      //windowClass: 'modal-xl'
+    });
+  }
 
-getDemanda(demandaId: string) {
-  this.notFound = false;
-  this.demanda = null;
-  this.spinner.show();
-  this.demandaService.getDemandaById(demandaId).subscribe(
-    (demanda: Demanda) => {
-      this.demanda = demanda;
-    },
-    (err: any) => {
-      console.error(err);
-      this.notFound = true;
-      this.spinner.hide();
-    },
-    () =>{
-      this.spinner.hide();
+  getDemanda(demandaId: string) {
+    this.notFound = false;
+    this.demanda = null;
+    this.spinner.show();
+    this.demandaService.getDemandaById(demandaId).subscribe(
+      (demanda: Demanda) => {
+        this.demanda = demanda;
+      },
+      (err: any) => {
+        console.error(err);
+        this.notFound = true;
+        this.spinner.hide();
+      },
+      () => {
+        this.spinner.hide();
+      }
+    );
+  }
+
+  agregarContacto() {
+    if (
+      this.cf.nombreCompletoContacto.value != null &&
+      this.cf.telefonoContacto != null
+    ) {
+      if (this.listadoContactos == null) {
+        this.listadoContactos = [];
+      }
+      this.listadoContactos.push({
+        CodigoDemanda: 0,
+        id: 0,
+        nombreCompleto: this.cf.nombreCompletoContacto.value,
+        telefono: this.cf.telefonoContacto.value,
+        descripcion: this.cf.descripcionContacto.value,
+        estatus: "A"
+      });
+    } else {
+      this.serviceStr.typeError(
+        "No puede añadir Contactos sin nombres y telefonos"
+      );
     }
-  );
-}
 
-submit()
-{
-this.consolidar();
+    this.consolidationForm.patchValue({
+      nombreCompletoContacto: null,
+      telefonoContacto: null,
+      descripcionContacto: null,
+    });
+  }
+  eliminarContacto(id: number) {
+    this.listadoContactos.splice(id, 1);
+  }
 
-}
+  submit() {
+    this.consolidar();
 
-consolidar(){
-  // let params = new HttpParams();
-  // for (let id of this.demandasSelected) {
-  //   params = params.append('ids', id);
-  // }
+  }
 
-  let params = new ConsolidationRequest().deserialize({
+  consolidar() {
+    // let params = new HttpParams();
+    // for (let id of this.demandasSelected) {
+    //   params = params.append('ids', id);
+    // }
 
-    ids : this.demandasSelected,
-  descripcion : this.cf.descripcion.value,
-  prioridad : this.cf.prioridad.value,
-  comentarioConsolidacion:this.cf.comentario.value
-  });
+    if (this.demandasSelected.length < 1) {
+      this.serviceStr.typeError(
+        "No ha seleccionado ninguna demanda para consolidar"
+      );
+    }
+    else {
+      let params = new ConsolidationRequest().deserialize({
 
-this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
-  // NOTE: the format of the returned data depends on your API!
-  console.log(data);
-});
+        ids: this.demandasSelected,
+        descripcion: this.cf.descripcion.value,
+        prioridad: this.cf.prioridad.value,
+        comentarioConsolidacion: this.cf.comentario.value,
+        demandaContactos: this.listadoContactos
+      });
 
-}
+      this.demandasService.consolidarDemandas(params).subscribe((data: any) => {
+        // NOTE: the format of the returned data depends on your API!
+        console.log(data);
+      });
+    }
+
+
+
+  }
 
 
 }
