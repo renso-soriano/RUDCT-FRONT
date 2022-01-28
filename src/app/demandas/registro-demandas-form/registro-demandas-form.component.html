@@ -19,22 +19,22 @@
 
                 <ng-template #content let-modal>
                   <div class="modal-header">
-                    <h4 class="modal-title">Seleccione su tipo de demanda</h4>
+                    <h4 class="modal-title">Seleccione el nivel de la demanda</h4>
                   </div>
                   <div class="modal-body">
 
                     <div class="row">
                       <div class="col-sm-8">
                         <div class="form-group">
-                          <label for="tipoDemanda">Tipos de demandas</label>
-                          <ng-select [items]="listadoTipoDemandas | async" bindLabel="text" bindValue="value"
-                            name="tipoDemanda" id="tipoDemanda" placeholder="Seleccione tipo demanda"
-                            formControlName="tipoDemanda">
+                          <label for="nivelDemanda">Nivel de demanda</label>
+                          <ng-select [items]="listadoNivelDemandas | async" bindLabel="text" bindValue="value"
+                            name="nivelDemanda" id="nivelDemanda" placeholder="Seleccione nivel demanda"
+                            formControlName="nivelDemanda">
                           </ng-select>
-                          <div *ngIf="tipoDemanda.invalid && (tipoDemanda.dirty || tipoDemanda.touched)"
+                          <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
                             class="help-block mt-1 text-danger">
 
-                            <div *ngIf="tipoDemanda.errors.required">
+                            <div *ngIf="nivelDemanda.errors.required">
                               <i class="ft-alert-circle align-middle"></i> El campo es requerido
                             </div>
 
@@ -47,7 +47,7 @@
                     <a [routerLink]="['/demandas']" class="btn btn-primary"
                       (click)="modal.close('Close click')"><span>Volver a listado</span>
                     </a>
-                    <input type="button" value="Continuar" [disabled]="tipoDemanda.invalid" class="btn btn-success"
+                    <input type="button" value="Continuar" [disabled]="nivelDemanda.invalid" class="btn btn-success"
                       (click)="modal.close('Close click')">
                   </div>
 
@@ -124,7 +124,7 @@
 
                       <div class="row">
 
-                        <div class="col-sm-4" *ngIf="tipoDemanda.value == 2">
+                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 2">
                           <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
@@ -143,7 +143,7 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-4" *ngIf="tipoDemanda.value == 5">
+                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
                             <ng-select [items]="distritosMunicipales | async" bindLabel="name" bindValue="id"
@@ -506,7 +506,7 @@
 
 
                       <div class="row">
-                        <div class="col-sm-6" *ngIf="tipoDemanda.value == 2">
+                        <div class="col-sm-6" *ngIf="nivelDemanda.value == 2">
                           <div class="form-group">
                             <label for="tecnico">Técnico OMPP</label>
                             <ng-select [items]="tecnicos | async" bindLabel="name" bindValue="id" name="tecnico"
@@ -579,7 +579,7 @@
                         </div>
                       </div>
 
-                      <div class="row" *ngIf="tipoDemanda.value == 1">
+                      <div class="row" *ngIf="nivelDemanda.value == 1">
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="nombreCompletoContacto">Nombre contacto</label>

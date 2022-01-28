@@ -47,7 +47,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
   modal: NgbModal;
   demanda: any;
-  listadoContactos: any[];
+  listadoContactos: any[]=[];
 
   consolidationForm = this.formBuilder.group({
     descripcion: [null, { validators: [Validators.required] }],
@@ -347,7 +347,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   agregarContacto() {
     if (
       this.cf.nombreCompletoContacto.value != null &&
-      this.cf.telefonoContacto != null
+      this.cf.telefonoContacto.value != null
     ) {
       if (this.listadoContactos == null) {
         this.listadoContactos = [];
@@ -377,7 +377,16 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   }
 
   submit() {
-    this.consolidar();
+    if(this.listadoContactos.length < 1)
+    {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 contacto para poder consolidar"
+      );
+    }
+    else{
+      this.consolidar();
+    }
+
   }
 
   consolidar() {
@@ -406,9 +415,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       })
       .catch((err) => {
         console.error(err);
-        this.serviceStr.typeError(
-          "Ocurrió un error inesperado al consolidar la demanda, contacte con Soporte TIC"
-        );
+        this.serviceStr.typeError(err.error.message);
         this.spinner.hide();
       });
 

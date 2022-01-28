@@ -62,7 +62,8 @@ export class ListadoDemandasComponent implements OnInit {
     "municipioId": null,
     "fuenteDemandaId": null,
     "temaComunId": null,
-    "institucionId": null
+    "institucionId": null,
+    "demandaTipoId": null
   }
 
   // column header
@@ -141,7 +142,8 @@ export class ListadoDemandasComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private demandasService: DemandasService, private router: Router, private dropdownService: DropDownServiceService) {
+  constructor(private http: HttpClient, private demandasService: DemandasService,
+    private router: Router, private dropdownService: DropDownServiceService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -246,6 +248,16 @@ export class ListadoDemandasComponent implements OnInit {
         async: true,
         multiple: false
       })
+      ,
+      new FiltrosDinamicos().deserialize({
+        name: 'demandaTipoId',
+        label: 'Tipo Demanda',
+        servicio: this.dropdownService.getTiposDemandas(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tipo',
+        async: true,
+        multiple: false
+      })
     ];
     this.loadingIndicator = false;
   }
@@ -282,6 +294,7 @@ export class ListadoDemandasComponent implements OnInit {
       .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
       .set('temaComunId', this.filtrosActivos.temaComunId)
       .set('institucionId', this.filtrosActivos.institucionId)
+      .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;

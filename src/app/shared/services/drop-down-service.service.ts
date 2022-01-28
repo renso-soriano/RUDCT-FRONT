@@ -158,6 +158,12 @@ export class DropDownServiceService {
     );
   }
 
+   // getTipoDemandas
+   getTiposDemandas(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS_DEMANDAS', padreId: null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
+
   // getFuentes
   getFuentes(): Observable<DropdownResponse[]> {
 

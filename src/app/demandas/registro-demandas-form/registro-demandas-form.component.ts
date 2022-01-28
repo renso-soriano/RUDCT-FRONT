@@ -1,4 +1,4 @@
-import { TipoDemanda } from "./../../shared/models/tipoDemanda.enum";
+import { NivelDemanda } from "../../shared/models/nivelDemanda.enum";
 import { TipoInversion } from "./../../shared/models/Mantenimientos/TipoInversion.model";
 import {
   Component,
@@ -89,7 +89,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   politicas: Observable<any[]>;
   tecnicos: Observable<any[]>;
   tipoInversiones: Observable<any[]>;
-  listadoTipoDemandas: Observable<any[]>;
+  listadoNivelDemandas: Observable<any[]>;
   listadoTemaComun: Observable<any[]>;
 
   listadoPoliticas: any[];
@@ -141,7 +141,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     categoria: [null],
     cantidad: [null],
     beneficiarios: [null],
-    tipoDemanda: [null, { validators: [Validators.required] }],
+    nivelDemanda: [null, { validators: [Validators.required] }],
     contacto: [null],
     nombreCompletoContacto: [null],
     telefonoContacto: [null],
@@ -227,8 +227,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     return this.registerForm.get("tiposInversion");
   }
 
-  get tipoDemanda() {
-    return this.registerForm.get("tipoDemanda");
+  get nivelDemanda() {
+    return this.registerForm.get("nivelDemanda");
   }
   get nombreCompletoContacto() {
     return this.registerForm.get("nombreCompletoContacto");
@@ -283,14 +283,14 @@ export class RegistroDemandasFormComponent implements OnInit {
       this.dropDownService.getCategoriasBeneficiarios();
 
     //listado de TipoDemanda
-    let listaTipos = [];
+    let listaNiveles = [];
 
-    for (let item in TipoDemanda) {
+    for (let item in NivelDemanda) {
       if (isNaN(Number(item))) {
-        listaTipos.push({ text: item, value: TipoDemanda[item] });
+        listaNiveles.push({ text: item, value: NivelDemanda[item] });
       }
     }
-    this.listadoTipoDemandas = of(listaTipos);
+    this.listadoNivelDemandas = of(listaNiveles);
 
     // listado de temas comunes
     this.listadoTemaComun = this.temaComunService.getTemasComunes();
@@ -853,9 +853,9 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   refrescar() {
-    let tipo = this.tipoDemanda.value;
+    let nivel = this.nivelDemanda.value;
     this.registerForm.reset();
-    this.tipoDemanda.setValue(tipo);
+    this.nivelDemanda.setValue(nivel);
     this.listadoPoliticas = null;
     this.listadoObjetivos = null;
     this.listadoInstituciones = null;

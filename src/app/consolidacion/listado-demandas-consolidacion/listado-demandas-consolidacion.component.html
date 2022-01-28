@@ -126,128 +126,149 @@
     <div class="row">
       <div class="col-12">
         <!-- Kick start -->
-        <div id="kick-start" class="card">
-
-          <div class="card-content">
-            <div class="card-body">
-              <h5 class="danger" *ngIf="notFound">
-                Esta demanda territorial no existe.
-              </h5>
-              <ngb-accordion #acc="ngbAccordion" [closeOthers]="true" activeIds="static-1" *ngIf="demanda != null">
-                <ngb-panel id="static-1">
-                  <ng-template ngbPanelTitle>
-                    <span><i class="ft-info mr-1"></i> <b>Información general</b></span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
+    <div id="kick-start" class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <h5 class="danger" *ngIf="notFound">
+            Esta demanda territorial no existe.
+          </h5>
+          <ngb-accordion #acc="ngbAccordion" [closeOthers]="true" activeIds="static-1" *ngIf="demanda != null">
+            <ngb-panel id="static-1">
+              <ng-template ngbPanelTitle>
+                <span><i class="ft-info mr-1"></i> <b>Información general</b></span>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="row">
+                  <div class="col-6">
                     <div class="row">
-                      <div class="col-6">
-                        <div class="row">
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Código demanda: </span>
-                              <label for="CodigoDemanda">{{demanda.codigo}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Año: </span>
-                              <label for="año">{{demanda.anio}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Técnico OMPP: </span>
-                              <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Estado ejecución: </span>
-                              <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Demanda: </span>
-                              <textarea class="form-control" readonly cols="30" rows="15"
-                                [value]="demanda.descripcion"></textarea>
-                            </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Código demanda: </span>
+                          <label for="CodigoDemanda">{{demanda.codigo}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Año: </span>
+                          <label for="año">{{demanda.anio}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Técnico OMPP: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Estado ejecución: </span>
+                          <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Demanda: </span>
+                          <textarea class="form-control" readonly cols="30" rows="15"
+                            [value]="demanda.descripcion"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Región: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreRegion}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Provincia: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreProvincia}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4" *ngIf="demanda.municipioId">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Municipio: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreMunicipio}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Fuente de la demanda: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreFuenteDemanda}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Prioridad: </span>
+                          <label for="Prioridad">{{demanda.prioridad}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tipo Demanda: </span>
+                          <label for="TipoDemanda">{{demanda.nombreTipoDemanda}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group" *ngIf="demanda.municipioId;else other_content">
+                          <span class="danger font-weight-bold">Nivel: </span>
+                          <label for="Nivel">MUNICIPAL</label>
+                        </div>
+                        <ng-template class="form-group" #other_content>
+                          <span class="danger font-weight-bold">Nivel: </span>
+                          <label for="Nivel">PROVINCIAL</label>
+                        </ng-template>
+                      </div>
+
+
+                      <div class="col-12" *ngIf="demanda.resultanteDe">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Resultante de consolidar: </span>
+                          <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tipos de inverión: </span>
+                          <br />
+                          <span *ngFor="let item of demanda.demandaTipoInversiones"
+                            class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?
+                            item.nombreTipoInversion : item.tipoInversionOtros }} </span>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Actividades: </span>
+                          <div *ngFor="let item of demanda.demandaActividades">
+                            <label for="InstitucionResponsable">{{item.numero}} - {{item.descripcion}}</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-6">
+                      <div class="col-12">
+                        <span class="danger font-weight-bold">Beneficiarios</span>
                         <div class="row">
-                          <div class="col-4">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Región: </span>
-                              <label for="TecnicoOMPP">{{demanda.nombreRegion}}</label>
-                            </div>
-                          </div>
-                          <div class="col-4">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Provincia: </span>
-                              <label for="TecnicoOMPP">{{demanda.nombreProvincia}}</label>
-                            </div>
-                          </div>
-                          <div class="col-4">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Municipio: </span>
-                              <label for="TecnicoOMPP">{{demanda.nombreMunicipio}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Fuente de la demanda: </span>
-                              <label for="TecnicoOMPP">{{demanda.nombreFuenteDemanda}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Prioridad: </span>
-                              <label for="Prioridad">{{demanda.prioridad}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Tipos de inverión: </span>
-                              <br />
-                              <span *ngFor="let item of demanda.demandaTipoInversiones"
-                                class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?
-                                item.nombreTipoInversion : item.tipoInversionOtros }} </span>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Actividades: </span>
-                              <div *ngFor="let item of demanda.demandaActividades">
-                                <label for="InstitucionResponsable">{{item.numero}} - {{item.descripcion}}</label>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <span class="danger font-weight-bold">Beneficiarios</span>
-                            <div class="row">
-                              <div class="card shadow col-5 m-1" *ngFor="let item of demanda.demandaBeneficiarios">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-12">
-                                      <div class="form-group">
-                                        <span class="primary font-weight-bold">Tipo: </span>
-                                        <label for="TecnicoOMPP">{{item.nombreTipo}}</label>
-                                      </div>
-                                    </div>
-                                    <div class="col-12">
-                                      <div class="form-group">
-                                        <span class="primary font-weight-bold">Categoria: </span>
-                                        <label for="TecnicoOMPP">{{item.nombreCategoria}}</label>
-                                      </div>
-                                    </div>
-                                    <div class="col-12">
-                                      <div class="form-group">
-                                        <span class="primary font-weight-bold">Cantidad: </span>
-                                        <label for="TecnicoOMPP">{{item.cantidad}}</label>
-                                      </div>
-                                    </div>
+                          <div class="card shadow col-5 m-1" *ngFor="let item of demanda.demandaBeneficiarios">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Tipo: </span>
+                                    <label for="NombreTipoBeneficiario">{{item.nombreTipo}}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Categoria: </span>
+                                    <label for="NombreCategoriaBeneficiario">{{item.nombreCategoria}}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Cantidad: </span>
+                                    <label for="TecnicoOMPP">{{item.cantidad}}</label>
                                   </div>
                                 </div>
                               </div>
@@ -256,68 +277,109 @@
                         </div>
                       </div>
                     </div>
-                  </ng-template>
-                </ngb-panel>
-                <ngb-panel id="static-2">
-                  <ng-template ngbPanelTitle>
-                    <span><i class="ft-archive mr-1"></i> <b>Información institucional</b></span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-panel>
+            <ngb-panel id="static-2">
+              <ng-template ngbPanelTitle>
+                <span><i class="ft-archive mr-1"></i> <b>Información institucional</b></span>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="row">
+                  <div class="col-6">
                     <div class="row">
-                      <div class="col-6">
-                        <div class="row">
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Tema común: </span>
-                              <label for="InstitucionResponsable">{{demanda.nombreTemaComun}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Institución responsable: </span>
-                              <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Instituciones involucradas: </span>
-                              <div *ngFor="let item of demanda.institucionesInvolucradas">
-                                <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
-                              </div>
-                            </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tema común: </span>
+                          <label for="InstitucionResponsable">{{demanda.nombreTemaComun}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Institución responsable: </span>
+                          <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Instituciones involucradas: </span>
+                          <div *ngFor="let item of demanda.institucionesInvolucradas">
+                            <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-6">
-                        <div class="row">
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Objetivos END vinculados: </span>
-                              <div *ngFor="let item of demanda.demandaResultadosEND">
-                                <label for="InstitucionResponsable">{{item.nombreEjeEnd}} -
-                                  {{item.nombreObjetivoEnd}}</label>
-                              </div>
-                            </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Objetivos END vinculados: </span>
+                          <div *ngFor="let item of demanda.demandaResultadosEND">
+                            <label for="InstitucionResponsable">{{item.nombreEjeEnd}} -
+                              {{item.nombreObjetivoEnd}}</label>
                           </div>
-                          <div class="col-12">
-                            <div class="form-group">
-                              <span class="danger font-weight-bold">Políticas PNPSP vinculadas: </span>
-                              <div *ngFor="let item of demanda.demandaPoliticasPNPSP">
-                                <label for="InstitucionResponsable">{{item.nombrePolitica}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Políticas PNPSP vinculadas: </span>
+                          <div *ngFor="let item of demanda.demandaPoliticasPNPSP">
+                            <label for="NombrePolitica">{{item.nombrePolitica}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12" *ngIf="demanda.municipioId">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Técnico OMPP: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="!demanda.municipioId">
+                      <span class="danger font-weight-bold">Contactos</span>
+                      <div class="row">
+                        <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda.demandaContactos">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Nombre: </span>
+                                  <label for="ContactoNombre">{{contacto.nombreCompleto}}</label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Telefono: </span>
+                                  <label for="ContactoTelefono">{{contacto.telefono}}</label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Descripción: </span>
+                                  <label for="ContactoDescripcion">{{contacto.descripcion}}</label>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </ng-template>
-                </ngb-panel>
-                <ngb-panel id="static-3">
-                  <ng-template ngbPanelTitle>
-                    <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <!-- <div class="row">
+
+                  </div>
+
+
+                </div>
+              </ng-template>
+            </ngb-panel>
+            <ngb-panel id="static-3">
+              <ng-template ngbPanelTitle>
+                <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <!-- <div class="row">
                   <div *ngFor="let item of demanda.demandaComentarios" class="col-4">
                     <div class="card card-inverse bg-info">
                       <div class="card-content">
@@ -334,30 +396,30 @@
                     </div>
                   </div>
                 </div> -->
-                    <div class="row">
-                      <div class="col-4">
-                        <div class="card card-inverse bg-info">
-                          <div class="card-content">
-                            <div class="card-body">
-                              <div class="media">
-                                <div class="media-body text-left">
-                                  <p>
-                                    {{demanda.demandaComentarios[demanda.demandaComentarios.length - 1].comentrio}}
-                                  </p>
-                                </div>
-                              </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card card-inverse bg-info">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="media-body text-left">
+                              <p>
+                                {{demanda.demandaComentarios[demanda.demandaComentarios.length - 1].comentrio}}
+                              </p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </ng-template>
-                </ngb-panel>
-              </ngb-accordion>
-            </div>
-          </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
         </div>
-        <!--/ Kick start -->
+      </div>
+    </div>
+    <!--/ Kick start -->
       </div>
     </div>
 
@@ -443,7 +505,7 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="listadoContactos">
+          <div class="row" *ngIf="listadoContactos.length > 0">
             <div class="col-sm-12">
               <div class="div">
                 <table class="table table-hover table-sm">

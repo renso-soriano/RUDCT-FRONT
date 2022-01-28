@@ -1,5 +1,7 @@
 <!-- start -->
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Cargando... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
 <div class="row">
   <div class="col-12">
     <!-- Kick start -->
@@ -68,7 +70,7 @@
                           <label for="TecnicoOMPP">{{demanda.nombreProvincia}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.municipioId">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Municipio: </span>
                           <label for="TecnicoOMPP">{{demanda.nombreMunicipio}}</label>
@@ -80,10 +82,34 @@
                           <label for="TecnicoOMPP">{{demanda.nombreFuenteDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-4">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad: </span>
                           <label for="Prioridad">{{demanda.prioridad}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tipo Demanda: </span>
+                          <label for="TipoDemanda">{{demanda.nombreTipoDemanda}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group" *ngIf="demanda.municipioId;else other_content">
+                          <span class="danger font-weight-bold">Nivel: </span>
+                          <label for="Nivel">MUNICIPAL</label>
+                        </div>
+                        <ng-template class="form-group" #other_content>
+                          <span class="danger font-weight-bold">Nivel: </span>
+                          <label for="Nivel">PROVINCIAL</label>
+                        </ng-template>
+                      </div>
+
+
+                      <div class="col-12" *ngIf="demanda.resultanteDe">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Resultante de consolidar: </span>
+                          <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
                         </div>
                       </div>
                       <div class="col-12">
@@ -91,7 +117,8 @@
                           <span class="danger font-weight-bold">Tipos de inverión: </span>
                           <br />
                           <span *ngFor="let item of demanda.demandaTipoInversiones"
-                            class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?  item.nombreTipoInversion : item.tipoInversionOtros }} </span>
+                            class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?
+                            item.nombreTipoInversion : item.tipoInversionOtros }} </span>
                         </div>
                       </div>
                       <div class="col-12">
@@ -111,13 +138,13 @@
                                 <div class="col-12">
                                   <div class="form-group">
                                     <span class="primary font-weight-bold">Tipo: </span>
-                                    <label for="TecnicoOMPP">{{item.nombreTipo}}</label>
+                                    <label for="NombreTipoBeneficiario">{{item.nombreTipo}}</label>
                                   </div>
                                 </div>
                                 <div class="col-12">
                                   <div class="form-group">
                                     <span class="primary font-weight-bold">Categoria: </span>
-                                    <label for="TecnicoOMPP">{{item.nombreCategoria}}</label>
+                                    <label for="NombreCategoriaBeneficiario">{{item.nombreCategoria}}</label>
                                   </div>
                                 </div>
                                 <div class="col-12">
@@ -181,12 +208,51 @@
                         <div class="form-group">
                           <span class="danger font-weight-bold">Políticas PNPSP vinculadas: </span>
                           <div *ngFor="let item of demanda.demandaPoliticasPNPSP">
-                            <label for="InstitucionResponsable">{{item.nombrePolitica}}</label>
+                            <label for="NombrePolitica">{{item.nombrePolitica}}</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12" *ngIf="demanda.municipioId">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Técnico OMPP: </span>
+                          <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="!demanda.municipioId">
+                      <span class="danger font-weight-bold">Contactos</span>
+                      <div class="row">
+                        <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda.demandaContactos">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Nombre: </span>
+                                  <label for="ContactoNombre">{{contacto.nombreCompleto}}</label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Telefono: </span>
+                                  <label for="ContactoTelefono">{{contacto.telefono}}</label>
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <span class="danger font-weight-bold">Descripción: </span>
+                                  <label for="ContactoDescripcion">{{contacto.descripcion}}</label>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+
                   </div>
+
+
                 </div>
               </ng-template>
             </ngb-panel>
@@ -240,8 +306,7 @@
 </div>
 
 <div>
-  <a  class="btn btn-primary" (click)="goBack()"><span>Volver a listado</span>
+  <a class="btn btn-primary" (click)="goBack()"><span>Volver a listado</span>
   </a>
 
 </div>
-
