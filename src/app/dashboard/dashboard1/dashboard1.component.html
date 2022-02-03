@@ -126,7 +126,13 @@
               <option value="2">Municipal</option>
             </select>
           </div>
-          <app-mapa [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile" [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty" [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
+          <div id="map"
+           leaflet
+          [leafletOptions]="options"
+          (leafletClick)="manejarClick($event)"
+          [leafletLayers]="capas"
+          >
+          </div>
         </div>
       </div>
     </div>
