@@ -29,18 +29,29 @@
                   placeholder="Nombre de demanda..." (keyup)="filterUpdate($event)" />
               </label>
             </fieldset> -->
-            <div class="col-12 mb-2">
+            <div class="col-md-12 mb-2">
               <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)" ></app-data-filter>
             </div>
-            <div class="col-sm-4">
+            <!--div class="col-sm-">
               <div class="form-group">
                 <label for="distrito">Registros por página</label>
                 <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
                   name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
                 </ng-select>
               </div>
+            </div-->
+            <div class="col-md-10">
+              <div class="w-100 d-flex left-content-end">
+                <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
+                  name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
+                </ng-select>
+                <a  (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom" title="Exportar datos en Excel" class="btn btn btn-success btn-sm ml-1">
+                 <i class="fa fa-file-excel-o"> Exportar Excel</i>
+             </a>
             </div>
-            <ngx-datatable class="bootstrap core-bootstrap"
+                    </div><br>
+            <div class="col-md-12">
+              <ngx-datatable class="bootstrap core-bootstrap"
               [rows]="rows"
               [columns]="columns"
               [columnMode]="ColumnMode.force"
@@ -94,6 +105,8 @@
                 </ng-template>
               </ngx-datatable-footer>
             </ngx-datatable>
+             </div>
+
           </div>
         </div>
       </div>

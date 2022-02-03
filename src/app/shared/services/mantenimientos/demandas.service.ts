@@ -23,6 +23,9 @@ export class DemandasService {
   getDemandas(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetPaginate`, { params });
   }
+  getDemandasExportar(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
+  }
 
   getDemandasForDashboard(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
