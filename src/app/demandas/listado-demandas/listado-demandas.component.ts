@@ -1,3 +1,4 @@
+import { ExcelService } from './../../shared/services/excel.service';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
 import {
@@ -47,10 +48,10 @@ export class ListadoDemandasComponent implements OnInit {
   }
 
   limitSelect: any = [
-    { value: 10, label: 10 },
-    { value: 25, label: 25 },
-    { value: 50, label: 50 },
-    { value: 100, label: 100 },
+    { value: 10, label: "10 Registros por página" },
+    { value: 25, label: "25 Registros por página" },
+    { value: 50, label: "50 Registros por página" },
+    { value: 100, label:"100 Registros por página" }
   ];
 
   public filtros: FiltrosDinamicos[];
@@ -99,6 +100,8 @@ export class ListadoDemandasComponent implements OnInit {
   // private
   private tempData = [];
   private multiPurposeTemp = [];
+  dataExcel: any;
+  rowExportExcel: any;
 
   /**
    * filterUpdate
@@ -143,7 +146,7 @@ export class ListadoDemandasComponent implements OnInit {
    * @param {HttpClient} http
    */
   constructor(private http: HttpClient, private demandasService: DemandasService,
-    private router: Router, private dropdownService: DropDownServiceService) {
+    private router: Router, private dropdownService: DropDownServiceService,private excelService: ExcelService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -306,5 +309,58 @@ export class ListadoDemandasComponent implements OnInit {
   public async _changeRowLimits(event: any) {
     this.page.limit = this.limitSelected;
     await this.reloadTable();
+  }
+  exportexcel()
+  {
+    //this.spinnerMensaje="Exportando datos...."
+   // this.spinner.show();
+    const params = new HttpParams()
+    .set('anio', this.filtrosActivos.anio)
+    .set('regionId', this.filtrosActivos.regionId)
+    .set('provinciaId', this.filtrosActivos.provinciaId)
+    .set('municipioId', this.filtrosActivos.municipioId)
+    .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+    .set('temaComunId', this.filtrosActivos.temaComunId)
+    .set('institucionId', this.filtrosActivos.institucionId)
+    .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+
+      this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
+       this.page.count = data.total;
+      this.rowExportExcel=data.items;
+      this.preparanDataExcel(this.rowExportExcel);
+    //  this.spinner.hide();
+      this.excelService.exportAsExcelFile(  this.dataExcel, 'Lista de demandas');
+
+      });
+
+
+  }
+  preparanDataExcel(data){
+     this.dataExcel = data.map((item: any) => {
+      return {
+        Codigo: item.codigo,
+        Anio:item.anio,
+        NombreTipoDemanda:item.nombreTipoDemanda,
+        Demanda:item.descripcion,
+        EstadoDemanda:item.nombreEstadoDemanda,
+        Region:item.nombreRegion,
+        Provincia:item.nombreProvincia,
+        Municipio:item.nombreMunicipio,
+        DistritoMunicipal:item.nombreDistritoMunicipal,
+        NombreTemaComun:item.nombreTemaComun,
+        NombreFuenteDemanda:item.nombreFuenteDemanda,
+        InstitucionResponsable:item.nombreInstitucionResponsable,
+        TecnicoOmpp:item.nombreTecnicoOmpp,
+        ResultanteDe:item.resultanteDe,
+        Activo:item.estatus?"Si":"No",
+        CreadoPor:item.nombreCreadoPor,
+        RegistradoEn:item.fechaRegistro,
+        modificadoPor:item.nombreModificadoPor,
+        ModificadoEn:item.fechaModificacion
+
+      };
+
+    });
+
   }
 }

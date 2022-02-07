@@ -9,6 +9,9 @@ import { JsonPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
 import { MapaComponent } from 'app/shared/components/mapa/mapa.component';
+import * as L from 'leaflet';
+import { environment } from 'environments/environment';
+import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 
 declare var require: any;
 
@@ -31,7 +34,34 @@ export interface Chart {
 
 export class Dashboard1Component implements OnInit {
   @ViewChild(MapaComponent) mapaComponent: MapaComponent;
+  capas: any;
+  locationsRegiones = [
+    ["Región Norte o Cibao",19.216344074816234,-70.52302557975055],
+    ["Región Sureste",18.952401714944514,-70.36358669400215],
+    ["Región Suroeste",18.464597312353963,-69.91767883300783],
 
+  ];
+ locationsProbincias = [
+    ["La Vega",19.216344074816234,-70.52302557975055],
+    ["Bonao",18.952401714944514,-70.36358669400215],
+    ["Santo Domingo",18.464597312353963,-69.91767883300783],
+    ["San Cristóbal", 18.415091630969027,-70.09346008300783],
+    ["Azua",18.431345385450363,-70.72860717773439],
+    ["Puerto Plata",19.76999913247776,-70.72366336360575],
+    ["Bonao",18.952401714944514,-70.36358669400215],
+    ["Santiaago de los Caballeros",19.44623044167025,-70.69523622281851],
+    ["Nagua",19.411036437165144,-69.86041266471149],
+    ["Monte Cristi",19.63883674639587,-71.63360595703126],
+    ["San Juan",18.756941733169842,-71.50726318359376]
+  ];
+
+  locationsMunicipios = [
+    ["Santo Domingo Este",18.4855,-69.8734],
+    ["Municipio de Boca Chica",18.45,-69.6],
+    ["Municipio de Santo Domingo Norte",18.55,-69.9],
+    ["Municipio de Santo Domingo Oeste",18.5,-70],
+
+  ];
   constructor(private demandasService: DemandasService) { }
 
   data2: any;
@@ -116,8 +146,32 @@ export class Dashboard1Component implements OnInit {
       console.error(err);
       this.notFound = true;
     });
+   // this.loadUbicaciones(this.locationsProbincias);
   }
+loadUbicaciones(data){
+  this.capas = [];
+  for (var i = 0; i < data.length; i++) {
+    let lugar= [data[i][0]]
+    let latitud=Number( [data[i][1]])
+    let longitud=Number( [data[i][2]])
+    this.capas.push(
+      L.marker([latitud, longitud], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [13, 41],
+          iconUrl: 'assets/mapa//marker-icon.png',
+          shadowUrl: 'assets/mapa/marker-shadow.png',
+        })
+      }).bindPopup(`
+      <strong>Lugar:</strong> ${lugar} <br/>
+      <strong>Coordenada X:</strong> ${latitud} <br/>
+      <strong>Coordenada Y:</strong> ${longitud}`,
+      { autoClose: false, autoPan: true })
 
+    );
+
+    }
+}
   // Line area chart configuration Starts
   lineArea: Chart = {
     type: 'Line',
@@ -716,8 +770,23 @@ export class Dashboard1Component implements OnInit {
     evt.initEvent("resize", true, false);
     window.dispatchEvent(evt);
   };
-
   changeMap(event: any) {
+    switch (event.target.value) {
+      case '1':
+        this.loadUbicaciones(this.locationsProbincias);
+        break;
+
+      case '2':
+        this.loadUbicaciones(this.locationsMunicipios);
+        break;
+
+      default:
+        break;
+    }
+
+    this.mapaComponent.onReload(this.mapSettings);
+  }
+ /* changeMap(event: any) {
     switch (event.target.value) {
       case '1':
         this.mapSettings.GeoDataFile = 'do_provincias';
@@ -740,5 +809,41 @@ export class Dashboard1Component implements OnInit {
     }
 
     this.mapaComponent.onReload(this.mapSettings);
+  }*/
+  options = {
+    layers: [
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        minZoom: 8,
+        maxZoom: 20,
+        attribution: '',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: environment.InicializarMapa.accessToken,
+      }),
+    ],
+    zoom: 8,
+    center: L.latLng(environment.InicializarMapa.coordenadaX,environment.InicializarMapa.coordenadaY)
+  };
+  manejarClick(event:LeafletMouseEvent) {
+
+      const latitud = Number( event.latlng.lat);
+      const longitud =Number(event.latlng.lng) ;
+      console.log(event.latlng)
+      this.capas = [];
+      this.capas.push(
+          L.marker([latitud, longitud], {
+            icon: L.icon({
+              iconSize: [25, 41],
+              iconAnchor: [13, 41],
+              iconUrl: 'assets/mapa//marker-icon.png',
+              shadowUrl: 'assets/mapa/marker-shadow.png',
+            })
+          }).bindPopup(`
+          <strong>Coordenada X:</strong> ${latitud} <br/>
+          <strong>Coordenada Y:</strong> ${longitud}`,
+          { autoClose: false, autoPan: true })
+
+        );
   }
 }

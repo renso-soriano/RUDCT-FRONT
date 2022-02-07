@@ -34,7 +34,7 @@ import { DataFilterComponent } from './components/data-filter/data-filter.compon
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import{LeafletModule} from '@asymmetrik/ngx-leaflet'
 
 @NgModule({
     exports: [
@@ -52,6 +52,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         TranslateModule,
         DataFilterComponent,
         MapaComponent,
+        LeafletModule
     ],
     imports: [
         RouterModule,
@@ -67,6 +68,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         PipeModule,
         NgSelectModule,
         NgxSpinnerModule,
+        LeafletModule
+
+
     ],
     declarations: [
         FooterComponent,
