@@ -376,8 +376,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     this.listadoContactos.splice(id, 1);
   }
 
-  submit(event:any) {
-    event.stopPropagation();
+  submit() {
     if(this.listadoContactos.length < 1)
     {
       this.serviceStr.typeError(

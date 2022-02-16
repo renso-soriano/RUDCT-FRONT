@@ -143,6 +143,44 @@
                           </div>
                         </div>
 
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="coordenadaX">Coordenada x <span class="error">*</span> </label> <a
+                              (click)="SeleccioneMapa(contentMapa)" title="Ubicación Geográfica"><i
+                                class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
+                            <input type="text" class="form-control" id="coordenadaX" name="coordenadaX"
+                              formControlName="coordenadaX" maxlength="30">
+                            <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="coordenadaX.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+                              <div *ngIf="coordenadaX.errors.maxlength">
+                                <i class="ft-alert-circle align-middle"></i> El campo debe tener maxímo 30 caracteres.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="coordenadaY">Coordenada Y</label>
+                            <input type="text" min="0" class="form-control" name="coordenadaY" id="coordenadaY"
+                              formControlName="coordenadaY">
+
+                              <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="coordenadaY.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
+                          </div>
+                        </div>
+
                         <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
@@ -281,7 +319,7 @@
                             </div>
                           </div>
 
-                          <div class="div" *ngIf="listadoActividades">
+                          <div class="div" *ngIf="listadoActividades.length > 0">
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
@@ -343,7 +381,7 @@
 
                       </div>
 
-                      <div class="div" *ngIf="listadoBeneficiarios">
+                      <div class="div" *ngIf="listadoBeneficiarios.length > 0">
                         <table class="table table-hover table-sm">
                           <thead>
                             <tr>
@@ -413,7 +451,7 @@
 
                       </div>
 
-                      <div class="div" *ngIf="listadoObjetivos">
+                      <div class="div" *ngIf="listadoObjetivos.length > 0">
                         <table class="table table-hover table-sm">
                           <thead>
                             <tr>
@@ -455,7 +493,7 @@
                             </div>
                           </div>
 
-                          <div class="div" *ngIf="listadoPoliticas">
+                          <div class="div" *ngIf="listadoPoliticas.length > 0">
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
@@ -559,7 +597,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="div" *ngIf="listadoInstituciones">
+                          <div class="div" *ngIf="listadoInstituciones.length > 0">
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
@@ -613,7 +651,7 @@
                         </div>
                       </div>
 
-                      <div class="row" *ngIf="listadoContactos">
+                      <div class="row" *ngIf="listadoContactos.length > 0">
                         <div class="col-sm-12">
                           <div class="div">
                             <table class="table table-hover table-sm">
@@ -663,5 +701,40 @@
 <div>
   <a [routerLink]="['/demandas']" class="btn btn-primary"><span>Volver a listado</span>
   </a>
+
+</div>
+
+<!--modal 3 mapa-->
+
+<div class="row">
+  <ng-template #contentMapa let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Seleccione la ubicación geográfica</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="chart-info mb-2">
+            <span class="text-uppercase mr-3 text-secondary bold"><i
+                class="fa fa-circle success font-small-2 mr-1 bold"> Coordenada x :</i> {{ coordenadaX.value }}</span>
+            <span class="text-uppercase text-secondary bold"><i class="fa fa-circle info font-small-2 mr-1 bold">
+                Coordenada y :</i> {{coordenadaY.value}}</span>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-12">
+            <div id="map" leaflet [leafletOptions]="options" (leafletClick)="manejarClick($event)"
+              [leafletLayers]="capas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
 
 </div>

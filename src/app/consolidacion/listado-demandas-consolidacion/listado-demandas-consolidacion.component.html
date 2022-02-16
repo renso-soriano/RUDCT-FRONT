@@ -443,7 +443,7 @@
         <!-- Kick start -->
 
         <!--Formulario-->
-        <form [formGroup]="consolidationForm">
+        <form (submit)="submit()" [formGroup]="consolidationForm">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -539,6 +539,16 @@
             </div>
 
           </div>
+          <div class="modal-footer">
+
+            <input type="button" value="Volver" class="btn btn-primary" (click)="modal.close('Close click')">
+
+            <!-- <input type="button" value="Enviar" class="btn btn-success" (click)="submit($event)"
+            [disabled]="consolidationForm.invalid"> -->
+            <button type="submit" class="btn btn-success" [disabled]="consolidationForm.invalid">Enviar</button>
+
+
+          </div>
         </form>
         <!--EndForm-->
 
@@ -547,15 +557,8 @@
     </div>
 
   </div>
-  <div class="modal-footer">
-
-    <input type="button" value="Volver" class="btn btn-primary" (click)="modal.close('Close click')">
-
-    <input type="button" value="Enviar" class="btn btn-success" (click)="submit($event)"
-      [disabled]="consolidationForm.invalid">
 
 
-  </div>
 
 </ng-template>
 

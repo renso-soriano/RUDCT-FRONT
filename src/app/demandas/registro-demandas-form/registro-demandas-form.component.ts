@@ -29,6 +29,9 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgTemplateOutlet } from "@angular/common";
 import { $ } from "protractor";
 import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.service";
+import { environment } from "environments/environment";
+import * as L from 'leaflet';
+import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -48,7 +51,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     private serviceStr: NGXToastrService,
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
-  ) {}
+  ) { }
 
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
@@ -92,18 +95,19 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoNivelDemandas: Observable<any[]>;
   listadoTemaComun: Observable<any[]>;
 
-  listadoPoliticas: any[];
-  listadoObjetivos: any[];
-  listadoInstituciones: any[];
-  listadoActividades: any[];
+  listadoPoliticas: any[] = [];
+  listadoObjetivos: any[] = [];
+  listadoInstituciones: any[] = [];
+  listadoActividades: any[] = [];
   listadoEjes: any[];
   listadoInversion: any[];
   InversionesSelected: any[] = [];
   listadoTipoBeneficiarios: Observable<any[]>;
   listadoCategoriaBeneficiarios: Observable<any[]>;
-  listadoBeneficiarios: any[];
+  listadoBeneficiarios: any[] = [];
   beneficiariosSelected: any[] = [];
-  listadoContactos: any[];
+  listadoContactos: any[] = [];
+  capas: any[];
 
   activCount = 0;
   notFound = false;
@@ -147,7 +151,13 @@ export class RegistroDemandasFormComponent implements OnInit {
     telefonoContacto: [null],
     descripcionContacto: [null],
     temaComunId: [null, { validators: [Validators.required] }],
-    prioridad: [null, { validators: [Validators.required] }]
+    prioridad: [null, { validators: [Validators.required] }],
+    demandaTipoId: [1],
+    coordenadaX: [null, { validators: [Validators.required] }],
+    coordenadaY: [null, { validators: [Validators.required] }],
+    consolidadaEn: [null],
+    codigoSisplan: [null]
+
   });
 
   //getters
@@ -181,6 +191,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   get region() {
     return this.registerForm.get("region");
   }
+
   get provincia() {
     return this.registerForm.get("provincia");
   }
@@ -216,6 +227,18 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
   get categoria() {
     return this.registerForm.get("categoria");
+  }
+  get coordenadaX() {
+    return this.registerForm.get("coordenadaX");
+  }
+  get coordenadaY() {
+    return this.registerForm.get("coordenadaY");
+  }
+  get consolidadaEn() {
+    return this.registerForm.get("consolidadaEn");
+  }
+  get codigoSisplan() {
+    return this.registerForm.get("codigoSisplan");
   }
   get cantidad() {
     return this.registerForm.get("cantidad");
@@ -415,7 +438,13 @@ export class RegistroDemandasFormComponent implements OnInit {
           nombreCompletoContacto: [null],
           telefonoContacto: [null],
           descripcionContacto: [null],
-          prioridad:demanda.prioridad
+          prioridad: demanda.prioridad,
+          demandaTipoId: demanda.demandaTipoId,
+          coordenadaX: demanda.coordenadaX,
+          coordenadaY: demanda.coordenadaY,
+          consolidadaEn: demanda.consolidadaEn,
+          codigoSisplan: demanda.codigoSisplan,
+
         });
       },
       (err: any) => {
@@ -671,13 +700,41 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   submit() {
-    if (!this.registerForm.valid) {
-      this.serviceStr.typeError(
-        "Alguna regla de validación no se está cumpliendo"
-      );
-      //return;
-    }
 
+    //validaciones finales de listados
+    if (this.listadoPoliticas.length < 1) {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 politica asociada a la demanda"
+      );
+    }
+    else if (this.listadoActividades.length < 1) {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 actividad asociada a la demanda"
+      );
+    }
+    else if (this.listadoBeneficiarios.length < 1) {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 tipo de beneficiarios asociado a la demanda"
+      );
+    }
+    else if (this.listadoObjetivos.length < 1) {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 objetivo asociado a la demanda"
+      );
+    }
+    else if (this.nivelDemanda.value == 1) {
+      if (this.listadoContactos.length < 1) {
+        this.serviceStr.typeError(
+          "Debe Tener al menos 1 contacto asociado a la demanda"
+        );
+      }
+    }
+    else {
+      this.enviar();
+    }
+  }
+
+  enviar() {
     let listadoEjes = [];
 
     this.registerForm.patchValue({
@@ -695,115 +752,120 @@ export class RegistroDemandasFormComponent implements OnInit {
     this._demanda = new Demanda().deserialize({
       estatus: "A",
       anio: formValue.anio,
-      regionId: parseInt(formValue.region,10),
-      provinciaId: parseInt(formValue.provincia,10),
-      municipioId: formValue.municipio != null ? parseInt(formValue.municipio,10):null,
-      distritoMunicipalId: formValue.distrito != null ? parseInt(formValue.distrito,10):null,
-      fuenteDemandaId: parseInt(formValue.fuente,10),
+      regionId: parseInt(formValue.region, 10),
+      provinciaId: parseInt(formValue.provincia, 10),
+      municipioId: formValue.municipio != null ? parseInt(formValue.municipio, 10) : null,
+      distritoMunicipalId: formValue.distrito != null ? parseInt(formValue.distrito, 10) : null,
+      fuenteDemandaId: parseInt(formValue.fuente, 10),
       descripcion: formValue.demanda,
-      tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico,10):null,
-      institucionId:  parseInt(formValue.institucionResponsable, 10),
+      tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico, 10) : null,
+      institucionId: parseInt(formValue.institucionResponsable, 10),
       estadoId: 1,
-      temaComunId:  parseInt(formValue.temaComunId, 10),
-      prioridad:formValue.prioridad,
+      temaComunId: parseInt(formValue.temaComunId, 10),
+      prioridad: formValue.prioridad,
+      demandaTipoId: formValue.demandaTipoId,
+      coordenadaX: formValue.coordenadaX,
+      coordenadaY: formValue.coordenadaY,
+      consolidadaEn: formValue.consolidadaEn,
+      codigoSisplan: formValue.codigoSisplan,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {
-              return {
-                id: item.ActividadId,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                numero: i + 1,
-                descripcion: item.Actividad,
-              };
-            })
+            return {
+              id: item.ActividadId,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              numero: i + 1,
+              descripcion: item.Actividad,
+            };
+          })
           : null,
       demandaBeneficiarios:
         formValue.beneficiarios != undefined
           ? formValue.beneficiarios.map((item: any) => {
-              return {
-                id: item.Id,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                beneficiarioCategoriaId: item.categoriaId,
-                beneficiarioTipoId: item.tipoId,
-                cantidad: item.cantidad,
-              };
-            })
+            return {
+              id: item.Id,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              beneficiarioCategoriaId: item.categoriaId,
+              beneficiarioTipoId: item.tipoId,
+              cantidad: item.cantidad,
+            };
+          })
           : null,
-          demandaComentarios:
+      demandaComentarios:
         formValue.comentarios != null
           ? [
-              new DemandaComentario().deserialize({
-                id: 0,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : 0,
-                comentrio: formValue.comentarios,
-              }),
-            ]
+            new DemandaComentario().deserialize({
+              id: 0,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : 0,
+              comentrio: formValue.comentarios,
+            }),
+          ]
           : null,
       demandaResultadosEND:
         formValue.objetivo != undefined
           ? formValue.objetivo.map((item: any) => {
-              return {
-                id: item.Id,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                ejeENDId: item.EjeId,
-                objetivoENDId: item.ObjetivoId,
-              };
-            })
+            return {
+              id: item.Id,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              ejeENDId: item.EjeId,
+              objetivoENDId: item.ObjetivoId,
+            };
+          })
           : null,
       demandaPoliticasPNPSP:
         formValue.politica != undefined
           ? formValue.politica.map((item: any) => {
-              return {
-                id: item.Id,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                politicaPNPSPId: item.PoliticaId,
-              };
-            })
+            return {
+              id: item.Id,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              politicaPNPSPId: item.PoliticaId,
+            };
+          })
           : null,
       demandaTipoInversiones:
         formValue.tiposInversion != null
           ? formValue.tiposInversion.map((item: any) => {
-              return {
-                id: 0,
-                estatus: "A",
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                tipoInversionId: parseInt(item, 10),
-                tipoInversionOtros:
-                  item == 8 ? this.otrosTiposInversion.value : null,
-              };
-            })
+            return {
+              id: 0,
+              estatus: "A",
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              tipoInversionId: parseInt(item, 10),
+              tipoInversionOtros:
+                item == 8 ? this.otrosTiposInversion.value : null,
+            };
+          })
           : null,
       demandaContactos:
         formValue.contacto != null
           ? formValue.contacto.map((item: any) => {
-              return {
-                demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-                nombreCompleto: item.nombreCompleto,
-                telefono: item.telefono,
-                descripcion: item.descripcion,
-                id: this.typeEdit ? item.id : 0,
-                estatus: "A"
-              };
-            })
+            return {
+              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+              nombreCompleto: item.nombreCompleto,
+              telefono: item.telefono,
+              descripcion: item.descripcion,
+              id: this.typeEdit ? item.id : 0,
+              estatus: "A"
+            };
+          })
           : null,
 
       institucionesInvolucradas:
         formValue.institucionesColaboradoras != undefined
           ? formValue.institucionesColaboradoras.map((item: any) => {
-              return {
-                id: 0,
-                estatus: "A",
-                demandaId: this.typeEdit
-                  ? parseInt(this.demandaId, 10)
-                  : item.CodigoDemanda,
-                institucionId: parseInt(item.InstitucionId, 10),
-              };
-            })
+            return {
+              id: 0,
+              estatus: "A",
+              demandaId: this.typeEdit
+                ? parseInt(this.demandaId, 10)
+                : item.CodigoDemanda,
+              institucionId: parseInt(item.InstitucionId, 10),
+            };
+          })
           : null,
     });
 
@@ -902,7 +964,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         telefono: item.telefono,
         descripcion: item.descripcion,
       };
-    }):null;
+    }) : null;
 
     this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
       (item: any) => {
@@ -930,4 +992,81 @@ export class RegistroDemandasFormComponent implements OnInit {
       };
     });
   }
+
+  options = {
+    layers: [
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        minZoom: 8,
+        maxZoom: 18,
+        attribution: '...',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: environment.mapbox.accessToken,
+      }),
+    ],
+    zoom: 8,
+    center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
+
+  };
+
+  //#region  Sección Mapa
+  SeleccioneMapa(content) {
+    this.modalService.open(content, { size: 'lg', centered: true });
+    this.options;
+    if (this.typeEdit) {
+      this.BuscarMap(this.demandaForEdit);
+    }
+
+  }
+
+  BuscarMap(Objeto: Demanda): void {
+    this.capas = [];
+    this.capas.push(
+      L.marker([Number(Objeto.coordenadaX), Number(Objeto.coordenadaY)], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [15, 41],
+          iconUrl: 'assets/mapa//marker-icon.png',
+          shadowUrl: 'assets/mapa/marker-shadow.png',
+
+        })
+      }).bindPopup(`
+   <strong>Región:</strong> ${Objeto.nombreRegion} <br/>
+   <strong>Provincia: </strong> ${Objeto.nombreProvincia} <br/>
+   <strong>Municipio: </strong> ${Objeto.nombreMunicipio} <br/>
+   <strong>Coordenada X:</strong> ${Objeto.coordenadaX} <br/>
+   <strong>Coordenada Y:</strong> ${Objeto.coordenadaY}`,
+        { autoClose: true, autoPan: true })
+    );
+
+  }
+
+  manejarClick(event: LeafletMouseEvent) {
+    const latitud = Number(event.latlng.lat);
+    const longitud = Number(event.latlng.lng);
+    this.registerForm.patchValue({
+      coordenadaX: latitud,
+      coordenadaY: longitud
+    });
+    this.capas = [];
+    this.capas.push(
+      L.marker([latitud, longitud], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [15, 41],
+          iconUrl: 'assets/mapa//marker-icon.png',
+          shadowUrl: 'assets/mapa/marker-shadow.png',
+
+        })
+      }).bindPopup(`
+        <strong>Coordenada X:</strong> ${latitud} <br/>
+        <strong>Coordenada Y:</strong> ${longitud}`,
+        { autoClose: true, autoPan: true })
+
+    );
+
+  }
+
+
 }
