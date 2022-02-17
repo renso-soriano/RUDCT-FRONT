@@ -41,7 +41,7 @@ export class Dashboard1Component implements OnInit {
     ["Región Suroeste",18.464597312353963,-69.91767883300783],
 
   ];
- locationsProbincias = [
+ locationsProvincias = [
     ["La Vega",19.216344074816234,-70.52302557975055],
     ["Bonao",18.952401714944514,-70.36358669400215],
     ["Santo Domingo",18.464597312353963,-69.91767883300783],
@@ -91,6 +91,7 @@ export class Dashboard1Component implements OnInit {
 
   ngOnInit() {
     this.mapSettings.servicio = this.demandasService.getDemandasForDashboard();
+
     this.demandasService.getDemandasForDashboard().subscribe((demandasFromTheAPI: any) => {
       this.data2 = demandasFromTheAPI;
 
@@ -108,6 +109,9 @@ export class Dashboard1Component implements OnInit {
       this.este = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Este).porcentaje;
       this.surOeste = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.SurOeste).porcentaje;
 
+      this.locationsMunicipios = this.data2.demandaCoordenadasMunicipios;
+      this.locationsProvincias = this.data2.demandaCoordenadasMunicipios;
+      this.loadUbicaciones(this.locationsProvincias);
       this.dataDonuts =
       {
         "series":
@@ -146,26 +150,29 @@ export class Dashboard1Component implements OnInit {
       console.error(err);
       this.notFound = true;
     });
-   // this.loadUbicaciones(this.locationsProbincias);
+
   }
 loadUbicaciones(data){
+
   this.capas = [];
   for (var i = 0; i < data.length; i++) {
-    let lugar= [data[i][0]]
-    let latitud=Number( [data[i][1]])
-    let longitud=Number( [data[i][2]])
+    let lugar= [data[i].nombre]
+    let latitud=Number( [data[i].coordenadaX])
+    let longitud=Number( [data[i].coordenadaY])
+    let demanda=[data[i].descripcion]
     this.capas.push(
       L.marker([latitud, longitud], {
         icon: L.icon({
           iconSize: [25, 41],
           iconAnchor: [13, 41],
-          iconUrl: 'assets/mapa//marker-icon.png',
+          iconUrl: 'assets/mapa/marker-icon.png',
           shadowUrl: 'assets/mapa/marker-shadow.png',
         })
       }).bindPopup(`
       <strong>Lugar:</strong> ${lugar} <br/>
       <strong>Coordenada X:</strong> ${latitud} <br/>
-      <strong>Coordenada Y:</strong> ${longitud}`,
+      <strong>Coordenada Y:</strong> ${longitud} <br/>
+      <strong>Demanda:</strong> ${demanda} <br/>`,
       { autoClose: false, autoPan: true })
 
     );
@@ -773,18 +780,19 @@ loadUbicaciones(data){
   changeMap(event: any) {
     switch (event.target.value) {
       case '1':
-        this.loadUbicaciones(this.locationsProbincias);
+        this.loadUbicaciones(this.locationsProvincias);
         break;
 
       case '2':
         this.loadUbicaciones(this.locationsMunicipios);
+        this.referenciaMapa = 'Municipios';
         break;
 
       default:
         break;
     }
 
-    this.mapaComponent.onReload(this.mapSettings);
+    //this.mapaComponent.onReload(this.mapSettings);
   }
  /* changeMap(event: any) {
     switch (event.target.value) {
@@ -827,23 +835,23 @@ loadUbicaciones(data){
   };
   manejarClick(event:LeafletMouseEvent) {
 
-      const latitud = Number( event.latlng.lat);
-      const longitud =Number(event.latlng.lng) ;
-      console.log(event.latlng)
-      this.capas = [];
-      this.capas.push(
-          L.marker([latitud, longitud], {
-            icon: L.icon({
-              iconSize: [25, 41],
-              iconAnchor: [13, 41],
-              iconUrl: 'assets/mapa//marker-icon.png',
-              shadowUrl: 'assets/mapa/marker-shadow.png',
-            })
-          }).bindPopup(`
-          <strong>Coordenada X:</strong> ${latitud} <br/>
-          <strong>Coordenada Y:</strong> ${longitud}`,
-          { autoClose: false, autoPan: true })
+      // const latitud = Number( event.latlng.lat);
+      // const longitud =Number(event.latlng.lng) ;
+      // console.log(event.latlng)
+      // this.capas = [];
+      // this.capas.push(
+      //     L.marker([latitud, longitud], {
+      //       icon: L.icon({
+      //         iconSize: [25, 41],
+      //         iconAnchor: [13, 41],
+      //         iconUrl: 'assets/mapa//marker-icon.png',
+      //         shadowUrl: 'assets/mapa/marker-shadow.png',
+      //       })
+      //     }).bindPopup(`
+      //     <strong>Coordenada X:</strong> ${latitud} <br/>
+      //     <strong>Coordenada Y:</strong> ${longitud}`,
+      //     { autoClose: false, autoPan: true })
 
-        );
+      //   );
   }
 }

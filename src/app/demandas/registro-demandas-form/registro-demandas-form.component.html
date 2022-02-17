@@ -539,7 +539,7 @@
                     </ng-template>
                   </li>
                   <li ngbNavItem>
-                    <a ngbNavLink>Instituciones involucaradas</a>
+                    <a ngbNavLink>Instituciones</a>
                     <ng-template ngbNavContent>
 
 
@@ -556,7 +556,7 @@
 
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <label for="institucionResponsable">Institucion primaria</label>
+                            <label for="institucionResponsable">Institución Responsable</label>
                             <ng-select [items]="instituciones | async" bindLabel="name" bindValue="id"
                               name="institucionResponsable" id="institucionResponsable"
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable"
@@ -732,7 +732,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
     </div>
   </ng-template>
 

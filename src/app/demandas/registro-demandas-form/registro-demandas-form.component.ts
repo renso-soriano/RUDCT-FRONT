@@ -420,7 +420,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: [],
-          comentarios: demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio'],
+          comentarios: demanda.demandaComentarios.length > 0  ? demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio']:[],
           actividad: [],
           politica: [],
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
@@ -433,7 +433,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           categoria: [],
           cantidad: [],
           beneficiarios: [],
-          tipoDemanda: demanda.municipioId != null ? "2" : "1",
+          nivelDemanda: demanda.municipioId != null ? "2" : "1",
           contacto: [null],
           nombreCompletoContacto: [null],
           telefonoContacto: [null],
@@ -918,12 +918,12 @@ export class RegistroDemandasFormComponent implements OnInit {
     let nivel = this.nivelDemanda.value;
     this.registerForm.reset();
     this.nivelDemanda.setValue(nivel);
-    this.listadoPoliticas = null;
-    this.listadoObjetivos = null;
-    this.listadoInstituciones = null;
-    this.listadoActividades = null;
-    this.listadoBeneficiarios = null;
-    this.listadoContactos = null;
+    this.listadoPoliticas = [];
+    this.listadoObjetivos = [];
+    this.listadoInstituciones = [];
+    this.listadoActividades = [];
+    this.listadoBeneficiarios = [];
+    this.listadoContactos = [];
     this.InversionesSelected = [];
     this.otrosTiposShow = false;
   }
@@ -964,7 +964,7 @@ export class RegistroDemandasFormComponent implements OnInit {
         telefono: item.telefono,
         descripcion: item.descripcion,
       };
-    }) : null;
+    }) : [];
 
     this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
       (item: any) => {

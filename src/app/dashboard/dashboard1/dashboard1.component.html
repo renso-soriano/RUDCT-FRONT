@@ -120,7 +120,7 @@
       <div class="card-content">
         <div class="card-body" style="min-height: 500px;">
           <div class="form-group w-25">
-            <label>Cambiar tipo de mapa</label>
+            <label>Cambiar nivel</label>
             <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
               <option value="1">Provincial</option>
               <option value="2">Municipal</option>
@@ -156,14 +156,14 @@
         <div class="card-body">
           <div class="row mb-3">
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{cibaoNorte}}% - CIBAO NORTE</span>
+              <span class="mb-1 text-muted d-block">{{cibaoNorte}}% - CIBAO NOROESTE</span>
               <div class="progress" style="height: 5px;">
                 <div class="progress-bar bg-success" role="progressbar" [ngStyle]="{'width': cibaoNorte + '%'}" [attr.aria-valuenow]="cibaoNorte"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{cibaoCentral}}% - CIBAO CENTRAL</span>
+              <span class="mb-1 text-muted d-block">{{cibaoCentral}}% - CIBAO NORDESTE</span>
               <div class="progress" style="height: 5px;">
                 <div class="progress-bar bg-info" role="progressbar" [ngStyle]="{'width': cibaoCentral + '%'}" [attr.aria-valuenow]="cibaoCentral"
                   aria-valuemin="0" aria-valuemax="100"></div>
@@ -172,7 +172,7 @@
           </div>
           <div class="row mb-2">
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{metropolitana}}%-METROPOLITANA</span>
+              <span class="mb-1 text-muted d-block">{{metropolitana}}%-SUR CENTRAL</span>
               <div class="progress" style="height: 5px;">
                 <div class="progress-bar bg-primary" role="progressbar" [ngStyle]="{'width': metropolitana + '%'}" [attr.aria-valuenow]="metropolitana"
                   aria-valuemin="0" aria-valuemax="100"></div>
