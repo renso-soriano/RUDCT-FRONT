@@ -15,7 +15,7 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../demandas/demandas.module').then(m => m.DemandasModule)
   },
   {
-    //canActivate: [RoleGuard],
+    canActivate: [RoleGuard],
     path: 'consolidacion',
     loadChildren: () => import('../../consolidacion/consolidacion.module').then(m => m.ConsolidacionModule)
   },

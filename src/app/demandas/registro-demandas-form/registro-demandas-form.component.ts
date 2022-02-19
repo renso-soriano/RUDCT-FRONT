@@ -156,7 +156,11 @@ export class RegistroDemandasFormComponent implements OnInit {
     coordenadaX: [null, { validators: [Validators.required] }],
     coordenadaY: [null, { validators: [Validators.required] }],
     consolidadaEn: [null],
-    codigoSisplan: [null]
+    codigoSisplan: [null],
+    codigoSnip: [null],
+    codigoPoa: [null],
+    codigoPei: [null],
+    justificacionRechazo: [null]
 
   });
 
@@ -240,6 +244,19 @@ export class RegistroDemandasFormComponent implements OnInit {
   get codigoSisplan() {
     return this.registerForm.get("codigoSisplan");
   }
+  get codigoSnip() {
+    return this.registerForm.get("codigoSnip");
+  }
+  get codigoPoa() {
+    return this.registerForm.get("codigoPoa");
+  }
+  get codigoPei() {
+    return this.registerForm.get("codigoPei");
+  }
+  get justificacionRechazo() {
+    return this.registerForm.get("justificacionRechazo");
+  }
+
   get cantidad() {
     return this.registerForm.get("cantidad");
   }
@@ -420,7 +437,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: [],
-          comentarios: demanda.demandaComentarios.length > 0  ? demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio']:[],
+          comentarios: demanda.demandaComentarios.length > 0 ? demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio'] : [],
           actividad: [],
           politica: [],
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
@@ -444,6 +461,10 @@ export class RegistroDemandasFormComponent implements OnInit {
           coordenadaY: demanda.coordenadaY,
           consolidadaEn: demanda.consolidadaEn,
           codigoSisplan: demanda.codigoSisplan,
+          codigoSnip: demanda.codigoSnip,
+          codigoPoa: demanda.codigoPoa,
+          codigoPei: demanda.codigoPei,
+          justificacionRechazo: demanda.justificacionRechazo
 
         });
       },
@@ -768,6 +789,10 @@ export class RegistroDemandasFormComponent implements OnInit {
       coordenadaY: formValue.coordenadaY,
       consolidadaEn: formValue.consolidadaEn,
       codigoSisplan: formValue.codigoSisplan,
+      codigoSnip: formValue.codigoSnip,
+      codigoPoa: formValue.codigoPoa,
+      codigoPei: formValue.codigoPei,
+      justificacionRechazo: formValue.justificacionRechazo,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {

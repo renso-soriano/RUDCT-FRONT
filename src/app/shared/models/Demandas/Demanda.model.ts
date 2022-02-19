@@ -39,6 +39,10 @@ export class Demanda implements Deserializable {
   coordenadaY?:string;
   consolidadaEn?:string;
   codigoSisplan?:string;
+  codigoSnip?:string;
+  codigoPoa?:string;
+  codigoPei?:string;
+  justificacionRechazo?:string;
 
   demandaActividades: DemandaActividad[];
   demandaBeneficiarios: DemandaBeneficiario[];

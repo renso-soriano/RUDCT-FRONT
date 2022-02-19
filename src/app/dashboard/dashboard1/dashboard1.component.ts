@@ -34,34 +34,12 @@ export interface Chart {
 
 export class Dashboard1Component implements OnInit {
   @ViewChild(MapaComponent) mapaComponent: MapaComponent;
+
   capas: any;
-  locationsRegiones = [
-    ["Región Norte o Cibao",19.216344074816234,-70.52302557975055],
-    ["Región Sureste",18.952401714944514,-70.36358669400215],
-    ["Región Suroeste",18.464597312353963,-69.91767883300783],
+  locationsRegiones:any = [];
+  locationsProvincias:any = [];
+  locationsMunicipios:any = [];
 
-  ];
- locationsProvincias = [
-    ["La Vega",19.216344074816234,-70.52302557975055],
-    ["Bonao",18.952401714944514,-70.36358669400215],
-    ["Santo Domingo",18.464597312353963,-69.91767883300783],
-    ["San Cristóbal", 18.415091630969027,-70.09346008300783],
-    ["Azua",18.431345385450363,-70.72860717773439],
-    ["Puerto Plata",19.76999913247776,-70.72366336360575],
-    ["Bonao",18.952401714944514,-70.36358669400215],
-    ["Santiaago de los Caballeros",19.44623044167025,-70.69523622281851],
-    ["Nagua",19.411036437165144,-69.86041266471149],
-    ["Monte Cristi",19.63883674639587,-71.63360595703126],
-    ["San Juan",18.756941733169842,-71.50726318359376]
-  ];
-
-  locationsMunicipios = [
-    ["Santo Domingo Este",18.4855,-69.8734],
-    ["Municipio de Boca Chica",18.45,-69.6],
-    ["Municipio de Santo Domingo Norte",18.55,-69.9],
-    ["Municipio de Santo Domingo Oeste",18.5,-70],
-
-  ];
   constructor(private demandasService: DemandasService) { }
 
   data2: any;
@@ -110,7 +88,7 @@ export class Dashboard1Component implements OnInit {
       this.surOeste = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.SurOeste).porcentaje;
 
       this.locationsMunicipios = this.data2.demandaCoordenadasMunicipios;
-      this.locationsProvincias = this.data2.demandaCoordenadasMunicipios;
+      this.locationsProvincias = this.data2.demandaCoordenadasProvincias;
       this.loadUbicaciones(this.locationsProvincias);
       this.dataDonuts =
       {
@@ -781,6 +759,7 @@ loadUbicaciones(data){
     switch (event.target.value) {
       case '1':
         this.loadUbicaciones(this.locationsProvincias);
+        this.referenciaMapa = 'Provincias';
         break;
 
       case '2':

@@ -85,9 +85,11 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   filtrosActivos: any = {
     "provinciaId": null,
+    "municipioId": null,
     "temaComunId": null,
     "institucionId": null,
-    "estadoId": null
+    "estadoId": null,
+    "politicaPNPSPId":null
   }
 
   // column header
@@ -192,7 +194,18 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         label: 'Provincia',
         servicio: this.dropdownService.getProvincias(),
         tipo: 'select',
-        placeholder: 'Seleccione',
+        placeholder: 'Seleccione una provincia',
+        async: true,
+        multiple: false,
+        filtroHijo: 'municipioId',
+        servicioHijo: 'getMunicipiosByProvincia',
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'municipioId',
+        label: 'Municipio',
+        servicio: this.dropdownService.getMunicipiosByProvincia(null),
+        tipo: 'select',
+        placeholder: 'Seleccione un municipio',
         async: true,
         multiple: false
       }),
@@ -216,14 +229,14 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         multiple: false
       }),
       new FiltrosDinamicos().deserialize({
-        name: 'estadoId',
-        label: 'Estado',
-        servicio: this.dropdownService.getEstados(),
+        name: 'politicaPNPSPId',
+        label: 'Politica PNPSP',
+        servicio: this.dropdownService.getPoliticas(),
         tipo: 'select',
-        placeholder: 'Seleccione',
+        placeholder: 'Seleccione politica',
         async: true,
         multiple: false
-      }),
+      })
 
     ];
     this.loadingIndicator = false;
@@ -258,6 +271,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('temaComunId', this.filtrosActivos.temaComunId)
       .set('institucionId', this.filtrosActivos.institucionId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
