@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { FiltrosDinamicos } from 'app/shared/models/Core/filtros-dinamicos.model';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
@@ -20,6 +20,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
+import { AuthService } from 'app/shared/services/core/auth.service';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -45,6 +46,9 @@ export class ListadoDemandasComponent implements OnInit {
   @ViewChild("content") content: ElementRef<HTMLElement>;
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
+  institucionUsuario: number;
+  grupoUsuario: number[] = [0];
+  usuarioPermisos: any = [''];
 
 
   estadoForm = this.formBuilder.group({
@@ -107,7 +111,7 @@ export class ListadoDemandasComponent implements OnInit {
     { name: 'Región', prop: 'nombreRegion', sorteable: false },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false },
-    { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
+    // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
     { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
   ];
 
@@ -184,6 +188,7 @@ export class ListadoDemandasComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
     private spinner: NgxSpinnerService,
+    private authService: AuthService,
     private router: Router, private dropdownService: DropDownServiceService, private excelService: ExcelService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -210,6 +215,22 @@ export class ListadoDemandasComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+    //var usuarioInstitucion = this.authService.getInstitucion();
+
+
+    const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
+
+    const observable = from(this.authService.getPermissions(modulo.id));
+
+    observable.subscribe((res: any) => {
+      this.usuarioPermisos = res.acciones;
+      this.institucionUsuario = 1;
+      this.grupoUsuario = this.usuarioPermisos.includes("MANAGE") ? [1] : [17];
+    }, (err: any) => {
+      console.error(err);
+    });
+
+
     this.listadoEstados = this.dropdownService.getEstados();
     // Initially load first page
     this.pageCallback({ offset: 0 });
@@ -335,18 +356,25 @@ export class ListadoDemandasComponent implements OnInit {
   }
 
   async reloadTable() {
-    const params = new HttpParams()
-      .set('Page', `${this.page.offset + 1}`)
-      .set('Take', `${this.page.limit}`)
-      .set('anio', this.filtrosActivos.anio)
-      .set('regionId', this.filtrosActivos.regionId)
-      .set('provinciaId', this.filtrosActivos.provinciaId)
-      .set('municipioId', this.filtrosActivos.municipioId)
-      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-      .set('temaComunId', this.filtrosActivos.temaComunId)
-      .set('institucionId', this.filtrosActivos.institucionId)
-      .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
-      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+    let params;
+    if (!this.grupoUsuario.includes(17)) {
+      params = new HttpParams()
+        .set('Page', `${this.page.offset + 1}`)
+        .set('Take', `${this.page.limit}`)
+        .set('anio', this.filtrosActivos.anio)
+        .set('regionId', this.filtrosActivos.regionId)
+        .set('provinciaId', this.filtrosActivos.provinciaId)
+        .set('municipioId', this.filtrosActivos.municipioId)
+        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaComunId', this.filtrosActivos.temaComunId)
+        .set('institucionId', this.filtrosActivos.institucionId)
+        .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+    } else {
+      params = new HttpParams()
+        .set('institucionId', this.institucionUsuario)
+    }
+
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
@@ -362,16 +390,24 @@ export class ListadoDemandasComponent implements OnInit {
   exportexcel() {
     //this.spinnerMensaje="Exportando datos...."
     // this.spinner.show();
-    const params = new HttpParams()
-      .set('anio', this.filtrosActivos.anio)
-      .set('regionId', this.filtrosActivos.regionId)
-      .set('provinciaId', this.filtrosActivos.provinciaId)
-      .set('municipioId', this.filtrosActivos.municipioId)
-      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-      .set('temaComunId', this.filtrosActivos.temaComunId)
-      .set('institucionId', this.filtrosActivos.institucionId)
-      .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
-      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+    let params;
+    if (!this.grupoUsuario.includes(17)) {
+      params = new HttpParams()
+        .set('Page', `${this.page.offset + 1}`)
+        .set('Take', `${this.page.limit}`)
+        .set('anio', this.filtrosActivos.anio)
+        .set('regionId', this.filtrosActivos.regionId)
+        .set('provinciaId', this.filtrosActivos.provinciaId)
+        .set('municipioId', this.filtrosActivos.municipioId)
+        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaComunId', this.filtrosActivos.temaComunId)
+        .set('institucionId', this.filtrosActivos.institucionId)
+        .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+    } else {
+      params = new HttpParams()
+        .set('institucionId', this.institucionUsuario)
+    }
 
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
@@ -395,7 +431,6 @@ export class ListadoDemandasComponent implements OnInit {
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
-        DistritoMunicipal: item.nombreDistritoMunicipal,
         NombreTemaComun: item.nombreTemaComun,
         NombreFuenteDemanda: item.nombreFuenteDemanda,
         InstitucionResponsable: item.nombreInstitucionResponsable,
@@ -483,7 +518,7 @@ export class ListadoDemandasComponent implements OnInit {
       .toPromise()
       .then((res: any) => {
         this.serviceStr.typeSuccess("El estado de la demanda se actualizó con éxito");
-          this.spinner.hide();
+        this.spinner.hide();
         setTimeout(() => {
           window.location.href = "/demandas";
         }, 1500);

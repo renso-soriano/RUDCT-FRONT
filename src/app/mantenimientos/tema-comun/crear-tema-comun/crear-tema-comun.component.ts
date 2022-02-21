@@ -18,10 +18,10 @@ export class CrearTemaComunComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-     private temaComunService: TemaComunService,
-     private route: ActivatedRoute,
-     private router: Router,
-     private spinner: NgxSpinnerService) { }
+    private temaComunService: TemaComunService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -41,6 +41,8 @@ export class CrearTemaComunComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
+    finalidad: [null, { validators: [Validators.required] }],
+    funcion: [null, { validators: [Validators.required] }],
     estatus: ['A'],
     id: [0]
   });
@@ -55,6 +57,13 @@ export class CrearTemaComunComponent implements OnInit {
   get estatus() {
     return this.registerForm.get('estatus');
   }
+  get finalidad() {
+    return this.registerForm.get('finalidad');
+  }
+  get funcion() {
+    return this.registerForm.get('funcion');
+  }
+
 
 
   getTemaComunParaEditar(Id: number) {
@@ -67,7 +76,9 @@ export class CrearTemaComunComponent implements OnInit {
       this.registerForm.patchValue({
         nombre: this.temaComun.nombre,
         estatus: this.temaComun.estatus,
-        id: this.temaComun.id
+        id: this.temaComun.id,
+        finalidad: this.temaComun.finalidad,
+        funcion: this.temaComun.funcion,
       });
 
     }, (err: any) => {
@@ -84,7 +95,9 @@ export class CrearTemaComunComponent implements OnInit {
     const temaComun = {
       id: this.id.value,
       estatus: this.estatus.value,
-      nombre: this.nombre.value
+      nombre: this.nombre.value,
+      finalidad: this.finalidad.value,
+      funcion: this.funcion.value
     }
 
     this.spinner.show();

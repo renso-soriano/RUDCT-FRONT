@@ -26,13 +26,14 @@
             <fieldset class="form-group">
               <label for="ngx-filter-ref">Buscar:
                 <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
-                  placeholder="Tipo de beneficiario..." (keyup)="filterUpdate($event)" />
+                  placeholder="Por finalidad" (keyup)="filterUpdate($event)" />
               </label>
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
               [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
-              <ngx-datatable-column name="Temas Comunes" prop="nombre" [width]="200"> </ngx-datatable-column>
-
+              <ngx-datatable-column name="Finalidad" prop="finalidad" [width]="200"> </ngx-datatable-column>
+              <ngx-datatable-column name="Función" prop="funcion" [width]="200"> </ngx-datatable-column>
+              <ngx-datatable-column name="Temas Comunes (Sub-función)" prop="nombre" [width]="200"> </ngx-datatable-column>
               <ngx-datatable-column name="Acciones" [width]="70">
                 <ng-template let-row="row" ngx-datatable-cell-template>
 

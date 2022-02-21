@@ -268,6 +268,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('Page', `${this.page.offset + 1}`)
       .set('Take', `${this.page.limit}`)
       .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
       .set('temaComunId', this.filtrosActivos.temaComunId)
       .set('institucionId', this.filtrosActivos.institucionId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)

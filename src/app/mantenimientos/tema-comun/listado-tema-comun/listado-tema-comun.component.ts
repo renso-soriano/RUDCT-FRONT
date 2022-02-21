@@ -87,7 +87,7 @@ export class ListadoTemaComunComponent implements OnInit {
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
-      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.finalidad.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows

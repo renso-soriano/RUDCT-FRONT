@@ -73,10 +73,29 @@ export class AuthService {
     return userdata ? `${userdata.persona.usuario.perfil.nombre}` : '';
   } */
 
-  /* getInstitucion(): Institucion {
+  getInstitucion(): number {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
-    return userdata.persona.institucion;
-  } */
+    return userdata.persona.institucionId;
+  }
+
+  findModule(path: string): RouteInfo {
+
+    const menu = this.getMenu().find((e: RouteInfo) => e.path === `${path}`)
+    if (menu == undefined) {
+      let subMenu: RouteInfo = null
+
+      this.getMenu().forEach((element: RouteInfo) => {
+        const sub = element.submenu.find((e: RouteInfo) => e.path === `${path}`)
+
+        if (sub != undefined)
+          subMenu = sub;
+      })
+
+      return subMenu
+    } else {
+      return menu
+    }
+  }
 
   async getPermissions(moduloId: number): Promise<any> {
     const perfil = await new Promise<any>((resolve, reject) => {

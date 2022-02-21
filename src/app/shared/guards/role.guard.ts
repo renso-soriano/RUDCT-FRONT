@@ -26,7 +26,6 @@ export class RoleGuard implements CanActivate {
   async checkUserRole(route: ActivatedRouteSnapshot, url: any): Promise<boolean> {
     try {
       const modulo = this.findModule(route.routeConfig.path)
-      console.log(modulo)
       if(modulo != null) {
         const permissions = await this.auth.getPermissions(modulo.id)
         if(permissions.acciones.length === 0) {

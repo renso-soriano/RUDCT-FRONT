@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-12">
     <div class="w-100 d-flex justify-content-end">
-      <a [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
+      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"[routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
         title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
 
       <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
@@ -27,7 +27,7 @@
 
 
             <div class="col-md-12 mb-2">
-              <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
+              <app-data-filter *ngIf="!loadingIndicator && usuarioPermisos.includes('MANAGE')"   [filtros]="filtros" (filterEvent)="getFilters($event)">
               </app-data-filter>
             </div>
 
@@ -54,7 +54,7 @@
                       {{value}}
                     </span>
                     <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
-                      [ngClass]="{'bg-danger': value == 'NO INICIADA', 'bg-warning':value == 'ACEPTADA POR LA INSTITUCION', 'bg-info':value == 'EN EJECUCION', 'bg-success':value == 'EJECUTADA'}">
+                      [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
                       {{ value }}
                     </div>
                   </ng-template>
@@ -62,12 +62,12 @@
                 <!-- Acciones -->
                 <ngx-datatable-column name="Acciones">
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')" class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                       title="Ver detalles"></a>
-                    <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
-                    <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
-                    <a class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')" class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                       (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
                   </ng-template>
                 </ngx-datatable-column>

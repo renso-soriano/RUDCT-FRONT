@@ -7,7 +7,7 @@
     <!-- Kick start -->
     <div id="kick-start" class="card">
       <div class="card-header">
-        <h4 class="card-title">{{mode}} tema comun</h4>
+        <h4 class="card-title">{{mode}} tema común</h4>
       </div>
       <div class="card-content">
         <div class="card-body">
@@ -18,7 +18,45 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
-                      <label for="nombre">Tema comun</label>
+                      <label for="finalidad">Finalidad</label>
+                      <input type="text" class="form-control" name="finalidad" id="finalidad" formControlName="finalidad">
+
+                      <div *ngIf="finalidad.invalid && (finalidad.dirty || finalidad.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="finalidad.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="funcion">Función</label>
+                      <input type="text" class="form-control" name="funcion" id="funcion" formControlName="funcion">
+
+                      <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="funcion.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="nombre">Tema común (Sub-función)</label>
                       <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
 
                       <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"

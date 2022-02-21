@@ -48,9 +48,9 @@
                     {{value}}
                   </span>
                   <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
-                    [ngClass]="{'bg-danger': value == 'NO INICIADA', 'bg-warning':value == 'ACEPTADA POR LA INSTITUCION', 'bg-info':value == 'EN EJECUCION', 'bg-success':value == 'EJECUTADA'}">
-                    {{ value }}
-                  </div>
+                  [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
+                  {{ value }}
+                </div>
                   <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
                     [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante'}">
                     {{ value }}
