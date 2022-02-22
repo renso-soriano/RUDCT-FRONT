@@ -149,12 +149,6 @@
                           </div>
                           <div class="col-12">
                             <div class="form-group">
-                              <span class="danger font-weight-bold">Estado ejecución: </span>
-                              <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
-                            </div>
-                          </div>
-                          <div class="col-12">
-                            <div class="form-group">
                               <span class="danger font-weight-bold">Demanda: </span>
                               <textarea class="form-control" readonly cols="30" rows="15"
                                 [value]="demanda.descripcion"></textarea>
@@ -231,7 +225,7 @@
                             <div class="form-group">
                               <span class="danger font-weight-bold">Actividades: </span>
                               <div *ngFor="let item of demanda.demandaActividades">
-                                <label for="InstitucionResponsable">{{item.numero}} - {{item.descripcion}}</label>
+                                <label for="actividades">{{item.numero}} - {{item.descripcion}}</label>
                               </div>
                             </div>
                           </div>
@@ -280,13 +274,44 @@
                           <div class="col-12">
                             <div class="form-group">
                               <span class="danger font-weight-bold">Tema común: </span>
-                              <label for="InstitucionResponsable">{{demanda.nombreTemaComun}}</label>
+                              <label for="temaComun">{{demanda.nombreTemaComun}}</label>
                             </div>
                           </div>
                           <div class="col-12">
                             <div class="form-group">
                               <span class="danger font-weight-bold">Institución responsable: </span>
                               <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
+                            </div>
+                          </div>
+                          <div class="col-12">
+                            <div class="form-group">
+                              <span class="danger font-weight-bold">Estado ejecución: </span>
+                              <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
+                            </div>
+                          </div>
+
+                          <div class="col-12" *ngIf="demanda.justificacionRechazo">
+                            <div class="form-group">
+                              <span class="danger font-weight-bold">Rechazada por : </span>
+                              <label for="justificacionRechazo">{{demanda.justificacionRechazo}}</label>
+                            </div>
+                          </div>
+                          <div class="col-12" *ngIf="demanda.codigoPei">
+                            <div class="form-group">
+                              <span class="danger font-weight-bold">Código PEI: </span>
+                              <label for="codigoPei">{{demanda.codigoPei}}</label>
+                            </div>
+                          </div>
+                          <div class="col-12" *ngIf="demanda.codigoPoa">
+                            <div class="form-group">
+                              <span class="danger font-weight-bold">Código POA: </span>
+                              <label for="codigoPoa">{{demanda.codigoPoa}}</label>
+                            </div>
+                          </div>
+                          <div class="col-12" *ngIf="demanda.codigoSnip">
+                            <div class="form-group">
+                              <span class="danger font-weight-bold">Código Snip: </span>
+                              <label for="codigoSnip">{{demanda.codigoSnip}}</label>
                             </div>
                           </div>
                           <div class="col-12">

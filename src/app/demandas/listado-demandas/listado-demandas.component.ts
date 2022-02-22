@@ -216,8 +216,6 @@ export class ListadoDemandasComponent implements OnInit {
    */
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
-
-
     const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
 
     const observable = from(this.authService.getPermissions(modulo.id));
