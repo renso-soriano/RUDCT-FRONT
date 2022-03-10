@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { Console } from 'console';
 
 
 @Injectable({
@@ -26,6 +28,14 @@ export class DemandasService {
   getDemandasExportar(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
   }
+  getDemandasPdf(params?: HttpParams) {
+
+    return this.http.get(`${this.URL}/GetReporte`, { params: params, responseType: 'blob', observe: 'response'}).pipe(
+      map((res: any) => {
+        return new Blob([res.body], { type: 'application/pdf' });
+      })
+    );
+  }
 
   getDemandasForDashboard(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
@@ -33,11 +43,11 @@ export class DemandasService {
 
   getDemanda(idDemanda: string): Observable<IDemanda> {
     let params = new HttpParams().set('incluirDirecciones', "true");
-    return this.http.get<IDemanda>(this.URL + '/' + idDemanda, {params: params});
+    return this.http.get<IDemanda>(this.URL + '/' + idDemanda, { params: params });
   }
 
-  getDemandaById(demandaId:string):Observable<Demanda> {
-   // return this.http.get<IDemanda[]>(this.URL + CodigoDemanda)
+  getDemandaById(demandaId: string): Observable<Demanda> {
+    // return this.http.get<IDemanda[]>(this.URL + CodigoDemanda)
 
     return this.http.get<Demanda>(`${this.URL}/${demandaId}`).pipe(
       map(demanda =>
@@ -61,7 +71,7 @@ export class DemandasService {
 
   consolidarDemandas(params?: ConsolidationRequest): Observable<Demanda> {
 
-    return this.http.post<Demanda>(`${this.URL}/Consolidar`,  params );
+    return this.http.post<Demanda>(`${this.URL}/Consolidar`, params);
   }
 
 }

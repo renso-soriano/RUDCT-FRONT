@@ -21,6 +21,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from "ngx-spinner";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
 import { AuthService } from 'app/shared/services/core/auth.service';
+import { saveAs } from 'file-saver';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -49,6 +50,7 @@ export class ListadoDemandasComponent implements OnInit {
   institucionUsuario: number;
   grupoUsuario: number[] = [0];
   usuarioPermisos: any = [''];
+  pdf:any;
 
 
   estadoForm = this.formBuilder.group({
@@ -426,6 +428,7 @@ export class ListadoDemandasComponent implements OnInit {
         NombreTipoDemanda: item.nombreTipoDemanda,
         Demanda: item.descripcion,
         EstadoDemanda: item.nombreEstadoDemanda,
+        Prioridad:item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
@@ -434,17 +437,21 @@ export class ListadoDemandasComponent implements OnInit {
         InstitucionResponsable: item.nombreInstitucionResponsable,
         TecnicoOmpp: item.nombreTecnicoOmpp,
         ResultanteDe: item.resultanteDe,
-        Activo: item.estatus ? "Si" : "No",
-        CreadoPor: item.nombreCreadoPor,
-        RegistradoEn: item.fechaRegistro,
-        modificadoPor: item.nombreModificadoPor,
-        ModificadoEn: item.fechaModificacion
+        Activo: item.estatus ? "Si" : "No"
+        // CreadoPor: item.nombreCreadoPor,
+        // RegistradoEn: item.fechaRegistro,
+        // modificadoPor: item.nombreModificadoPor,
+        // ModificadoEn: item.fechaModificacion
 
       };
 
     });
 
+
   }
+
+
+
 
   openVerticallyCentered(content, id: string) {
     this.EF.estado.setValue(null);

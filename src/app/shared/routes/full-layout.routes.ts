@@ -21,6 +21,11 @@ export const Full_ROUTES: Routes = [
   },
   {
     canActivate: [RoleGuard],
+    path: 'reportes',
+    loadChildren: () => import('../../reportes/reportes.module').then(m => m.ReportesModule)
+  },
+  {
+    canActivate: [RoleGuard],
     path: 'mantenimientos/fuentes',
     loadChildren: () => import('../../mantenimientos/fuente-demanda/fuente-demanda.module').then(m => m.FuenteDemandaModule)
   },

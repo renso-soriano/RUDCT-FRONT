@@ -9,33 +9,19 @@
         <div class="card-content">
           <div class="card-body">
 
-            <!-- ngx-datatable-filter -->
-            <!-- <fieldset class="form-group">
-              <label for="ngx-filter-ref">Buscar:
-                <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
-                  placeholder="Nombre de demanda..." (keyup)="filterUpdate($event)" />
-              </label>
-            </fieldset> -->
-            <div class="col-12 mb-2">
+            <div class="col-md-12 mb-2">
               <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
               </app-data-filter>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="distrito">Registros por página</label>
-                  <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
-                    (change)="_changeRowLimits($event)" name="limit" id="limit" [(ngModel)]="limitSelected"
-                    style="width: 25%;" [clearable]="false">
-                  </ng-select>
-                </div>
+
+            <div class="col-md-12">
+              <div class="w-100 d-flex justify-content-between">
+                <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
+                  name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
+                </ng-select>
+                <a class="btn  btn-primary" (click)="openVertically(content2)">Completar consolidación</a>
               </div>
-              <div class="col-sm-8">
-                <div class="w-100 d-flex justify-content-end">
-                  <a class="btn mt-3 btn-primary" (click)="openVertically(content2)">Completar consolidación</a>
-                </div>
-              </div>
-            </div>
+            </div><br>
 
             <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
               [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"

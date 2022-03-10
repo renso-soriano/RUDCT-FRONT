@@ -75,10 +75,10 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   }
 
   limitSelect: any = [
-    { value: 10, label: 10 },
-    { value: 25, label: 25 },
-    { value: 50, label: 50 },
-    { value: 100, label: 100 },
+    { value: 10, label: "10 Registros por página" },
+    { value: 25, label: "25 Registros por página" },
+    { value: 50, label: "50 Registros por página" },
+    { value: 100, label: "100 Registros por página" }
   ];
 
   public filtros: FiltrosDinamicos[];
