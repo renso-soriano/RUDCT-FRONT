@@ -28,11 +28,11 @@ export class DemandasService {
   getDemandasExportar(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
   }
-  getDemandasPdf(params?: HttpParams) {
+  getDemandasReporte(params?: HttpParams) {
 
     return this.http.get(`${this.URL}/GetReporte`, { params: params, responseType: 'blob', observe: 'response'}).pipe(
       map((res: any) => {
-        return new Blob([res.body], { type: 'application/pdf' });
+        return new Blob([res.body], { type: 'application/xlsx' });
       })
     );
   }

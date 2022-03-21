@@ -26,39 +26,7 @@
               </div>
 
               <form [formGroup]="reportForm">
-
                 <div class="col-sm-4" *ngIf="tipoReporteSelected == 1">
-                  <div class="form-group">
-                    <label for="institucion">Institucion Responsable</label>
-                    <ng-select [items]="listadoInstituciones | async" bindLabel="name" bindValue="id" name="institucion"
-                      id="institucion" placeholder="Seleccione institucion" (change)="onInstitucionChange()"
-                      formControlName="institucionId">
-                    </ng-select>
-
-                  </div>
-                </div>
-
-                <div class="col-sm-4" *ngIf="tipoReporteSelected == 2">
-                  <div class="form-group">
-                    <label for="fuente">Fuentes</label>
-                    <ng-select [items]="listadoFuentes | async" bindLabel="name" bindValue="id" name="fuente"
-                      id="fuente" placeholder="Seleccione fuente" (change)="onFuenteChange()"
-                      formControlName="fuenteId">
-                    </ng-select>
-
-                  </div>
-                </div>
-                <div class="col-sm-4" *ngIf="tipoReporteSelected == 3">
-                  <div class="form-group">
-                    <label for="tipo">Tipo demanda</label>
-                    <ng-select [items]="listadoTipos | async" bindLabel="name" bindValue="id" name="tipo" id="tipo"
-                      placeholder="Seleccione tipo" (change)="onTipoChange()" formControlName="tipoId">
-                    </ng-select>
-
-                  </div>
-                </div>
-
-                <div class="col-sm-4" *ngIf="tipoReporteSelected == 4">
                   <div class="form-group">
                     <label for="provincia">Provincia</label>
                     <ng-select [items]="listadoProvincias | async" bindLabel="name" bindValue="id" name="provincia"
@@ -69,32 +37,22 @@
                   </div>
                 </div>
 
-                <div class="col-sm-4" *ngIf="tipoReporteSelected == 5">
+
+                <!-- <div class="col-sm-4" *ngIf="tipoReporteSelected == 7">
                   <div class="form-group">
-                    <label for="municipio">Municipio</label>
-                    <ng-select [items]="listadoMunicipios | async" bindLabel="name" bindValue="id" name="municipio"
-                      id="municipio" placeholder="Seleccione municipio" (change)="onMunicipiosChange()"
-                      formControlName="municipioId">
+                    <label for="estado">Estado</label>
+                    <ng-select [items]="listadoEstados | async" bindLabel="name" bindValue="id" name="estado"
+                      id="estado" placeholder="Seleccione estado" (change)="onTemaComunChange()"
+                      formControlName="estadoId">
                     </ng-select>
 
                   </div>
-                </div>
-
-                <div class="col-sm-4" *ngIf="tipoReporteSelected == 6">
-                  <div class="form-group">
-                    <label for="temaComun">Tema común</label>
-                    <ng-select [items]="listadoTemaComun | async" bindLabel="name" bindValue="id" name="temaComun"
-                      id="temaComun" placeholder="Seleccione tema comun" (change)="onTemaComunChange()"
-                      formControlName="temaComunId">
-                    </ng-select>
-
-                  </div>
-                </div>
+                </div> -->
                 <div class="col-sm-4" *ngIf="tipoReporteSelected != null">
                   <div class="form-group">
-                    <a (click)="exportPdf()" data-toggle="tooltip" data-placement="bottom" title="Exportar datos en PDF"
-                      class="btn btn btn-danger btn-sm ml-1">
-                      <i class="fa fa-download"> Exportar PDF</i>
+                    <a (click)="exportReport()" data-toggle="tooltip" data-placement="bottom"
+                      title="Exportar datos en PDF" class="btn btn btn-danger btn-sm ml-1">
+                      <i class="fa fa-download"> Exportar</i>
                     </a>
                   </div>
                 </div>

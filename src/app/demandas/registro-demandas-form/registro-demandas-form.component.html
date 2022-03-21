@@ -150,7 +150,7 @@
                                 class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
                             <input type="text" class="form-control" id="coordenadaX" name="coordenadaX"
                               formControlName="coordenadaX" maxlength="30">
-                            <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
+                            <!-- <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaX.errors.required">
@@ -159,7 +159,7 @@
                               <div *ngIf="coordenadaX.errors.maxlength">
                                 <i class="ft-alert-circle align-middle"></i> El campo debe tener maxímo 30 caracteres.
                               </div>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -169,14 +169,14 @@
                             <input type="text" min="0" class="form-control" name="coordenadaY" id="coordenadaY"
                               formControlName="coordenadaY">
 
-                              <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
+                            <!-- <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaY.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
 
                           </div>
                         </div>
@@ -214,7 +214,7 @@
                             <input type="number" min="0" class="form-control" name="prioridad" id="prioridad"
                               formControlName="prioridad">
 
-                              <div *ngIf="prioridad.invalid && (prioridad.dirty || prioridad.touched)"
+                            <div *ngIf="prioridad.invalid && (prioridad.dirty || prioridad.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="prioridad.errors.required">
@@ -518,19 +518,19 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="temaComun">Tema comun</label>
-                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" bindValue="id" name="temaComun" id="temaComun"
-                              placeholder="Seleccione tema comun" formControlName="temaComunId">
+                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" bindValue="id"
+                              name="temaComun" id="temaComun" placeholder="Seleccione tema comun"
+                              formControlName="temaComunId">
                             </ng-select>
 
-                            <div
-                            *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
-                            class="help-block mt-1 text-danger">
+                            <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                              class="help-block mt-1 text-danger">
 
-                            <div *ngIf="temaComunId.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              <div *ngIf="temaComunId.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
                             </div>
-
-                          </div>
                           </div>
                         </div>
 
@@ -638,8 +638,8 @@
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="descripcionContacto">Descripcion</label>
-                            <input type="text" class="form-control" name="descripcionContacto"
-                              id="descripcionContacto" formControlName="descripcionContacto">
+                            <input type="text" class="form-control" name="descripcionContacto" id="descripcionContacto"
+                              formControlName="descripcionContacto">
                           </div>
                         </div>
 

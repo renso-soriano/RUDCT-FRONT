@@ -48,6 +48,7 @@ export class ReporteComponent implements OnInit {
   listadoProvincias: Observable<any[]>;
   listadoMunicipios: Observable<any[]>;
   listadoTemaComun: Observable<any[]>;
+  listadoEstados: Observable<any[]>;
 
   institucionUsuario: number;
   grupoUsuario: number[] = [0];
@@ -57,14 +58,11 @@ export class ReporteComponent implements OnInit {
 
 
   reportForm = this.formBuilder.group({
-    institucionId: [null],
-    fuenteId: [null],
-    tipoId: [null],
-    reporteTipo: [7],
+
+    reporteTipo: [20],
     provinciaId: [null],
-    municipioId: [null],
-    temaComunId: [null],
-    todasId: [7]
+    estadoId: [7],
+    todasId: [20]
   });
 
   get RF() {
@@ -103,72 +101,47 @@ export class ReporteComponent implements OnInit {
   }
 
   tipoReporte: any = [
-    { value: 1, label: "Institucion" },
-    { value: 2, label: "Fuentes" },
-    { value: 3, label: "Tipo demanda" },
-    { value: 4, label: "Provincias" },
-    { value: 5, label: "Municipios" },
-    { value: 6, label: "Tema común" },
-    { value: 7, label: "Imprimir todas" }
+
+    { value: 1, label: "Provincias" },
+    { value: 2, label: "Estado" },
+    { value: 8, label: "Imprimir todas" }
   ];
 
 
 
-  exportPdf() {
-
-
+  exportReport() {
 
     let params;
 
     switch (this.RF.reporteTipo.value) {
+
       case 1: {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.institucionId.value);
+          .set('id', this.RF.provinciaId.value)
+          .set('usuario', this.authService.getUserCompleteName());
         break;
       }
       case 2: {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.fuenteId.value);
-        break;
-      }
-      case 3: {
-        params = new HttpParams()
-          .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.tipoId.value);
-        break;
-      }
-      case 4: {
-        params = new HttpParams()
-          .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.provinciaId.value);
-        break;
-      }
-      case 5: {
-        params = new HttpParams()
-          .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.municipioId.value);
-        break;
-      }
-      case 6: {
-        params = new HttpParams()
-          .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.temaComunId.value);
+          .set('id', this.RF.estadoId.value)
+          .set('usuario', this.authService.getUserCompleteName());
         break;
       }
       default: {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.todasId.value);
+          .set('id', this.RF.todasId.value)
+          .set('usuario', this.authService.getUserCompleteName());
         break;
       }
     }
 
-    this.demandasService.getDemandasPdf(params).subscribe((data: any) => {
+    this.demandasService.getDemandasReporte(params).subscribe((data: any) => {
 
       this.pdf = data;
-      this.salvarImprimirPdf();
+      this.salvarImprimirReporte();
 
     },
       (err: any) => {
@@ -182,11 +155,12 @@ export class ReporteComponent implements OnInit {
 
   }
 
-  salvarImprimirPdf() {
+  salvarImprimirReporte() {
+    //let date = Date.prototype.getDate();
 
-    //saveAs(this.pdf, "Demandas.pdf");
-    const fileURL = URL.createObjectURL(this.pdf);
-    window.open(fileURL, '_blank');
+    saveAs(this.pdf, "Demandas.xls");
+    //const fileURL = URL.createObjectURL(this.pdf);
+    //window.open(fileURL, '_blank');
 
   }
 
@@ -195,12 +169,10 @@ export class ReporteComponent implements OnInit {
     this.RF.reporteTipo.setValue(event.value);
 
     this.reportForm.patchValue({
-      institucionId: null,
-      fuenteId: null,
-      tipoId:null,
+
+      tipoId: null,
       provinciaId: null,
-      municipioId: null,
-      temaComunId: null
+
     });
 
   }
@@ -219,6 +191,7 @@ export class ReporteComponent implements OnInit {
     this.listadoProvincias = this.dropdownService.getProvincias();
     this.listadoMunicipios = this.dropdownService.getMunicipios();
     this.listadoTemaComun = this.dropdownService.getTemasComunes();
+    this.listadoEstados = this.dropdownService.getEstados();
 
   }
 
