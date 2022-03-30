@@ -79,8 +79,6 @@ export class Dashboard1Component implements OnInit {
       this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.Economico).cantidad;
       this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.MedioAmbiental).cantidad;
 
-      console.log(Region.CibaoNorte)
-
       this.cibaoNorte = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoNorte).porcentaje;
       this.cibaoCentral = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoCentral).porcentaje;
       this.metropolitana = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Metropolitana).porcentaje;

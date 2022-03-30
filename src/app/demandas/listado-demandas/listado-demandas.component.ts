@@ -22,6 +22,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
 import { AuthService } from 'app/shared/services/core/auth.service';
 import { saveAs } from 'file-saver';
+import * as L from 'leaflet';
+import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -50,7 +52,8 @@ export class ListadoDemandasComponent implements OnInit {
   institucionUsuario: number;
   grupoUsuario: number[] = [0];
   usuarioPermisos: any = [''];
-  pdf:any;
+  pdf: any;
+  capas: any;
 
 
   estadoForm = this.formBuilder.group({
@@ -428,7 +431,7 @@ export class ListadoDemandasComponent implements OnInit {
         NombreTipoDemanda: item.nombreTipoDemanda,
         Demanda: item.descripcion,
         EstadoDemanda: item.nombreEstadoDemanda,
-        Prioridad:item.prioridad,
+        Prioridad: item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
@@ -449,8 +452,6 @@ export class ListadoDemandasComponent implements OnInit {
 
 
   }
-
-
 
 
   openVerticallyCentered(content, id: string) {
@@ -537,4 +538,85 @@ export class ListadoDemandasComponent implements OnInit {
       });
 
   }
+
+  //para el mapa
+
+
+  options = {
+    layers: [
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        minZoom: 8,
+        maxZoom: 18,
+        attribution: '...',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: environment.mapbox.accessToken,
+      }),
+    ],
+    zoom: 8,
+    center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
+
+  };
+
+  //#region  Sección Mapa
+  SeleccioneMapa(content) {
+    this.modalService.open(content, { size: 'lg', centered: true });
+    this.options;
+    this.BuscarMap(this.rows);
+
+  }
+
+  BuscarMap(data): void {
+    this.capas = [];
+
+    for (var i = 0; i < data.length; i++) {
+      let provincia = [data[i].nombreProvincia]
+      let municipio = [data[i].nombreMunicipio]
+
+      let latitud = Number([data[i].coordenadaX])
+      let longitud = Number([data[i].coordenadaY])
+      let demanda = [data[i].descripcion]
+      this.capas.push(
+        L.marker([latitud, longitud], {
+          icon: L.icon({
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'assets/mapa/marker-icon.png',
+            shadowUrl: 'assets/mapa/marker-shadow.png',
+          })
+        }).bindPopup(`
+      <strong>Provincia:</strong> ${provincia} <br/>
+      <strong>Municipio:</strong> ${municipio} <br/>
+      <strong>Coordenada X:</strong> ${latitud} <br/>
+      <strong>Coordenada Y:</strong> ${longitud} <br/>
+      <strong>Demanda:</strong> ${demanda} <br/>`,
+          { autoClose: false, autoPan: true })
+
+      );
+
+    }
+  }
+  //manejarClick(event:LeafletMouseEvent) {
+
+    // const latitud = Number( event.latlng.lat);
+    // const longitud =Number(event.latlng.lng) ;
+    // console.log(event.latlng)
+    // this.capas = [];
+    // this.capas.push(
+    //     L.marker([latitud, longitud], {
+    //       icon: L.icon({
+    //         iconSize: [25, 41],
+    //         iconAnchor: [13, 41],
+    //         iconUrl: 'assets/mapa//marker-icon.png',
+    //         shadowUrl: 'assets/mapa/marker-shadow.png',
+    //       })
+    //     }).bindPopup(`
+    //     <strong>Coordenada X:</strong> ${latitud} <br/>
+    //     <strong>Coordenada Y:</strong> ${longitud}`,
+    //     { autoClose: false, autoPan: true })
+
+    //   );
+//}
+
 }

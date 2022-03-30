@@ -4,7 +4,8 @@
 <div class="row">
   <div class="col-12">
     <div class="w-100 d-flex justify-content-end">
-      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"[routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
+      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
+        [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
         title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
 
       <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
@@ -27,7 +28,8 @@
 
 
             <div class="col-md-12 mb-2">
-              <app-data-filter *ngIf="!loadingIndicator && usuarioPermisos.includes('MANAGE')"   [filtros]="filtros" (filterEvent)="getFilters($event)">
+              <app-data-filter *ngIf="!loadingIndicator && usuarioPermisos.includes('MANAGE')" [filtros]="filtros"
+                (filterEvent)="getFilters($event)">
               </app-data-filter>
             </div>
 
@@ -36,10 +38,12 @@
                 <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
                   name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
                 </ng-select>
-                <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom" title="Exportar datos en Excel"
+                <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom" title="Exportar listado actual en Excel"
                   class="btn btn btn-success btn-sm ml-1">
                   <i class="fa fa-file-excel-o"> Exportar Excel</i>
                 </a>
+                <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)" title="Ver listado en el mapa"><i
+                    class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
               </div>
             </div><br>
 
@@ -63,12 +67,16 @@
                 <!-- Acciones -->
                 <ngx-datatable-column name="Acciones">
                   <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')" class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
+                      class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                       title="Ver detalles"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
+                      (click)="editar(row.id)" title="Editar"></a>
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
+                      class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')" class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
+                      class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                       (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
                   </ng-template>
                 </ngx-datatable-column>
@@ -217,3 +225,33 @@
 
 
 </ng-template>
+
+
+<!--modal mapa-->
+
+<div class="row">
+  <ng-template #contentMapa let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Vista geográfica de selección</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="col-xl-12 col-lg-12 col-12">
+            <div id="map" leaflet [leafletOptions]="options"
+              [leafletLayers]="capas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
+    </div>
+  </ng-template>
+
+
+</div>
