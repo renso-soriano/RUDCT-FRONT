@@ -1,5 +1,5 @@
 import { ItemaComun } from '../../models/iTemaComun';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -23,6 +23,11 @@ export class TemaComunService {
 
   getTemaComunById(Id: number): Observable<ItemaComun> {
     return this.http.get<ItemaComun>(this.URL + Id);
+
+  }
+
+  getTemaComunByParam(params: HttpParams): Observable<any> {
+    return this.http.get<any>(this.URL +`GetByParam/`, {params:params});
 
   }
 

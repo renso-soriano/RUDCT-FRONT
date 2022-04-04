@@ -517,6 +517,50 @@
                       <div class="row">
                         <div class="col-sm-6">
                           <div class="form-group">
+                            <label for="finalidad">Finalidad</label>
+                            <ng-select [items]="listadoTemaComunFinalidad | async" bindLabel="finalidad" bindValue="finalidad"
+                              name="finalidad" id="finalidad" placeholder="Seleccione finalidad"
+                              (change)="onFinalidadChange()" formControlName="finalidad">
+                            </ng-select>
+
+                            <!-- <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="temaComunId.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div> -->
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="funcion">Función</label>
+                            <ng-select [items]="listadoTemaComunFuncion | async" bindLabel="funcion" bindValue="funcion"
+                              name="funcion" id="funcion" placeholder="Seleccione función"
+                              (change)="onFuncionChange()" formControlName="funcion">
+                            </ng-select>
+
+                            <!-- <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="temaComunId.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div> -->
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
                             <label for="temaComun">Tema comun</label>
                             <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" bindValue="id"
                               name="temaComun" id="temaComun" placeholder="Seleccione tema comun"

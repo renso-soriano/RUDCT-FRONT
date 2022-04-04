@@ -32,6 +32,7 @@ import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.
 import { environment } from "environments/environment";
 import * as L from 'leaflet';
 import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
+import { HttpParams } from "@angular/common/http";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -94,6 +95,8 @@ export class RegistroDemandasFormComponent implements OnInit {
   tipoInversiones: Observable<any[]>;
   listadoNivelDemandas: Observable<any[]>;
   listadoTemaComun: Observable<any[]>;
+  listadoTemaComunFinalidad: Observable<any[]>;
+  listadoTemaComunFuncion: Observable<any[]>;
 
   listadoPoliticas: any[] = [];
   listadoObjetivos: any[] = [];
@@ -150,6 +153,8 @@ export class RegistroDemandasFormComponent implements OnInit {
     nombreCompletoContacto: [null],
     telefonoContacto: [null],
     descripcionContacto: [null],
+    finalidad: [null],
+    funcion: [null],
     temaComunId: [null, { validators: [Validators.required] }],
     prioridad: [null, { validators: [Validators.required] }],
     demandaTipoId: [1],
@@ -279,6 +284,12 @@ export class RegistroDemandasFormComponent implements OnInit {
   get descripcionContacto() {
     return this.registerForm.get("descripcionContacto");
   }
+  get finalidad() {
+    return this.registerForm.get("finalidad");
+  }
+  get funcion() {
+    return this.registerForm.get("funcion");
+  }
 
   // rellena DropDowns.
   llenarDropDownFijos(): void {
@@ -333,7 +344,11 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoNivelDemandas = of(listaNiveles);
 
     // listado de temas comunes
-    this.listadoTemaComun = this.temaComunService.getTemasComunes();
+    let params = new HttpParams()
+      .set('param', `finalidad`)
+      .set('content', `noImporta`);
+
+    this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
 
   } // fin llenarDropDownFijos
 
@@ -1092,6 +1107,30 @@ export class RegistroDemandasFormComponent implements OnInit {
     );
 
   }
+
+  onFinalidadChange() {
+
+    let params = new HttpParams()
+      .set('param', `funcion`)
+      .set('content', this.finalidad.value);
+
+    this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
+    this.listadoTemaComun = null;
+
+  }
+
+  onFuncionChange() {
+
+    let params = new HttpParams()
+      .set('param', `nombre`)
+      .set('content', this.funcion.value);
+
+    this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params);
+
+
+  }
+
+
 
 
 }
