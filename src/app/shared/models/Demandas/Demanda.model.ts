@@ -20,6 +20,8 @@ export class Demanda implements Deserializable {
   distritoMunicipalId?: number;
   nombreDistritoMunicipal?: string;
   temaComunId?: number;
+  finalidadTemaComun?: string;
+  funcionTemaComun?: string;
   nombreTemaComun?: string;
   fuenteDemandaId?: number;
   nombreFuenteDemanda?: string;

@@ -344,11 +344,15 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoNivelDemandas = of(listaNiveles);
 
     // listado de temas comunes
+
     let params = new HttpParams()
       .set('param', `finalidad`)
       .set('content', `noImporta`);
 
     this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
+
+
+
 
   } // fin llenarDropDownFijos
 
@@ -444,6 +448,8 @@ export class RegistroDemandasFormComponent implements OnInit {
             demanda.distritoMunicipalId
           ),
           temaComunId: demanda.temaComunId,
+          finalidad: demanda.finalidadTemaComun,
+          funcion: demanda.funcionTemaComun,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: [],
           objetivo: [],
@@ -1031,6 +1037,19 @@ export class RegistroDemandasFormComponent implements OnInit {
         Nombre: item.nombreObjetivoEnd,
       };
     });
+
+    let params = new HttpParams()
+      .set('param', `funcion`)
+      .set('content', demanda.finalidadTemaComun);
+
+    this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
+
+    /*********************************************************************************** */
+    let params2 = new HttpParams()
+      .set('param', `nombre`)
+      .set('content', demanda.funcionTemaComun);
+
+    this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params2);
   }
 
   options = {
@@ -1116,6 +1135,8 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
     this.listadoTemaComun = null;
+    this.temaComunId.setValue(null);
+    this.funcion.setValue(null);
 
   }
 
@@ -1126,10 +1147,10 @@ export class RegistroDemandasFormComponent implements OnInit {
       .set('content', this.funcion.value);
 
     this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params);
+    this.temaComunId.setValue(null);
 
 
   }
-
 
 
 

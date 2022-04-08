@@ -105,8 +105,9 @@ export class ListadoDemandasComponent implements OnInit {
     "fuenteDemandaId": null,
     "temaComunId": null,
     "institucionId": null,
-    "demandaTipoId": null,
-    "politicaPNPSPId": null
+    //"demandaTipoId": null,
+    "politicaPNPSPId": null,
+    "estadoId": null,
   }
 
   // column header
@@ -287,15 +288,6 @@ export class ListadoDemandasComponent implements OnInit {
         async: true,
         multiple: false
       }),
-      /* new FiltrosDinamicos().deserialize({
-        name: 'estadoId',
-        label: 'Estado',
-        servicio: this.dropdownService.getEstados(),
-        tipo: 'select',
-        placeholder: 'Seleccione un estado',
-        async: true,
-        multiple: false
-      }), */
       new FiltrosDinamicos().deserialize({
         name: 'temaComunId',
         label: 'Tema común',
@@ -313,17 +305,25 @@ export class ListadoDemandasComponent implements OnInit {
         placeholder: 'Seleccione institución',
         async: true,
         multiple: false
-      })
-      ,
+      }),
       new FiltrosDinamicos().deserialize({
-        name: 'demandaTipoId',
-        label: 'Tipo Demanda',
-        servicio: this.dropdownService.getTiposDemandas(),
+        name: 'estadoId',
+        label: 'Estado',
+        servicio: this.dropdownService.getEstados(),
         tipo: 'select',
-        placeholder: 'Seleccione un tipo',
+        placeholder: 'Seleccione un estado',
         async: true,
         multiple: false
       }),
+      // new FiltrosDinamicos().deserialize({
+      //   name: 'demandaTipoId',
+      //   label: 'Tipo Demanda',
+      //   servicio: this.dropdownService.getTiposDemandas(),
+      //   tipo: 'select',
+      //   placeholder: 'Seleccione un tipo',
+      //   async: true,
+      //   multiple: false
+      // }),
       new FiltrosDinamicos().deserialize({
         name: 'politicaPNPSPId',
         label: 'Politica PNPSP',
@@ -371,8 +371,9 @@ export class ListadoDemandasComponent implements OnInit {
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
-        .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+        .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
       params = new HttpParams()
         .set('institucionId', this.institucionUsuario)
@@ -405,8 +406,9 @@ export class ListadoDemandasComponent implements OnInit {
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
-        .set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+        .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
       params = new HttpParams()
         .set('institucionId', this.institucionUsuario)
