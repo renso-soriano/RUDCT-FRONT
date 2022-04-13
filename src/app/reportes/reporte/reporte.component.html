@@ -30,28 +30,17 @@
                   <div class="form-group">
                     <label for="provincia">Provincia</label>
                     <ng-select [items]="listadoProvincias | async" bindLabel="name" bindValue="id" name="provincia"
-                      id="provincia" placeholder="Seleccione provincia" (change)="onProvinciaChange()"
+                      id="provincia" placeholder="Seleccione provincia"
                       formControlName="provinciaId">
                     </ng-select>
 
                   </div>
                 </div>
 
-
-                <!-- <div class="col-sm-4" *ngIf="tipoReporteSelected == 7">
-                  <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <ng-select [items]="listadoEstados | async" bindLabel="name" bindValue="id" name="estado"
-                      id="estado" placeholder="Seleccione estado" (change)="onTemaComunChange()"
-                      formControlName="estadoId">
-                    </ng-select>
-
-                  </div>
-                </div> -->
                 <div class="col-sm-4" *ngIf="tipoReporteSelected != null">
                   <div class="form-group">
                     <a (click)="exportReport()" data-toggle="tooltip" data-placement="bottom"
-                      title="Exportar datos en PDF" class="btn btn btn-danger btn-sm ml-1">
+                      title="Descargar reporte" class="btn btn btn-danger btn-sm ml-1">
                       <i class="fa fa-download"> Exportar</i>
                     </a>
                   </div>
@@ -60,8 +49,6 @@
             </div>
 
           </div><br>
-
-
 
 
         </div>

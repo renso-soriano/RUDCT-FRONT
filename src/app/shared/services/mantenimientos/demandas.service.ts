@@ -28,13 +28,27 @@ export class DemandasService {
   getDemandasExportar(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
   }
+
   getDemandasReporte(params?: HttpParams) {
 
-    return this.http.get(`${this.URL}/GetReporte`, { params: params, responseType: 'blob', observe: 'response'}).pipe(
+    return this.http.get(`${this.URL}/GetReporte`, { params: params, observe: 'response'}).pipe(
       map((res: any) => {
-        return new Blob([res.body], { type: 'application/xlsx' });
+        let file = this.convertBase64ToBlob(res);
+        let data = { file:file, nombreArchivo: res.body.fileDownloadName }
+        return data;
       })
     );
+  }
+
+  convertBase64ToBlob(res): any {
+    const byteCharacters = atob(res.body.fileContents);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const file = new Blob([byteArray], { type: res.body.contentType });
+    return file;
   }
 
   getDemandasForDashboard(params?: HttpParams): Observable<Demanda[]> {

@@ -36,9 +36,9 @@ export class Dashboard1Component implements OnInit {
   @ViewChild(MapaComponent) mapaComponent: MapaComponent;
 
   capas: any;
-  locationsRegiones:any = [];
-  locationsProvincias:any = [];
-  locationsMunicipios:any = [];
+  locationsRegiones: any = [];
+  locationsProvincias: any = [];
+  locationsMunicipios: any = [];
 
   constructor(private demandasService: DemandasService) { }
 
@@ -75,15 +75,15 @@ export class Dashboard1Component implements OnInit {
 
       this.totalDemandas = this.data2.totalDemandas;
       this.ejeInstitucional = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Institucionalidad).cantidad;
-      this.ejeSocial = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.Social).cantidad;
-      this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.Economico).cantidad;
-      this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId  == EjeEnd.MedioAmbiental).cantidad;
+      this.ejeSocial = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Social).cantidad;
+      this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Economico).cantidad;
+      this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.MedioAmbiental).cantidad;
 
-      this.cibaoNorte = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoNorte).porcentaje;
-      this.cibaoCentral = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.CibaoCentral).porcentaje;
-      this.metropolitana = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Metropolitana).porcentaje;
-      this.este = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.Este).porcentaje;
-      this.surOeste = this.data2.demandasPorRegion.find((demanda : any) => demanda.regionId == Region.SurOeste).porcentaje;
+      this.cibaoNorte = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte).porcentaje;
+      this.cibaoCentral = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoCentral).porcentaje;
+      this.metropolitana = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Metropolitana).porcentaje;
+      this.este = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Este).porcentaje;
+      this.surOeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.SurOeste).porcentaje;
 
       this.locationsMunicipios = this.data2.demandaCoordenadasMunicipios;
       this.locationsProvincias = this.data2.demandaCoordenadasProvincias;
@@ -119,7 +119,7 @@ export class Dashboard1Component implements OnInit {
             }
           ]
       }
-     // asigna la data para el grafico de donats
+      // asigna la data para el grafico de donats
       this.DonutChart.data = this.dataDonuts;
 
     }, (err: any) => {
@@ -128,33 +128,33 @@ export class Dashboard1Component implements OnInit {
     });
 
   }
-loadUbicaciones(data){
+  loadUbicaciones(data) {
 
-  this.capas = [];
-  for (var i = 0; i < data.length; i++) {
-    let lugar= [data[i].nombre]
-    let latitud=Number( [data[i].coordenadaX])
-    let longitud=Number( [data[i].coordenadaY])
-    let demanda=[data[i].descripcion]
-    this.capas.push(
-      L.marker([latitud, longitud], {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [13, 41],
-          iconUrl: 'assets/mapa/marker-icon.png',
-          shadowUrl: 'assets/mapa/marker-shadow.png',
-        })
-      }).bindPopup(`
+    this.capas = [];
+    for (var i = 0; i < data.length; i++) {
+      let lugar = [data[i].nombre]
+      let latitud = Number([data[i].coordenadaX])
+      let longitud = Number([data[i].coordenadaY])
+      let demanda = [data[i].descripcion]
+      this.capas.push(
+        L.marker([latitud, longitud], {
+          icon: L.icon({
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'assets/mapa/marker-icon.png',
+            shadowUrl: 'assets/mapa/marker-shadow.png',
+          })
+        }).bindPopup(`
       <strong>Lugar:</strong> ${lugar} <br/>
       <strong>Coordenada X:</strong> ${latitud} <br/>
       <strong>Coordenada Y:</strong> ${longitud} <br/>
       <strong>Demanda:</strong> ${demanda} <br/>`,
-      { autoClose: false, autoPan: true })
+          { autoClose: false, autoPan: true })
 
-    );
+      );
 
     }
-}
+  }
   // Line area chart configuration Starts
   lineArea: Chart = {
     type: 'Line',
@@ -771,30 +771,30 @@ loadUbicaciones(data){
 
     //this.mapaComponent.onReload(this.mapSettings);
   }
- /* changeMap(event: any) {
-    switch (event.target.value) {
-      case '1':
-        this.mapSettings.GeoDataFile = 'do_provincias';
-        this.mapSettings.BindProperty = 'demandasPorProvincia';
-        this.mapSettings.BindValue = 'totalDemandas';
-        this.mapSettings.Label = 'Provincia';
-        this.referenciaMapa = 'Provincias';
-        break;
+  /* changeMap(event: any) {
+     switch (event.target.value) {
+       case '1':
+         this.mapSettings.GeoDataFile = 'do_provincias';
+         this.mapSettings.BindProperty = 'demandasPorProvincia';
+         this.mapSettings.BindValue = 'totalDemandas';
+         this.mapSettings.Label = 'Provincia';
+         this.referenciaMapa = 'Provincias';
+         break;
 
-      case '2':
-        this.mapSettings.GeoDataFile = 'do_municipios';
-        this.mapSettings.BindProperty = 'demandasPorMunicipio';
-        this.mapSettings.BindValue = 'totalDemandas';
-        this.mapSettings.Label = 'Municipio';
-        this.referenciaMapa = 'Municipios';
-        break;
+       case '2':
+         this.mapSettings.GeoDataFile = 'do_municipios';
+         this.mapSettings.BindProperty = 'demandasPorMunicipio';
+         this.mapSettings.BindValue = 'totalDemandas';
+         this.mapSettings.Label = 'Municipio';
+         this.referenciaMapa = 'Municipios';
+         break;
 
-      default:
-        break;
-    }
+       default:
+         break;
+     }
 
-    this.mapaComponent.onReload(this.mapSettings);
-  }*/
+     this.mapaComponent.onReload(this.mapSettings);
+   }*/
   options = {
     layers: [
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -807,28 +807,33 @@ loadUbicaciones(data){
         accessToken: environment.InicializarMapa.accessToken,
       }),
     ],
-    zoom: 8,
-    center: L.latLng(environment.InicializarMapa.coordenadaX,environment.InicializarMapa.coordenadaY)
+    zoomControl: true,
+    zoomSnap: 0.25,
+    zoomDelta: 0.5,
+    zoom: 8.30,
+
+
+    center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
   };
-  manejarClick(event:LeafletMouseEvent) {
+  manejarClick(event: LeafletMouseEvent) {
 
-      // const latitud = Number( event.latlng.lat);
-      // const longitud =Number(event.latlng.lng) ;
-      // console.log(event.latlng)
-      // this.capas = [];
-      // this.capas.push(
-      //     L.marker([latitud, longitud], {
-      //       icon: L.icon({
-      //         iconSize: [25, 41],
-      //         iconAnchor: [13, 41],
-      //         iconUrl: 'assets/mapa//marker-icon.png',
-      //         shadowUrl: 'assets/mapa/marker-shadow.png',
-      //       })
-      //     }).bindPopup(`
-      //     <strong>Coordenada X:</strong> ${latitud} <br/>
-      //     <strong>Coordenada Y:</strong> ${longitud}`,
-      //     { autoClose: false, autoPan: true })
+    // const latitud = Number( event.latlng.lat);
+    // const longitud =Number(event.latlng.lng) ;
+    // console.log(event.latlng)
+    // this.capas = [];
+    // this.capas.push(
+    //     L.marker([latitud, longitud], {
+    //       icon: L.icon({
+    //         iconSize: [25, 41],
+    //         iconAnchor: [13, 41],
+    //         iconUrl: 'assets/mapa//marker-icon.png',
+    //         shadowUrl: 'assets/mapa/marker-shadow.png',
+    //       })
+    //     }).bindPopup(`
+    //     <strong>Coordenada X:</strong> ${latitud} <br/>
+    //     <strong>Coordenada Y:</strong> ${longitud}`,
+    //     { autoClose: false, autoPan: true })
 
-      //   );
+    //   );
   }
 }

@@ -390,7 +390,8 @@
                             <tr *ngFor="let beneficiario of listadoBeneficiarios; let i = index">
                               <td>{{ beneficiario.tipoNombre }}</td>
                               <td>{{ beneficiario.categoriaNombre }}</td>
-                              <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td>
+                              <!-- <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td> -->
+                              <td>{{ beneficiario.cantidad | number }}</td>
                               <td><a class="btn btn-danger ft-trash-2" (click)="removerBeneficiario(i)"></a>
                               </td>
                             </tr>
@@ -398,13 +399,75 @@
                         </table>
                       </div>
 
-
-
-                      <div class="form-group">
-                        <label for="comentarios">Comentarios</label>
-                        <textarea class="form-control" formControlName="comentarios" rows="3">
-                          </textarea>
+                      <div>
+                        <div class="form-group ">
+                          <div class="w-100 d-flex justify-content-start ">
+                            <a data-toggle="tooltip " data-placement="bottom "
+                              (click)="openModalComentario(contentComentario)" title="Agregar Comentario "
+                              class="btn btn-primary mb-2 mr-2 "><i class="fa fa-plus-circle "></i></a>
+                          </div>
+                        </div>
                       </div>
+
+                      <ngb-accordion>
+                        <ngb-panel id="static-1">
+
+                          <ng-template  ngbPanelTitle>
+                            <span><i class="ft-message-circle mr-1"></i> <b>Historial de comentarios</b></span>
+                          </ng-template>
+
+                          <!--listado de comentarios-->
+                          <ng-template ngbPanelContent>
+                            <div class="row">
+                              <div *ngFor="let item of listadoComentarios" class="col-4">
+                                <div class="card card-inverse bg-info mb-2">
+                                  <div class="card-content">
+                                    <div class="card-body">
+                                      <div class="media">
+                                        <div class="media-body text-left">
+                                          <p>
+                                            {{item.comentrio}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </ng-template>
+                        </ngb-panel>
+                      </ngb-accordion>
+
+
+                      <ng-template #contentComentario let-modal>
+                        <div class="modal-header ">
+                          <h4 class="modal-title ">Agregar comentario</h4>
+                          <button type="button " class="close " aria-label="Close "
+                            (click)="modal.dismiss( 'Cross click') ">
+                            <span aria-hidden="true ">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body ">
+                          <div class="col-sm-12 ">
+                            <div class="form-group ">
+                              <label for="comentario">Comentario</label>
+                              <textarea class="form-control " name="comentario" id="comentario" rows="3"
+                                formControlName="comentarios"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer ">
+                          <button type="button " title="Agregar Comentario " class="btn btn-primary"
+                            (click)="agregarComentario()"><i class=" fa fa-plus-circle "> Agregar</i></button>
+
+                          <button type="button " class="btn btn-light " (click)="modal.close( 'Close click') "><i
+                              class="fa fa-close "> Cerrar</i></button>
+                        </div>
+                      </ng-template>
+
+
 
                     </ng-template>
                   </li>

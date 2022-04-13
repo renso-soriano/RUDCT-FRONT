@@ -104,6 +104,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoActividades: any[] = [];
   listadoEjes: any[];
   listadoInversion: any[];
+  listadoComentarios: any[] = [];
   InversionesSelected: any[] = [];
   listadoTipoBeneficiarios: Observable<any[]>;
   listadoCategoriaBeneficiarios: Observable<any[]>;
@@ -458,7 +459,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: [],
-          comentarios: demanda.demandaComentarios.length > 0 ? demanda.demandaComentarios[demanda.demandaComentarios.length - 1]['comentrio'] : [],
+          comentarios: [],
           actividad: [],
           politica: [],
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
@@ -787,6 +788,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       objetivo: this.listadoObjetivos,
       eje: listadoEjes,
       contacto: this.listadoContactos,
+      comentarios: this.listadoComentarios
     });
 
     const formValue = this.registerForm.value;
@@ -840,15 +842,15 @@ export class RegistroDemandasFormComponent implements OnInit {
           })
           : null,
       demandaComentarios:
-        formValue.comentarios != null
-          ? [
-            new DemandaComentario().deserialize({
-              id: 0,
+        formValue.Comentarios != undefined
+          ? formValue.Comentarios.map((item: any) => {
+            return {
+              id: item.Id,
               estatus: "A",
               demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : 0,
-              comentrio: formValue.comentarios,
-            }),
-          ]
+              comentrio: item.comentrio
+            };
+          })
           : null,
       demandaResultadosEND:
         formValue.objetivo != undefined
@@ -971,6 +973,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.listadoBeneficiarios = [];
     this.listadoContactos = [];
     this.InversionesSelected = [];
+    this.listadoComentarios = [];
     this.otrosTiposShow = false;
   }
 
@@ -1035,6 +1038,15 @@ export class RegistroDemandasFormComponent implements OnInit {
         ObjetivoId: item.objetivoENDId,
         CodigoEje: item.nombreEjeEnd,
         Nombre: item.nombreObjetivoEnd,
+      };
+    });
+
+    this.listadoComentarios = demanda.demandaComentarios.map((item: any) => {
+      return {
+        id: item.id,
+        demandaId: item.demandaId,
+        comentrio: item.comentrio,
+        estatus: item.estatus
       };
     });
 
@@ -1150,6 +1162,27 @@ export class RegistroDemandasFormComponent implements OnInit {
     this.temaComunId.setValue(null);
 
 
+  }
+
+  openModalComentario(contentComentario) {
+    this.modalService.open(contentComentario, {
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+
+  }
+
+  //TODO
+  agregarComentario() {
+    this.listadoComentarios.push(
+      {
+        demandaId: 0,
+        comentrio: this.comentarios.value,
+        id: 0,
+        estatus: "A"
+      }
+    )
   }
 
 

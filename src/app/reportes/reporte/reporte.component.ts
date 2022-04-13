@@ -53,7 +53,7 @@ export class ReporteComponent implements OnInit {
   institucionUsuario: number;
   grupoUsuario: number[] = [0];
   usuarioPermisos: any = [''];
-  pdf: any;
+  archivo: any;
   tipoReporteSelected: number;
 
 
@@ -140,7 +140,7 @@ export class ReporteComponent implements OnInit {
 
     this.demandasService.getDemandasReporte(params).subscribe((data: any) => {
 
-      this.pdf = data;
+      this.archivo = data;
       this.salvarImprimirReporte();
 
     },
@@ -156,9 +156,7 @@ export class ReporteComponent implements OnInit {
   }
 
   salvarImprimirReporte() {
-    //let date = Date.prototype.getDate();
-
-    saveAs(this.pdf, "Demandas.xls");
+    saveAs(this.archivo.file, this.archivo.nombreArchivo);
     //const fileURL = URL.createObjectURL(this.pdf);
     //window.open(fileURL, '_blank');
 
@@ -176,22 +174,16 @@ export class ReporteComponent implements OnInit {
     });
 
   }
-  onInstitucionChange() { }
-  onFuenteChange() { }
-  onTipoChange() { }
-  onProvinciaChange() { }
-  onMunicipiosChange() { }
-  onTemaComunChange() { }
 
 
   llenarListados() {
-    this.listadoInstituciones = this.dropdownService.getInstituciones();
-    this.listadoFuentes = this.dropdownService.getFuentes();
+    //this.listadoInstituciones = this.dropdownService.getInstituciones();
+    // this.listadoFuentes = this.dropdownService.getFuentes();
     this.listadoTipos = this.dropdownService.getTiposDemandas();
     this.listadoProvincias = this.dropdownService.getProvincias();
-    this.listadoMunicipios = this.dropdownService.getMunicipios();
-    this.listadoTemaComun = this.dropdownService.getTemasComunes();
-    this.listadoEstados = this.dropdownService.getEstados();
+    // this.listadoMunicipios = this.dropdownService.getMunicipios();
+    //this.listadoTemaComun = this.dropdownService.getTemasComunes();
+    //this.listadoEstados = this.dropdownService.getEstados();
 
   }
 

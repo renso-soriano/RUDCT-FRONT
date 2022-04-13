@@ -50,7 +50,7 @@ export class ListadoDemandasComponent implements OnInit {
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
   institucionUsuario: number;
-  grupoUsuario: number[] = [0];
+  grupoUsuario: number[] = [];
   usuarioPermisos: any = [''];
   pdf: any;
   capas: any;
@@ -230,6 +230,8 @@ export class ListadoDemandasComponent implements OnInit {
       this.usuarioPermisos = res.acciones;
       this.institucionUsuario = 1;
       this.grupoUsuario = this.usuarioPermisos.includes("MANAGE") ? [1] : [17];
+      this.reloadTable();
+
     }, (err: any) => {
       console.error(err);
     });
@@ -335,6 +337,7 @@ export class ListadoDemandasComponent implements OnInit {
       })
     ];
     this.loadingIndicator = false;
+
   }
 
   setFilterAnnios(): any[] {
@@ -360,7 +363,12 @@ export class ListadoDemandasComponent implements OnInit {
 
   async reloadTable() {
     let params;
-    if (!this.grupoUsuario.includes(17)) {
+    console.log("grupoUser=>",this.grupoUsuario)
+
+    var returna = this.grupoUsuario.includes(17);
+    console.log("retorna=>",returna)
+    if (this.grupoUsuario.includes(17) == false) {
+      console.log("multiparams")
       params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
@@ -375,6 +383,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
+      console.log("uniparams")
       params = new HttpParams()
         .set('institucionId', this.institucionUsuario)
     }
