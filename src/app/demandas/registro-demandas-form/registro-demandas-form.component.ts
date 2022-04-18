@@ -452,26 +452,26 @@ export class RegistroDemandasFormComponent implements OnInit {
           finalidad: demanda.finalidadTemaComun,
           funcion: demanda.funcionTemaComun,
           fuente: demanda.fuenteDemandaId.toString(),
-          eje: [],
-          objetivo: [],
+          eje: null,
+          objetivo: null,
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
           estadoId: 1,
           institucionResponsable: demanda.institucionId.toString(),
-          institucionesColaboradoras: [],
-          comentarios: [],
-          actividad: [],
-          politica: [],
+          institucionesColaboradoras: null,
+          comentarios: null,
+          actividad: null,
+          politica: null,
           tiposInversion: demanda.demandaTipoInversiones.map((item: any) => {
             return item.tipoInversionId.toString();
           }),
           otrosTiposInversion: this.setOtrasInversiones(
             demanda.demandaTipoInversiones
           ),
-          tipo: [],
-          categoria: [],
-          cantidad: [],
-          beneficiarios: [],
+          tipo: null,
+          categoria: null,
+          cantidad: null,
+          beneficiarios: null,
           nivelDemanda: demanda.municipioId != null ? "2" : "1",
           contacto: [null],
           nombreCompletoContacto: [null],
@@ -583,7 +583,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   }
 
   agregarActividad() {
-    if (this.actividad.value != null) {
+    if (this.actividad.value != null && this.actividad.value.trim() != '') {
       if (this.listadoActividades == null) {
         this.listadoActividades = [];
       }
@@ -1175,14 +1175,28 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   //TODO
   agregarComentario() {
-    this.listadoComentarios.push(
-      {
-        demandaId: 0,
-        comentrio: this.comentarios.value,
-        id: 0,
-        estatus: "A"
+
+    if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
+      if (this.listadoComentarios == null) {
+        this.listadoComentarios = [];
       }
-    )
+      this.listadoComentarios.push(
+        {
+          demandaId: 0,
+          comentrio: this.comentarios.value,
+          id: 0,
+          estatus: "A"
+        }
+      )
+    } else {
+      this.serviceStr.typeError("No puede añadir comentarios vacíos");
+    }
+
+    this.registerForm.patchValue({
+      comentarios: null
+    });
+
+
   }
 
 

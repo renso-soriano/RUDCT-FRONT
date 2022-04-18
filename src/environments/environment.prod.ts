@@ -23,7 +23,7 @@ export const environment = {
   },
   InicializarMapa: {
      coordenadaX:  18.882845408575886,
-     coordenadaY:  -70.31241416931154,
+     coordenadaY:  -70.397902,
     accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
 
   },

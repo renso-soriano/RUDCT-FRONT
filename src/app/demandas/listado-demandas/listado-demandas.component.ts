@@ -363,12 +363,9 @@ export class ListadoDemandasComponent implements OnInit {
 
   async reloadTable() {
     let params;
-    console.log("grupoUser=>",this.grupoUsuario)
 
     var returna = this.grupoUsuario.includes(17);
-    console.log("retorna=>",returna)
     if (this.grupoUsuario.includes(17) == false) {
-      console.log("multiparams")
       params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
