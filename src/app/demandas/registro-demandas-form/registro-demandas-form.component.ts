@@ -842,12 +842,12 @@ export class RegistroDemandasFormComponent implements OnInit {
           })
           : null,
       demandaComentarios:
-        formValue.Comentarios != undefined
-          ? formValue.Comentarios.map((item: any) => {
+        formValue.comentarios != undefined
+          ? formValue.comentarios.map((item: any) => {
             return {
-              id: item.Id,
+              id: item.id,
               estatus: "A",
-              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : 0,
+              demandaId: item.demandaId,
               comentrio: item.comentrio
             };
           })
@@ -1175,16 +1175,16 @@ export class RegistroDemandasFormComponent implements OnInit {
 
   //TODO
   agregarComentario() {
-
+    console.log("demandaId=>", this.demandaForEdit.id)
     if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
       if (this.listadoComentarios == null) {
         this.listadoComentarios = [];
       }
       this.listadoComentarios.push(
         {
-          demandaId: 0,
-          comentrio: this.comentarios.value,
           id: 0,
+          demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+          comentrio: this.comentarios.value,
           estatus: "A"
         }
       )
