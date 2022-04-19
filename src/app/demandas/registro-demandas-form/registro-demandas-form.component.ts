@@ -166,13 +166,17 @@ export class RegistroDemandasFormComponent implements OnInit {
     codigoSnip: [null],
     codigoPoa: [null],
     codigoPei: [null],
-    justificacionRechazo: [null]
+    justificacionRechazo: [null],
+    direccion:[null]
 
   });
 
   //getters
   get comentarios() {
     return this.registerForm.get("comentarios");
+  }
+  get direccion() {
+    return this.registerForm.get("direccion");
   }
   get prioridad() {
     return this.registerForm.get("prioridad");
@@ -486,7 +490,8 @@ export class RegistroDemandasFormComponent implements OnInit {
           codigoSnip: demanda.codigoSnip,
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
-          justificacionRechazo: demanda.justificacionRechazo
+          justificacionRechazo: demanda.justificacionRechazo,
+          direccion:demanda.direccion
 
         });
       },
@@ -816,6 +821,7 @@ export class RegistroDemandasFormComponent implements OnInit {
       codigoPoa: formValue.codigoPoa,
       codigoPei: formValue.codigoPei,
       justificacionRechazo: formValue.justificacionRechazo,
+      direccion: formValue.direccion,
       demandaActividades:
         formValue.actividad != undefined
           ? formValue.actividad.map((item: any, i: number) => {

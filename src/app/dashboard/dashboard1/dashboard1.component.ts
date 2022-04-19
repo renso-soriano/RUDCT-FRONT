@@ -64,7 +64,7 @@ export class Dashboard1Component implements OnInit {
     GeoDataFile: 'do_provincias',
     Label: 'Provincia'
   }
-  referenciaMapa: string = 'provincias';
+  referenciaMapa: string = 'provincial';
 
 
   ngOnInit() {
@@ -121,6 +121,9 @@ export class Dashboard1Component implements OnInit {
       }
       // asigna la data para el grafico de donats
       this.DonutChart.data = this.dataDonuts;
+      //falseNeccesaryClick
+      let click = document.getElementById("map");
+      click.click();
 
     }, (err: any) => {
       console.error(err);
@@ -128,6 +131,7 @@ export class Dashboard1Component implements OnInit {
     });
 
   }
+
   loadUbicaciones(data) {
 
     this.capas = [];
@@ -136,6 +140,18 @@ export class Dashboard1Component implements OnInit {
       let latitud = Number([data[i].coordenadaX])
       let longitud = Number([data[i].coordenadaY])
       let demanda = [data[i].descripcion]
+      let fuente = [data[i].fuente]
+      let institucionResponsable = [data[i].institucionResponsable]
+      let clasificadorFuncional = [data[i].clasificadorFuncional]
+      let actividades = data[i].actividades
+      let anio = [data[i].anio]
+      let estado = [data[i].estado]
+
+       let desgloseActividades:string ="";
+      for (var j = 0; j < actividades.length; j++) {
+        desgloseActividades+="<br/>"+(j+1)+"-"+actividades[j].descripcion ;
+      }
+
       this.capas.push(
         L.marker([latitud, longitud], {
           icon: L.icon({
@@ -146,9 +162,14 @@ export class Dashboard1Component implements OnInit {
           })
         }).bindPopup(`
       <strong>Lugar:</strong> ${lugar} <br/>
-      <strong>Coordenada X:</strong> ${latitud} <br/>
-      <strong>Coordenada Y:</strong> ${longitud} <br/>
-      <strong>Demanda:</strong> ${demanda} <br/>`,
+      <strong>Demanda:</strong> ${demanda} <br/>
+      <strong>Institucion responsable:</strong> ${institucionResponsable} <br/>
+      <strong>Año:</strong> ${anio} <br/>
+      <strong>Estado:</strong> ${estado} <br/>
+      <strong>Fuente:</strong> ${fuente} <br/>
+      <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>
+      <strong>Actividades:</strong><span > ${desgloseActividades}</span> <br/>`,
+
           { autoClose: false, autoPan: true })
 
       );
@@ -757,12 +778,12 @@ export class Dashboard1Component implements OnInit {
     switch (event.target.value) {
       case '1':
         this.loadUbicaciones(this.locationsProvincias);
-        this.referenciaMapa = 'Provincias';
+        this.referenciaMapa = 'Provincial';
         break;
 
       case '2':
         this.loadUbicaciones(this.locationsMunicipios);
-        this.referenciaMapa = 'Municipios';
+        this.referenciaMapa = 'Municipal';
         break;
 
       default:

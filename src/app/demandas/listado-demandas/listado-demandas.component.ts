@@ -112,9 +112,9 @@ export class ListadoDemandasComponent implements OnInit {
 
   // column header
   public columns = [
-    { name: 'Código', prop: 'codigo', sorteable: false },
+    { name: 'Demanda', prop: 'descripcion', sorteable: false },
     { name: 'Año', prop: 'anio', sorteable: false },
-    { name: 'Región', prop: 'nombreRegion', sorteable: false },
+    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
@@ -195,7 +195,9 @@ export class ListadoDemandasComponent implements OnInit {
     private serviceStr: NGXToastrService,
     private spinner: NgxSpinnerService,
     private authService: AuthService,
-    private router: Router, private dropdownService: DropDownServiceService, private excelService: ExcelService) {
+    private router: Router,
+    private dropdownService: DropDownServiceService,
+    private excelService: ExcelService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -292,10 +294,10 @@ export class ListadoDemandasComponent implements OnInit {
       }),
       new FiltrosDinamicos().deserialize({
         name: 'temaComunId',
-        label: 'Tema común',
+        label: 'Clasificador funcional',
         servicio: this.dropdownService.getTemasComunes(),
         tipo: 'select',
-        placeholder: 'Seleccione un tema común',
+        placeholder: 'Seleccione clasificador funcional',
         async: true,
         multiple: false
       }),
@@ -363,8 +365,6 @@ export class ListadoDemandasComponent implements OnInit {
 
   async reloadTable() {
     let params;
-
-    var returna = this.grupoUsuario.includes(17);
     if (this.grupoUsuario.includes(17) == false) {
       params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
@@ -380,7 +380,6 @@ export class ListadoDemandasComponent implements OnInit {
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
-      console.log("uniparams")
       params = new HttpParams()
         .set('institucionId', this.institucionUsuario)
     }
@@ -581,10 +580,15 @@ export class ListadoDemandasComponent implements OnInit {
     for (var i = 0; i < data.length; i++) {
       let provincia = [data[i].nombreProvincia]
       let municipio = [data[i].nombreMunicipio]
-
       let latitud = Number([data[i].coordenadaX])
       let longitud = Number([data[i].coordenadaY])
       let demanda = [data[i].descripcion]
+      let fuente = [data[i].nombreFuenteDemanda]
+      let institucionResponsable = [data[i].nombreInstitucionResponsable]
+      let clasificadorFuncional = [data[i].nombreTemaComun]
+      let anio = [data[i].anio]
+      let estado = [data[i].nombreEstadoDemanda]
+
       this.capas.push(
         L.marker([latitud, longitud], {
           icon: L.icon({
@@ -596,9 +600,12 @@ export class ListadoDemandasComponent implements OnInit {
         }).bindPopup(`
       <strong>Provincia:</strong> ${provincia} <br/>
       <strong>Municipio:</strong> ${municipio} <br/>
-      <strong>Coordenada X:</strong> ${latitud} <br/>
-      <strong>Coordenada Y:</strong> ${longitud} <br/>
-      <strong>Demanda:</strong> ${demanda} <br/>`,
+      <strong>Demanda:</strong> ${demanda} <br/>
+      <strong>Institucion responsable:</strong> ${institucionResponsable} <br/>
+      <strong>Año:</strong> ${anio} <br/>
+      <strong>Estado:</strong> ${estado} <br/>
+      <strong>Fuente:</strong> ${fuente} <br/>
+      <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>`,
           { autoClose: false, autoPan: true })
 
       );

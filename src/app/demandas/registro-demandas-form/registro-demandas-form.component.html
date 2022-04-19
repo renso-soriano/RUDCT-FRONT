@@ -181,6 +181,24 @@
                           </div>
                         </div>
 
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="Direccion">Dirección</label>
+                            <input type="text" min="0" class="form-control" name="direccion" id="direccion"
+                              formControlName="direccion">
+
+                            <!-- <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="direccion.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div> -->
+
+                          </div>
+                        </div>
+
                         <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
@@ -579,7 +597,7 @@
 
                         </div>
                       </div>
-                      <h5 class="mt-1 mb-0">Tema común (Clasificador funcional)</h5>
+                      <h5 class="mt-1 mb-0">Clasificador funcional</h5>
                       <hr class="mt-0">
                       <div class="row">
                         <div class="col-sm-6">
