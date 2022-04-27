@@ -24,6 +24,7 @@ import { AuthService } from 'app/shared/services/core/auth.service';
 import { saveAs } from 'file-saver';
 import * as L from 'leaflet';
 import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -50,7 +51,7 @@ export class ListadoDemandasComponent implements OnInit {
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
   institucionUsuario: number;
-  grupoUsuario: number[] = [];
+  gruposUsuario: number[] = [];
   usuarioPermisos: any = [''];
   pdf: any;
   capas: any;
@@ -230,8 +231,8 @@ export class ListadoDemandasComponent implements OnInit {
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-      this.institucionUsuario = 1;
-      this.grupoUsuario = this.usuarioPermisos.includes("MANAGE") ? [1] : [17];
+      this.institucionUsuario = this.authService.getInstitucion();
+      this.gruposUsuario = this.usuarioPermisos.includes("MANAGE") ? [GrupoUsuario.administradoresRUDT] : [GrupoUsuario.institucionalRUDT];
       this.reloadTable();
 
     }, (err: any) => {
@@ -365,7 +366,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   async reloadTable() {
     let params;
-    if (this.grupoUsuario.includes(17) == false) {
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == false) {
       params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
@@ -400,7 +401,7 @@ export class ListadoDemandasComponent implements OnInit {
     //this.spinnerMensaje="Exportando datos...."
     // this.spinner.show();
     let params;
-    if (!this.grupoUsuario.includes(17)) {
+    if (!this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)) {
       params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)

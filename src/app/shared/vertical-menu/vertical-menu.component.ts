@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
 import { AuthService } from "../services/core/auth.service";
 import { RouteInfo } from "./vertical-menu.metadata";
+import { type } from 'os';
 
 @Component({
   selector: "app-sidebar",
@@ -24,7 +25,7 @@ import { RouteInfo } from "./vertical-menu.metadata";
 export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('toggleIcon') toggleIcon: ElementRef;
-  public menuItems: any[];
+  public menuItems: RouteInfo[];
   level: number = 0;
   logoUrl = 'assets/img/logo.png';
   public config: any = {};
@@ -80,13 +81,13 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onWindowResize(event) {
-      if (this.resizeTimeout) {
-          clearTimeout(this.resizeTimeout);
-      }
-      this.resizeTimeout = setTimeout((() => {
-        this.innerWidth = event.target.innerWidth;
-          this.loadLayout();
-      }).bind(this), 500);
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout((() => {
+      this.innerWidth = event.target.innerWidth;
+      this.loadLayout();
+    }).bind(this), 500);
   }
 
   loadLayout() {
@@ -110,7 +111,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logoUrl = 'assets/img/logo.png';
     }
 
-    if(this.config.layout.sidebar.collapsed) {
+    if (this.config.layout.sidebar.collapsed) {
       this.collapseSidebar = true;
     }
     else {

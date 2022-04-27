@@ -32,7 +32,7 @@ export class AuthService {
 
   async loggedIn(): Promise<any> {
     const response = await new Promise<any>((resolve, reject) => {
-      this.http.get<any>(`${this.API_URL}Auth/GetPermissionsByModuleId/${5}`)
+      this.http.get<any>(`${this.API_URL}Auth/GetPermissionsByModuleId/${81}`)
       .toPromise()
       .then(
         res => {
@@ -65,7 +65,7 @@ export class AuthService {
 
   getUserCompleteName(): string {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
-    return userdata && userdata.persona != null ? `${userdata.persona.nombre} ${userdata.persona.apellido}` : userdata ? userdata.usuario.nombreUsuario : '';
+    return userdata && userdata.persona != null ? `${userdata.persona.firstName} ${userdata.persona.lastName}` : userdata ? userdata.usuario.username : '';
   }
 
   /* getPerfilName(): string {
@@ -75,7 +75,7 @@ export class AuthService {
 
   getInstitucion(): number {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
-    return userdata.persona.institucionId;
+    return userdata.persona.institutionId;
   }
 
   findModule(path: string): RouteInfo {
