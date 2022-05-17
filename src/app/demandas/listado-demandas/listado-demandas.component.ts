@@ -104,6 +104,7 @@ export class ListadoDemandasComponent implements OnInit {
     "provinciaId": null,
     "municipioId": null,
     "fuenteDemandaId": null,
+    "temaCommun":null,
     "temaComunId": null,
     "institucionId": null,
     //"demandaTipoId": null,
@@ -294,14 +295,27 @@ export class ListadoDemandasComponent implements OnInit {
         multiple: false
       }),
       new FiltrosDinamicos().deserialize({
-        name: 'temaComunId',
-        label: 'Clasificador funcional',
+        name: 'temaCommun',
+        label: 'Tema común',
         servicio: this.dropdownService.getTemasComunes(),
         tipo: 'select',
-        placeholder: 'Seleccione clasificador funcional',
+        placeholder: 'Seleccione Tema común',
         async: true,
-        multiple: false
+        multiple: false,
+        filtroHijo: 'temaComunId',
+        servicioHijo: 'getClasificadorByTemaComun',
       }),
+      new FiltrosDinamicos().deserialize({
+        name: 'temaComunId',
+        label: 'Clasificador Funcional',
+        servicio: this.dropdownService.getClasificadorByTemaComun(null),
+        tipo: 'select',
+        placeholder: 'Seleccione un Clasificador funcional',
+        async: true,
+        multiple: false,
+
+      }),
+
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
         label: 'Institución responsable',
@@ -375,6 +389,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('provinciaId', this.filtrosActivos.provinciaId)
         .set('municipioId', this.filtrosActivos.municipioId)
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaCommun', this.filtrosActivos.temaCommun)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
         //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
@@ -410,6 +425,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('provinciaId', this.filtrosActivos.provinciaId)
         .set('municipioId', this.filtrosActivos.municipioId)
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaCommun', this.filtrosActivos.temaCommun)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
         //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
@@ -423,6 +439,7 @@ export class ListadoDemandasComponent implements OnInit {
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
       this.rowExportExcel = data.items;
+      console.log("rowsExcel=>",this.rowExportExcel);
       this.preparanDataExcel(this.rowExportExcel);
       //  this.spinner.hide();
       this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
@@ -443,7 +460,8 @@ export class ListadoDemandasComponent implements OnInit {
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
-        NombreTemaComun: item.nombreTemaComun,
+        Tema_Comun: item.temaComunTema,
+        Clasificador_Funcional: item.nombreTemaComun,
         NombreFuenteDemanda: item.nombreFuenteDemanda,
         InstitucionResponsable: item.nombreInstitucionResponsable,
         TecnicoOmpp: item.nombreTecnicoOmpp,

@@ -76,6 +76,31 @@
                   </div>
                 </div>
 
+
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="temaComun">Tema común</label>
+                      <input type="text" class="form-control" name="temaComun" id="temaComun" formControlName="temaCommun">
+
+                      <div *ngIf="temaCommun.invalid && (temaCommun.dirty || temaCommun.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="temaCommun.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="temaCommun.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
                 <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
                   title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i class="fa fa-refresh"></i></a>

@@ -23,6 +23,7 @@ export class Demanda implements Deserializable {
   finalidadTemaComun?: string;
   funcionTemaComun?: string;
   nombreTemaComun?: string;
+  temaComunTema?:string;
   fuenteDemandaId?: number;
   nombreFuenteDemanda?: string;
   descripcion?: string;

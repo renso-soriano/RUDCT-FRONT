@@ -240,6 +240,13 @@
 
                       <div class="col-12">
                         <div class="form-group">
+                          <span class="danger font-weight-bold">Tema común: </span>
+                          <label for="temaComun">{{demanda.temaComunTema}}</label>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-group">
                           <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>

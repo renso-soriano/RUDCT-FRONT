@@ -1,6 +1,7 @@
 import { NivelDemanda } from "../../shared/models/nivelDemanda.enum";
 import { TipoInversion } from "./../../shared/models/Mantenimientos/TipoInversion.model";
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -31,8 +32,19 @@ import { $ } from "protractor";
 import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.service";
 import { environment } from "environments/environment";
 import * as L from 'leaflet';
+import "leaflet/dist/leaflet.css";
+import * as esri from 'esri-leaflet';
+import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
+import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder";
+//import * as ELG from "esri-leaflet-geocoder";
+import Geocoder from 'leaflet-control-geocoder';
 import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
 import { HttpParams } from "@angular/common/http";
+import { search } from "core-js/fn/symbol";
+
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+const provider = new OpenStreetMapProvider();
+import * as GeoSearch from 'leaflet-geosearch';
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -41,7 +53,7 @@ import { HttpParams } from "@angular/common/http";
   styleUrls: ["./registro-demandas-form.component.scss"],
   providers: [NGXToastrService],
 })
-export class RegistroDemandasFormComponent implements OnInit {
+export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private dropDownService: DropDownServiceService,
@@ -53,7 +65,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
   ) { }
-
+  marker;
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
@@ -70,7 +82,15 @@ export class RegistroDemandasFormComponent implements OnInit {
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registro de";
+
+    //searchMap
+
   }
+
+  ngAfterViewInit(): void {
+  }
+
+
 
   private _demanda: Demanda;
   private demandaId: string;
@@ -97,6 +117,7 @@ export class RegistroDemandasFormComponent implements OnInit {
   listadoTemaComun: Observable<any[]>;
   listadoTemaComunFinalidad: Observable<any[]>;
   listadoTemaComunFuncion: Observable<any[]>;
+  listadoTemaComunTema: Observable<any[]>;
 
   listadoPoliticas: any[] = [];
   listadoObjetivos: any[] = [];
@@ -156,6 +177,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     descripcionContacto: [null],
     finalidad: [null],
     funcion: [null],
+    temaCommun: [null],
     temaComunId: [null, { validators: [Validators.required] }],
     prioridad: [null, { validators: [Validators.required] }],
     demandaTipoId: [1],
@@ -167,7 +189,7 @@ export class RegistroDemandasFormComponent implements OnInit {
     codigoPoa: [null],
     codigoPei: [null],
     justificacionRechazo: [null],
-    direccion:[null]
+    direccion: [null]
 
   });
 
@@ -295,6 +317,9 @@ export class RegistroDemandasFormComponent implements OnInit {
   get funcion() {
     return this.registerForm.get("funcion");
   }
+  get temaCommun() {
+    return this.registerForm.get("temaCommun");
+  }
 
   // rellena DropDowns.
   llenarDropDownFijos(): void {
@@ -351,12 +376,11 @@ export class RegistroDemandasFormComponent implements OnInit {
     // listado de temas comunes
 
     let params = new HttpParams()
-      .set('param', `finalidad`)
-      .set('content', `noImporta`);
+      .set('param', `temaCommun`)
+      .set('content', `noImporta`)
+      .set('temaCommun', `noImporta`);
 
-    this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
-
-
+    this.listadoTemaComunTema = this.temaComunService.getTemaComunByParam(params);
 
 
   } // fin llenarDropDownFijos
@@ -455,6 +479,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           temaComunId: demanda.temaComunId,
           finalidad: demanda.finalidadTemaComun,
           funcion: demanda.funcionTemaComun,
+          temaCommun: demanda.temaComunTema,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: null,
           objetivo: null,
@@ -491,7 +516,7 @@ export class RegistroDemandasFormComponent implements OnInit {
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
           justificacionRechazo: demanda.justificacionRechazo,
-          direccion:demanda.direccion
+          direccion: demanda.direccion
 
         });
       },
@@ -755,16 +780,16 @@ export class RegistroDemandasFormComponent implements OnInit {
         "Debe Tener al menos 1 politica asociada a la demanda"
       );
     }
-    else if (this.listadoActividades.length < 1) {
-      this.serviceStr.typeError(
-        "Debe Tener al menos 1 actividad asociada a la demanda"
-      );
-    }
-    else if (this.listadoBeneficiarios.length < 1) {
-      this.serviceStr.typeError(
-        "Debe Tener al menos 1 tipo de beneficiarios asociado a la demanda"
-      );
-    }
+    // else if (this.listadoActividades.length < 1) {
+    //   this.serviceStr.typeError(
+    //     "Debe Tener al menos 1 actividad asociada a la demanda"
+    //   );
+    // }
+    // else if (this.listadoBeneficiarios.length < 1) {
+    //   this.serviceStr.typeError(
+    //     "Debe Tener al menos 1 tipo de beneficiarios asociado a la demanda"
+    //   );
+    // }
     else if (this.listadoObjetivos.length < 1) {
       this.serviceStr.typeError(
         "Debe Tener al menos 1 objetivo asociado a la demanda"
@@ -1056,100 +1081,239 @@ export class RegistroDemandasFormComponent implements OnInit {
       };
     });
 
+    /*********************************************************************************** */
+    let params0 = new HttpParams()
+      .set('param', `finalidad`)
+      .set('content', demanda.temaComunTema)
+      .set('temaCommun', demanda.temaComunTema);
+
+    this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params0);
+
+    /*********************************************************************************** */
     let params = new HttpParams()
       .set('param', `funcion`)
-      .set('content', demanda.finalidadTemaComun);
+      .set('content', demanda.finalidadTemaComun)
+      .set('temaCommun', demanda.temaComunTema);
 
     this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
 
     /*********************************************************************************** */
     let params2 = new HttpParams()
       .set('param', `nombre`)
-      .set('content', demanda.funcionTemaComun);
+      .set('content', demanda.funcionTemaComun)
+      .set('temaCommun', demanda.temaComunTema);
 
     this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params2);
+
   }
 
-  options = {
-    layers: [
-      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        minZoom: 8,
-        maxZoom: 18,
-        attribution: '...',
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: environment.mapbox.accessToken,
-      }),
-    ],
-    zoom: 8,
-    center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
+  // options = {
+  //   layers: [
+  //     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+  //       minZoom: 8,
+  //       maxZoom: 18,
+  //       attribution: '...',
+  //       id: 'mapbox/streets-v11',
+  //       tileSize: 512,
+  //       zoomOffset: -1,
+  //       accessToken: environment.mapbox.accessToken,
+  //     }),
+  //   ],
+  //   zoom: 8,
+  //   center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY),
 
-  };
+  // };
 
-  //#region  Sección Mapa
-  SeleccioneMapa(content) {
+  // Sección Mapa
+  openModalMapa(content) {
+
     this.modalService.open(content, { size: 'lg', centered: true });
-    this.options;
-    if (this.typeEdit) {
-      this.BuscarMap(this.demandaForEdit);
+    //this.options;
+
+    const map = L.map('map')
+      .setView([environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY], 8);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+      minZoom: 8,
+      maxZoom: 18,
+      attribution: '...',
+      id: 'mapbox/streets-v11',
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: environment.mapbox.accessToken
+
+    }).addTo(map);
+    var marker;
+
+    let lat  = this.coordenadaX;
+    let long = this.coordenadaY;
+
+    if (lat != null && long != null) {
+
+      marker = L.marker([Number(lat.value), Number(long.value)], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [15, 41],
+          iconUrl: 'assets/mapa//marker-icon.png',
+          shadowUrl: 'assets/mapa/marker-shadow.png',
+        })
+      }).bindPopup(`
+        <strong>Coordenada X:</strong> ${lat.value} <br/>
+        <strong>Coordenada Y:</strong> ${long.value}`,
+        { autoClose: true, autoPan: true });
+
+      // anade la marca  nueva
+      map.addLayer(marker);
     }
 
-  }
+    //mapClick event
+    map.on('click', function (e) {
 
-  BuscarMap(Objeto: Demanda): void {
-    this.capas = [];
-    this.capas.push(
-      L.marker([Number(Objeto.coordenadaX), Number(Objeto.coordenadaY)], {
+      const latitud  = Number(e['latlng']['lat']);
+      const longitud = Number(e['latlng']['lng']);
+
+      lat.setValue(latitud)
+      long.setValue(longitud);
+
+      //borra las marcas anteriores
+      map.eachLayer((layer) => {
+        if (layer['_latlng'] != undefined)
+          layer.remove();
+      });
+
+      marker = L.marker([latitud, longitud], {
         icon: L.icon({
           iconSize: [25, 41],
           iconAnchor: [15, 41],
           iconUrl: 'assets/mapa//marker-icon.png',
           shadowUrl: 'assets/mapa/marker-shadow.png',
-
         })
       }).bindPopup(`
-   <strong>Región:</strong> ${Objeto.nombreRegion} <br/>
-   <strong>Provincia: </strong> ${Objeto.nombreProvincia} <br/>
-   <strong>Municipio: </strong> ${Objeto.nombreMunicipio} <br/>
-   <strong>Coordenada X:</strong> ${Objeto.coordenadaX} <br/>
-   <strong>Coordenada Y:</strong> ${Objeto.coordenadaY}`,
-        { autoClose: true, autoPan: true })
-    );
+      <strong>Coordenada X:</strong> ${latitud} <br/>
+      <strong>Coordenada Y:</strong> ${longitud}`,
+        { autoClose: true, autoPan: true });
 
-  }
+      // anade la marca  nueva
+      map.addLayer(marker);
 
-  manejarClick(event: LeafletMouseEvent) {
-    const latitud = Number(event.latlng.lat);
-    const longitud = Number(event.latlng.lng);
-    this.registerForm.patchValue({
-      coordenadaX: latitud,
-      coordenadaY: longitud
     });
-    this.capas = [];
-    this.capas.push(
-      L.marker([latitud, longitud], {
+
+    //componente search del mapa
+    const search = GeoSearch.GeoSearchControl({
+      position: 'topleft',
+      marker: {
         icon: L.icon({
           iconSize: [25, 41],
           iconAnchor: [15, 41],
           iconUrl: 'assets/mapa//marker-icon.png',
           shadowUrl: 'assets/mapa/marker-shadow.png',
 
+        }),
+        draggable: false,
+      },
+      style: 'bar',
+      showMarker: true,
+      showPopup: false,
+      popupFormat: ({ result })  => `${result.label}<br/>Coordenada X: ${result.y}<br/>Coordenada Y: ${result.x}`,
+      resultFormat: ({ result }) => `${result.label} ${result.y} ${result.x}`,
+      maxMarkers: 1,
+      maxSuggestions: 5,
+      retainZoomLevel: false,
+      animateZoom: true,
+      searchLabel: 'Buscar por nombre del lugar o dirección',
+      notFoundMessage: 'Lugar no encontrado',
+      messageHideDelay: 3000,
+      zoomLevel: 18,
+      classNames: {
+        container: 'leaflet-bar leaflet-control leaflet-control-geosearch',
+        button: 'leaflet-bar-part leaflet-bar-part-single',
+        resetButton: 'reset',
+        msgbox: 'leaflet-bar message',
+        form: '',
+        input: '',
+        resultlist: '',
+        item: '',
+        notfound: 'leaflet-bar-notfound',
+      },
+      autoComplete: true,
+      autoCompleteDelay: 250,
+      autoClose: false,
+      keepResult: false,
+      updateMap: true,
+      provider: provider,
+    });
+
+    //mapSerching event
+    map.on('geosearch/showlocation', function (e) {
+
+      const latitud  = Number(e['location']['y']);
+      const longitud = Number(e['location']['x']);
+      const location = e['location']['label']
+
+      lat.setValue(latitud)
+      long.setValue(longitud);
+
+      //borra las marcas anteriores
+      map.eachLayer((layer) => {
+        if (layer['_latlng'] != undefined)
+          layer.remove();
+      });
+
+      marker = L.marker([latitud, longitud], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [15, 41],
+          iconUrl: 'assets/mapa//marker-icon.png',
+          shadowUrl: 'assets/mapa/marker-shadow.png',
         })
       }).bindPopup(`
+        <strong>Lugar:</strong> ${location} <br/>
         <strong>Coordenada X:</strong> ${latitud} <br/>
         <strong>Coordenada Y:</strong> ${longitud}`,
-        { autoClose: true, autoPan: true })
+        { autoClose: true, autoPan: true });
 
-    );
+      // anade la marca  nueva
+      map.addLayer(marker);
+    });
+
+    map.addControl(search);
 
   }
+
+  // manejarClick(event: LeafletMouseEvent) {
+
+  //   console.log("entro entro")
+  //   const latitud = Number(event.latlng.lat);
+  //   const longitud = Number(event.latlng.lng);
+  //   this.registerForm.patchValue({
+  //     coordenadaX: latitud,
+  //     coordenadaY: longitud
+  //   });
+  // this.capas = [];
+  // this.capas.push(
+  //   L.marker([latitud, longitud], {
+  //     icon: L.icon({
+  //       iconSize: [25, 41],
+  //       iconAnchor: [15, 41],
+  //       iconUrl: 'assets/mapa//marker-icon.png',
+  //       shadowUrl: 'assets/mapa/marker-shadow.png',
+
+  //     })
+  //   }).bindPopup(`
+  //     <strong>Coordenada X:</strong> ${latitud} <br/>
+  //     <strong>Coordenada Y:</strong> ${longitud}`,
+  //     { autoClose: true, autoPan: true })
+
+  // );
+
+  //}
 
   onFinalidadChange() {
 
     let params = new HttpParams()
       .set('param', `funcion`)
-      .set('content', this.finalidad.value);
+      .set('content', this.finalidad.value)
+      .set('temaCommun', this.temaCommun.value);
 
     this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
     this.listadoTemaComun = null;
@@ -1162,12 +1326,28 @@ export class RegistroDemandasFormComponent implements OnInit {
 
     let params = new HttpParams()
       .set('param', `nombre`)
-      .set('content', this.funcion.value);
+      .set('content', this.funcion.value)
+      .set('temaCommun', this.temaCommun.value);
 
     this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params);
     this.temaComunId.setValue(null);
 
 
+  }
+
+  onTemaCommunChange() {
+    let params = new HttpParams()
+      .set('param', `finalidad`)
+      .set('content', this.temaCommun.value)
+      .set('temaCommun', this.temaCommun.value);
+
+    this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
+
+    this.listadoTemaComunFuncion = null;
+    this.listadoTemaComun = null;
+    this.temaComunId.setValue(null);
+    this.funcion.setValue(null);
+    this.finalidad.setValue(null);
   }
 
   openModalComentario(contentComentario) {

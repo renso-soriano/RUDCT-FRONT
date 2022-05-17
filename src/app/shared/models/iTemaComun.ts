@@ -3,5 +3,6 @@ export interface ItemaComun {
   nombre: string,
   estatus: string,
   finalidad:string,
-  funcion
+  funcion:string,
+  temaCommun:string
 }

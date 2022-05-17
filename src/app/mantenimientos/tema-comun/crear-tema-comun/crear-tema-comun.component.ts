@@ -43,6 +43,7 @@ export class CrearTemaComunComponent implements OnInit {
     nombre: [null, { validators: [Validators.required, Validators.minLength(5)] }],
     finalidad: [null, { validators: [Validators.required] }],
     funcion: [null, { validators: [Validators.required] }],
+    temaCommun: [null, { validators: [Validators.required] }],
     estatus: ['A'],
     id: [0]
   });
@@ -63,6 +64,9 @@ export class CrearTemaComunComponent implements OnInit {
   get funcion() {
     return this.registerForm.get('funcion');
   }
+  get temaCommun() {
+    return this.registerForm.get('temaCommun');
+  }
 
 
 
@@ -79,6 +83,7 @@ export class CrearTemaComunComponent implements OnInit {
         id: this.temaComun.id,
         finalidad: this.temaComun.finalidad,
         funcion: this.temaComun.funcion,
+        temaCommun:this.temaComun.temaCommun,
       });
 
     }, (err: any) => {
@@ -97,7 +102,8 @@ export class CrearTemaComunComponent implements OnInit {
       estatus: this.estatus.value,
       nombre: this.nombre.value,
       finalidad: this.finalidad.value,
-      funcion: this.funcion.value
+      funcion: this.funcion.value,
+      temaCommun: this.temaCommun.value
     }
 
     this.spinner.show();

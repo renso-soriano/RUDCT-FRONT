@@ -2,11 +2,11 @@
   <p style="color: white"> Cargando... </p>
 </ngx-spinner>
 <div class="row">
-  <div class="col-12">
-    <div class="w-100 d-flex justify-content-end">
+  <div class="col-12 ">
+    <div class="w-100 d-flex justify-content-end ">
       <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
         [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle"></i></a>
+        title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar nueva</i></a>
 
       <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
         title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
@@ -21,11 +21,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Listado de Demandas</h4>
+          <h4 class="card-title ml-2">Listado de Demandas</h4>
         </div>
         <div class="card-content">
           <div class="card-body">
-
 
             <div class="col-md-12 mb-2">
               <app-data-filter *ngIf="!loadingIndicator && usuarioPermisos.includes('MANAGE')" [filtros]="filtros"

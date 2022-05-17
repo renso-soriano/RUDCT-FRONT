@@ -114,14 +114,14 @@ export class DropDownServiceService {
 
   getDistritosByMunicipio(key: any): Observable<DropdownResponse[]> {
     if(key > 0) {
-      const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'DISTRITOS', padreId: key });
+      const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'DISTRITOS', padreId: key, extraInfo:null });
       return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
     }
   }
 
   // getEjes
   getEjes(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'EJE_END', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'EJE_END', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
@@ -131,7 +131,7 @@ export class DropDownServiceService {
 
   // getObjetivos
   getObjetivos(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'OBJETIVO_END', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'OBJETIVO_END', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
@@ -142,13 +142,13 @@ export class DropDownServiceService {
   }
 
   getObjetivosByEjeId(ejeId: number): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'OBJETIVO_END', padreId: ejeId });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'OBJETIVO_END', padreId: ejeId, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
   // getEstados
   getEstados(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
@@ -160,14 +160,14 @@ export class DropDownServiceService {
 
    // getTipoDemandas
    getTiposDemandas(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS_DEMANDAS', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS_DEMANDAS', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
   // getFuentes
   getFuentes(): Observable<DropdownResponse[]> {
 
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'FUENTE_DEMANDA', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'FUENTE_DEMANDA', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
 
   }
@@ -180,7 +180,7 @@ export class DropDownServiceService {
 
   // getInstituciones
   getInstituciones(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'INSTITUCIONES', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'INSTITUCIONES', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
@@ -192,12 +192,17 @@ export class DropDownServiceService {
 
   // getPoliticas
   getPoliticas(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'POLITICA_PNPSP', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'POLITICA_PNPSP', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
   getTemasComunes(): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TEMA_COMUN', padreId: null });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TEMA_COMUN', padreId: null, extraInfo:'temaComun' });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
+
+  getClasificadorByTemaComun(tema:any): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'CLASIFICADOR_FUNCIONAL', padreId: tema, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
@@ -209,7 +214,7 @@ export class DropDownServiceService {
 
   // getTecnicos
   getTecnicos(padreId: number): Observable<DropdownResponse[]> {
-    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TECNICO_OMPP', padreId: padreId });
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TECNICO_OMPP', padreId: padreId, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
