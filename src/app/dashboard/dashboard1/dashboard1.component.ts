@@ -147,10 +147,10 @@ export class Dashboard1Component implements OnInit {
       let anio = [data[i].anio]
       let estado = [data[i].estado]
 
-       let desgloseActividades:string ="";
-      for (var j = 0; j < actividades.length; j++) {
-        desgloseActividades+="<br/>"+(j+1)+"-"+actividades[j].descripcion ;
-      }
+      //  let desgloseActividades:string ="";
+      // for (var j = 0; j < actividades.length; j++) {
+      //   desgloseActividades+="<br/>"+(j+1)+"-"+actividades[j].descripcion ;
+      // }
 
       this.capas.push(
         L.marker([latitud, longitud], {
@@ -168,7 +168,7 @@ export class Dashboard1Component implements OnInit {
       <strong>Estado:</strong> ${estado} <br/>
       <strong>Fuente:</strong> ${fuente} <br/>
       <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>
-      <strong>Actividades:</strong><span > ${desgloseActividades}</span> <br/>`,
+      <strong>Detalles:</strong><span > ${actividades}</span> <br/>`,
 
           { autoClose: false, autoPan: true })
 

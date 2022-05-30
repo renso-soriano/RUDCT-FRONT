@@ -17,7 +17,7 @@
 
                 <!-- modalStart -->
 
-                <ng-template #content let-modal>
+                <!-- <ng-template #content let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title">Seleccione el nivel de la demanda</h4>
                   </div>
@@ -51,7 +51,7 @@
                       (click)="modal.close('Close click')">
                   </div>
 
-                </ng-template>
+                </ng-template> -->
 
                 <input type="button" value="ModalOculto" class="btn btn-outline-primary mb-2 mr-2"
                   (click)="openVerticallyCentered(content)" id="miBoton" style='display:none'>
@@ -66,6 +66,29 @@
                     <ng-template ngbNavContent>
 
                       <div class="row">
+
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="nivelDemanda">Nivel de demanda</label>
+                            <ng-select [items]="listadoNivelDemandas | async" bindLabel="text" bindValue="text"
+                              name="nivelDemanda" id="nivelDemanda" placeholder="Seleccione nivel demanda"
+                              formControlName="nivelDemanda">
+                            </ng-select>
+                            <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="nivelDemanda.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="año">Año</label>
@@ -120,11 +143,10 @@
 
                           </div>
                         </div>
-                      </div>
 
-                      <div class="row">
 
-                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 2">
+
+                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 'Municipales'">
                           <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
@@ -150,7 +172,7 @@
                                 class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
                             <input type="text" class="form-control" id="coordenadaX" name="coordenadaX"
                               formControlName="coordenadaX" maxlength="30">
-                            <!-- <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
+                            <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaX.errors.required">
@@ -159,7 +181,7 @@
                               <div *ngIf="coordenadaX.errors.maxlength">
                                 <i class="ft-alert-circle align-middle"></i> El campo debe tener maxímo 30 caracteres.
                               </div>
-                            </div> -->
+                            </div>
                           </div>
                         </div>
 
@@ -169,14 +191,14 @@
                             <input type="text" min="0" class="form-control" name="coordenadaY" id="coordenadaY"
                               formControlName="coordenadaY">
 
-                            <!-- <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
+                            <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaY.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div> -->
+                            </div>
 
                           </div>
                         </div>
@@ -199,7 +221,7 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
+                        <!-- <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
                           <div class="form-group">
                             <label for="distrito">Distrito municipal</label>
                             <ng-select [items]="distritosMunicipales | async" bindLabel="name" bindValue="id"
@@ -207,7 +229,7 @@
                               formControlName="distrito">
                             </ng-select>
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -226,6 +248,7 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="prioridad">Prioridad</label>
@@ -250,8 +273,9 @@
                         <div class="col-sm-12">
                           <div class="form-group">
                             <label for="demanda">Demanda</label>
-                            <textarea class="form-control" name="demanda" id="demanda" rows="3"
-                              formControlName="demanda"></textarea>
+
+                            <input type="text" class="form-control" name="demanda" id="demanda"
+                              formControlName="demanda">
 
                             <div *ngIf="demanda.invalid && (demanda.dirty || demanda.touched)"
                               class="help-block mt-1 text-danger">
@@ -268,6 +292,24 @@
 
                           </div>
                         </div>
+
+
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="detalle">Detalle de demanda</label>
+
+                            <textarea class="form-control" name="detalle" id="detalle" rows="3"
+                              formControlName="detalle"></textarea>
+                          </div>
+                        </div>
+
+                        <!-- <div class="col-sm-3">
+                            <div class="form-group">
+                              <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
+                                title="Agregar actividad"></a>
+                            </div>
+                          </div> -->
+
                       </div>
 
 
@@ -275,8 +317,8 @@
 
                         <div class="col-sm-4">
                           <div class="form-group">
-                            <label for="tipo">Tipo(s) inversion</label>
-                            <ng-select class="primary" [multiple]="true" [items]="tipoInversiones | async"
+                            <label for="tipo">Tipo inversion</label>
+                            <ng-select class="primary" [multiple]="false" [items]="tipoInversiones | async"
                               bindLabel="name" bindValue="id" name="tipo" id="tipo"
                               placeholder="Seleccione los tipos de inversion" (change)="onTipoChange()"
                               formControlName="tiposInversion">
@@ -294,7 +336,7 @@
                         </div>
 
 
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                           <div class="form-group">
                             <div *ngIf="otrosTiposShow">
                               <label for="otrosTiposInversion">Especifíque otro</label>
@@ -316,24 +358,9 @@
                         </div>
 
                       </div>
-
+                      <!--
                       <div class="row">
                         <div class="col-12">
-                          <div class="row">
-                            <div class="col-sm-9">
-                              <div class="form-group">
-                                <label for="actividad">Detalle de demanda</label>
-                                <input type="text" class="form-control" formControlName="actividad">
-                              </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                              <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
-                                  title="Agregar actividad"></a>
-                              </div>
-                            </div>
-                          </div>
 
                           <div class="div" *ngIf="listadoActividades.length > 0">
                             <table class="table table-hover table-sm">
@@ -354,45 +381,56 @@
                           </div>
 
                         </div>
-                      </div>
+                      </div> -->
 
+                      <h5 class="mt-1 mb-0">Beneficiarios directos</h5>
+                      <hr class="mt-0">
                       <div class="row">
 
-                        <div class="col-sm-3">
+                        <!-- <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Tipo Beneficiarios</label>
                             <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="name" name="tipo" id="tipo"
                               placeholder="Seleccione tipo" formControlName="tipo">
                             </ng-select>
                           </div>
-                        </div>
+                          </div>
 
-                        <div class="col-sm-3">
+                          <div class="col-sm-3">
                           <div class="form-group">
                             <label for="tipo">Categoria Beneficiarios</label>
                             <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="name" name="categoria"
                               id="categoria" placeholder="Seleccione categoria" formControlName="categoria">
                             </ng-select>
+                           </div>
+                          </div> -->
+
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="beneficiariosPersonas">Personas</label>
+                            <input type="number" min="0" class="form-control" name="beneficiariosPersonas"
+                              id="beneficiariosPersonas" formControlName="beneficiariosPersonas">
                           </div>
                         </div>
 
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                           <div class="form-group">
-                            <label for="cantidad">Cantidad beneficiarios</label>
-                            <input type="number" min="0" class="form-control" name="cantidad" id="cantidad"
-                              formControlName="cantidad">
+                            <label for="beneficiariosFamilias">Familias</label>
+                            <input type="number" min="0" class="form-control" name="beneficiariosFamilias"
+                              id="beneficiariosFamilias" formControlName="beneficiariosFamilias">
                           </div>
                         </div>
 
-                        <div class="col-md-2 mt-3">
-                          <div class="form-group">
-                            <a class="btn btn-primary ft-plus" title="Agregar beneficiario" (click)="agregarBeneficiario()"></a>
-                          </div>
-                        </div>
+                        <!-- <div class="col-md-2 mt-3">
+                           <div class="form-group">
+                            <a class="btn btn-primary ft-plus" title="Agregar beneficiario"
+                              (click)="agregarBeneficiario()"></a>
+                           </div>
+                           </div> -->
 
                       </div>
 
-                      <div class="div" *ngIf="listadoBeneficiarios.length > 0">
+                      <!-- <div class="div" *ngIf="listadoBeneficiarios.length > 0">
                         <table class="table table-hover table-sm">
                           <thead>
                             <tr>
@@ -406,18 +444,18 @@
                             <tr *ngFor="let beneficiario of listadoBeneficiarios; let i = index">
                               <td>{{ beneficiario.tipoNombre }}</td>
                               <td>{{ beneficiario.categoriaNombre }}</td>
-                              <!-- <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td> -->
+                              <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td>
                               <td>{{ beneficiario.cantidad | number }}</td>
                               <td><a class="btn btn-danger ft-trash-2" (click)="removerBeneficiario(i)"></a>
                               </td>
                             </tr>
                           </tbody>
                         </table>
-                      </div>
+                      </div> -->
 
-                      <div class="row">
+                      <div class="row ">
                         <h5 class="mt-1 mb-0 col-9">Sección de comentarios</h5>
-                        <div class="col-md-2 mb-0">
+                        <div class="col-md-3 mb-0">
                           <div class="form-group">
                             <a data-toggle="tooltip " data-placement="bottom "
                               (click)="openModalComentario(contentComentario)" title="Agregar Comentario "
@@ -428,22 +466,26 @@
                       </div>
 
                       <hr class="mt-0 mb-0">
-                      <div  *ngIf="!listadoComentarios.length > 0" class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
+                      <div *ngIf="!listadoComentarios.length > 0"
+                        class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
                         No hay comentarios
                       </div>
                       <ngb-accordion class="ml-0" *ngIf="listadoComentarios.length > 0">
-                        <ngb-panel id="static-1" class="ml-0"  >
+                        <ngb-panel id="static-1" class="ml-0">
 
                           <ng-template ngbPanelTitle>
                             <div class="alert alert-primary" role="alert">
-                                <span><i class="ft-list "></i> <b> Historial comentarios</b></span>
+                              <span><i class="ft-list "></i> <b> Historial comentarios</b></span>
                             </div>
-                        </ng-template>
+                          </ng-template>
 
                           <!--listado de comentarios-->
                           <ng-template ngbPanelContent>
                             <div class="row">
-                              <div *ngFor="let item of listadoComentarios" class="col-4">
+                              <div class="col-4" *ngFor="let item of listadoComentarios ; let i=index " >
+                                <span>
+                                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2 "  *ngIf="typeEdit == false" (click)="removerComentario(i)"></a>
+                                </span>
                                 <div class="card card-inverse bg-info mb-2">
                                   <div class="card-content">
                                     <div class="card-body">
@@ -511,29 +553,48 @@
                               </label>
                             </div>
 
+                            <div *ngIf="eje.invalid && (eje.dirty || eje.touched)" class="help-block mt-1 text-danger">
+
+                              <div *ngIf="eje.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
                           </div>
                         </div>
                       </div>
+
                       <div class="row">
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="objetivo">Objetivo</label>
-                            <ng-select [items]="objetivosEnd | async" bindLabel="name" name="objetivo" id="objetivo"
+                            <ng-select [items]="objetivosEnd | async" bindLabel="name" bindValue="id" name="objetivo" id="objetivo"
                               placeholder="Seleccione objetivo" formControlName="objetivo">
                             </ng-select>
 
+                            <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="objetivo.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+
                           </div>
                         </div>
-                        <div class="col-sm-4">
+
+                        <!-- <div class="col-sm-4">
                           <div class="form-group">
                             <a class="btn btn-primary mt-3 ft-plus" (click)="agregarObjetivo()"
                               title="Agregar objetivo"></a>
                           </div>
-                        </div>
+                        </div> -->
 
                       </div>
 
-                      <div class="div" *ngIf="listadoObjetivos.length > 0">
+                      <!-- <div class="div" *ngIf="listadoObjetivos.length > 0">
                         <table class="table table-hover table-sm">
                           <thead>
                             <tr>
@@ -551,7 +612,7 @@
                             </tr>
                           </tbody>
                         </table>
-                      </div>
+                      </div> -->
 
                       <div class="row">
                         <div class="col-12">
@@ -560,22 +621,31 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="politica">Politica</label>
-                                <ng-select [items]="politicas | async" bindLabel="name" name="politica" id="politica"
+                                <ng-select [items]="politicas | async" bindLabel="name" bindValue="id" name="politica" id="politica"
                                   placeholder="Seleccione politica" formControlName="politica">
                                 </ng-select>
 
                               </div>
+                              <div *ngIf="politica.invalid && (politica.dirty || politica.touched)"
+                                class="help-block mt-1 text-danger">
+
+                                <div *ngIf="politica.errors.required">
+                                  <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                                </div>
+
+                              </div>
+
                             </div>
 
-                            <div class="col-sm-4">
+                            <!-- <div class="col-sm-4">
                               <div class="form-group">
                                 <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"
                                   title="Agregar politica"></a>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
 
-                          <div class="div" *ngIf="listadoPoliticas.length > 0">
+                          <!-- <div class="div" *ngIf="listadoPoliticas.length > 0">
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
@@ -591,34 +661,11 @@
                                 </tr>
                               </tbody>
                             </table>
-                          </div>
+                          </div> -->
 
                         </div>
                       </div>
 
-                      <h5 class="mt-1 mb-0">Tema común</h5>
-                      <hr class="mt-0">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="temaCommun">Tema común</label>
-                            <ng-select [items]="listadoTemaComunTema | async" bindLabel="temaCommun"
-                              bindValue="temaCommun" name="temaCommun" id="temaCommun" placeholder="Seleccione tema Común"
-                              (change)="onTemaCommunChange()" formControlName="temaCommun">
-                            </ng-select>
-
-                            <!-- <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="temaComunId.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
-                          </div>
-                        </div>
-
-                      </div>
 
                       <h5 class="mt-1 mb-0">Clasificador funcional</h5>
                       <hr class="mt-0">
@@ -631,14 +678,14 @@
                               (change)="onFinalidadChange()" formControlName="finalidad">
                             </ng-select>
 
-                            <!-- <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                            <div *ngIf="finalidad.invalid && (finalidad.dirty || finalidad.touched)"
                               class="help-block mt-1 text-danger">
 
-                              <div *ngIf="temaComunId.errors.required">
+                              <div *ngIf="finalidad.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div> -->
+                            </div>
                           </div>
                         </div>
 
@@ -653,32 +700,10 @@
                               formControlName="funcion">
                             </ng-select>
 
-                            <!-- <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
+                            <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
                               class="help-block mt-1 text-danger">
 
-                              <div *ngIf="temaComunId.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="temaComun">Sub-función</label>
-                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" bindValue="id"
-                              name="temaComun" id="temaComun" placeholder="Seleccione sub-función"
-                              formControlName="temaComunId">
-                            </ng-select>
-
-                            <div *ngIf="temaComunId.invalid && (temaComunId.dirty || temaComunId.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="temaComunId.errors.required">
+                              <div *ngIf="funcion.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
@@ -688,6 +713,43 @@
 
                       </div>
 
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="subFuncion">Sub-función</label>
+                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre"
+                              name="subFuncion" id="subFuncion" placeholder="Seleccione sub-función"
+                              (change)="onSubFuncionChange()" formControlName="subFuncion">
+                            </ng-select>
+
+                            <div *ngIf="subFuncion.invalid && (subFuncion.dirty || subFuncion.touched)"
+                              class="help-block mt-1 text-danger">
+
+                              <div *ngIf="subFuncion.errors.required">
+                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <h5 class="mt-1 mb-0">Tema común</h5>
+                      <hr class="mt-0">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="temaCommun">Tema común</label>
+                            <input type="text" [readonly]="true" class="form-control" id="temaCommun" name="temaCommun"
+                              formControlName="temaCommun" >
+
+                          </div>
+                        </div>
+
+                      </div>
+
+
                     </ng-template>
                   </li>
                   <li ngbNavItem>
@@ -696,7 +758,7 @@
 
 
                       <div class="row">
-                        <div class="col-sm-6" *ngIf="nivelDemanda.value == 2">
+                        <div class="col-sm-6" *ngIf="nivelDemanda.value == 'Municipales'">
                           <div class="form-group">
                             <label for="tecnico">Técnico OMPP</label>
                             <ng-select [items]="tecnicos | async" bindLabel="name" bindValue="id" name="tecnico"
@@ -728,7 +790,7 @@
 
                       </div>
 
-                      <div class="row">
+                      <!-- <div class="row">
                         <div class="col-12">
                           <div class="row">
                             <div class="col-sm-6">
@@ -767,9 +829,9 @@
                             </table>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
 
-                      <div class="row" *ngIf="nivelDemanda.value == 1">
+                      <div class="row" *ngIf="nivelDemanda.value == 'Provinciales'">
                         <div class="col-sm-3">
                           <div class="form-group">
                             <label for="nombreCompletoContacto">Nombre contacto</label>
@@ -838,7 +900,8 @@
 
                 <button type="submit" class="btn btn-success mt-2" [disabled]="registerForm.invalid">Enviar</button>
                 <a id="formRefresh" (click)="refrescar()" data-toggle="tooltip" data-placement="bottom"
-                  title="Refrescar formulario" class="btn btn btn-info btn-md ml-1 mt-2 "><i class="fa fa-refresh"></i></a>
+                  title="Refrescar formulario" class="btn btn btn-info btn-md ml-1 mt-2 "><i
+                    class="fa fa-refresh"></i></a>
               </form>
 
             </div>

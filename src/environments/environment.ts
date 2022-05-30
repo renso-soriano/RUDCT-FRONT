@@ -8,7 +8,7 @@ export const environment = {
   apiUrl: "https://localhost:5001/Api/",
   appName: "Registro Único de Demandas Territoriales",
   appShortName: "RUDT",
-  appStartYear: 2018,
+  appStartYear: 2016,
   specialChars: {
     "Á": "A",
     "É": "E",

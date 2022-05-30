@@ -100,7 +100,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   filtrosActivos: any = {
     "anio": null,
-    "regionId": null,
+    //"regionId": null,
     "provinciaId": null,
     "municipioId": null,
     "fuenteDemandaId": null,
@@ -254,21 +254,21 @@ export class ListadoDemandasComponent implements OnInit {
         async: false,
         multiple: false
       }),
-      new FiltrosDinamicos().deserialize({
-        name: 'regionId',
-        label: 'Región',
-        servicio: this.dropdownService.getRegiones(),
-        tipo: 'select',
-        placeholder: 'Seleccione una región',
-        async: true,
-        multiple: false,
-        filtroHijo: 'provinciaId',
-        servicioHijo: 'getProvinciasByRegion',
-      }),
+      // new FiltrosDinamicos().deserialize({
+      //   name: 'regionId',
+      //   label: 'Región',
+      //   servicio: this.dropdownService.getRegiones(),
+      //   tipo: 'select',
+      //   placeholder: 'Seleccione una región',
+      //   async: true,
+      //   multiple: false,
+      //   filtroHijo: 'provinciaId',
+      //   servicioHijo: 'getProvinciasByRegion',
+      // }),
       new FiltrosDinamicos().deserialize({
         name: 'provinciaId',
         label: 'Provincia',
-        servicio: this.dropdownService.getProvinciasByRegion(null),
+        servicio: this.dropdownService.getProvincias(),
         tipo: 'select',
         placeholder: 'Seleccione una provincia',
         async: true,
@@ -385,7 +385,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
         .set('anio', this.filtrosActivos.anio)
-        .set('regionId', this.filtrosActivos.regionId)
+       // .set('regionId', this.filtrosActivos.regionId)
         .set('provinciaId', this.filtrosActivos.provinciaId)
         .set('municipioId', this.filtrosActivos.municipioId)
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
@@ -421,7 +421,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
         .set('anio', this.filtrosActivos.anio)
-        .set('regionId', this.filtrosActivos.regionId)
+        //.set('regionId', this.filtrosActivos.regionId)
         .set('provinciaId', this.filtrosActivos.provinciaId)
         .set('municipioId', this.filtrosActivos.municipioId)
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
@@ -453,7 +453,7 @@ export class ListadoDemandasComponent implements OnInit {
       return {
         Codigo: item.codigo,
         Anio: item.anio,
-        NombreTipoDemanda: item.nombreTipoDemanda,
+        NivelDemanda: item.nivelDemanda,
         Demanda: item.descripcion,
         EstadoDemanda: item.nombreEstadoDemanda,
         Prioridad: item.prioridad,

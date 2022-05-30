@@ -39,23 +39,36 @@
                       <div class="col-12">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Demanda: </span>
-                          <textarea class="form-control" readonly cols="30" rows="4"
-                            [value]="demanda.descripcion"></textarea>
+                          <label for="demandaDescripcion">{{demanda.descripcion}}</label>
                         </div>
                       </div>
 
                       <div class="col-12">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Actividades: </span>
+                          <span class="danger font-weight-bold">Detalles: </span>
+                          <textarea class="form-control" readonly cols="30" rows="4"
+                            [value]="demanda.detalle"></textarea>
+                        </div>
+                      </div>
+
+                      <!-- <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold"> </span>
                           <div *ngFor="let item of demanda.demandaActividades">
                             <label for="actividades">{{item.numero}} - {{item.descripcion}}</label>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="col-12">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Clasificador funcional: </span>
-                          <label for="temaComun">{{demanda.nombreTemaComun}}</label>
+                          <label for="subFuncion">{{demanda.nombreTemaComun}}</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tema común: </span>
+                          <label for="temaComun">{{demanda.temaComunTema}}</label>
                         </div>
                       </div>
                       <div class="col-12">
@@ -111,7 +124,7 @@
                         </div>
                       </div>
                       <div class="col-4">
-                        <div class="form-group" *ngIf="demanda.municipioId;else other_content">
+                        <div class="form-group" *ngIf="demanda.nivelDemanda == 'Municipales';else other_content">
                           <span class="danger font-weight-bold">Nivel: </span>
                           <label for="Nivel">MUNICIPAL</label>
                         </div>
@@ -130,29 +143,39 @@
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Tipos de inverión: </span>
+                          <span class="danger font-weight-bold">Tipo de inversión: </span>
                           <br />
-                          <span *ngFor="let item of demanda.demandaTipoInversiones"
+                          <span class="badge badge-pill badge-primary mr-1 mt-1">{{demanda.otroTipoInversion == null ?
+                            demanda.nombreTipoInversion : demanda.otroTipoInversion }} </span>
+
+                          <!-- <span *ngFor="let item of demanda.demandaTipoInversiones"
                             class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?
-                            item.nombreTipoInversion : item.tipoInversionOtros }} </span>
+                            item.nombreTipoInversion : item.tipoInversionOtros }} </span> -->
                         </div>
                       </div>
 
                       <div class="col-12">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Objetivos END vinculados: </span>
-                          <div *ngFor="let item of demanda.demandaResultadosEND">
+                          <span class="danger font-weight-bold">Eje y Objetivo END vinculados: </span>
+                          <div>
+                            <label for="objetivosEnd">{{demanda.nombreEjeEnd}} -
+                              {{demanda.nombreObjetivoEnd}}</label>
+                          </div>
+                          <!-- <div *ngFor="let item of demanda.demandaResultadosEND">
                             <label for="InstitucionResponsable">{{item.nombreEjeEnd}} -
                               {{item.nombreObjetivoEnd}}</label>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                       <div class="col-12">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Políticas PNPSP vinculadas: </span>
-                          <div *ngFor="let item of demanda.demandaPoliticasPNPSP">
-                            <label for="NombrePolitica">{{item.nombrePolitica}}</label>
+                          <span class="danger font-weight-bold">Política PNPSP vinculada: </span>
+                          <div>
+                            <label for="NombrePolitica">{{demanda.nombrePoliticaPNPSP}}</label>
                           </div>
+                          <!-- <div *ngFor="let item of demanda.demandaPoliticasPNPSP">
+                            <label for="NombrePolitica">{{item.nombrePolitica}}</label>
+                          </div> -->
                         </div>
                       </div>
 
@@ -202,8 +225,26 @@
                           <label for="codigoSnip">{{demanda.codigoSnip}}</label>
                         </div>
                       </div>
-
                       <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Benficiarios directos: </span>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Personas: </span>
+                          <label for="temaComun">{{demanda.beneficiariosPersonas}}</label>
+                        </div>
+                      </div>
+
+                      <div class="col-3">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Familias: </span>
+                          <label for="temaComun">{{demanda.beneficiariosFamilias}}</label>
+                        </div>
+                      </div>
+
+                      <!-- <div class="col-12">
                         <span class="danger font-weight-bold">Beneficiarios</span>
                         <div class="row">
                           <div class="card shadow col-5 m-1" *ngFor="let item of demanda.demandaBeneficiarios">
@@ -231,30 +272,24 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
 
                     </div>
                   </div>
+
                   <div class="col-6">
                     <div class="row">
 
-                      <div class="col-12">
-                        <div class="form-group">
-                          <span class="danger font-weight-bold">Tema común: </span>
-                          <label for="temaComun">{{demanda.temaComunTema}}</label>
-                        </div>
-                      </div>
-
-                      <div class="col-12">
+                      <!-- <div class="col-12">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
 
-                      <div class="col-12" *ngIf="demanda.municipioId">
+                      <div class="col-12" *ngIf="demanda.nivelDemanda == 'Municipales'">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Técnico OMPP: </span>
                           <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
