@@ -33,11 +33,6 @@ import { TemaComunService } from "app/shared/services/mantenimientos/tema-comun.
 import { environment } from "environments/environment";
 import * as L from 'leaflet';
 import "leaflet/dist/leaflet.css";
-import * as esri from 'esri-leaflet';
-import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
-import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder";
-//import * as ELG from "esri-leaflet-geocoder";
-import Geocoder from 'leaflet-control-geocoder';
 import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
 import { HttpParams } from "@angular/common/http";
 import { search } from "core-js/fn/symbol";

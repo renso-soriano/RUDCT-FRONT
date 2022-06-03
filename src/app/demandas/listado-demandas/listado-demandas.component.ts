@@ -110,6 +110,7 @@ export class ListadoDemandasComponent implements OnInit {
     //"demandaTipoId": null,
     "politicaPNPSPId": null,
     "estadoId": null,
+    "tipoInversionId": null,
   }
 
   // column header
@@ -334,15 +335,15 @@ export class ListadoDemandasComponent implements OnInit {
         async: true,
         multiple: false
       }),
-      // new FiltrosDinamicos().deserialize({
-      //   name: 'demandaTipoId',
-      //   label: 'Tipo Demanda',
-      //   servicio: this.dropdownService.getTiposDemandas(),
-      //   tipo: 'select',
-      //   placeholder: 'Seleccione un tipo',
-      //   async: true,
-      //   multiple: false
-      // }),
+      new FiltrosDinamicos().deserialize({
+        name: 'tipoInversionId',
+        label: 'Tipo inversion',
+        servicio: this.dropdownService.getTipoInversion(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tipo',
+        async: true,
+        multiple: false
+      }),
       new FiltrosDinamicos().deserialize({
         name: 'politicaPNPSPId',
         label: 'Politica PNPSP',
@@ -392,7 +393,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('temaCommun', this.filtrosActivos.temaCommun)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
-        //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
@@ -428,7 +429,7 @@ export class ListadoDemandasComponent implements OnInit {
         .set('temaCommun', this.filtrosActivos.temaCommun)
         .set('temaComunId', this.filtrosActivos.temaComunId)
         .set('institucionId', this.filtrosActivos.institucionId)
-        //.set('demandaTipoId', this.filtrosActivos.demandaTipoId)
+        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
         .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {

@@ -145,8 +145,7 @@
                         </div>
 
 
-
-                        <div class="col-sm-4" *ngIf="nivelDemanda.value == 'Municipales'">
+                        <div class="col-sm-4">
                           <div class="form-group">
                             <label for="municipio">Municipio</label>
                             <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
@@ -318,7 +317,7 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="tipo">Tipo inversion</label>
-                            <ng-select class="primary" [multiple]="false" [items]="tipoInversiones | async"
+                            <ng-select [multiple]="false" [items]="tipoInversiones | async"
                               bindLabel="name" bindValue="id" name="tipo" id="tipo"
                               placeholder="Seleccione los tipos de inversion" (change)="onTipoChange()"
                               formControlName="tiposInversion">
