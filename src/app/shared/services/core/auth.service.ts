@@ -68,6 +68,11 @@ export class AuthService {
     return userdata && userdata.persona != null ? `${userdata.persona.firstName} ${userdata.persona.lastName}` : userdata ? userdata.usuario.username : '';
   }
 
+  getUserLastName(): string {
+    const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
+    return userdata && userdata.persona != null ? `${userdata.persona.lastName}` : '';
+  }
+
   /* getPerfilName(): string {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
     return userdata ? `${userdata.persona.usuario.perfil.nombre}` : '';

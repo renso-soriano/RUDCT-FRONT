@@ -233,7 +233,60 @@ export class ListadoDemandasComponent implements OnInit {
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-      this.institucionUsuario = this.authService.getInstitucion();
+      //this.institucionUsuario = this.authService.getInstitucion();
+      let usuarioApellido = this.authService.getUserLastName()
+
+      switch(usuarioApellido) {
+        case '_MAP': {
+          this.institucionUsuario = 74;
+           break;
+        }
+        case '_MIP': {
+          this.institucionUsuario = 86;
+           break;
+        }
+        case '_PN': {
+          this.institucionUsuario = 101;
+           break;
+        }
+        case '_MICM': {
+          this.institucionUsuario = 85;
+           break;
+        }
+        case '_MT': {
+          this.institucionUsuario = 94;
+           break;
+        }
+        case '_MITUR': {
+          this.institucionUsuario = 95;
+           break;
+        }
+        case '_MA': {
+          this.institucionUsuario = 75;
+           break;
+        }
+        case '_INDRHI': {
+          this.institucionUsuario = 69;
+           break;
+        }
+        case '_MOPC': {
+          this.institucionUsuario = 91;
+           break;
+        }
+        case '_INTRANT': {
+          this.institucionUsuario = 70;
+           break;
+        }
+        case '_MIMARENA': {
+          this.institucionUsuario = 90;
+           break;
+        }
+        default: {
+          this.institucionUsuario = null;
+           break;
+        }
+     }
+
       this.gruposUsuario = this.usuarioPermisos.includes("MANAGE") ? [GrupoUsuario.administradoresRUDT] : [GrupoUsuario.institucionalRUDT];
       this.reloadTable();
 
