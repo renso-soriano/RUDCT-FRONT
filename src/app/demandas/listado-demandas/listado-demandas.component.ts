@@ -679,7 +679,7 @@ export class ListadoDemandasComponent implements OnInit {
       <strong>Estado:</strong> ${estado} <br/>
       <strong>Fuente:</strong> ${fuente} <br/>
       <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>`,
-          { autoClose: false, autoPan: true })
+      {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true })
 
       );
 

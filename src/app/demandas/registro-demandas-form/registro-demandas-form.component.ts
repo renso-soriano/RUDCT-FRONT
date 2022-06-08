@@ -1180,7 +1180,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       }).bindPopup(`
         <strong>Coordenada X:</strong> ${lat.value} <br/>
         <strong>Coordenada Y:</strong> ${long.value}`,
-        { autoClose: true, autoPan: true });
+        {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);
@@ -1211,7 +1211,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       }).bindPopup(`
       <strong>Coordenada X:</strong> ${latitud} <br/>
       <strong>Coordenada Y:</strong> ${longitud}`,
-        { autoClose: true, autoPan: true });
+      {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);
@@ -1290,7 +1290,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         <strong>Lugar:</strong> ${location} <br/>
         <strong>Coordenada X:</strong> ${latitud} <br/>
         <strong>Coordenada Y:</strong> ${longitud}`,
-        { autoClose: true, autoPan: true });
+        {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);

@@ -170,7 +170,7 @@ export class Dashboard1Component implements OnInit {
       <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>
       <strong>Detalles:</strong><span > ${actividades}</span> <br/>`,
 
-          { autoClose: false, autoPan: true })
+          {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true })
 
       );
 
