@@ -31,6 +31,7 @@
             </fieldset>
             <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
               [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
+              <ngx-datatable-column name="Municipio" prop="municipioNombre" [width]="100"> </ngx-datatable-column>
               <ngx-datatable-column name="Nombre" prop="nombre" [width]="100"> </ngx-datatable-column>
               <ngx-datatable-column name="Apellido" prop="apellido" [width]="100"></ngx-datatable-column>
               <ngx-datatable-column name="Telefono" prop="telefono" [width]="50"></ngx-datatable-column>

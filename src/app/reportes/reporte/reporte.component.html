@@ -37,6 +37,17 @@
                   </div>
                 </div>
 
+                <div class="col-sm-4" *ngIf="tipoReporteSelected == 3">
+                  <div class="form-group">
+                    <label for="Institucion">Institucion</label>
+                    <ng-select [items]="listadoInstituciones | async" bindLabel="name" bindValue="id" name="Institucion"
+                      id="Institucion" placeholder="Seleccione Institucion"
+                      formControlName="institucionId">
+                    </ng-select>
+
+                  </div>
+                </div>
+
                 <div class="col-sm-4" *ngIf="tipoReporteSelected != null">
                   <div class="form-group">
                     <a (click)="exportReport()" data-toggle="tooltip" data-placement="bottom"

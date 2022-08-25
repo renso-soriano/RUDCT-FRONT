@@ -61,6 +61,7 @@ export class ReporteComponent implements OnInit {
 
     reporteTipo: [20],
     provinciaId: [null],
+    institucionId: [null],
     estadoId: [7],
     todasId: [20]
   });
@@ -104,6 +105,7 @@ export class ReporteComponent implements OnInit {
 
     { value: 1, label: "Provincias" },
     { value: 2, label: "Estado" },
+    { value: 3, label: "Institucion" },
     { value: 8, label: "Imprimir todas" }
   ];
 
@@ -126,6 +128,13 @@ export class ReporteComponent implements OnInit {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
           .set('id', this.RF.estadoId.value)
+          .set('usuario', this.authService.getUserCompleteName());
+        break;
+      }
+      case 3: {
+        params = new HttpParams()
+          .set('tipoId', this.RF.reporteTipo.value)
+          .set('id', this.RF.institucionId.value)
           .set('usuario', this.authService.getUserCompleteName());
         break;
       }
@@ -170,14 +179,14 @@ export class ReporteComponent implements OnInit {
 
       tipoId: null,
       provinciaId: null,
-
+      institucionId:null
     });
 
   }
 
 
   llenarListados() {
-    //this.listadoInstituciones = this.dropdownService.getInstituciones();
+    this.listadoInstituciones = this.dropdownService.getInstituciones();
     // this.listadoFuentes = this.dropdownService.getFuentes();
     this.listadoTipos = this.dropdownService.getTiposDemandas();
     this.listadoProvincias = this.dropdownService.getProvincias();
