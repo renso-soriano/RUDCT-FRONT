@@ -105,7 +105,7 @@ export class ReporteComponent implements OnInit {
 
     { value: 1, label: "Provincias" },
     { value: 2, label: "Estado" },
-    { value: 3, label: "Institucion" },
+    { value: 3, label: "Instituciones" },
     { value: 8, label: "Imprimir todas" }
   ];
 
