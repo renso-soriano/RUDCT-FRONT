@@ -103,6 +103,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   distritosMunicipales: Observable<any[]>;
   fuenteDemandas: Observable<any[]>;
   ejesEnd: Observable<any[]>;
+  ODS: Observable<any[]>;
   objetivosEnd: Observable<any[]>;
   instituciones: Observable<any[]>;
   politicas: Observable<any[]>;
@@ -119,6 +120,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   listadoInstituciones: any[] = [];
   listadoActividades: any[] = [];
   listadoEjes: any[];
+  listadoODS: any[];
   listadoInversion: any[];
   listadoComentarios: any[] = [];
   InversionesSelected: any[] = [];
@@ -145,6 +147,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     distrito: [],
     fuente: [null, { validators: [Validators.required] }],
     eje: [null, { validators: [Validators.required] }],
+    ODSId: [null],
     objetivo: [null, { validators: [Validators.required] }],
     demanda: [
       "",
@@ -240,6 +243,9 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   }
   get eje() {
     return this.registerForm.get("eje");
+  }
+  get ODSId() {
+    return this.registerForm.get("ODSId");
   }
   get objetivo() {
     return this.registerForm.get("objetivo");
@@ -341,6 +347,9 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
     // llena ejeEnd
     this.ejesEnd = this.dropDownService.getEjes();
+
+    // llena ODS
+    this.ODS = this.dropDownService.getODS();
 
     // llena Instituciones Responsables
     this.instituciones = this.dropDownService.getInstituciones();
@@ -496,6 +505,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           temaCommun: demanda.temaComunTema,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: demanda.ejeEndId.toString(),
+          ODSId: demanda.ODSId.toString(),
           objetivo: demanda.objetivoEndId.toString(),
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
@@ -861,6 +871,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       detalle: formValue.detalle,
       otroTipoInversion: formValue.otrosTiposInversion,
       ejeEndId: formValue.eje,
+      ODSId: formValue.ODSId,
       objetivoEndId: formValue.objetivo,
       politicaPNPSPId: formValue.politica,
       beneficiariosPersonas: formValue.beneficiariosPersonas,

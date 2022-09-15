@@ -537,7 +537,7 @@
                     </ng-template>
                   </li>
                   <li ngbNavItem>
-                    <a ngbNavLink>Vinculacion con END y PNPSP</a>
+                    <a ngbNavLink>Vinculacion con END, ODS y PNPSP</a>
                     <ng-template ngbNavContent>
 
                       <div class="row">
@@ -615,6 +615,29 @@
 
                       <div class="row">
                         <div class="col-12">
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="objetivo">ODS</label>
+                                <ng-select [items]="ODS | async" bindLabel="name" bindValue="id" name="ODS" id="ODS"
+                                  placeholder="Seleccione ODS" formControlName="ODSId">
+                                </ng-select>
+
+                                <!-- <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
+                                  class="help-block mt-1 text-danger">
+
+                                  <div *ngIf="objetivo.errors.required">
+                                    <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                                  </div>
+
+                                </div> -->
+
+                              </div>
+                            </div>
+
+
+                          </div>
 
                           <div class="row">
                             <div class="col-sm-6">

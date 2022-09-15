@@ -129,6 +129,12 @@ export class DropDownServiceService {
     return this.http.get<IejeEnd>(this.baseUrl + "ejesEnd.json/" + EjeId);
   }
 
+  // getODS
+  getODS(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ODS', padreId: null, extraInfo:null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
+
   // getObjetivos
   getObjetivos(): Observable<DropdownResponse[]> {
     const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'OBJETIVO_END', padreId: null, extraInfo:null });
