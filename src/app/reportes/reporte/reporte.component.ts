@@ -105,7 +105,7 @@ export class ReporteComponent implements OnInit {
 
     { value: 1, label: "Provincias" },
     { value: 2, label: "Estado" },
-    { value: 3, label: "Instituciones" },
+    // { value: 3, label: "Instituciones" },
     { value: 8, label: "Imprimir todas" }
   ];
 
@@ -121,7 +121,8 @@ export class ReporteComponent implements OnInit {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
           .set('id', this.RF.provinciaId.value)
-          .set('usuario', this.authService.getUserCompleteName());
+          .set('usuario', this.authService.getUserCompleteName())
+          .set('institucionId', this.RF.institucionId.value);
         break;
       }
       case 2: {
@@ -131,13 +132,13 @@ export class ReporteComponent implements OnInit {
           .set('usuario', this.authService.getUserCompleteName());
         break;
       }
-      case 3: {
-        params = new HttpParams()
-          .set('tipoId', this.RF.reporteTipo.value)
-          .set('id', this.RF.institucionId.value)
-          .set('usuario', this.authService.getUserCompleteName());
-        break;
-      }
+      // case 3: {
+      //   params = new HttpParams()
+      //     .set('tipoId', this.RF.reporteTipo.value)
+      //     .set('id', this.RF.institucionId.value)
+      //     .set('usuario', this.authService.getUserCompleteName());
+      //   break;
+      // }
       default: {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
