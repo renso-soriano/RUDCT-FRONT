@@ -54,7 +54,8 @@ export class Demanda implements Deserializable {
   beneficiariosFamilias?: number;
   nivelDemanda?: string;
   ejeEndId?: number;
-  ODSId? : number;
+
+  odsId? : number;
   objetivoEndId?: number;
   politicaPNPSPId?: number;
 

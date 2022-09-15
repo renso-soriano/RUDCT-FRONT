@@ -147,7 +147,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     distrito: [],
     fuente: [null, { validators: [Validators.required] }],
     eje: [null, { validators: [Validators.required] }],
-    ODSId: [null],
+    odsId: [null],
     objetivo: [null, { validators: [Validators.required] }],
     demanda: [
       "",
@@ -244,8 +244,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   get eje() {
     return this.registerForm.get("eje");
   }
-  get ODSId() {
-    return this.registerForm.get("ODSId");
+  get odsId() {
+    return this.registerForm.get("odsId");
   }
   get objetivo() {
     return this.registerForm.get("objetivo");
@@ -480,6 +480,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.demandaService.getDemandaById(CodigoDemanda).subscribe(
       (demanda: Demanda) => {
+        console.log("demanda que vino=>",demanda);
         this.demandaForEdit = demanda;
         this.setListasDemandas(demanda);
         this.setObjetivosDropdown(demanda.ejeEndId);
@@ -505,7 +506,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           temaCommun: demanda.temaComunTema,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: demanda.ejeEndId.toString(),
-          ODSId: demanda.ODSId.toString(),
+          odsId: demanda.odsId.toString(),
           objetivo: demanda.objetivoEndId.toString(),
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
@@ -871,7 +872,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       detalle: formValue.detalle,
       otroTipoInversion: formValue.otrosTiposInversion,
       ejeEndId: formValue.eje,
-      ODSId: formValue.ODSId,
+      odsId: formValue.odsId,
       objetivoEndId: formValue.objetivo,
       politicaPNPSPId: formValue.politica,
       beneficiariosPersonas: formValue.beneficiariosPersonas,
