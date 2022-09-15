@@ -480,7 +480,6 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     this.demandaService.getDemandaById(CodigoDemanda).subscribe(
       (demanda: Demanda) => {
-        console.log("demanda que vino=>",demanda);
         this.demandaForEdit = demanda;
         this.setListasDemandas(demanda);
         this.setObjetivosDropdown(demanda.ejeEndId);
@@ -506,7 +505,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           temaCommun: demanda.temaComunTema,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: demanda.ejeEndId.toString(),
-          odsId: demanda.odsId.toString(),
+          odsId: demanda.odsId != null ? demanda.odsId.toString():null,
           objetivo: demanda.objetivoEndId.toString(),
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
