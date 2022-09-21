@@ -192,6 +192,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     beneficiariosPersonas: [null],
     beneficiariosFamilias: [null],
     estadoId: [1],
+    estadoValidacionId: [1]
   });
 
   //getters
@@ -510,6 +511,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
           estadoId: demanda.estadoId,
+          estadoValidacionId:demanda.estadoValidacionId,
           institucionResponsable: demanda.institucionId.toString(),
           institucionesColaboradoras: null,
           comentarios: null,
@@ -856,6 +858,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       institucionId: parseInt(formValue.institucionResponsable, 10),
       tipoInversionId: formValue.tiposInversion,
       estadoId: formValue.estadoId ,
+      estadoValidacionId:formValue.estadoValidacionId,
       temaComunId: parseInt(formValue.temaComunId, 10),
       prioridad: formValue.prioridad,
       demandaTipoId: formValue.demandaTipoId,

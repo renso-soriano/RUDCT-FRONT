@@ -164,6 +164,12 @@ export class DropDownServiceService {
     );
   }
 
+  // getEstadosValidacion
+  getEstadosValidacion(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS_VALIDACION', padreId: null, extraInfo:null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
+
    // getTipoDemandas
    getTiposDemandas(): Observable<DropdownResponse[]> {
     const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS_DEMANDAS', padreId: null, extraInfo:null });
@@ -190,10 +196,9 @@ export class DropDownServiceService {
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
-  getInstitucionById(InstitucionId: string): Observable<Iinstitucion> {
-    return this.http.get<Iinstitucion>(
-      this.baseUrl + "Instituciones.json/" + InstitucionId
-    );
+  getInstitucionById(InstitucionId: number):  Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'INSTITUCIONES', padreId: InstitucionId, extraInfo:null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
 
   // getPoliticas

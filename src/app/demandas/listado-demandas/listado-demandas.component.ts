@@ -50,7 +50,9 @@ export class ListadoDemandasComponent implements OnInit {
   @ViewChild("content") content: ElementRef<HTMLElement>;
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
-  institucionUsuario: number;
+  listadoEstadosValidacion: Observable<any[]>;
+  institucionUsuarioSSO: number;
+  institucionUsuarioEnRUDT: any;
   gruposUsuario: number[] = [];
   usuarioPermisos: any = [''];
   pdf: any;
@@ -104,7 +106,7 @@ export class ListadoDemandasComponent implements OnInit {
     "provinciaId": null,
     "municipioId": null,
     "fuenteDemandaId": null,
-    "temaCommun":null,
+    "temaCommun": null,
     "temaComunId": null,
     "institucionId": null,
     //"demandaTipoId": null,
@@ -121,7 +123,8 @@ export class ListadoDemandasComponent implements OnInit {
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
+    { name: 'Estado de Ejecución', prop: 'nombreEstadoDemanda', sorteable: false },
+    { name: 'Estado Validación', prop: 'nombreEstadoValidacion', sorteable: false },
   ];
 
   // multi Purpose datatable Row data
@@ -229,66 +232,21 @@ export class ListadoDemandasComponent implements OnInit {
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
 
+    this.institucionUsuarioSSO = this.authService.getInstitucion();
+    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+
+    this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
+      this.institucionUsuarioEnRUDT = x[0]['id'];
+      this.reloadTable();
+
+    });
+
     const observable = from(this.authService.getPermissions(modulo.id));
+
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-      //this.institucionUsuario = this.authService.getInstitucion();
-      let usuarioApellido = this.authService.getUserLastName()
 
-      switch(usuarioApellido) {
-        case '_MAP': {
-          this.institucionUsuario = 74;
-           break;
-        }
-        case '_MIP': {
-          this.institucionUsuario = 86;
-           break;
-        }
-        case '_PN': {
-          this.institucionUsuario = 101;
-           break;
-        }
-        case '_MICM': {
-          this.institucionUsuario = 85;
-           break;
-        }
-        case '_MT': {
-          this.institucionUsuario = 94;
-           break;
-        }
-        case '_MITUR': {
-          this.institucionUsuario = 95;
-           break;
-        }
-        case '_MA': {
-          this.institucionUsuario = 75;
-           break;
-        }
-        case '_INDRHI': {
-          this.institucionUsuario = 69;
-           break;
-        }
-        case '_MOPC': {
-          this.institucionUsuario = 91;
-           break;
-        }
-        case '_INTRANT': {
-          this.institucionUsuario = 70;
-           break;
-        }
-        case '_MIMARENA': {
-          this.institucionUsuario = 90;
-           break;
-        }
-        default: {
-          this.institucionUsuario = null;
-           break;
-        }
-     }
-
-      this.gruposUsuario = this.usuarioPermisos.includes("MANAGE") ? [GrupoUsuario.administradoresRUDT] : [GrupoUsuario.institucionalRUDT];
-      this.reloadTable();
 
     }, (err: any) => {
       console.error(err);
@@ -296,8 +254,10 @@ export class ListadoDemandasComponent implements OnInit {
 
 
     this.listadoEstados = this.dropdownService.getEstados();
+    this.listadoEstadosValidacion = this.dropdownService.getEstadosValidacion();
+
     // Initially load first page
-    this.pageCallback({ offset: 0 });
+    //this.pageCallback({ offset: 0 });
     this.filtros = [
       new FiltrosDinamicos().deserialize({
         name: 'anio',
@@ -409,6 +369,7 @@ export class ListadoDemandasComponent implements OnInit {
     ];
     this.loadingIndicator = false;
 
+
   }
 
   setFilterAnnios(): any[] {
@@ -423,6 +384,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   async pageCallback(pageInfo: { count?: number, pageSize?: number, limit?: number, offset?: number }) {
     this.page.offset = pageInfo.offset;
+    //console.log("reloadTable en pageCallBack")
     await this.reloadTable();
   }
 
@@ -435,11 +397,11 @@ export class ListadoDemandasComponent implements OnInit {
   async reloadTable() {
     let params;
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == false) {
-      params = new HttpParams()
+         params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
         .set('anio', this.filtrosActivos.anio)
-       // .set('regionId', this.filtrosActivos.regionId)
+        // .set('regionId', this.filtrosActivos.regionId)
         .set('provinciaId', this.filtrosActivos.provinciaId)
         .set('municipioId', this.filtrosActivos.municipioId)
         .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
@@ -451,18 +413,32 @@ export class ListadoDemandasComponent implements OnInit {
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
       params = new HttpParams()
-        .set('institucionId', this.institucionUsuario)
+        .set('Page', `${this.page.offset + 1}`)
+        .set('Take', `${this.page.limit}`)
+        .set('anio', this.filtrosActivos.anio)
+        //.set('regionId', this.filtrosActivos.regionId)
+        .set('provinciaId', this.filtrosActivos.provinciaId)
+        .set('municipioId', this.filtrosActivos.municipioId)
+        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaCommun', this.filtrosActivos.temaCommun)
+        .set('temaComunId', this.filtrosActivos.temaComunId)
+        .set('institucionId', this.institucionUsuarioEnRUDT)
+        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+        .set('estadoDemandaId', this.filtrosActivos.estadoId)
     }
 
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
+      console.log("lineas = > ", this.rows );
       document.body.click();
     });
   }
 
   public async _changeRowLimits(event: any) {
+
     this.page.limit = this.limitSelected;
     await this.reloadTable();
   }
@@ -487,13 +463,25 @@ export class ListadoDemandasComponent implements OnInit {
         .set('estadoDemandaId', this.filtrosActivos.estadoId)
     } else {
       params = new HttpParams()
-        .set('institucionId', this.institucionUsuario)
+        .set('Page', `${this.page.offset + 1}`)
+        .set('Take', `${this.page.limit}`)
+        .set('anio', this.filtrosActivos.anio)
+        //.set('regionId', this.filtrosActivos.regionId)
+        .set('provinciaId', this.filtrosActivos.provinciaId)
+        .set('municipioId', this.filtrosActivos.municipioId)
+        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+        .set('temaCommun', this.filtrosActivos.temaCommun)
+        .set('temaComunId', this.filtrosActivos.temaComunId)
+        .set('institucionId', this.institucionUsuarioEnRUDT)
+        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+        .set('estadoDemandaId', this.filtrosActivos.estadoId)
     }
 
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
       this.rowExportExcel = data.items;
-      console.log("rowsExcel=>",this.rowExportExcel);
+      console.log("rowsExcel=>", this.rowExportExcel);
       this.preparanDataExcel(this.rowExportExcel);
       //  this.spinner.hide();
       this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
@@ -679,7 +667,7 @@ export class ListadoDemandasComponent implements OnInit {
       <strong>Estado:</strong> ${estado} <br/>
       <strong>Fuente:</strong> ${fuente} <br/>
       <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>`,
-      {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true })
+          { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true })
 
       );
 
@@ -687,24 +675,24 @@ export class ListadoDemandasComponent implements OnInit {
   }
   //manejarClick(event:LeafletMouseEvent) {
 
-    // const latitud = Number( event.latlng.lat);
-    // const longitud =Number(event.latlng.lng) ;
-    // console.log(event.latlng)
-    // this.capas = [];
-    // this.capas.push(
-    //     L.marker([latitud, longitud], {
-    //       icon: L.icon({
-    //         iconSize: [25, 41],
-    //         iconAnchor: [13, 41],
-    //         iconUrl: 'assets/mapa//marker-icon.png',
-    //         shadowUrl: 'assets/mapa/marker-shadow.png',
-    //       })
-    //     }).bindPopup(`
-    //     <strong>Coordenada X:</strong> ${latitud} <br/>
-    //     <strong>Coordenada Y:</strong> ${longitud}`,
-    //     { autoClose: false, autoPan: true })
+  // const latitud = Number( event.latlng.lat);
+  // const longitud =Number(event.latlng.lng) ;
+  // console.log(event.latlng)
+  // this.capas = [];
+  // this.capas.push(
+  //     L.marker([latitud, longitud], {
+  //       icon: L.icon({
+  //         iconSize: [25, 41],
+  //         iconAnchor: [13, 41],
+  //         iconUrl: 'assets/mapa//marker-icon.png',
+  //         shadowUrl: 'assets/mapa/marker-shadow.png',
+  //       })
+  //     }).bindPopup(`
+  //     <strong>Coordenada X:</strong> ${latitud} <br/>
+  //     <strong>Coordenada Y:</strong> ${longitud}`,
+  //     { autoClose: false, autoPan: true })
 
-    //   );
-//}
+  //   );
+  //}
 
 }

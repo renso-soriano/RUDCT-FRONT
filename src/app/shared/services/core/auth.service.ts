@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Grupo } from 'app/shared/models/grupo.model';
 //import { Institucion } from 'app/shared/models/institucion';
 import { Token } from 'app/shared/models/token.model';
 import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
@@ -81,6 +82,11 @@ export class AuthService {
   getInstitucion(): number {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
     return userdata.persona.institutionId;
+  }
+
+  getGrupos(): Grupo[] {
+    const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
+    return userdata.grupos;
   }
 
   findModule(path: string): RouteInfo {
