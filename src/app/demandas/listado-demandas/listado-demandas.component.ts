@@ -57,6 +57,8 @@ export class ListadoDemandasComponent implements OnInit {
   usuarioPermisos: any = [''];
   pdf: any;
   capas: any;
+  rowsFilterByGoups:any;
+  tipoEstado:string;
 
 
   estadoForm = this.formBuilder.group({
@@ -64,7 +66,8 @@ export class ListadoDemandasComponent implements OnInit {
     justificacionRechazo: [null],
     codigoPoa: [null],
     codigoPei: [null],
-    codigoSnip: [null]
+    codigoSnip: [null],
+    razonDevolucion: [null]
   });
 
   get EF() {
@@ -76,7 +79,8 @@ export class ListadoDemandasComponent implements OnInit {
       justificacionRechazo: null,
       codigoPoa: null,
       codigoPei: null,
-      codigoSnip: null
+      codigoSnip: null,
+      razonDevolucion:null
     });
   }
 
@@ -117,14 +121,14 @@ export class ListadoDemandasComponent implements OnInit {
 
   // column header
   public columns = [
-    { name: 'Demanda', prop: 'descripcion', sorteable: false },
-    { name: 'Año', prop: 'anio', sorteable: false },
-    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false },
-    { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
-    { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false },
+    { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
+    { name: 'Año', prop: 'anio', sorteable: false, visible: true },
+    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
+    { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
+    { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de Ejecución', prop: 'nombreEstadoDemanda', sorteable: false },
-    { name: 'Estado Validación', prop: 'nombreEstadoValidacion', sorteable: false },
+    { name: 'Estado de Ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    { name: 'Estado Validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
   // multi Purpose datatable Row data
@@ -235,6 +239,17 @@ export class ListadoDemandasComponent implements OnInit {
     this.institucionUsuarioSSO = this.authService.getInstitucion();
     this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
 
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
+      this.listadoEstados = this.dropdownService.getEstados();
+      this.tipoEstado= "ejecución";
+    }
+    else {
+      this.listadoEstados = this.dropdownService.getEstadosValidacion();
+      this.tipoEstado= "validación";
+    }
+
+
     this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
@@ -253,8 +268,7 @@ export class ListadoDemandasComponent implements OnInit {
     });
 
 
-    this.listadoEstados = this.dropdownService.getEstados();
-    this.listadoEstadosValidacion = this.dropdownService.getEstadosValidacion();
+
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -397,7 +411,7 @@ export class ListadoDemandasComponent implements OnInit {
   async reloadTable() {
     let params;
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == false) {
-         params = new HttpParams()
+      params = new HttpParams()
         .set('Page', `${this.page.offset + 1}`)
         .set('Take', `${this.page.limit}`)
         .set('anio', this.filtrosActivos.anio)
@@ -432,7 +446,23 @@ export class ListadoDemandasComponent implements OnInit {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-      console.log("lineas = > ", this.rows );
+
+      console.log("todas lineas = > ", this.rows);
+
+      if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true ) {
+        this.rows = this.rows.filter(x => x.estadoValidacionId == 3);
+      }
+      else if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
+        this.rows = this.rows.filter(x => x.estadoValidacionId == 1);
+      }
+      else if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
+        this.rows = this.rows.filter(x => x.estadoValidacionId == 1 || x.estadoValidacionId == 4);
+      }
+      else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
+        console.log("entro en dgdes = > ", this.rows);
+        this.rows = this.rows.filter(x => x.estadoValidacionId == 2 || x.estadoValidacionId == 3);
+      }
+
       document.body.click();
     });
   }
@@ -548,12 +578,12 @@ export class ListadoDemandasComponent implements OnInit {
   submit() {
 
     //validaciones finales de listados
-    if (this.EF.estado.value == 3 && this.EF.justificacionRechazo.value == null) {
+    if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.justificacionRechazo.value == null) {
       this.serviceStr.typeError(
         "Debe completar el por qué rechaza la demanda"
       );
     }
-    else if (this.EF.estado.value == 4 && this.EF.codigoSnip.value == null) {
+    else if (this.EF.estado.value == 4 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
@@ -577,11 +607,18 @@ export class ListadoDemandasComponent implements OnInit {
 
     const formValue = this.estadoForm.value;
 
-    this.demanda.estadoId = parseInt(formValue.estado, 10);
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      this.demanda.estadoId = parseInt(formValue.estado, 10);
+    }
+    else {
+      this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
+    }
+
     this.demanda.codigoPei = formValue.codigoPei;
     this.demanda.codigoPoa = formValue.codigoPoa;
     this.demanda.codigoSnip = formValue.codigoSnip;
     this.demanda.justificacionRechazo = formValue.justificacionRechazo;
+    this.demanda.razonDevolucion = formValue.razonDevolucion;
 
     this.spinner.show();
     console.log(formValue);

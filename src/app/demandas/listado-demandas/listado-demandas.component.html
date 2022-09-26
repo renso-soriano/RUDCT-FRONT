@@ -27,7 +27,7 @@
           <div class="card-body">
 
             <div class="col-md-12 mb-2">
-              <app-data-filter *ngIf="!loadingIndicator && usuarioPermisos.includes('MANAGE')" [filtros]="filtros"
+              <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros"
                 (filterEvent)="getFilters($event)">
               </app-data-filter>
             </div>
@@ -52,8 +52,8 @@
                 [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                 [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
                 <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
-                  prop="{{column.prop}}">
-                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  prop="{{column.prop}}" >
+                  <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
                     <span *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' ">
                       {{value}}
                     </span>
@@ -61,8 +61,8 @@
                       [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
                       {{ value }}
                     </div>
-                    <div *ngIf="column.prop == 'nombreEstadoValidacion'" class="badge badge-pill"
-                      [ngClass]="{'bg-danger': value == 'Registrada por ORP', 'bg-warning':value == 'Validada por VIOTDR', 'bg-info':value == 'Validada por DGDES'}">
+                    <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(1008) == false" class="badge badge-pill"
+                      [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-info':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP'}">
                       {{ value }}
                     </div>
                   </ng-template>
@@ -78,7 +78,7 @@
                     <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
                       class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
+                    <a *ngIf="(usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT') ) && gruposUsuario.includes(1009) == false"
                       class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                       (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
                   </ng-template>
@@ -115,7 +115,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Cambiar estado</h4>
+    <h4 class="modal-title">Cambiar estado {{tipoEstado}}</h4>
   </div>
   <div class="modal-body">
     <form (submit)="submit()" [formGroup]="estadoForm">
@@ -140,7 +140,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '3'">
+      <div class="row" *ngIf="EF.estado.value == '3' && gruposUsuario.includes(1008) == true">
         <div class="col-sm-8">
           <div class="form-group">
             <label for="rechazada">Por qué es rechazada?</label>
@@ -194,12 +194,31 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '4'">
+      <div class="row" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == true">
         <div class="col-sm-8">
           <div class="form-group">
             <label for="codigoSnip">Codigo Snip</label>
             <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
               formControlName="codigoSnip">
+            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
+                            class="help-block mt-1 text-danger">
+
+                            <div *ngIf="nivelDemanda.errors.required">
+                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                            </div>
+
+                          </div> -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == false">
+        <div class="col-sm-8">
+          <div class="form-group">
+            <label for="devolucion">Razon de devolucion a VIOTDR</label>
+            <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
+              formControlName="razonDevolucion"></textarea>
             <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
                             class="help-block mt-1 text-danger">
 

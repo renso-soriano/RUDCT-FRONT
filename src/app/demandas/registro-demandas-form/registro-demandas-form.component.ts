@@ -188,6 +188,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     codigoPoa: [null],
     codigoPei: [null],
     justificacionRechazo: [null],
+    razonDevolucion: [null],
     direccion: [null],
     beneficiariosPersonas: [null],
     beneficiariosFamilias: [null],
@@ -293,6 +294,10 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   get justificacionRechazo() {
     return this.registerForm.get("justificacionRechazo");
   }
+  get razonDevolucion() {
+    return this.registerForm.get("razonDevolucion");
+  }
+
 
   get cantidad() {
     return this.registerForm.get("cantidad");
@@ -538,6 +543,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
           justificacionRechazo: demanda.justificacionRechazo,
+          razonDevolucion: demanda.razonDevolucion,
           direccion: demanda.direccion,
           beneficiariosPersonas: demanda.beneficiariosPersonas,
           beneficiariosFamilias: demanda.beneficiariosFamilias
@@ -870,6 +876,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       codigoPoa: formValue.codigoPoa,
       codigoPei: formValue.codigoPei,
       justificacionRechazo: formValue.justificacionRechazo,
+      razonDevolucion: formValue.razonDevolucion,
       direccion: formValue.direccion,
       detalle: formValue.detalle,
       otroTipoInversion: formValue.otrosTiposInversion,
