@@ -301,6 +301,13 @@
                         </div>
                       </div>
 
+                      <div class="col-12" *ngIf="gruposUsuario.includes(1008) == false">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Estado validacion: </span>
+                          <label for="EstadoValidacion">{{demanda.nombreEstadoValidacion}}</label>
+                        </div>
+                      </div>
+
                       <div class="col-12" *ngIf="demanda.justificacionRechazo">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Motivo rechazo : </span>

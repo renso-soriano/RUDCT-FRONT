@@ -57,8 +57,8 @@ export class ListadoDemandasComponent implements OnInit {
   usuarioPermisos: any = [''];
   pdf: any;
   capas: any;
-  rowsFilterByGoups:any;
-  tipoEstado:string;
+  rowsFilterByGoups: any;
+  tipoEstado: string;
 
 
   estadoForm = this.formBuilder.group({
@@ -80,7 +80,7 @@ export class ListadoDemandasComponent implements OnInit {
       codigoPoa: null,
       codigoPei: null,
       codigoSnip: null,
-      razonDevolucion:null
+      razonDevolucion: null
     });
   }
 
@@ -242,11 +242,11 @@ export class ListadoDemandasComponent implements OnInit {
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.listadoEstados = this.dropdownService.getEstados();
-      this.tipoEstado= "ejecución";
+      this.tipoEstado = "ejecución";
     }
     else {
       this.listadoEstados = this.dropdownService.getEstadosValidacion();
-      this.tipoEstado= "validación";
+      this.tipoEstado = "validación";
     }
 
 
@@ -410,59 +410,46 @@ export class ListadoDemandasComponent implements OnInit {
 
   async reloadTable() {
     let params;
-    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == false) {
-      params = new HttpParams()
-        .set('Page', `${this.page.offset + 1}`)
-        .set('Take', `${this.page.limit}`)
-        .set('anio', this.filtrosActivos.anio)
-        // .set('regionId', this.filtrosActivos.regionId)
-        .set('provinciaId', this.filtrosActivos.provinciaId)
-        .set('municipioId', this.filtrosActivos.municipioId)
-        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-        .set('temaCommun', this.filtrosActivos.temaCommun)
-        .set('temaComunId', this.filtrosActivos.temaComunId)
-        .set('institucionId', this.filtrosActivos.institucionId)
-        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
-        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
-        .set('estadoDemandaId', this.filtrosActivos.estadoId)
+    let grupoId;
+    let institucion;
+
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      grupoId = GrupoUsuario.institucionalRUDT;
+      institucion = this.institucionUsuarioEnRUDT;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
+      grupoId = GrupoUsuario.regionalesRUDT;
+      institucion = this.filtrosActivos.institucionId;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
+      grupoId = GrupoUsuario.VIOTDR;
+      institucion = this.filtrosActivos.institucionId;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
+      grupoId = GrupoUsuario.DGDES;
+      institucion = this.filtrosActivos.institucionId;
     } else {
-      params = new HttpParams()
-        .set('Page', `${this.page.offset + 1}`)
-        .set('Take', `${this.page.limit}`)
-        .set('anio', this.filtrosActivos.anio)
-        //.set('regionId', this.filtrosActivos.regionId)
-        .set('provinciaId', this.filtrosActivos.provinciaId)
-        .set('municipioId', this.filtrosActivos.municipioId)
-        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-        .set('temaCommun', this.filtrosActivos.temaCommun)
-        .set('temaComunId', this.filtrosActivos.temaComunId)
-        .set('institucionId', this.institucionUsuarioEnRUDT)
-        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
-        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
-        .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      grupoId = GrupoUsuario.administradoresRUDT;
+      institucion = this.filtrosActivos.institucionId;
     }
+
+    params = new HttpParams()
+      .set('Page', `${this.page.offset + 1}`)
+      .set('Take', `${this.page.limit}`)
+      .set('anio', this.filtrosActivos.anio)
+      // .set('regionId', this.filtrosActivos.regionId)
+      .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
+      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+      .set('temaCommun', this.filtrosActivos.temaCommun)
+      .set('temaComunId', this.filtrosActivos.temaComunId)
+      .set('institucionId', institucion)
+      .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('grupoId', grupoId);
 
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-
-      console.log("todas lineas = > ", this.rows);
-
-      if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true ) {
-        this.rows = this.rows.filter(x => x.estadoValidacionId == 3);
-      }
-      else if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
-        this.rows = this.rows.filter(x => x.estadoValidacionId == 1);
-      }
-      else if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
-        this.rows = this.rows.filter(x => x.estadoValidacionId == 1 || x.estadoValidacionId == 4);
-      }
-      else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
-        console.log("entro en dgdes = > ", this.rows);
-        this.rows = this.rows.filter(x => x.estadoValidacionId == 2 || x.estadoValidacionId == 3);
-      }
-
       document.body.click();
     });
   }
@@ -472,41 +459,46 @@ export class ListadoDemandasComponent implements OnInit {
     this.page.limit = this.limitSelected;
     await this.reloadTable();
   }
+
   exportexcel() {
     //this.spinnerMensaje="Exportando datos...."
     // this.spinner.show();
     let params;
-    if (!this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)) {
-      params = new HttpParams()
-        .set('Page', `${this.page.offset + 1}`)
-        .set('Take', `${this.page.limit}`)
-        .set('anio', this.filtrosActivos.anio)
-        //.set('regionId', this.filtrosActivos.regionId)
-        .set('provinciaId', this.filtrosActivos.provinciaId)
-        .set('municipioId', this.filtrosActivos.municipioId)
-        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-        .set('temaCommun', this.filtrosActivos.temaCommun)
-        .set('temaComunId', this.filtrosActivos.temaComunId)
-        .set('institucionId', this.filtrosActivos.institucionId)
-        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
-        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
-        .set('estadoDemandaId', this.filtrosActivos.estadoId)
+    let grupoId;
+    let institucion;
+
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      grupoId = GrupoUsuario.institucionalRUDT;
+      institucion = this.institucionUsuarioEnRUDT;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
+      grupoId = GrupoUsuario.regionalesRUDT;
+      institucion = this.filtrosActivos.institucionId;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
+      grupoId = GrupoUsuario.VIOTDR;
+      institucion = this.filtrosActivos.institucionId;
+    } else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
+      grupoId = GrupoUsuario.DGDES;
+      institucion = this.filtrosActivos.institucionId;
     } else {
-      params = new HttpParams()
-        .set('Page', `${this.page.offset + 1}`)
-        .set('Take', `${this.page.limit}`)
-        .set('anio', this.filtrosActivos.anio)
-        //.set('regionId', this.filtrosActivos.regionId)
-        .set('provinciaId', this.filtrosActivos.provinciaId)
-        .set('municipioId', this.filtrosActivos.municipioId)
-        .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
-        .set('temaCommun', this.filtrosActivos.temaCommun)
-        .set('temaComunId', this.filtrosActivos.temaComunId)
-        .set('institucionId', this.institucionUsuarioEnRUDT)
-        .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
-        .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
-        .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      grupoId = GrupoUsuario.administradoresRUDT;
+      institucion = this.filtrosActivos.institucionId;
     }
+
+    params = new HttpParams()
+      .set('Page', `${this.page.offset + 1}`)
+      .set('Take', `${this.page.limit}`)
+      .set('anio', this.filtrosActivos.anio)
+      // .set('regionId', this.filtrosActivos.regionId)
+      .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
+      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+      .set('temaCommun', this.filtrosActivos.temaCommun)
+      .set('temaComunId', this.filtrosActivos.temaComunId)
+      .set('institucionId', institucion)
+      .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('grupoId', grupoId);
 
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
@@ -520,12 +512,13 @@ export class ListadoDemandasComponent implements OnInit {
 
 
   }
+
   preparanDataExcel(data) {
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
         Anio: item.anio,
-        NivelDemanda: item.nivelDemanda,
+        EscalaTerritorial: item.nivelDemanda,
         Demanda: item.descripcion,
         EstadoDemanda: item.nombreEstadoDemanda,
         Prioridad: item.prioridad,

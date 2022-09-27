@@ -22,6 +22,7 @@ import { ConsolidationRequest } from 'app/shared/models/Consolidacion/Consolidat
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { Console } from 'console';
+import { AuthService } from 'app/shared/services/core/auth.service';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -48,6 +49,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   modal: NgbModal;
   demanda: any;
   listadoContactos: any[]=[];
+  gruposUsuario:any;
 
   consolidationForm = this.formBuilder.group({
     descripcion: [null, { validators: [Validators.required] }],
@@ -174,7 +176,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     private serviceStr: NGXToastrService,
     private demandasService: DemandasService,
     private router: Router,
-    private dropdownService: DropDownServiceService)
+    private dropdownService: DropDownServiceService,
+    private authService: AuthService)
      {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -240,6 +243,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
     ];
     this.loadingIndicator = false;
+    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
   }
 
   setFilterAnnios(): any[] {

@@ -5,6 +5,7 @@ import { IDemanda } from "app/shared/models/Idemanda";
 import { DemandasService } from "app/shared/services/mantenimientos/demandas.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Location } from '@angular/common';
+import { AuthService } from "app/shared/services/core/auth.service";
 
 @Component({
   selector: "app-detalle-demandas",
@@ -16,13 +17,15 @@ export class DetalleDemandasComponent implements OnInit {
   //demanda:IDemanda;
   demanda: any;
   notFound = false;
+  gruposUsuario:any;
 
   constructor(
     private demandaService: DemandasService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private _location: Location
+    private _location: Location,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -31,6 +34,7 @@ export class DetalleDemandasComponent implements OnInit {
         this.getDemanda(params.get("id"));
       }
     });
+    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
   }
 
   /**************************** */
