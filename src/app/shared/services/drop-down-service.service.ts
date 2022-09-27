@@ -169,6 +169,11 @@ export class DropDownServiceService {
     const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS_VALIDACION', padreId: null, extraInfo:null });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
+  // getEstadosValidacionById
+  getEstadosValidacionById(idPadre): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'ESTADOS_VALIDACION', padreId: idPadre, extraInfo:null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
 
    // getTipoDemandas
    getTiposDemandas(): Observable<DropdownResponse[]> {

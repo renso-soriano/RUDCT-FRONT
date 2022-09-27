@@ -245,7 +245,23 @@ export class ListadoDemandasComponent implements OnInit {
       this.tipoEstado = "ejecución";
     }
     else {
-      this.listadoEstados = this.dropdownService.getEstadosValidacion();
+       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true)
+       {
+        this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.DGDES);
+       }
+       if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true)
+       {
+        this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.VIOTDR);
+       }
+       if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true)
+       {
+        this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.regionalesRUDT);
+       }
+       if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true)
+       {
+        this.listadoEstados = this.dropdownService.getEstadosValidacion();
+       }
+
       this.tipoEstado = "validación";
     }
 
