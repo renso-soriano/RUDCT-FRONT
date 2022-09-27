@@ -213,6 +213,13 @@
                         </div>
                       </div>
 
+                      <div class="col-12" *ngIf="gruposUsuario.includes(1008) == false && demanda.razonDevolucion != null ">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Razon devolucion por DGDES: </span>
+                          <label for="razonDevolucion">{{demanda.razonDevolucion}}</label>
+                        </div>
+                      </div>
+
                       <div class="col-12" *ngIf="demanda.justificacionRechazo">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Motivo rechazo : </span>
