@@ -97,7 +97,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   // column header
   public columns = [
     //{ name: 'Código', prop: 'codigo', sorteable: false },
-    { name: 'Año', prop: 'anio', sorteable: false },
+    //{ name: 'Año', prop: 'anio', sorteable: false },
+    { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
     { name: 'Tema común', prop: 'nombreTemaComun', sorteable: false },
