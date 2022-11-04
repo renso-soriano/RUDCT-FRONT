@@ -27,6 +27,7 @@ export class CrearTecnicoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProvincias();
+    this.tipoTecnicos = this.dropDownService.getTipoTecnicos();
     this.route.paramMap.subscribe((params) => {
       if (params.has("Id")) {
         this.getMunicipios();
@@ -41,6 +42,7 @@ export class CrearTecnicoComponent implements OnInit {
   notFound = false;
   provincias: Observable<any[]>;
   municipios: Observable<any[]>;
+  tipoTecnicos: Observable<any[]>;
 
   mode: string;
   typeEdit: boolean;
@@ -60,6 +62,8 @@ export class CrearTecnicoComponent implements OnInit {
     telefono: [null, { validators: [Validators.required] }],
     extension: [null],
     flota: [null,  { validators:  [Validators.minLength(10)] } ],
+    email: [null,  { validators:  [Validators.email] } ],
+    tipoTecnicoId:[null, { validators: [Validators.required] }],
     provincia: [null],
   });
 
@@ -76,6 +80,9 @@ export class CrearTecnicoComponent implements OnInit {
   get municipioId() {
     return this.registerForm.get("municipioId");
   }
+  get tipoTecnicoId() {
+    return this.registerForm.get("tipoTecnicoId");
+  }
   get provincia() {
     return this.registerForm.get("provincia");
   }
@@ -90,6 +97,9 @@ export class CrearTecnicoComponent implements OnInit {
   }
   get flota() {
     return this.registerForm.get("flota");
+  }
+  get email() {
+    return this.registerForm.get("email");
   }
 
 
@@ -110,9 +120,11 @@ export class CrearTecnicoComponent implements OnInit {
           estatus: this.tecnico.estatus,
           id: this.tecnico.id,
           municipioId: this.tecnico.municipioId.toString(),
+          tipoTecnicoId: this.tecnico.tipoTecnicoId.toString(),
           telefono: this.tecnico.telefono,
           extension: this.tecnico.extension,
           flota: this.tecnico.flota,
+          email: this.tecnico.email,
         });
       },
       (err: any) => {
@@ -128,6 +140,7 @@ export class CrearTecnicoComponent implements OnInit {
   getMunicipios() {
     this.municipios = this.dropDownService.getMunicipios();
   }
+
 
   getMunicipiosByProvincia(provinciaId: number) {
     this.municipios =
@@ -146,11 +159,13 @@ export class CrearTecnicoComponent implements OnInit {
       id: this.id.value,
       estatus: this.estatus.value,
       municipioId: this.municipioId.value,
+      tipoTecnicoId: this.tipoTecnicoId.value,
       nombre: this.nombre.value,
       apellido: this.apellido.value,
       telefono: this.telefono.value,
       extension: this.extension.value,
       flota: this.flota.value,
+      email:this.email.value
     };
 
     this.spinner.show();

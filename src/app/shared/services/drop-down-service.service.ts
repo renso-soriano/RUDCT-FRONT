@@ -99,6 +99,14 @@ export class DropDownServiceService {
     );
   }
 
+  // getTipoTecnicos
+  getTipoTecnicos(): Observable<DropdownResponse[]> {
+
+      const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPO_TECNICO' });
+      return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+
+  }
+
   // getDistritos
   getDistritos(): Observable<IdistritoMunicipal[]> {
     return this.http.get<IdistritoMunicipal[]>(

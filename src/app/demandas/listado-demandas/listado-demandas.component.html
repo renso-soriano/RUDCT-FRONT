@@ -21,7 +21,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title ml-2">Listado de Demandas</h4>
+          <h4 class="card-title ml-2">Listado de demandas</h4>
         </div>
         <div class="card-content">
           <div class="card-body">
@@ -62,7 +62,7 @@
                       {{ value }}
                     </div>
                     <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(1008) == false" class="badge badge-pill"
-                      [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-info':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP'}">
+                      [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR'}">
                       {{ value }}
                     </div>
                   </ng-template>
@@ -78,7 +78,7 @@
                     <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
                       class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
-                    <a *ngIf="(usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT') ) && gruposUsuario.includes(1009) == false"
+                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
                       class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                       (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
                   </ng-template>
@@ -158,7 +158,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '5'">
+      <div class="row" *ngIf="EF.estado.value == '5' && gruposUsuario.includes(1008) == true">
         <div class="col-sm-8">
           <div class="form-group">
             <label for="codigoPei">Codigo PEI</label>
@@ -213,10 +213,10 @@
 
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == false">
+      <div class="row" *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
         <div class="col-sm-8">
           <div class="form-group">
-            <label for="devolucion">Razon de devolucion a VIOTDR</label>
+            <label for="devolucion">Razón de devolución</label>
             <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
               formControlName="razonDevolucion"></textarea>
             <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"

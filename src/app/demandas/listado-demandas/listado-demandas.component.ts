@@ -127,8 +127,8 @@ export class ListadoDemandasComponent implements OnInit {
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de Ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
-    { name: 'Estado Validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
+    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
   // multi Purpose datatable Row data
@@ -597,7 +597,7 @@ export class ListadoDemandasComponent implements OnInit {
         "Debe introducir el codigo snip del proyecto"
       );
     }
-    else if (this.EF.estado.value == 5 && this.EF.codigoPei.value == null) {
+    else if (this.EF.estado.value == 5 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoPei.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo PEI"
       );

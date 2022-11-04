@@ -96,6 +96,8 @@ export class ListadoTecnicosComponent implements OnInit {
     this.table.offset = 0;
   }
 
+
+
   /**
    * rowDetailsToggleExpand
    *

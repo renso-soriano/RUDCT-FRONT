@@ -37,7 +37,7 @@
                   </div>
                 </div>
 
-                <div class="col-sm-4" *ngIf="RF.provinciaId.value != null">
+                <div class="col-sm-4" *ngIf="RF.provinciaId.value != null && gruposUsuario.includes(1008) == false">
                   <div class="form-group">
                     <label for="Institucion">Institucion</label>
                     <ng-select [items]="listadoInstituciones | async" bindLabel="name" bindValue="id" name="Institucion"

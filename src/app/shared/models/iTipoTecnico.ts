@@ -1,4 +1,4 @@
-export interface Itecnico {
+export interface ItipoTecnico {
   id: number,
   estatus: string,
   municipioId: number,
@@ -8,8 +8,7 @@ export interface Itecnico {
   telefono: string,
   extension: string,
   flota?: string,
-  email?:string,
-  tipoTecnicoNombre?:string
+  email?:string
 
 }
 

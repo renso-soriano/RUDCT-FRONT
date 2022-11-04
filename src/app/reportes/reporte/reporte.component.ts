@@ -22,6 +22,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
 import { AuthService } from 'app/shared/services/core/auth.service';
 import { saveAs } from 'file-saver';
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -56,14 +57,19 @@ export class ReporteComponent implements OnInit {
   archivo: any;
   tipoReporteSelected: number;
 
+  institucionUsuarioSSO: number;
+  institucionUsuarioEnRUDT: any;
+  gruposUsuario: number[] = [];
+
+
 
   reportForm = this.formBuilder.group({
 
-    reporteTipo: [20],
+    reporteTipo: [25],
     provinciaId: [null],
     institucionId: [null],
     estadoId: [7],
-    todasId: [20]
+    todasId: [25]
   });
 
   get RF() {
@@ -87,15 +93,29 @@ export class ReporteComponent implements OnInit {
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
 
-    const observable = from(this.authService.getPermissions(modulo.id));
 
-    observable.subscribe((res: any) => {
+    this.institucionUsuarioSSO = this.authService.getInstitucion();
+    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+
+    if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == false && this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == false) {
+      this.tipoReporte = this.tipoReporte.filter(x => x.value == 1);
+
+    }
+
+    this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
+      this.institucionUsuarioEnRUDT = x[0]['id'];
+
+    });
+
+    //const observable = from(this.authService.getPermissions(modulo.id));
+
+    /* observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
       this.institucionUsuario = 1;
       this.grupoUsuario = this.usuarioPermisos.includes("MANAGE") ? [1] : [17];
     }, (err: any) => {
       console.error(err);
-    });
+    }); */
 
     this.llenarListados();
 
@@ -113,6 +133,28 @@ export class ReporteComponent implements OnInit {
 
   exportReport() {
 
+    let grupo = 0;
+
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      this.RF.institucionId.setValue(this.institucionUsuarioEnRUDT);
+      grupo = GrupoUsuario.institucionalRUDT;
+    }
+    else {
+      if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
+        grupo = GrupoUsuario.DGDES;
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
+        grupo = GrupoUsuario.VIOTDR;
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
+        grupo = GrupoUsuario.regionalesRUDT;
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true) {
+        grupo = GrupoUsuario.administradoresRUDT;
+      }
+
+    }
+
     let params;
 
     switch (this.RF.reporteTipo.value) {
@@ -122,14 +164,16 @@ export class ReporteComponent implements OnInit {
           .set('tipoId', this.RF.reporteTipo.value)
           .set('id', this.RF.provinciaId.value)
           .set('usuario', this.authService.getUserCompleteName())
-          .set('institucionId', this.RF.institucionId.value);
+          .set('institucionId', this.RF.institucionId.value)
+          .set('grupo', grupo);
         break;
       }
       case 2: {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
           .set('id', this.RF.estadoId.value)
-          .set('usuario', this.authService.getUserCompleteName());
+          .set('usuario', this.authService.getUserCompleteName())
+          .set('grupo', grupo);
         break;
       }
       // case 3: {
@@ -143,7 +187,8 @@ export class ReporteComponent implements OnInit {
         params = new HttpParams()
           .set('tipoId', this.RF.reporteTipo.value)
           .set('id', this.RF.todasId.value)
-          .set('usuario', this.authService.getUserCompleteName());
+          .set('usuario', this.authService.getUserCompleteName())
+          .set('grupo', grupo);
         break;
       }
     }
@@ -180,7 +225,7 @@ export class ReporteComponent implements OnInit {
 
       tipoId: null,
       provinciaId: null,
-      institucionId:null
+      institucionId: null
     });
 
   }

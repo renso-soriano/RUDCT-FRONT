@@ -72,7 +72,7 @@
                           <div class="form-group">
                             <label for="nivelDemanda">Escala territorial</label>
                             <ng-select [items]="listadoNivelDemandas | async" bindLabel="text" bindValue="text"
-                              name="nivelDemanda" id="nivelDemanda" placeholder="Seleccione nivel demanda"
+                              name="nivelDemanda" id="nivelDemanda" placeholder="Seleccione escala territorial"
                               formControlName="nivelDemanda">
                             </ng-select>
                             <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
