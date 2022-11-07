@@ -160,32 +160,32 @@
         <div class="card-body">
           <div class="row mb-3">
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{cibaoNorte}}% - CIBAO NOROESTE</span>
+              <span class="mb-1 text-muted d-block">{{cibaoNorte}}% - CIBAO NORTE</span>
               <div class="progress" style="height: 5px;">
-                <div class="progress-bar bg-success" role="progressbar" [ngStyle]="{'width': cibaoNorte + '%'}" [attr.aria-valuenow]="cibaoNorte"
+                <div class="progress-bar cibaoNorteColor" role="progressbar" [ngStyle]="{'width': cibaoNorte + '%'}" [attr.aria-valuenow]="cibaoNorte"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{cibaoCentral}}% - CIBAO NORDESTE</span>
+              <span class="mb-1 text-muted d-block">{{cibaoSur}}% - CIBAO SUR</span>
               <div class="progress" style="height: 5px;">
-                <div class="progress-bar bg-info" role="progressbar" [ngStyle]="{'width': cibaoCentral + '%'}" [attr.aria-valuenow]="cibaoCentral"
+                <div class="progress-bar cibaoSurColor" role="progressbar" [ngStyle]="{'width': cibaoSur + '%'}" [attr.aria-valuenow]="cibaoSur"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
           </div>
           <div class="row mb-2">
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{metropolitana}}%-SUR CENTRAL</span>
+              <span class="mb-1 text-muted d-block">{{cibaoNordeste}}%-CIBAO NORDESTE</span>
               <div class="progress" style="height: 5px;">
-                <div class="progress-bar bg-primary" role="progressbar" [ngStyle]="{'width': metropolitana + '%'}" [attr.aria-valuenow]="metropolitana"
+                <div class="progress-bar cibaoNordesteColor" role="progressbar" [ngStyle]="{'width': cibaoNordeste + '%'}" [attr.aria-valuenow]="cibaoNordeste"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{este}}% - ESTE</span>
+              <span class="mb-1 text-muted d-block">{{cibaoNoroeste}}% - CIBAO NOROESTE</span>
               <div class="progress" style="height: 5px;">
-                <div class="progress-bar bg-warning" role="progressbar" [ngStyle]="{'width': este + '%'}" [attr.aria-valuenow]="este"
+                <div class="progress-bar cibaoNoroesteColor" role="progressbar" [ngStyle]="{'width': cibaoNoroeste + '%'}" [attr.aria-valuenow]="cibaoNoroeste"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
@@ -193,14 +193,54 @@
 
           <div class="row mb-2">
             <div class="col">
-              <span class="mb-1 text-muted d-block">{{surOeste}}% - SUR-OESTE</span>
+              <span class="mb-1 text-muted d-block">{{valdesia}}% - VALDESIA</span>
               <div class="progress" style="height: 5px;">
-                <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="{'width': surOeste + '%'}" [attr.aria-valuenow]="surOeste"
+                <div class="progress-bar valdesiaColor" role="progressbar" [ngStyle]="{'width': valdesia + '%'}" [attr.aria-valuenow]="valdesia"
                   aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
             <div class="col">
+              <span class="mb-1 text-muted d-block">{{enriquillo}}% - ENRIQUILLO</span>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar enriquilloColor" role="progressbar" [ngStyle]="{'width': enriquillo + '%'}" [attr.aria-valuenow]="enriquillo"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
 
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <span class="mb-1 text-muted d-block">{{elValle}}% - EL VALLE</span>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar elValleColor" role="progressbar" [ngStyle]="{'width': elValle + '%'}" [attr.aria-valuenow]="elValle"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="col">
+              <span class="mb-1 text-muted d-block">{{yuma}}% - YUMA</span>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar yumaColor" role="progressbar" [ngStyle]="{'width': yuma + '%'}" [attr.aria-valuenow]="yuma"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <span class="mb-1 text-muted d-block">{{higuamo}}% - HIGUAMO</span>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar higuamoColor" role="progressbar" [ngStyle]="{'width': higuamo + '%'}" [attr.aria-valuenow]="higuamo"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="col">
+              <span class="mb-1 text-muted d-block">{{ozama}}% - OZAMA</span>
+              <div class="progress" style="height: 5px;">
+                <div class="progress-bar ozamaColor" role="progressbar" [ngStyle]="{'width': ozama + '%'}" [attr.aria-valuenow]="ozama"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
             </div>
 
           </div>

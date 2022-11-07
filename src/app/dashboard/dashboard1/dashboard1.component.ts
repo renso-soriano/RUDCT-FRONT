@@ -52,11 +52,18 @@ export class Dashboard1Component implements OnInit {
   ejeMedioAmbiental: number;
 
   totalDemandas: number;
+
   cibaoNorte: number;
-  cibaoCentral: number;
-  metropolitana: number;
-  este: number;
-  surOeste: number;
+  cibaoSur: number;
+  cibaoNordeste: number;
+  cibaoNoroeste: number;
+  valdesia: number;
+  enriquillo: number;
+  elValle: number;
+  yuma: number;
+  higuamo: number;
+  ozama: number;
+
   mapSettings: MapSettings = {
     servicio: null,
     BindProperty: 'demandasPorProvincia',
@@ -80,10 +87,15 @@ export class Dashboard1Component implements OnInit {
       this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.MedioAmbiental).cantidad;
 
       this.cibaoNorte = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte).porcentaje;
-      this.cibaoCentral = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoCentral).porcentaje;
-      this.metropolitana = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Metropolitana).porcentaje;
-      this.este = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Este).porcentaje;
-      this.surOeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.SurOeste).porcentaje;
+      this.cibaoSur = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoSur).porcentaje;
+      this.cibaoNordeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNordeste).porcentaje;
+      this.cibaoNoroeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNoroeste).porcentaje;
+      this.valdesia = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Valdesia).porcentaje;
+      this.enriquillo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte).porcentaje;
+      this.elValle = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Enriquillo).porcentaje;
+      this.yuma = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Yuma).porcentaje;
+      this.higuamo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Higuamo).porcentaje;
+      this.ozama = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Ozama).porcentaje;
 
       this.locationsMunicipios = this.data2.demandaCoordenadasMunicipios;
       this.locationsProvincias = this.data2.demandaCoordenadasProvincias;
@@ -98,24 +110,50 @@ export class Dashboard1Component implements OnInit {
               "value": this.cibaoNorte
             },
             {
-              "name": "este",
+              "name": "cibaoSur",
               "className": "ct-progress",
-              "value": this.este
+              "value": this.cibaoSur
             },
             {
-              "name": "metropolitana",
+              "name": "cibaoNordeste",
               "className": "ct-outstanding",
-              "value": this.metropolitana
+              "value": this.cibaoNordeste
             },
             {
-              "name": "cibaoCentral",
+              "name": "cibaoNoroeste",
               "className": "ct-started",
-              "value": this.cibaoCentral
+              "value": this.cibaoNoroeste
             },
             {
-              "name": "surOeste",
+              "name": "valdesia",
+              "className": "ct-finish2",
+              "value": this.valdesia
+            },
+            {
+              "name": "enriquillo",
+              "className": "ct-done2",
+              "value": this.enriquillo
+            },
+            {
+              "name": "elValle",
+              "className": "ct-progress2",
+              "value": this.elValle
+            },
+            {
+              "name": "yuma",
+              "className": "ct-started2",
+              "value": this.yuma
+            },
+            {
+              "name": "higuamo",
+              "className": "ct-outstanding2",
+              "value": this.higuamo
+            },
+
+            {
+              "name": "ozama",
               "className": "ct-finish",
-              "value": this.surOeste
+              "value": this.ozama
             }
           ]
       }

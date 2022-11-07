@@ -1,9 +1,17 @@
 export enum Region {
   CibaoNorte = '1',
-  CibaoCentral = '2',
-  Metropolitana = '3',
-  Este = '4',
-  SurOeste = '5'
+  CibaoSur = '2',
+  CibaoNordeste = '3',
+  CibaoNoroeste = '4',
+  Valdesia = '5',
+  Enriquillo = '6',
+  ElValle = '7',
+  Yuma = '8',
+  Higuamo = '9',
+  Ozama = '10'
+
 }
+
+
 
 

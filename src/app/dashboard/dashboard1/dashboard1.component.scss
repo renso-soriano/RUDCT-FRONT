@@ -166,30 +166,117 @@
   font-size : 20px;
 }
 
+/*cibaoNorte*/
 :host ::ng-deep .donut .ct-done .ct-slice-donut {
   stroke : #40C057;
   stroke-width : 20px !important;
 }
 
+/*cibaoSur*/
 :host ::ng-deep .donut .ct-progress .ct-slice-donut {
   stroke : #F77E17;
   stroke-width : 16px !important;
 }
 
+/*cibaoNordeste*/
 :host ::ng-deep .donut .ct-outstanding .ct-slice-donut {
   stroke : #200155;
   stroke-width : 8px !important;
 }
 
+/*cibaoNoroeste*/
 :host ::ng-deep .donut .ct-started .ct-slice-donut {
   stroke : #2F8BE6;
   stroke-width : 32px !important;
 }
-
+/*ozama*/
 :host ::ng-deep .donut .ct-finish .ct-slice-donut {
   stroke : #e62f2f;
   stroke-width : 26px !important;
 }
+
+/*enriquillo*/
+:host ::ng-deep .donut .ct-done2 .ct-slice-donut {
+  stroke : #363836;
+  stroke-width : 20px !important;
+}
+
+/*elValle*/
+:host ::ng-deep .donut .ct-progress2 .ct-slice-donut {
+  stroke : #08b1c7;
+  stroke-width : 16px !important;
+}
+
+/*higuamo*/
+:host ::ng-deep .donut .ct-outstanding2 .ct-slice-donut {
+  stroke : #135834;
+  stroke-width : 8px !important;
+}
+
+/*yuma*/
+:host ::ng-deep .donut .ct-started2 .ct-slice-donut {
+  stroke : #16497c;
+  stroke-width : 32px !important;
+}
+
+/*valdesia*/
+:host ::ng-deep .donut .ct-finish2 .ct-slice-donut {
+  stroke : #cc8f8f;
+  stroke-width : 26px !important;
+}
+
+/****************colores progress Bar**********************/
+
+/*cibaoNorteColor*/
+:host ::ng-deep .cibaoNorteColor {
+  background-color : #40C057 !important;
+}
+
+/*cibaoSurColor*/
+:host ::ng-deep .cibaoSurColor {
+  background-color : #F77E17 !important;
+}
+
+/*cibaoNordesteColor*/
+:host ::ng-deep .cibaoNordesteColor{
+  background-color : #200155 !important;
+}
+
+/*cibaoNoroesteColor*/
+:host ::ng-deep .cibaoNoroesteColor {
+  background-color : #2F8BE6 !important;
+}
+/*ozamaColor*/
+:host ::ng-deep .ozamaColor {
+  background-color : #e62f2f !important;
+}
+
+/*enriquilloColor*/
+:host ::ng-deep .enriquilloColor{
+  background-color : #363836 !important;
+}
+
+/*elValleColor*/
+:host ::ng-deep .elValleColor {
+  background-color : #08b1c7 !important;
+}
+
+/*higuamoColor*/
+:host ::ng-deep .higuamoColor {
+  background-color : #135834 !important;
+}
+
+/*yumaColor*/
+:host ::ng-deep .yumaColor {
+  background-color : #16497c !important;
+}
+
+/*valdesiaColor*/
+:host ::ng-deep .valdesiaColor {
+  background-color : #cc8f8f !important;
+}
+
+/***********************************************/
 #map {
   height: 550px;
   width: 100%;
