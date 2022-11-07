@@ -91,8 +91,8 @@ export class Dashboard1Component implements OnInit {
       this.cibaoNordeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNordeste).porcentaje;
       this.cibaoNoroeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNoroeste).porcentaje;
       this.valdesia = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Valdesia).porcentaje;
-      this.enriquillo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte).porcentaje;
-      this.elValle = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Enriquillo).porcentaje;
+      this.enriquillo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Enriquillo).porcentaje;
+      this.elValle = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.ElValle).porcentaje;
       this.yuma = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Yuma).porcentaje;
       this.higuamo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Higuamo).porcentaje;
       this.ozama = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Ozama).porcentaje;
