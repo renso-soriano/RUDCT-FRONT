@@ -140,23 +140,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '3' && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
-          <div class="form-group">
-            <label for="rechazada">Por qué es rechazada?</label>
-            <textarea class="form-control" name="rechazada" id="rechazada" rows="3"
-              formControlName="justificacionRechazo"></textarea>
-            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
 
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
-
-                          </div> -->
-          </div>
-        </div>
-      </div>
 
       <div class="row" *ngIf="EF.estado.value == '5' && gruposUsuario.includes(1008) == true">
         <div class="col-sm-8">
@@ -211,6 +195,24 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="row" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
+        <div class="col-sm-8">
+          <div class="form-group">
+            <label for="comentarioEstado">Comentario</label>
+            <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
+              formControlName="comentarioEstado"></textarea>
+            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
+                            class="help-block mt-1 text-danger">
+
+                            <div *ngIf="nivelDemanda.errors.required">
+                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                            </div>
+
+                          </div> -->
+          </div>
+        </div>
       </div>
 
       <div class="row" *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">

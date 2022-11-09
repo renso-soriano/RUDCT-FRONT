@@ -48,7 +48,7 @@ export class Demanda implements Deserializable {
   codigoSnip?: string;
   codigoPoa?: string;
   codigoPei?: string;
-  justificacionRechazo?: string;
+  comentarioEstado?: string;
   razonDevolucion?: string;
   direccion?: string;
   detalle?: string;

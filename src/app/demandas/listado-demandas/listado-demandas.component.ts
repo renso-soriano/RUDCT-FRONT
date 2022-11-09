@@ -63,7 +63,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   estadoForm = this.formBuilder.group({
     estado: [null, { validators: [Validators.required] }],
-    justificacionRechazo: [null],
+    comentarioEstado: [null],
     codigoPoa: [null],
     codigoPei: [null],
     codigoSnip: [null],
@@ -76,7 +76,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   estadoChange() {
     this.estadoForm.patchValue({
-      justificacionRechazo: null,
+      comentarioEstado: null,
       codigoPoa: null,
       codigoPei: null,
       codigoSnip: null,
@@ -587,7 +587,7 @@ export class ListadoDemandasComponent implements OnInit {
   submit() {
 
     //validaciones finales de listados
-    if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.justificacionRechazo.value == null) {
+    if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.comentarioEstado.value == null) {
       this.serviceStr.typeError(
         "Debe completar el por qué rechaza la demanda"
       );
@@ -626,7 +626,7 @@ export class ListadoDemandasComponent implements OnInit {
     this.demanda.codigoPei = formValue.codigoPei;
     this.demanda.codigoPoa = formValue.codigoPoa;
     this.demanda.codigoSnip = formValue.codigoSnip;
-    this.demanda.justificacionRechazo = formValue.justificacionRechazo;
+    this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
 
     this.spinner.show();
