@@ -121,7 +121,7 @@
     <form (submit)="submit()" [formGroup]="estadoForm">
 
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
           <div class="form-group">
             <label for="estado">Estado</label>
             <ng-select [appendTo]="'body'" [items]="listadoEstados | async" bindLabel="name" bindValue="id"
