@@ -143,14 +143,17 @@ export class ReporteComponent implements OnInit {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
         grupo = GrupoUsuario.DGDES;
       }
-      if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
+      else if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
         grupo = GrupoUsuario.VIOTDR;
       }
-      if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
+      else if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
         grupo = GrupoUsuario.regionalesRUDT;
       }
-      if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true) {
+      else if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true) {
         grupo = GrupoUsuario.administradoresRUDT;
+      }
+      else if (this.gruposUsuario.includes(GrupoUsuario.soloLectura) == true) {
+        grupo = GrupoUsuario.soloLectura;
       }
 
     }
