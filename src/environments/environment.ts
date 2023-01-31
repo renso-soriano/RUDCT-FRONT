@@ -24,7 +24,8 @@ export const environment = {
     "Ñ": "N"
   },
   mapbox: {
-    accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
+    //accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
+    accessToken:'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
   },
   InicializarMapa: {
     // coordenadaX:  18.882845408575886,
@@ -34,7 +35,8 @@ export const environment = {
     coordenadaY: -69.845067,
 
 
-    accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
+    //accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
+    accessToken:'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
 
   },
 };
