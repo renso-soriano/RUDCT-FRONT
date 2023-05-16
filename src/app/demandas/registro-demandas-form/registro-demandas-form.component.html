@@ -171,7 +171,7 @@
                                 class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
                             <input type="text" class="form-control" id="coordenadaX" name="coordenadaX"
                               formControlName="coordenadaX" maxlength="30">
-                            <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
+                            <!-- <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaX.errors.required">
@@ -180,7 +180,7 @@
                               <div *ngIf="coordenadaX.errors.maxlength">
                                 <i class="ft-alert-circle align-middle"></i> El campo debe tener maxímo 30 caracteres.
                               </div>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -190,14 +190,14 @@
                             <input type="text" min="0" class="form-control" name="coordenadaY" id="coordenadaY"
                               formControlName="coordenadaY">
 
-                            <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
+                            <!-- <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="coordenadaY.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
 
                           </div>
                         </div>
@@ -254,14 +254,14 @@
                             <input type="number" min="0" class="form-control" name="prioridad" id="prioridad"
                               formControlName="prioridad">
 
-                            <div *ngIf="prioridad.invalid && (prioridad.dirty || prioridad.touched)"
+                            <!-- <div *ngIf="prioridad.invalid && (prioridad.dirty || prioridad.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="prioridad.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
 
                           </div>
                         </div>
@@ -317,19 +317,18 @@
                         <div class="col-sm-4">
                           <div class="form-group">
                             <label for="tipo">Tipo inversion</label>
-                            <ng-select [multiple]="false" [items]="tipoInversiones | async"
-                              bindLabel="name" bindValue="id" name="tipo" id="tipo"
-                              placeholder="Seleccione los tipos de inversion" (change)="onTipoChange()"
-                              formControlName="tiposInversion">
+                            <ng-select [multiple]="false" [items]="tipoInversiones | async" bindLabel="name"
+                              bindValue="id" name="tipo" id="tipo" placeholder="Seleccione los tipos de inversion"
+                              (change)="onTipoChange()" formControlName="tiposInversion">
                             </ng-select>
-                            <div *ngIf="tiposInversion.invalid && (tiposInversion.dirty || tiposInversion.touched)"
+                            <!-- <div *ngIf="tiposInversion.invalid && (tiposInversion.dirty || tiposInversion.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="tiposInversion.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
 
                           </div>
                         </div>
@@ -481,9 +480,10 @@
                           <!--listado de comentarios-->
                           <ng-template ngbPanelContent>
                             <div class="row">
-                              <div class="col-4" *ngFor="let item of listadoComentarios ; let i=index " >
+                              <div class="col-4" *ngFor="let item of listadoComentarios ; let i=index ">
                                 <span>
-                                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2 "  *ngIf="typeEdit == false" (click)="removerComentario(i)"></a>
+                                  <a class="btn-sm ml-1 btn-danger text-white ft-trash-2 " *ngIf="typeEdit == false"
+                                    (click)="removerComentario(i)"></a>
                                 </span>
                                 <div class="card card-inverse bg-info mb-2">
                                   <div class="card-content">
@@ -568,8 +568,8 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="objetivo">Objetivo</label>
-                            <ng-select [items]="objetivosEnd | async" bindLabel="name" bindValue="id" name="objetivo" id="objetivo"
-                              placeholder="Seleccione objetivo" formControlName="objetivo">
+                            <ng-select [items]="objetivosEnd | async" bindLabel="name" bindValue="id" name="objetivo"
+                              id="objetivo" placeholder="Seleccione objetivo" formControlName="objetivo">
                             </ng-select>
 
                             <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
@@ -643,19 +643,19 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="politica">Politica</label>
-                                <ng-select [items]="politicas | async" bindLabel="name" bindValue="id" name="politica" id="politica"
-                                  placeholder="Seleccione politica" formControlName="politica">
+                                <ng-select [items]="politicas | async" bindLabel="name" bindValue="id" name="politica"
+                                  id="politica" placeholder="Seleccione politica" formControlName="politica">
                                 </ng-select>
 
                               </div>
-                              <div *ngIf="politica.invalid && (politica.dirty || politica.touched)"
+                              <!-- <div *ngIf="politica.invalid && (politica.dirty || politica.touched)"
                                 class="help-block mt-1 text-danger">
 
                                 <div *ngIf="politica.errors.required">
                                   <i class="ft-alert-circle align-middle"></i> El campo es requerido
                                 </div>
 
-                              </div>
+                              </div> -->
 
                             </div>
 
@@ -700,14 +700,14 @@
                               (change)="onFinalidadChange()" formControlName="finalidad">
                             </ng-select>
 
-                            <div *ngIf="finalidad.invalid && (finalidad.dirty || finalidad.touched)"
+                            <!-- <div *ngIf="finalidad.invalid && (finalidad.dirty || finalidad.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="finalidad.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -722,14 +722,14 @@
                               formControlName="funcion">
                             </ng-select>
 
-                            <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
+                            <!-- <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="funcion.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -739,19 +739,19 @@
                         <div class="col-sm-6">
                           <div class="form-group">
                             <label for="subFuncion">Sub-función</label>
-                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre"
-                              name="subFuncion" id="subFuncion" placeholder="Seleccione sub-función"
-                              (change)="onSubFuncionChange()" formControlName="subFuncion">
+                            <ng-select [items]="listadoTemaComun | async" bindLabel="nombre" name="subFuncion"
+                              id="subFuncion" placeholder="Seleccione sub-función" (change)="onSubFuncionChange()"
+                              formControlName="subFuncion">
                             </ng-select>
 
-                            <div *ngIf="subFuncion.invalid && (subFuncion.dirty || subFuncion.touched)"
+                            <!-- <div *ngIf="subFuncion.invalid && (subFuncion.dirty || subFuncion.touched)"
                               class="help-block mt-1 text-danger">
 
                               <div *ngIf="subFuncion.errors.required">
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -764,7 +764,7 @@
                           <div class="form-group">
                             <label for="temaCommun">Tema común</label>
                             <input type="text" [readonly]="true" class="form-control" id="temaCommun" name="temaCommun"
-                              formControlName="temaCommun" >
+                              formControlName="temaCommun">
 
                           </div>
                         </div>
@@ -798,7 +798,7 @@
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable"
                               (change)="onInstitucionPrimariaChange()">
                             </ng-select>
-                            <div
+                            <!-- <div
                               *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)"
                               class="help-block mt-1 text-danger">
 
@@ -806,7 +806,7 @@
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 

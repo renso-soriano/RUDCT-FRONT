@@ -91,7 +91,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     "temaComunId": null,
     "institucionId": null,
     "estadoId": null,
-    "politicaPNPSPId":null
+    "politicaPNPSPId":null,
+    "tipoInversionId":null
   }
 
   // column header
@@ -224,6 +225,15 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         multiple: false
       }),
       new FiltrosDinamicos().deserialize({
+        name: 'tipoInversionId',
+        label: 'Tipo inversion',
+        servicio: this.dropdownService.getTipoInversion(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tipo',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
         name: 'institucionId',
         label: 'Institución responsable',
         servicio: this.dropdownService.getInstituciones(),
@@ -278,6 +288,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('institucionId', this.filtrosActivos.institucionId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('tipoInversionId',this.filtrosActivos.tipoInversionId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;

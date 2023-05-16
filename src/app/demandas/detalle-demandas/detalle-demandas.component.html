@@ -59,19 +59,19 @@
                           </div>
                         </div>
                       </div> -->
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreTemaComun">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Clasificador funcional: </span>
                           <label for="subFuncion">{{demanda.nombreTemaComun}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.temaComunTema">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tema común: </span>
                           <label for="temaComun">{{demanda.temaComunTema}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Institución responsable: </span>
                           <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
@@ -141,7 +141,7 @@
                           <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreTipoInversion || demanda.otroTipoInversion ">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo de inversión: </span>
                           <br />
@@ -168,7 +168,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.odsId">
                         <div class="form-group">
                           <span class="danger font-weight-bold">ODS vinculado: </span>
                           <div>
@@ -176,7 +176,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombrePoliticaPNPSP">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Política PNPSP vinculada: </span>
                           <div>

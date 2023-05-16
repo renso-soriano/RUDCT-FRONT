@@ -156,12 +156,12 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       },
     ],
     tecnico: [null],
-    institucionResponsable: [null, { validators: [Validators.required] }],
+    institucionResponsable: [null],
     institucionesColaboradoras: [],
     comentarios: [null],
     detalle: [null],
-    politica: [null, { validators: [Validators.required] }],
-    tiposInversion: [null, { validators: [Validators.required] }],
+    politica: [null],
+    tiposInversion: [null],
     otrosTiposInversion: [null],
     inversionchkBox: [null],
     tipo: [null],
@@ -173,15 +173,15 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     nombreCompletoContacto: [null],
     telefonoContacto: [null],
     descripcionContacto: [null],
-    finalidad: [null, { validators: [Validators.required] }],
-    funcion: [null, { validators: [Validators.required] }],
-    subFuncion: [null, { validators: [Validators.required] }],
+    finalidad: [null],
+    funcion: [null],
+    subFuncion: [null],
     temaCommun: [null],
-    temaComunId: [null, { validators: [Validators.required] }],
-    prioridad: [null, { validators: [Validators.required] }],
+    temaComunId: [null],
+    prioridad: [null],
     demandaTipoId: [1],
-    coordenadaX: [null, { validators: [Validators.required] }],
-    coordenadaY: [null, { validators: [Validators.required] }],
+    coordenadaX: [null],
+    coordenadaY: [null],
     consolidadaEn: [null],
     codigoSisplan: [null],
     codigoSnip: [null],
@@ -436,7 +436,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     return distritoid == null ? null : distritoid.toString();
   }
 
-  setObjetivosDropdown(ejeId:number) {
+  setObjetivosDropdown(ejeId: number) {
     this.objetivosEnd = this.dropDownService.getObjetivosByEjeId(ejeId);
   }
 
@@ -511,18 +511,18 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           temaCommun: demanda.temaComunTema,
           fuente: demanda.fuenteDemandaId.toString(),
           eje: demanda.ejeEndId.toString(),
-          odsId: demanda.odsId != null ? demanda.odsId.toString():null,
+          odsId: demanda.odsId != null ? demanda.odsId.toString() : null,
           objetivo: demanda.objetivoEndId.toString(),
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
           estadoId: demanda.estadoId,
-          estadoValidacionId:demanda.estadoValidacionId,
-          institucionResponsable: demanda.institucionId.toString(),
+          estadoValidacionId: demanda.estadoValidacionId,
+          institucionResponsable: demanda.institucionId != null ? demanda.institucionId.toString() : null,
           institucionesColaboradoras: null,
           comentarios: null,
           detalle: demanda.detalle,
-          politica: demanda.politicaPNPSPId.toString(),
-          tiposInversion: demanda.tipoInversionId.toString(),
+          politica: demanda.politicaPNPSPId != null ? demanda.politicaPNPSPId.toString() : null,
+          tiposInversion: demanda.tipoInversionId != null ? demanda.tipoInversionId.toString() : null,
           otrosTiposInversion: demanda.otrosTiposInversion,
           tipo: null,
           categoria: null,
@@ -828,16 +828,21 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         this.serviceStr.typeError(
           "Debe Tener al menos 1 contacto asociado a la demanda"
         );
+        console.log("Noenviar")
+      }
+      else {
+        console.log("enviar")
+        this.enviar();
       }
     }
     else {
+      console.log("enviar")
       this.enviar();
     }
   }
 
   enviar() {
     let listadoEjes = [];
-
     this.registerForm.patchValue({
       // politica: this.listadoPoliticas,
       // institucionesColaboradoras: this.listadoInstituciones,
@@ -861,11 +866,11 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       fuenteDemandaId: parseInt(formValue.fuente, 10),
       descripcion: formValue.demanda,
       tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico, 10) : null,
-      institucionId: parseInt(formValue.institucionResponsable, 10),
+      institucionId: formValue.institucionResponsable != null ? parseInt(formValue.institucionResponsable, 10) : null,
       tipoInversionId: formValue.tiposInversion,
-      estadoId: formValue.estadoId ,
-      estadoValidacionId:formValue.estadoValidacionId,
-      temaComunId: parseInt(formValue.temaComunId, 10),
+      estadoId: formValue.estadoId,
+      estadoValidacionId: formValue.estadoValidacionId,
+      temaComunId:formValue.temaComunId != null ? parseInt(formValue.temaComunId, 10) : null,
       prioridad: formValue.prioridad,
       demandaTipoId: formValue.demandaTipoId,
       coordenadaX: formValue.coordenadaX,
@@ -1201,7 +1206,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       }).bindPopup(`
         <strong>Coordenada X:</strong> ${lat.value} <br/>
         <strong>Coordenada Y:</strong> ${long.value}`,
-        {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
+        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);
@@ -1232,7 +1237,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       }).bindPopup(`
       <strong>Coordenada X:</strong> ${latitud} <br/>
       <strong>Coordenada Y:</strong> ${longitud}`,
-      {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
+        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);
@@ -1311,7 +1316,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         <strong>Lugar:</strong> ${location} <br/>
         <strong>Coordenada X:</strong> ${latitud} <br/>
         <strong>Coordenada Y:</strong> ${longitud}`,
-        {closeOnClick: true,  closeButton: false, autoClose: true, autoPan: true });
+        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
       // anade la marca  nueva
       map.addLayer(marker);
@@ -1380,7 +1385,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
 
   }
-  onSubFuncionChange(){
+  onSubFuncionChange() {
 
     console.log(this.subFuncion.value)
 
@@ -1440,7 +1445,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
   }
 
-  removerComentario(id){
+  removerComentario(id) {
     this.listadoComentarios.splice(id, 1);
 
   }
