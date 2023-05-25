@@ -37,10 +37,10 @@
                   [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
                   {{ value }}
                 </div>
-                  <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
-                    [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante'}">
-                    {{ value }}
-                  </div>
+                <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
+                [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante', 'bg-primary':value == 'Original'}">
+                {{ value }}
+              </div>
                 </ng-template>
               </ngx-datatable-column>
               <!-- Acciones -->
@@ -210,6 +210,12 @@
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad: </span>
                           <label for="Prioridad">{{demanda.prioridad}}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Prioridad provincial: </span>
+                          <label for="Prioridad">{{demanda.prioridadProvincial}}</label>
                         </div>
                       </div>
                       <div class="col-4">

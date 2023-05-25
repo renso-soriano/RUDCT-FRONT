@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { FiltrosDinamicos } from 'app/shared/models/Core/filtros-dinamicos.model';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
@@ -23,18 +23,19 @@ import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { Console } from 'console';
 import { AuthService } from 'app/shared/services/core/auth.service';
+import { NivelPrioridadProvincial } from 'app/shared/models/Priorizacion/nivelPrioridadProvincial.enum';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
 
 @Component({
-  selector: 'app-listado-demandas-consolidacion',
-  templateUrl: './listado-demandas-consolidacion.component.html',
-  styleUrls: ['./listado-demandas-consolidacion.component.scss', '../../../assets/sass/libs/datatables.scss'],
+  selector: 'app-listado-demandas-priorizacion',
+  templateUrl: './listado-demandas-priorizacion.component.html',
+  styleUrls: ['./listado-demandas-priorizacion.component.scss', '../../../assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [NGXToastrService]
 })
-export class ListadoDemandasConsolidacionComponent implements OnInit {
+export class ListadoDemandasPriorizacionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
@@ -44,26 +45,19 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   //data:any[];
   notFound = false;
-  demandasSelected: number[] = [];
-  @ViewChildren("checkboxes") checkboxes: QueryList<ElementRef>;
+  demandaId: number;
   modal: NgbModal;
   demanda: any;
-  listadoContactos: any[]=[];
-  gruposUsuario:any;
+  listadoContactos: any[] = [];
+  gruposUsuario: any;
+  listadoPriorizacion: Observable<any>;
 
-  consolidationForm = this.formBuilder.group({
-    descripcion: [null, { validators: [Validators.required] }],
-    comentario: [null],
-    //tipoDemanda: [null, { validators: [Validators.required] }],
-    prioridad: [null, { validators: [Validators.required] }],
-    contacto: [null],
-    nombreCompletoContacto: [null],
-    telefonoContacto: [null],
-    descripcionContacto: [null]
+  priorizarForm = this.formBuilder.group({
+    priorizacion: [null, { validators: [Validators.required] }]
   });
 
-  get cf() {
-    return this.consolidationForm.controls;
+  get PF() {
+    return this.priorizarForm.controls;
   }
 
   // row data
@@ -91,8 +85,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     "temaComunId": null,
     "institucionId": null,
     "estadoId": null,
-    "politicaPNPSPId":null,
-    "tipoInversionId":null
+    "politicaPNPSPId": null,
+    "tipoInversionId": null
   }
 
   // column header
@@ -102,9 +96,9 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
-    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false },
     { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
-    { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false }
+    { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false },
+    { name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false },
   ];
 
   // multi Purpose datatable Row data
@@ -179,8 +173,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     private demandasService: DemandasService,
     private router: Router,
     private dropdownService: DropDownServiceService,
-    private authService: AuthService)
-     {
+    private authService: AuthService) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -190,6 +183,18 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+
+    //listado de TipoDemanda
+    let listaNiveles = [];
+
+    for (let item in NivelPrioridadProvincial) {
+      if (isNaN(Number(item))) {
+        listaNiveles.push({ name: item, id: NivelPrioridadProvincial[item] });
+      }
+    }
+    this.listadoPriorizacion = of(listaNiveles);
+
+
     // Initially load first page
     this.pageCallback({ offset: 0 });
     this.filtros = [
@@ -288,12 +293,11 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('institucionId', this.filtrosActivos.institucionId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
-      .set('tipoInversionId',this.filtrosActivos.tipoInversionId)
+      .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-      this.checkBoxClear();
       document.body.click();
     });
   }
@@ -303,32 +307,12 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     await this.reloadTable();
   }
 
-  onBotonConsolidarChange(evento: any, tipo: number) {
-
-    if (evento.target.checked) {
-      if (this.demandasSelected.findIndex(item => item == tipo) == -1) {
-        this.demandasSelected.push(tipo);
-      }
-    }
-    else {
-      this.demandasSelected = this.demandasSelected.filter(t => t != tipo);
-    }
-  }
-
-  checkBoxClear() {
-
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
-    });
-
-    this.demandasSelected = [];
-
-  }
 
   //metodo para abrir el modal
 
   openVerticallyCentered(content, id) {
     this.getDemanda(id);
+    this.demandaId = id;
 
     this.modalService.open(content, {
       //centered: true,
@@ -338,23 +322,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       //windowClass: 'modal-xl'
     });
   }
-  openVertically(content) {
-    if (this.demandasSelected.length < 2) {
-      this.serviceStr.typeError(
-        "Debe seleccionar 2 demandas o más para consolidar"
-      );
-    }
-    else {
-      this.modalService.open(content, {
-        //centered: true,
-        //backdrop: "static",
-        keyboard: false,
-        size: 'xl',
-        //windowClass: 'modal-xl'
-      });
-    }
 
-  }
 
   getDemanda(demandaId: string) {
     this.notFound = false;
@@ -375,87 +343,41 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     );
   }
 
-  agregarContacto() {
-    if (
-      this.cf.nombreCompletoContacto.value != null &&
-      this.cf.telefonoContacto.value != null
-    ) {
-      if (this.listadoContactos == null) {
-        this.listadoContactos = [];
-      }
-      this.listadoContactos.push({
-        CodigoDemanda: 0,
-        id: 0,
-        nombreCompleto: this.cf.nombreCompletoContacto.value,
-        telefono: this.cf.telefonoContacto.value,
-        descripcion: this.cf.descripcionContacto.value,
-        estatus: "A"
-      });
-    } else {
-      this.serviceStr.typeError(
-        "No puede añadir Contactos sin nombres y telefonos"
-      );
-    }
-
-    this.consolidationForm.patchValue({
-      nombreCompletoContacto: null,
-      telefonoContacto: null,
-      descripcionContacto: null,
-    });
-  }
-  eliminarContacto(id: number) {
-    this.listadoContactos.splice(id, 1);
-  }
-
   submit() {
-    if(this.listadoContactos.length < 1)
-    {
-      this.serviceStr.typeError(
-        "Debe Tener al menos 1 contacto para poder consolidar"
-      );
-    }
-    else{
-      this.consolidar();
-    }
+    console.log("entro al submit si o no?")
+    this.guardarPriorizacion();
 
   }
 
-  consolidar() {
+  guardarPriorizacion() {
+    console.log("entro al guardar si o no?")
+
+    const formValue = this.priorizarForm.value;
+    this.demanda.prioridadProvincial = formValue.priorizacion;
 
     this.spinner.show();
-
-    let params = new ConsolidationRequest().deserialize({
-
-      ids: this.demandasSelected,
-      descripcion: this.cf.descripcion.value,
-      prioridad: this.cf.prioridad.value,
-      comentarioConsolidacion: this.cf.comentario.value,
-      demandaContactos: this.listadoContactos
-    });
-
+    console.log(formValue);
+    console.log(this.demanda);
 
     this.demandasService
-    .consolidarDemandas(params).toPromise()
+      .updateDemanda(this.demanda)
+      .toPromise()
       .then((res: any) => {
-        this.serviceStr.typeSuccess("La demanda se consolidó con éxito");
-          this.spinner.hide();
+        this.serviceStr.typeSuccess("la prioridad de la demanda en el nivel provincial se guardo con éxito");
+        this.spinner.hide();
         setTimeout(() => {
-          //this.router.navigate(["/consolidacion"]);
-          window.location.href = "/consolidacion";
-        }, 2000);
+          window.location.href = "/priorizacion";
+        }, 1500);
       })
       .catch((err) => {
         console.error(err);
-        this.serviceStr.typeError(err.error.message);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al actualizar la demanda, contacte con Soporte TIC"
+        );
         this.spinner.hide();
       });
 
 
-
-
   }
 
-
 }
-
-

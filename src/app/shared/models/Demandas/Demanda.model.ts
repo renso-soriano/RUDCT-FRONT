@@ -41,6 +41,7 @@ export class Demanda implements Deserializable {
   estatus?: string;
   tipoId?: number;
   prioridad?: number;
+  prioridadProvincial:string;
   coordenadaX?: string;
   coordenadaY?: string;
   consolidadaEn?: string;
