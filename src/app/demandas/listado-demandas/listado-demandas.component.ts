@@ -241,6 +241,7 @@ export class ListadoDemandasComponent implements OnInit {
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
+      this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
       this.tipoEstado = "ejecución";
     }

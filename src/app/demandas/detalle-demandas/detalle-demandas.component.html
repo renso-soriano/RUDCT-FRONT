@@ -139,7 +139,15 @@
                           <label for="Nivel">PROVINCIAL</label>
                         </ng-template>
                       </div>
+                      <div class="col-4" *ngIf="demanda.nombreTipoInversion || demanda.otroTipoInversion ">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Tipo de inversión: </span>
+                          <br />
+                          <span class="badge badge-pill badge-primary mr-1 mt-1">{{demanda.otroTipoInversion == null ?
+                            demanda.nombreTipoInversion : demanda.otroTipoInversion }} </span>
 
+                        </div>
+                      </div>
 
                       <div class="col-12" *ngIf="demanda.resultanteDe">
                         <div class="form-group">
@@ -147,18 +155,7 @@
                           <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreTipoInversion || demanda.otroTipoInversion ">
-                        <div class="form-group">
-                          <span class="danger font-weight-bold">Tipo de inversión: </span>
-                          <br />
-                          <span class="badge badge-pill badge-primary mr-1 mt-1">{{demanda.otroTipoInversion == null ?
-                            demanda.nombreTipoInversion : demanda.otroTipoInversion }} </span>
 
-                          <!-- <span *ngFor="let item of demanda.demandaTipoInversiones"
-                            class="badge badge-pill badge-primary mr-1 mt-1">{{item.tipoInversionOtros == null ?
-                            item.nombreTipoInversion : item.tipoInversionOtros }} </span> -->
-                        </div>
-                      </div>
 
                       <div class="col-12">
                         <div class="form-group">

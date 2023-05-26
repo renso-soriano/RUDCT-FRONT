@@ -54,7 +54,7 @@
                 <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
                   prop="{{column.prop}}" >
                   <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
-                    <span *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' ">
+                    <span *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
                       {{value}}
                     </span>
                     <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
@@ -65,6 +65,10 @@
                       [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR'}">
                       {{ value }}
                     </div>
+                    <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(1008) == true" class="badge badge-pill"
+                    [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
+                    {{value == '' ?  "No Aplicada" : value }}
+                  </div>
                   </ng-template>
                 </ngx-datatable-column>
                 <!-- Acciones -->
@@ -221,7 +225,7 @@
             <label for="devolucion">Razón de devolución</label>
             <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
               formControlName="razonDevolucion"></textarea>
-            
+
           </div>
         </div>
 
