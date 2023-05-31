@@ -14,14 +14,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'app/shared/shared.module';
-import { EvidenciaDemandasComponent } from './listado-demandas/evidencia-demandas/evidencia-demandas.component';
+import { Uploader, UploadWidgetConfig, UploadWidgetResult } from "uploader";
+import { UploaderModule } from "angular-uploader";
+
+
 
 @NgModule({
   declarations: [
     RegistroDemandasFormComponent,
     ListadoDemandasComponent,
     DetalleDemandasComponent,
-    EvidenciaDemandasComponent
+
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,8 @@ import { EvidenciaDemandasComponent } from './listado-demandas/evidencia-demanda
     ToastrModule,
     NgxSpinnerModule,
     SharedModule,
+    UploaderModule
+
   ]
 })
 export class DemandasModule { }
