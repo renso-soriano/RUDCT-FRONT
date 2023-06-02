@@ -309,7 +309,10 @@
               >
             </ng-select>
             <h4>Seleciona el archivo</h4>
-            <input type="file" (change)="getFile($event)" />
+            <form>
+              <input type="file" name="pdfFile" (change)="getFile($event)" multiple />
+            </form>
+
           </div>
         </div>
       </div>

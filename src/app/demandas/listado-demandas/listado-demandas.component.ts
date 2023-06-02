@@ -1,3 +1,4 @@
+import { value } from './../../shared/data/dropdowns';
 import { ExcelService } from './../../shared/services/excel.service';
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
@@ -27,8 +28,10 @@ import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 import { FileManagerService } from '../services/fileManager.service';
 import { TipoDocumento } from '../enum/tipo-documento.enum';
-import { UploadWidgetConfig, UploadWidgetResult, Uploader } from 'uploader';
+// import { UploadWidgetConfig, UploadWidgetResult, Uploader } from 'uploader';
 import Archivo from '../interface/archivo.interface';
+import { ToastrService } from 'ngx-toastr';
+import { log } from 'console';
 
 
 declare var require: any;
@@ -72,7 +75,7 @@ export class ListadoDemandasComponent implements OnInit {
   capas: any;
   rowsFilterByGoups: any;
   tipoEstado: string;
-  file: any
+  filesAnexo:any[]=[];
 
 
   estadoForm = this.formBuilder.group({
@@ -222,7 +225,8 @@ export class ListadoDemandasComponent implements OnInit {
     private router: Router,
     private dropdownService: DropDownServiceService,
     private excelService: ExcelService,
-    private fileManager: FileManagerService
+    private fileManager: FileManagerService,
+    private toastr: ToastrService
     ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -745,32 +749,99 @@ export class ListadoDemandasComponent implements OnInit {
 }
 
 getFile(event: any){
-  this.file = event.target.files[0]
-
-  console.log('Archivo seleccionado: ', this.file)
+  this.filesAnexo = Array.from(event.target.files);
+  console.log('Archivo seleccionado: ', this.filesAnexo)
 }
 
-submitData(){
 
-  const files: Archivo[] = [
-    {
-      id: 0,
-      entityId: this.demanda.id,
-      file: this.file,
-      tipoDocumentoId: this.tipoDocumentoId
-    }
-  ]
 
-  let data = this.fileManager.createFormData(files);
+async  submitData(){
+
+  console.log("submitttt ",this.filesAnexo);
+  let data = await this.fileManager.saveMultipleFiles(this.filesAnexo, this.tipoDocumentoId).toPromise();
+ if(data.length >= 0){
+   const demandaAnexo = data.map(id  => {
+     return {
+       id: 0,
+       fileId: id,
+       demandaId: this.demanda.id
+     }
+   })
+   this.fileManager.saveDemandaAnexo(demandaAnexo).subscribe(res => {
+     console.log("ESO TA READY", res)
+     this.toastr.success('Archivo cargado con éxito.', 'Éxito');
+   })
+ }
+
+
+}
+
+// getFile(event: any): Promise<File[]> {
+//   return new Promise((resolve, reject) => {
+//     const selectedFiles = event.target.files;
+//     if (selectedFiles && selectedFiles.length > 0) {
+//       const filesArray = Array.from(selectedFiles) as File[];
+//       resolve(filesArray);
+//       console.log()
+//     } else {
+//       reject(new Error('No se han seleccionado archivos.'));
+//     }
+//   });
+// }
+
+
+
+
+// submitData(): void {
+//   this.getFile(this.filesAnexo).then((selectedFiles: File[]) => {
+//     return this.fileManager.saveMultipleFiles(selectedFiles, this.tipoDocumentoId).toPromise();
+//   }).then((data: Array<number>) => {
+//     if (data.length > 0) {
+//       const demandaAnexo = data.map((id: number) => {
+//         return {
+//           id: 0,
+//           fileId: id,
+//           demandaId: this.demanda.id
+//         };
+//       });
+//       return this.fileManager.saveDemandaAnexo(demandaAnexo).toPromise();
+//     }
+//   }).then(() => {
+//     console.log("ESO TA READY");
+//     this.toastr.success('Archivo cargado con éxito.', 'Éxito');
+//   }).catch((error) => {
+//     console.error("Error al cargar y guardar archivos:", error);
+//     this.toastr.error('Error al cargar y guardar archivos.', 'Error');
+//   });
+// }
+
+
+
+// }
+ // const createFile: Archivo[] = [
+  //   {
+  //     fileId: 0,
+  //     Data: this.files,
+  //     FileTypeId: this.tipoDocumentoId
+  //   }
+  // ]
+
+
   // console.log(data.,"DATA");
-  data.forEach(value=>{
-    console.log(value,"VALUE");
-  })
+  // data.forEach(value=>{
+  //   console.log(value,"VALUE");
+  // })
 
-  this.fileManager.uploadFiles(data).subscribe(res => {
-    console.log(res);
-  })
-}
+  // this.fileManager.uploadFiles(data).subscribe(res => {
+  //   console.log(res);
+  // })
+
+
+
+
+
+
+//desde aqui pa arrriba
 
 // onFileSelected(event) {
 
@@ -845,5 +916,6 @@ submitData(){
 
   //   );
   //}
+
 
 }

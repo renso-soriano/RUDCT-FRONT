@@ -15,6 +15,7 @@ export class FileManagerService {
   public route: string
   private API_URL_POST = environment.apiUrl+"File/UploadFileList"
   private API_URL_DOWNLOAD = "File/Download"
+  private API_DemandaAnexo = environment.apiUrl+"DemandaAnexo"
 
 
 
@@ -45,17 +46,17 @@ constructor(private _http: HttpClient,
   }
 
 
-  createFormData(files: Archivo[]): FormData {
-    const fileData = new FormData()
+  // createFormData(files: Archivo[]): FormData {
+  //   const fileData = new FormData()
 
-    files.map(archivo => {
-      console.log(archivo,"ARCHIVO");
-      fileData.append("fileList", archivo.file)
-      fileData.append("tiposDocumentoIds", archivo.tipoDocumentoId.toString())
-    })
-    console.log("FORMA DATA CREATE", fileData);
-    return fileData;
-  }
+  //   files.map(archivo => {
+  //     console.log(archivo,"ARCHIVO");
+  //     fileData.append("fileList", archivo.)
+  //     fileData.append("tiposDocumentoIds", archivo.tipoDocumentoId.toString())
+  //   })
+  //   console.log("FORMA DATA CREATE", fileData);
+  //   return fileData;
+  // }
 
 
   // PARA DESCARGAR ARCHIVOS
@@ -69,6 +70,37 @@ constructor(private _http: HttpClient,
     const file = new Blob([byteArray], { type: data.contentType });
     return file;
   }
+
+
+//Con Victor
+
+saveMultipleFiles(files: any[], fileType: number): Observable<Array<number>> {
+
+  const fileData = new FormData()
+
+  files.map((file: File) => {
+
+    fileData.append('fileList', file)
+
+  })
+
+  console.log('Final', fileData);
+  return this.post(fileData, fileType)
+
+}
+
+
+protected post(body: any, fileType: number): Observable<Array<number>> {
+
+  return this._http.post<Array<number>>(body, `File/UploadFileList/${fileType}`)
+
+
+}
+
+saveDemandaAnexo(demandaAnexo: any): Observable<any>{
+
+  return this._http.post<any>(this.API_URL_POST, demandaAnexo);
+}
 
 
 
