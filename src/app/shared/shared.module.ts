@@ -35,6 +35,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet'
+import { RandyFileComponent } from './components/randy-file/randy-file.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
     exports: [
@@ -52,7 +55,10 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TranslateModule,
         DataFilterComponent,
         MapaComponent,
-        LeafletModule
+        LeafletModule,
+        RandyFileComponent,
+        ModalComponent
+
     ],
     imports: [
         RouterModule,
@@ -68,7 +74,9 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         PipeModule,
         NgSelectModule,
         NgxSpinnerModule,
-        LeafletModule
+        LeafletModule,
+        FileUploadModule
+        // RandyFileComponent,
 
 
     ],
@@ -90,6 +98,8 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TopMenuDirective,
         DataFilterComponent,
         MapaComponent,
+        RandyFileComponent,
+        ModalComponent
     ]
 })
 export class SharedModule { }

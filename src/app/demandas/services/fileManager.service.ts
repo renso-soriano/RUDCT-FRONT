@@ -46,17 +46,17 @@ constructor(private _http: HttpClient,
   }
 
 
-  // createFormData(files: Archivo[]): FormData {
-  //   const fileData = new FormData()
+  createFormData(files: Archivo[]): FormData {
+    const fileData = new FormData()
 
-  //   files.map(archivo => {
-  //     console.log(archivo,"ARCHIVO");
-  //     fileData.append("fileList", archivo.)
-  //     fileData.append("tiposDocumentoIds", archivo.tipoDocumentoId.toString())
-  //   })
-  //   console.log("FORMA DATA CREATE", fileData);
-  //   return fileData;
-  // }
+    files.map(archivo => {
+      console.log(archivo,"ARCHIVO");
+      fileData.append("fileList", archivo.file)
+      fileData.append("tiposDocumentoIds", archivo.tipoDocumentoId.toString())
+    })
+    console.log("FORMA DATA CREATE", fileData);
+    return fileData;
+  }
 
 
   // PARA DESCARGAR ARCHIVOS
@@ -74,33 +74,33 @@ constructor(private _http: HttpClient,
 
 //Con Victor
 
-saveMultipleFiles(files: any[], fileType: number): Observable<Array<number>> {
+// saveMultipleFiles(files: any[], fileType: number): Observable<Array<number>> {
 
-  const fileData = new FormData()
+//   const fileData = new FormData()
 
-  files.map((file: File) => {
+//   files.map((file: File) => {
 
-    fileData.append('fileList', file)
+//     fileData.append('fileList', file)
 
-  })
+//   })
 
-  console.log('Final', fileData);
-  return this.post(fileData, fileType)
+//   console.log('Final', fileData);
+//   return this.post(fileData, fileType)
 
-}
-
-
-protected post(body: any, fileType: number): Observable<Array<number>> {
-
-  return this._http.post<Array<number>>(body, `File/UploadFileList/${fileType}`)
+// }
 
 
-}
+// protected post(body: any, fileType: number): Observable<Array<number>> {
 
-saveDemandaAnexo(demandaAnexo: any): Observable<any>{
+//   return this._http.post<Array<number>>(body, `File/UploadFileList/${fileType}`)
 
-  return this._http.post<any>(this.API_URL_POST, demandaAnexo);
-}
+
+// }
+
+// saveDemandaAnexo(demandaAnexo: any): Observable<any>{
+
+//   return this._http.post<any>(this.API_URL_POST, demandaAnexo);
+// }
 
 
 

@@ -1,6 +1,5 @@
-import { value } from './../../shared/data/dropdowns';
 import { ExcelService } from './../../shared/services/excel.service';
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, TemplateRef, AfterContentInit } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
 import {
   ColumnMode,
@@ -28,10 +27,11 @@ import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 import { FileManagerService } from '../services/fileManager.service';
 import { TipoDocumento } from '../enum/tipo-documento.enum';
-// import { UploadWidgetConfig, UploadWidgetResult, Uploader } from 'uploader';
 import Archivo from '../interface/archivo.interface';
-import { ToastrService } from 'ngx-toastr';
-import { log } from 'console';
+import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
 
 
 declare var require: any;
@@ -44,8 +44,10 @@ const data: any = require('../../shared/data/Demandas.json');
   encapsulation: ViewEncapsulation.None,
   providers: [NGXToastrService],
 })
-export class ListadoDemandasComponent implements OnInit {
+export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit{
 
+  @ViewChild("randyFile") randyFile:RandyFileComponent
+  @ViewChild("modalAnexo") modalAnexo:ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
@@ -56,7 +58,7 @@ export class ListadoDemandasComponent implements OnInit {
   notFound = false;
   modal: NgbModal;
   @ViewChild("content") content: ElementRef<HTMLElement>;
-  @ViewChild("modalAnexo") modalAnexo: ElementRef<HTMLElement>;
+  //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
   tiposDocumentos: any[] = [
@@ -75,7 +77,14 @@ export class ListadoDemandasComponent implements OnInit {
   capas: any;
   rowsFilterByGoups: any;
   tipoEstado: string;
-  filesAnexo:any[]=[];
+  file: any
+  modalConfig: IModalConfig = {
+    modalTitle: "Anexos de Demandas"
+  }
+  modalOption: IModalOption ={
+    size: "xl",
+    centered: true
+  }
 
 
   estadoForm = this.formBuilder.group({
@@ -173,6 +182,10 @@ export class ListadoDemandasComponent implements OnInit {
   dataExcel: any;
   rowExportExcel: any;
 
+  openFileModal(demandaId:number):void{
+  this.modalAnexo.open();
+  }
+
   /**
    * filterUpdate
    *
@@ -225,12 +238,18 @@ export class ListadoDemandasComponent implements OnInit {
     private router: Router,
     private dropdownService: DropDownServiceService,
     private excelService: ExcelService,
-    private fileManager: FileManagerService,
-    private toastr: ToastrService
+    private fileManager: FileManagerService
     ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+  ngAfterContentInit(): void {
+
+  }
+  ngAfterViewInit(): void {
+    console.log(this.randyFile, "AQUI RANDY FILE REF");
+    console.log(this.modalAnexo, "AQUI ng-template REF");
   }
 
   //Actions Methods
@@ -745,88 +764,31 @@ export class ListadoDemandasComponent implements OnInit {
     centered: true,
     backdrop: "static",
     keyboard: false,
+    size: "xl",
   });
 }
 
 getFile(event: any){
-  this.filesAnexo = Array.from(event.target.files);
-  console.log('Archivo seleccionado: ', this.filesAnexo)
+  this.file = event.target.files[0]
+
+  console.log('Archivo seleccionado: ', this.file)
 }
 
+submitData(){
 
-
-async  submitData(){
-
-  console.log("submitttt ",this.filesAnexo);
-  let data = await this.fileManager.saveMultipleFiles(this.filesAnexo, this.tipoDocumentoId).toPromise();
- if(data.length >= 0){
-   const demandaAnexo = data.map(id  => {
-     return {
-       id: 0,
-       fileId: id,
-       demandaId: this.demanda.id
-     }
-   })
-   this.fileManager.saveDemandaAnexo(demandaAnexo).subscribe(res => {
-     console.log("ESO TA READY", res)
-     this.toastr.success('Archivo cargado con éxito.', 'Éxito');
-   })
- }
-
-
-}
-
-// getFile(event: any): Promise<File[]> {
-//   return new Promise((resolve, reject) => {
-//     const selectedFiles = event.target.files;
-//     if (selectedFiles && selectedFiles.length > 0) {
-//       const filesArray = Array.from(selectedFiles) as File[];
-//       resolve(filesArray);
-//       console.log()
-//     } else {
-//       reject(new Error('No se han seleccionado archivos.'));
-//     }
-//   });
-// }
-
-
-
-
-// submitData(): void {
-//   this.getFile(this.filesAnexo).then((selectedFiles: File[]) => {
-//     return this.fileManager.saveMultipleFiles(selectedFiles, this.tipoDocumentoId).toPromise();
-//   }).then((data: Array<number>) => {
-//     if (data.length > 0) {
-//       const demandaAnexo = data.map((id: number) => {
-//         return {
-//           id: 0,
-//           fileId: id,
-//           demandaId: this.demanda.id
-//         };
-//       });
-//       return this.fileManager.saveDemandaAnexo(demandaAnexo).toPromise();
-//     }
-//   }).then(() => {
-//     console.log("ESO TA READY");
-//     this.toastr.success('Archivo cargado con éxito.', 'Éxito');
-//   }).catch((error) => {
-//     console.error("Error al cargar y guardar archivos:", error);
-//     this.toastr.error('Error al cargar y guardar archivos.', 'Error');
-//   });
-// }
-
-
-
-// }
- // const createFile: Archivo[] = [
+  // const files: Archivo[] = [
   //   {
-  //     fileId: 0,
-  //     Data: this.files,
-  //     FileTypeId: this.tipoDocumentoId
+  //     id: 0,
+  //     entityId: this.demanda.id,
+  //     file: this.file,
+  //     tipoDocumentoId: this.tipoDocumentoId
   //   }
   // ]
+  console.log(this.modalAnexo, "ref" );
+  // let files = this.randyFile.getFiles();
+  // console.log(files);
 
-
+  // let data = this.fileManager.createFormData(files);
   // console.log(data.,"DATA");
   // data.forEach(value=>{
   //   console.log(value,"VALUE");
@@ -835,13 +797,7 @@ async  submitData(){
   // this.fileManager.uploadFiles(data).subscribe(res => {
   //   console.log(res);
   // })
-
-
-
-
-
-
-//desde aqui pa arrriba
+}
 
 // onFileSelected(event) {
 
@@ -917,5 +873,9 @@ async  submitData(){
   //   );
   //}
 
-
+  saveFiles(obs:Observable<number[]>){
+    obs.subscribe((res)=>{
+      console.log(res);
+    })
+  }
 }

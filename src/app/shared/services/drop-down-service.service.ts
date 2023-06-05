@@ -303,4 +303,9 @@ export class DropDownServiceService {
     }
     return arr;
   }
+
+  getFileType(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS-DOCUMENTOS' });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
 }
