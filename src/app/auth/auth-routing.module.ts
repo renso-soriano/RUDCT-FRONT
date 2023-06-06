@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'app/shared/guards/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { QuienSoyComponent } from './quien-soy/quien-soy.component';
+import { GobiernoAbiertoComponent } from './gobierno-abierto/gobierno-abierto.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,20 @@ const routes: Routes = [
         path: 'password_reset',
         component: ResetPasswordComponent,
         canActivate: [AuthGuard],
+        data: {
+          title: 'Iniciar sesión'
+        }
+      },
+      {
+        path: 'quien_soy',
+        component: QuienSoyComponent,
+        data: {
+          title: 'Iniciar sesión'
+        }
+      },
+      {
+        path: 'gobierno_abierto',
+        component: GobiernoAbiertoComponent,
         data: {
           title: 'Iniciar sesión'
         }

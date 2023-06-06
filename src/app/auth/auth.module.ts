@@ -10,12 +10,16 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from 'app/app.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { QuienSoyComponent } from './quien-soy/quien-soy.component';
+import { GobiernoAbiertoComponent } from './gobierno-abierto/gobierno-abierto.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    QuienSoyComponent,
+    GobiernoAbiertoComponent
   ],
   imports: [
     CommonModule,
