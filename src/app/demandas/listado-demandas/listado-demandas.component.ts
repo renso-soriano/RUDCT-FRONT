@@ -32,6 +32,7 @@ import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.
 import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { Console } from 'console';
 
 
 declare var require: any;
@@ -78,6 +79,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   rowsFilterByGoups: any;
   tipoEstado: string;
   file: any
+  demandaId: any
+  listaAnexosId: any
   modalConfig: IModalConfig = {
     modalTitle: "Anexos de Demandas"
   }
@@ -183,6 +186,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   rowExportExcel: any;
 
   openFileModal(demandaId:number):void{
+    console.log(demandaId, "Demanda ID NOEL")
   this.modalAnexo.open();
   }
 
@@ -600,7 +604,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
 
-  openVerticallyCentered(content, id: string) {
+  openVerticallyCentered(content, id: any) {
     this.EF.estado.setValue(null);
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
@@ -615,7 +619,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         document.body.click();
       }
     );
-
+    this.demandaId = id;
     this.modalService.open(content, {
       centered: true,
       backdrop: "static",
@@ -770,8 +774,31 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
 getFile(event: any){
   this.file = event.target.files[0]
-
   console.log('Archivo seleccionado: ', this.file)
+}
+
+saveFiles(obs:Observable<number[]>){
+  obs.subscribe((res)=>{
+    console.log(res,"amores van y vienen");
+
+    //creando el objeto que guardara la relacion
+    //entre archivos y demanda
+    var lista = res.map(id => {
+      return {
+        id: 0,
+        FileId: id,
+        demandaId: this.demandaId
+      };
+    });
+
+    console.log(lista, "la lista de demandaAnexo");
+
+    this.demandasService.saveDemandaAnexo(lista)
+      .subscribe(res => {
+        console.log(res);
+      });
+
+  });
 }
 
 submitData(){
@@ -873,9 +900,5 @@ submitData(){
   //   );
   //}
 
-  saveFiles(obs:Observable<number[]>){
-    obs.subscribe((res)=>{
-      console.log(res);
-    })
-  }
+
 }

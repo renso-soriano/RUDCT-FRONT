@@ -88,4 +88,10 @@ export class DemandasService {
     return this.http.post<Demanda>(`${this.URL}/Consolidar`, params);
   }
 
+  //metodo para guardar demandaAnexo
+  saveDemandaAnexo(listado: any): Observable<any>{
+    const url = `https://localhost:5001/Api/DemandaAnexo/guardar`;
+    return this.http.post<any>(url, listado);
+  }
+
 }

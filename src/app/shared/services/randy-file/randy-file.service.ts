@@ -37,7 +37,6 @@ export class RandyFileService {
 
   uploadFiles(archivos: FormData) {
     return this._http.post<number[]>( this.API_URL_POST,archivos)
-
   }
 
   downloadFile(fileId: number): Observable<any> {
@@ -52,6 +51,7 @@ export class RandyFileService {
         })
       );
   }
+
   createFormData(files: Archivo[]): FormData {
     const fileData = new FormData()
 

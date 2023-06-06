@@ -31,7 +31,6 @@ constructor(private _http: HttpClient,
 
   }
 
-
   downloadFile(fileId: number): Observable<any> {
     return this._http.get<any>(`${this.API_URL_DOWNLOAD}/${fileId}`)
       .pipe(
@@ -57,6 +56,10 @@ constructor(private _http: HttpClient,
     console.log("FORMA DATA CREATE", fileData);
     return fileData;
   }
+
+
+
+
 
 
   // PARA DESCARGAR ARCHIVOS

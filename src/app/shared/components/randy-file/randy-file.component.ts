@@ -63,6 +63,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   tipoDocumentos: any = [];
   archivo: any;
   pruebaa: any;
+  listaIds: any;
   deletedFielsQueue = [];
   hiddenDownLoad = true;
   _anexoDataDb: any
@@ -209,6 +210,14 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     this.emitFileCount()
   }
 
+
+  getAnexos(){
+    this.randyFileService.uploadFiles(this.listaIds).subscribe(res => {
+      res = this.listaIds;
+      console.log("Lista de Ids", this.listaIds);
+    })
+  }
+
   downLoadFile(item) {
     this.randyFileService.downloadFile(item.id).subscribe((res: any) => {
       console.log(res, "DOWNLOAD");
@@ -225,6 +234,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
       const obs = this.randyFileService.uploadFiles(data);
       this.onSubmit.emit(obs)
     }
+    this.getAnexos()
     // this.modalRef.closethis()
   }
 

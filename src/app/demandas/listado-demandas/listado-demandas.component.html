@@ -83,9 +83,9 @@
                     <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                       title="Ver detalles"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
+                    <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
-                      title="Cargar evidencia"></a>
+                      title="Cargar evidencia"></a> -->
                     <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
                       (click)="editar(row.id)" title="Editar"></a>
                     <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
@@ -248,7 +248,7 @@
       </div>
 
       <div class="modal-footer">
-        <a class="btn btn-primary" (click)="openSubirEvidencia(modalAnexo)" ><span>
+        <a class="btn btn-primary" (click)="openFileModal(modalAnexo)" ><span>
           Subir Evidencia </span>
          </a>
         <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="modal.close('Close click')"><span>Volver a
