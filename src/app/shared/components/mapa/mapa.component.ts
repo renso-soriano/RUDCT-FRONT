@@ -85,6 +85,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
                 if (this.replaceTick(object.nombre) === _toponimia) {
                   e.properties['color'] = this.getFillFeatureColor(this.totalDemandas, object.cantidad == undefined ? 0 : object.cantidad);
                   e.properties['demandas'] = this.decimalPipe.transform(object.cantidad == undefined ? 0 : object.cantidad, '0.2-2');
+                  //e.properties['demandas'] = object.cantidad == undefined ? 0 : object.cantidad;
                   e.properties['label'] = this.LABEL;
                 }
               });

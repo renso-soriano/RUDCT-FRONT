@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from "@angular/common";
+import { CommonModule, DecimalPipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -35,6 +35,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet'
+import { RegionChartComponent } from './components/region-chart/region-chart.component';
+import { ChartistModule } from 'ng-chartist';
+import { MatchHeightModule } from './directives/match-height.directive';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { AngularResizedEventModule } from 'angular-resize-event';
 
 @NgModule({
     exports: [
@@ -52,7 +57,8 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TranslateModule,
         DataFilterComponent,
         MapaComponent,
-        LeafletModule
+        LeafletModule,
+        RegionChartComponent,
     ],
     imports: [
         RouterModule,
@@ -68,8 +74,13 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         PipeModule,
         NgSelectModule,
         NgxSpinnerModule,
-        LeafletModule
-
+        LeafletModule,
+        CommonModule,
+        ChartistModule,
+        NgbModule,
+        MatchHeightModule,
+        NgApexchartsModule,
+        AngularResizedEventModule
 
     ],
     declarations: [
@@ -90,6 +101,8 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TopMenuDirective,
         DataFilterComponent,
         MapaComponent,
-    ]
+        RegionChartComponent,
+    ],
+    providers: [DecimalPipe],
 })
 export class SharedModule { }

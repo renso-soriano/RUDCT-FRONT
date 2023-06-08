@@ -1,21 +1,51 @@
-import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
-import { Token } from 'app/shared/models/token.model';
-import { AuthService } from 'app/shared/services/core/auth.service';
-import { NgxSpinnerService } from "ngx-spinner";
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environments/environment';
+import { Component, ViewChild, OnInit, ViewEncapsulation,ElementRef } from '@angular/core';
 import { ItemMenu } from 'app/shared/models/auth/ItemMenu';
+import { ExcelService } from './../../shared/services/excel.service';
+import { DatatableData } from './data/datatables.data';
+import {
+  ColumnMode,
+  DatatableComponent,
+  SelectionType
+} from '@swimlane/ngx-datatable';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from '../../shared/data/sweet-alerts';
+import { Observable, from } from 'rxjs';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { FiltrosDinamicos } from 'app/shared/models/Core/filtros-dinamicos.model';
+import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
+import { environment } from 'environments/environment';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormBuilder, Validators } from '@angular/forms';
+import { NgxSpinnerService } from "ngx-spinner";
+import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
+import { AuthService } from 'app/shared/services/core/auth.service';
+import { saveAs } from 'file-saver';
+import * as L from 'leaflet';
+import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
+import { RegionChartComponent } from 'app/shared/components/region-chart/region-chart.component';
+import { MapaComponent } from 'app/shared/components/mapa/mapa.component';
+import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
+
+declare var require: any;
+const data: any = require('../../shared/data/Demandas.json');
 
 @Component({
   selector: 'app-gobierno-abierto',
   templateUrl: './gobierno-abierto.component.html',
-  styleUrls: ['./gobierno-abierto.component.scss']
+  styleUrls: ['./gobierno-abierto.component.scss', '../../../assets/sass/libs/datatables.scss'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [NGXToastrService]
 })
 export class GobiernoAbiertoComponent implements OnInit {
 
   activeModules = []
+
+  @ViewChild('regionChart') regionChart: RegionChartComponent;
+  @ViewChild('mapaComponent') mapaComponent: MapaComponent;
 
   menuItems: ItemMenu[] = [
     {
@@ -36,19 +66,550 @@ export class GobiernoAbiertoComponent implements OnInit {
     },
 
   ]
-  constructor(private router: Router,
-    private authService: AuthService) { }
-
-    public parrafos: any[] = [];
-
-  ngOnInit(): void {
-    this.activeModules = [1,2];
-    this.parrafos = new Array(20);
-  }
   navegar(item: ItemMenu) {
     if (this.activeModules.includes(item.id)) {
       this.router.navigate([`${item.ruta}`])
     }
   }
+
+  //from Datatable
+
+  loadingIndicator: boolean = true;
+  reorderable: boolean = true;
+
+  // public
+  public contentHeader: object;
+
+  //data:any[];
+  notFound = false;
+  modal: NgbModal;
+  @ViewChild("content") content: ElementRef<HTMLElement>;
+  demanda: Demanda;
+  listadoEstados: Observable<any[]>;
+  listadoEstadosValidacion: Observable<any[]>;
+  institucionUsuarioSSO: number;
+  institucionUsuarioEnRUDT: any;
+  gruposUsuario: number[] = [];
+  usuarioPermisos: any = [''];
+  pdf: any;
+  capas: any;
+  rowsFilterByGoups: any;
+  tipoEstado: string;
+
+
+
+
+
+
+
+  // row data
+  public rows = data;
+  limitSelected: any = 10;
+
+  page = {
+    limit: this.limitSelected,
+    count: 0,
+    offset: 0
+  }
+
+  limitSelect: any = [
+    { value: 10, label: "10 Registros por página" },
+    { value: 25, label: "25 Registros por página" },
+    { value: 50, label: "50 Registros por página" },
+    { value: 100, label: "100 Registros por página" }
+  ];
+
+  public filtros: FiltrosDinamicos[];
+
+  filtrosActivos: any = {
+    "anio": null,
+    //"regionId": null,
+    "provinciaId": null,
+    "municipioId": null,
+    "fuenteDemandaId": null,
+    "temaCommun": null,
+    "temaComunId": null,
+    "institucionId": null,
+    //"demandaTipoId": null,
+    "politicaPNPSPId": null,
+    "estadoId": null,
+    "tipoInversionId": null,
+  }
+
+  // column header
+  public columns = [
+    { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
+    { name: 'Año', prop: 'anio', sorteable: false, visible: true },
+    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
+    { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
+    { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
+    // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
+    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+  ];
+
+  // multi Purpose datatable Row data
+  public multiPurposeRows = DatatableData;
+  public ColumnMode = ColumnMode;
+
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('tableRowDetails') tableRowDetails: any;
+  @ViewChild('tableResponsive') tableResponsive: any;
+
+  public expanded: any = {};
+
+  public editing = {};
+
+  public chkBoxSelected = [];
+  public SelectionType = SelectionType;
+
+  // server side row data
+  public rowService: Observable<any>;
+
+  // private
+  private tempData = [];
+  private multiPurposeTemp = [];
+  dataExcel: any;
+  rowExportExcel: any;
+
+  /**
+   * filterUpdate
+   *
+   * @param code
+   */
+  filterUpdate(event) {
+    const val = event.target.value.toLowerCase();
+
+    // filter our data
+    const temp = this.tempData.filter(function (d) {
+      return d.Demanda.toLowerCase().indexOf(val) !== -1 || !val;
+    });
+
+    // update the rows
+    this.rows = temp;
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
+  /**
+   * rowDetailsToggleExpand
+   *
+   * @param row
+   */
+  rowDetailsToggleExpand(row) {
+    this.tableRowDetails.rowDetail.toggleExpandRow(row);
+  }
+
+  /**
+   * toggleExpandRowResponsive
+   *
+   * @param row
+   */
+  toggleExpandRowResponsive(row) {
+    this.tableResponsive.rowDetail.toggleExpandRow(row);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param {HttpClient} http
+   */
+  constructor(private http: HttpClient,
+    private modalService: NgbModal,
+    private demandasService: DemandasService,
+    private formBuilder: FormBuilder,
+    private serviceStr: NGXToastrService,
+    private spinner: NgxSpinnerService,
+    private authService: AuthService,
+    private router: Router,
+    private dropdownService: DropDownServiceService,
+    private excelService: ExcelService) {
+    this.tempData = data;
+    this.multiPurposeTemp = DatatableData;
+    setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+
+  //Actions Methods
+
+  verDetalles(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
+  }
+  verArchivos(CodigoDemanda: string) {
+    this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
+  }
+
+
+  // Lifecycle Hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  /**
+   * On init
+   */
+  ngOnInit() {
+    this.activeModules = [1,2];
+
+      this.listadoEstados = this.dropdownService.getEstados();
+      this.tipoEstado = "ejecución";
+      this.reloadTable();
+
+      // Initially load first page
+    //this.pageCallback({ offset: 0 });
+    this.filtros = [
+      new FiltrosDinamicos().deserialize({
+        name: 'anio',
+        label: 'Año',
+        servicio: this.setFilterAnnios(),
+        tipo: 'select',
+        placeholder: 'Seleccione un año',
+        async: false,
+        multiple: false
+      }),
+      // new FiltrosDinamicos().deserialize({
+      //   name: 'regionId',
+      //   label: 'Región',
+      //   servicio: this.dropdownService.getRegiones(),
+      //   tipo: 'select',
+      //   placeholder: 'Seleccione una región',
+      //   async: true,
+      //   multiple: false,
+      //   filtroHijo: 'provinciaId',
+      //   servicioHijo: 'getProvinciasByRegion',
+      // }),
+      new FiltrosDinamicos().deserialize({
+        name: 'provinciaId',
+        label: 'Provincia',
+        servicio: this.dropdownService.getProvincias(),
+        tipo: 'select',
+        placeholder: 'Seleccione una provincia',
+        async: true,
+        multiple: false,
+        filtroHijo: 'municipioId',
+        servicioHijo: 'getMunicipiosByProvincia',
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'municipioId',
+        label: 'Municipio',
+        servicio: this.dropdownService.getMunicipiosByProvincia(null),
+        tipo: 'select',
+        placeholder: 'Seleccione un municipio',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'fuenteDemandaId',
+        label: 'Fuente',
+        servicio: this.dropdownService.getFuentes(),
+        tipo: 'select',
+        placeholder: 'Seleccione una fuente de demanda',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'temaCommun',
+        label: 'Tema común',
+        servicio: this.dropdownService.getTemasComunes(),
+        tipo: 'select',
+        placeholder: 'Seleccione Tema común',
+        async: true,
+        multiple: false,
+        filtroHijo: 'temaComunId',
+        servicioHijo: 'getClasificadorByTemaComun',
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'temaComunId',
+        label: 'Clasificador Funcional',
+        servicio: this.dropdownService.getClasificadorByTemaComun(null),
+        tipo: 'select',
+        placeholder: 'Seleccione un Clasificador funcional',
+        async: true,
+        multiple: false,
+
+      }),
+
+      new FiltrosDinamicos().deserialize({
+        name: 'institucionId',
+        label: 'Institución responsable',
+        servicio: this.dropdownService.getInstituciones(),
+        tipo: 'select',
+        placeholder: 'Seleccione institución',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'estadoId',
+        label: 'Estado',
+        servicio: this.dropdownService.getEstados(),
+        tipo: 'select',
+        placeholder: 'Seleccione un estado',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'tipoInversionId',
+        label: 'Tipo inversion',
+        servicio: this.dropdownService.getTipoInversion(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tipo',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'politicaPNPSPId',
+        label: 'Politica PNPSP',
+        servicio: this.dropdownService.getPoliticas(),
+        tipo: 'select',
+        placeholder: 'Seleccione politica',
+        async: true,
+        multiple: false
+      })
+    ];
+    this.loadingIndicator = false;
+
+
+  }
+
+  setFilterAnnios(): any[] {
+    const annioInicial = environment.appStartYear;
+    const annioActual = new Date().getFullYear();
+    let annios = [];
+    for (let i = annioInicial; i <= annioActual; i++) {
+      annios.push({ id: i, name: i });
+    }
+    return annios;
+  }
+
+  async pageCallback(pageInfo: { count?: number, pageSize?: number, limit?: number, offset?: number }) {
+    this.page.offset = pageInfo.offset;
+    //console.log("reloadTable en pageCallBack")
+    await this.reloadTable();
+  }
+
+  async getFilters(event) {
+    this.filtrosActivos = event;
+    this.page.offset = 0;
+    await this.reloadTable();
+  }
+
+  async reloadTable() {
+    let params;
+    let grupoId;
+    let institucion;
+      grupoId = GrupoUsuario.administradoresRUDT;
+      institucion = this.filtrosActivos.institucionId;
+
+    params = new HttpParams()
+      .set('Page', `${this.page.offset + 1}`)
+      .set('Take', `${this.page.limit}`)
+      .set('anio', this.filtrosActivos.anio)
+      // .set('regionId', this.filtrosActivos.regionId)
+      .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
+      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+      .set('temaCommun', this.filtrosActivos.temaCommun)
+      .set('temaComunId', this.filtrosActivos.temaComunId)
+      .set('institucionId', institucion)
+      .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('grupoId', grupoId);
+
+    this.demandasService.getDemandasGobiernoAbierto(params).subscribe((data: any) => {
+      // NOTE: the format of the returned data depends on your API!
+      this.page.count = data.total;
+      this.rows = data.items;
+      console.log("laDAta =>",)
+      document.getElementById('dataTable1').click();
+    });
+  }
+
+  public async _changeRowLimits(event: any) {
+
+    this.page.limit = this.limitSelected;
+    await this.reloadTable();
+  }
+
+  exportexcel() {
+    //this.spinnerMensaje="Exportando datos...."
+    // this.spinner.show();
+    let params;
+    let grupoId;
+    let institucion;
+
+      grupoId = GrupoUsuario.administradoresRUDT;
+      institucion = this.filtrosActivos.institucionId;
+
+
+    params = new HttpParams()
+      .set('Page', `${this.page.offset + 1}`)
+      .set('Take', `${this.page.limit}`)
+      .set('anio', this.filtrosActivos.anio)
+      // .set('regionId', this.filtrosActivos.regionId)
+      .set('provinciaId', this.filtrosActivos.provinciaId)
+      .set('municipioId', this.filtrosActivos.municipioId)
+      .set('fuenteDemandaId', this.filtrosActivos.fuenteDemandaId)
+      .set('temaCommun', this.filtrosActivos.temaCommun)
+      .set('temaComunId', this.filtrosActivos.temaComunId)
+      .set('institucionId', institucion)
+      .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
+      .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('grupoId', grupoId);
+
+    this.demandasService.getDemandasExportarGobiernoAbierto(params).subscribe((data: any) => {
+      this.page.count = data.total;
+      this.rowExportExcel = data.items;
+      console.log("rowsExcel=>", this.rowExportExcel);
+      this.preparanDataExcel(this.rowExportExcel);
+      //  this.spinner.hide();
+      this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
+
+    });
+
+
+  }
+
+  preparanDataExcel(data) {
+    this.dataExcel = data.map((item: any) => {
+      return {
+        Codigo: item.codigo,
+        Anio: item.anio,
+        EscalaTerritorial: item.nivelDemanda,
+        Demanda: item.descripcion,
+        EstadoDemanda: item.nombreEstadoDemanda,
+        Prioridad: item.prioridad,
+        Region: item.nombreRegion,
+        Provincia: item.nombreProvincia,
+        Municipio: item.nombreMunicipio,
+        Tema_Comun: item.temaComunTema,
+        Clasificador_Funcional: item.nombreTemaComun,
+        NombreFuenteDemanda: item.nombreFuenteDemanda,
+        InstitucionResponsable: item.nombreInstitucionResponsable,
+        TecnicoOmpp: item.nombreTecnicoOmpp,
+        ResultanteDe: item.resultanteDe,
+        Activo: item.estatus ? "Si" : "No"
+        // CreadoPor: item.nombreCreadoPor,
+        // RegistradoEn: item.fechaRegistro,
+        // modificadoPor: item.nombreModificadoPor,
+        // ModificadoEn: item.fechaModificacion
+
+      };
+
+    });
+
+
+  }
+
+
+  //para el mapa
+
+
+  options = {
+    layers: [
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        minZoom: 8,
+        maxZoom: 18,
+        attribution: '...',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: environment.mapbox.accessToken,
+      }),
+    ],
+    zoom: 8,
+    center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
+
+  };
+
+  //#region  Sección Mapa
+  SeleccioneMapa(content) {
+    this.modalService.open(content, { size: 'lg', centered: true });
+    this.options;
+    this.BuscarMap(this.rows);
+
+  }
+
+  BuscarMap(data): void {
+    this.capas = [];
+
+    for (var i = 0; i < data.length; i++) {
+      let provincia = [data[i].nombreProvincia]
+      let municipio = [data[i].nombreMunicipio]
+      let latitud = Number([data[i].coordenadaX])
+      let longitud = Number([data[i].coordenadaY])
+      let demanda = [data[i].descripcion]
+      let fuente = [data[i].nombreFuenteDemanda]
+      let institucionResponsable = [data[i].nombreInstitucionResponsable]
+      let clasificadorFuncional = [data[i].nombreTemaComun]
+      let anio = [data[i].anio]
+      let estado = [data[i].nombreEstadoDemanda]
+
+      this.capas.push(
+        L.marker([latitud, longitud], {
+          icon: L.icon({
+            iconSize: [25, 41],
+            iconAnchor: [13, 41],
+            iconUrl: 'assets/mapa/marker-icon.png',
+            shadowUrl: 'assets/mapa/marker-shadow.png',
+          })
+        }).bindPopup(`
+      <strong>Provincia:</strong> ${provincia} <br/>
+      <strong>Municipio:</strong> ${municipio} <br/>
+      <strong>Demanda:</strong> ${demanda} <br/>
+      <strong>Institucion responsable:</strong> ${institucionResponsable} <br/>
+      <strong>Año:</strong> ${anio} <br/>
+      <strong>Estado:</strong> ${estado} <br/>
+      <strong>Fuente:</strong> ${fuente} <br/>
+      <strong>Clasificador Funcional:</strong> ${clasificadorFuncional} <br/>`,
+          { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true })
+
+      );
+
+    }
+  }
+
+demo()
+{
+  console.log("clickPiña")
+}
+get regiones() {
+  return this.rows.regiones ?? []
+}
+
+mapSettings: MapSettings = {
+  servicio: null,
+  BindProperty: 'iniciativasPorProvincia',
+  BindValue: 'totalIniciativas',
+  GeoDataFile: 'do_provincias',
+  Label: 'Provincia'
+}
+referenciaMapa: string = 'provincias';
+
+changeMap(event: any) {
+
+  switch (event.target.value) {
+    case '1':
+      this.mapSettings.GeoDataFile = 'do_provincias';
+      this.mapSettings.BindProperty = 'iniciativasPorProvincia';
+      this.mapSettings.BindValue = 'totalIniciativas';
+      this.mapSettings.Label = 'Provincia';
+      this.referenciaMapa = 'Provincias';
+      //this.mapSettings.servicio = this.iniciativaReportService.getDashboard(this.filtrosBusqueda);
+      break;
+
+    case '2':
+      this.mapSettings.GeoDataFile = 'do_municipios';
+      this.mapSettings.BindProperty = 'demandasPorMunicipio';
+      this.mapSettings.BindValue = 'totalDemandas';
+      this.mapSettings.Label = 'Municipio';
+      this.referenciaMapa = 'Municipios';
+      // this.mapSettings.servicio = this.iniciativaReportService.getDashboard(this.filtrosBusqueda);
+      break;
+
+    default:
+      break;
+  }
+
+  this.mapaComponent.onReload(this.mapSettings);
+
+}
 
 }

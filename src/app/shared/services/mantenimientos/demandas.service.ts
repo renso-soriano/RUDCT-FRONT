@@ -29,6 +29,13 @@ export class DemandasService {
     return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
   }
 
+  getDemandasGobiernoAbierto(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetPaginateGobiernoAbierto`, { params });
+  }
+  getDemandasExportarGobiernoAbierto(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetExportarGobiernoAbierto`, { params });
+  }
+
   getDemandasReporte(params?: HttpParams) {
 
     return this.http.get(`${this.URL}/GetReporte`, { params: params, observe: 'response'}).pipe(
@@ -39,6 +46,8 @@ export class DemandasService {
       })
     );
   }
+
+
 
   convertBase64ToBlob(res): any {
     const byteCharacters = atob(res.body.fileContents);
