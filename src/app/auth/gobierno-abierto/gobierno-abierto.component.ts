@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ViewEncapsulation,ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation, ElementRef } from '@angular/core';
 import { ItemMenu } from 'app/shared/models/auth/ItemMenu';
 import { ExcelService } from './../../shared/services/excel.service';
 import { DatatableData } from './data/datatables.data';
@@ -30,6 +30,7 @@ import { RegionChartComponent } from 'app/shared/components/region-chart/region-
 import { MapaComponent } from 'app/shared/components/mapa/mapa.component';
 import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
 import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
+import { Estados } from 'app/shared/models/auth/estados.enum'
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -48,7 +49,13 @@ export class GobiernoAbiertoComponent implements OnInit {
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
 
-  dashboard:DashboardResponse;
+  dashboard: DashboardResponse;
+
+  contenidaEnPOA;
+  vista;
+  noVista;
+  contenidasEnPEI;
+  estadosEnum: Estados
 
   menuItems: ItemMenu[] = [
     {
@@ -124,11 +131,11 @@ export class GobiernoAbiertoComponent implements OnInit {
     "provinciaId": null,
     "municipioId": null,
     //"fuenteDemandaId": null,
-   // "temaCommun": null,
+    // "temaCommun": null,
     //"temaComunId": null,
     "institucionId": null,
     //"demandaTipoId": null,
-   // "politicaPNPSPId": null,
+    // "politicaPNPSPId": null,
     //"estadoId": null,
     "tipoInversionId": null,
   }
@@ -243,14 +250,14 @@ export class GobiernoAbiertoComponent implements OnInit {
    * On init
    */
   ngOnInit() {
-    this.activeModules = [1,2];
+    this.activeModules = [1, 2];
 
-      this.tipoEstado = "ejecución";
+    this.tipoEstado = "ejecución";
 
 
-      this.reloadTable();
+    this.reloadTable();
 
-      // Initially load first page
+    // Initially load first page
     //this.pageCallback({ offset: 0 });
     this.filtros = [
       new FiltrosDinamicos().deserialize({
@@ -313,16 +320,16 @@ export class GobiernoAbiertoComponent implements OnInit {
         filtroHijo: 'temaComunId',
         servicioHijo: 'getClasificadorByTemaComun',
       }), */
-     /*  new FiltrosDinamicos().deserialize({
-        name: 'temaComunId',
-        label: 'Clasificador Funcional',
-        servicio: this.dropdownService.getClasificadorByTemaComun(null),
-        tipo: 'select',
-        placeholder: 'Seleccione un Clasificador funcional',
-        async: true,
-        multiple: false,
+      /*  new FiltrosDinamicos().deserialize({
+         name: 'temaComunId',
+         label: 'Clasificador Funcional',
+         servicio: this.dropdownService.getClasificadorByTemaComun(null),
+         tipo: 'select',
+         placeholder: 'Seleccione un Clasificador funcional',
+         async: true,
+         multiple: false,
 
-      }), */
+       }), */
 
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
@@ -392,8 +399,8 @@ export class GobiernoAbiertoComponent implements OnInit {
     let params;
     let grupoId;
     let institucion;
-      grupoId = GrupoUsuario.administradoresRUDT;
-      institucion = this.filtrosActivos.institucionId;
+    grupoId = GrupoUsuario.administradoresRUDT;
+    institucion = this.filtrosActivos.institucionId;
 
     params = new HttpParams()
       .set('Page', `${this.page.offset + 1}`)
@@ -411,23 +418,30 @@ export class GobiernoAbiertoComponent implements OnInit {
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('grupoId', grupoId);
 
-      this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto(params);
-      this.mapSettings.servicio.subscribe(res => {
-        this.dashboard = res
-        console.log("data dashboard", this.dashboard)
+    this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto(params);
+    this.mapSettings.servicio.subscribe(res => {
+      this.dashboard = res
 
-        this.page.count = res['data']['total'];
-        this.rows = res['data']['items'];
-        console.log("laDAta =>", this.rows )
-        document.getElementById('dataTable1').click();
-        this.recargaMapa();
-        this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;
-        this.regionChart.initAll(this.dashboard.demandasPorRegion)
 
-      }, () => { }
-        , () => {
+      this.page.count = res['data']['total'];
+      this.rows = res['data']['items'];
+      document.getElementById('dataTable1').click();
 
-        });
+      this.recargaMapa();
+      this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;
+      this.regionChart.initAll(this.dashboard.demandasPorRegion)
+
+      this.contenidaEnPOA = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPOAActual).cantidad;
+      console.log(this.dashboard, "das")
+      this.vista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.VistoRecibido).cantidad;
+      this.noVista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.NoVista).cantidad;
+      this.contenidasEnPEI = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPEI).cantidad;
+      console.log(this.noVista, this.vista, this.contenidasEnPEI, "cantidades")
+
+    }, () => { }
+      , () => {
+
+      });
 
 
 
@@ -447,8 +461,8 @@ export class GobiernoAbiertoComponent implements OnInit {
     let grupoId;
     let institucion;
 
-      grupoId = GrupoUsuario.administradoresRUDT;
-      institucion = this.filtrosActivos.institucionId;
+    grupoId = GrupoUsuario.administradoresRUDT;
+    institucion = this.filtrosActivos.institucionId;
 
 
     params = new HttpParams()
@@ -579,56 +593,54 @@ export class GobiernoAbiertoComponent implements OnInit {
     }
   }
 
-demo()
-{
-  console.log("clickPiña")
-}
-get regiones() {
-  return this.dashboard?.demandasPorRegion ?? []
-}
-
-mapSettings: MapSettings = {
-  servicio: null,
-  BindProperty: 'demandasPorProvincia',
-  BindValue: 'totalDemandas',
-  GeoDataFile: 'do_provincias',
-  Label: 'Provincia'
-}
-referenciaMapa: string = 'provincias';
-
-changeMap(event: any) {
-
-  switch (event.target.value) {
-    case '1':
-      this.mapSettings.GeoDataFile = 'do_provincias';
-      this.mapSettings.BindProperty = 'demandasPorProvincia';
-      this.mapSettings.BindValue = 'totalDemandas';
-      this.mapSettings.Label = 'Provincia';
-      this.referenciaMapa = 'Provincias';
-      //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
-      break;
-
-    case '2':
-      this.mapSettings.GeoDataFile = 'do_municipios';
-      this.mapSettings.BindProperty = 'demandasPorMunicipio';
-      this.mapSettings.BindValue = 'totalDemandas';
-      this.mapSettings.Label = 'Municipio';
-      this.referenciaMapa = 'Municipios';
-      //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
-      break;
-
-    default:
-      break;
+  demo() {
+    console.log("clickPiña")
+  }
+  get regiones() {
+    return this.dashboard?.demandasPorRegion ?? []
   }
 
-  this.recargaMapa();
+  mapSettings: MapSettings = {
+    servicio: null,
+    BindProperty: 'demandasPorProvincia',
+    BindValue: 'totalDemandas',
+    GeoDataFile: 'do_provincias',
+    Label: 'Provincia'
+  }
+  referenciaMapa: string = 'provincias';
 
-}
+  changeMap(event: any) {
 
-recargaMapa()
-{
-  console.log("recargando el mapa")
-  this.mapaComponent.onReload(this.mapSettings);
-}
+    switch (event.target.value) {
+      case '1':
+        this.mapSettings.GeoDataFile = 'do_provincias';
+        this.mapSettings.BindProperty = 'demandasPorProvincia';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Provincia';
+        this.referenciaMapa = 'Provincias';
+        //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
+        break;
+
+      case '2':
+        this.mapSettings.GeoDataFile = 'do_municipios';
+        this.mapSettings.BindProperty = 'demandasPorMunicipio';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Municipio';
+        this.referenciaMapa = 'Municipios';
+        //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
+        break;
+
+      default:
+        break;
+    }
+
+    this.recargaMapa();
+
+  }
+
+  recargaMapa() {
+    console.log("recargando el mapa")
+    this.mapaComponent.onReload(this.mapSettings);
+  }
 
 }

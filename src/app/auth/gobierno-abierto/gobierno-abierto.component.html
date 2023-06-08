@@ -34,14 +34,39 @@
               <div class="row">
 
 
+
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
                   <div class="card bg-primary">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">75</h2>
-                            <span>total</span>
+                            <h2 class="font-large-1 white mb-0">{{ vista }}</h2>
+                            <span>Vistas</span>
+                          </div>
+                          <div class="media-right white text-right">
+                            <i class="ft-users font-large-1"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
+
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                  <div class="card bg-primary">
+                    <div class="card-content">
+                      <div class="card-body py-0">
+                        <div class="media pb-1">
+                          <div class="media-body white text-left">
+                            <h2 class="font-large-1 white mb-0">{{ contenidaEnPOA }}</h2>
+                            <span>Contenidas En POA</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-home font-large-1"></i>
@@ -63,30 +88,7 @@
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">50</h2>
-                            <span>Vistas</span>
-                          </div>
-                          <div class="media-right white text-right">
-                            <i class="ft-users font-large-1"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
-
-                      </div>
-                      <br>
-                      <br>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-primary">
-                    <div class="card-content">
-                      <div class="card-body py-0">
-                        <div class="media pb-1">
-                          <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">25</h2>
+                            <h2 class="font-large-1 white mb-0">{{ contenidasEnPEI }}</h2>
                             <span>Incluidas en PEI</span>
                           </div>
                           <div class="media-right white text-right">
@@ -109,8 +111,8 @@
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">25</h2>
-                            <span>Incluidas en POA</span>
+                            <h2 class="font-large-1 white mb-0">{{ noVista }}</h2>
+                            <span>No vistas</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-sun font-large-1"></i>

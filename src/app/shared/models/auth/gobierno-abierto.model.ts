@@ -1,6 +1,7 @@
 export class DashboardResponse {
   totalDemandas: number;
   demandasPorEje: DemandasByEjeEND[];
+  demandasPorEstado: DemandasByEstado[];
   demandasPorRegion: DemandasByRegion[];
   demandasPorProvincia: DemandasByProvincia[];
   demandasPorMunicipio: DemandasByMunicipio[];
@@ -11,6 +12,11 @@ export class DashboardResponse {
 
 export class DemandasByEjeEND {
   ejeId: number | null;
+  cantidad: number;
+}
+export class DemandasByEstado {
+  estadoId: number | null;
+  nombre:string | null
   cantidad: number;
 }
 
