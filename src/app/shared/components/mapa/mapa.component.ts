@@ -27,7 +27,10 @@ export class MapaComponent implements OnInit, AfterViewInit {
   private initMap(): void {
     this.map = L.map('map', {
       //center: [39.8282, -98.5795],
-      zoomControl: true
+      minZoom: 8,
+      maxZoom: 8,
+      zoomControl: true,
+
     }).fitBounds([[17.42830546493801, -72.72962230404555], [20.10398324046639, -67.20292132208162]]);
   }
 
@@ -136,7 +139,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
             <td colspan="2"><b>Catidad de demandas:</b> ' + (feature.properties['demandas'] == undefined ? 0 : feature.properties['demandas']) + '</td>\
         </tr>\
     </table>';
-    layer.bindPopup(popupContent, { maxHeight: 400 });
+    layer.bindPopup(popupContent, { maxHeight: 400,closeOnClick: true, closeButton: false, autoClose: true, autoPan: true  });
   }
 
   style_PROVCenso2010_0_0(feature: any): any {

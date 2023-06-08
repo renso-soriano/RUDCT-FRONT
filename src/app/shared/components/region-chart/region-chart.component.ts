@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist";
 import { Region } from 'app/shared/models/region.enum';
-import { DemandasPorRegion } from 'app/shared/models/auth/gobierno-abierto.model';
+import { DemandasByRegion } from 'app/shared/models/auth/gobierno-abierto.model';
 
 
 declare var require: any;
@@ -26,7 +26,7 @@ export interface Chart {
 export class RegionChartComponent implements OnInit {
 
 
-  @Input() regionesInfo: DemandasPorRegion[]
+  @Input() regionesInfo: DemandasByRegion[]
   constructor() { }
 
   data2: any;
@@ -45,7 +45,7 @@ export class RegionChartComponent implements OnInit {
   ozama: number;
 
   ngOnInit(): void {
-
+    console.log("regionesInfo vino =>", this.regionesInfo)
     this.data2 = this.regionesInfo;
     this.initAll(this.data2);
 
@@ -83,86 +83,85 @@ export class RegionChartComponent implements OnInit {
   };
   // Donut chart configuration Ends
 
-  reloadAll(data):void
-  {
+  reloadAll(data): void {
     this.data2 = data;
     this.initAll(this.data2);
 
   }
 
-  initAll(data):void
-  {
-console.log("cargando la data =>" ,data)
-    this.cibaoNorte = data.find((res: any) => res.enlace == Region.CibaoNorte)?.porcentaje ?? 0;
-    this.cibaoSur = data.find((res: any) => res.enlace == Region.CibaoSur)?.porcentaje  ?? 0;
-    this.cibaoNordeste = data.find((res: any) => res.enlace == Region.CibaoNordeste)?.porcentaje ?? 0;
-    this.cibaoNoroeste = data.find((res: any) => res.enlace == Region.CibaoNoroeste)?.porcentaje ?? 0;
-    this.valdesia = data.find((res: any) => res.enlace == Region.Valdesia)?.porcentaje ?? 0;
-    this.enriquillo = data.find((res: any) => res.enlace == Region.Enriquillo)?.porcentaje ?? 0;
-    this.elValle = data.find((res: any) => res.enlace == Region.ElValle)?.porcentaje ?? 0;
-    this.yuma = data.find((res: any) => res.enlace == Region.Yuma)?.porcentaje ?? 0;
-    this.higuamo = data.find((res: any) => res.enlace == Region.Higuamo)?.porcentaje ?? 0;
-    this.ozama = data.find((res: any) => res.enlace == Region.Ozama)?.porcentaje ?? 0;
+  initAll(data): void {
+    console.log("cargando la data =>", data)
+    this.cibaoNorte = data?.find((demanda: any) => demanda.regionId == Region.CibaoNorte)?.porcentaje ?? 0;
+    this.cibaoSur = data?.find((demanda: any) => demanda.regionId == Region.CibaoSur)?.porcentaje ?? 0;
+    this.cibaoNordeste = data?.find((demanda: any) => demanda.regionId == Region.CibaoNordeste)?.porcentaje ?? 0;
+    this.cibaoNoroeste = data?.find((demanda: any) => demanda.regionId == Region.CibaoNoroeste)?.porcentaje ?? 0;
+    this.valdesia = data?.find((demanda: any) => demanda.regionId == Region.Valdesia)?.porcentaje ?? 0;
+    this.enriquillo = data?.find((demanda: any) => demanda.regionId == Region.Enriquillo)?.porcentaje ?? 0;
+    this.elValle = data?.find((demanda: any) => demanda.regionId == Region.ElValle)?.porcentaje ?? 0;
+    this.yuma = data?.find((demanda: any) => demanda.regionId == Region.Yuma)?.porcentaje ?? 0;
+    this.higuamo = data?.find((demanda: any) => demanda.regionId == Region.Higuamo)?.porcentaje ?? 0;
+    this.ozama = data?.find((demanda: any) => demanda.regionId == Region.Ozama)?.porcentaje ?? 0;
+
 
     this.dataDonuts =
-      {
-        "series":
-          [
-            {
-              "name": "cibaoNorte",
-              "className": "ct-done",
-              "value": this.cibaoNorte
-            },
-            {
-              "name": "cibaoSur",
-              "className": "ct-progress",
-              "value": this.cibaoSur
-            },
-            {
-              "name": "cibaoNordeste",
-              "className": "ct-outstanding",
-              "value": this.cibaoNordeste
-            },
-            {
-              "name": "cibaoNoroeste",
-              "className": "ct-started",
-              "value": this.cibaoNoroeste
-            },
-            {
-              "name": "valdesia",
-              "className": "ct-finish2",
-              "value": this.valdesia
-            },
-            {
-              "name": "enriquillo",
-              "className": "ct-done2",
-              "value": this.enriquillo
-            },
-            {
-              "name": "elValle",
-              "className": "ct-progress2",
-              "value": this.elValle
-            },
-            {
-              "name": "yuma",
-              "className": "ct-started2",
-              "value": this.yuma
-            },
-            {
-              "name": "higuamo",
-              "className": "ct-outstanding2",
-              "value": this.higuamo
-            },
+    {
+      "series":
+        [
+          {
+            "name": "cibaoNorte",
+            "className": "ct-done",
+            "value": this.cibaoNorte
+          },
+          {
+            "name": "cibaoSur",
+            "className": "ct-progress",
+            "value": this.cibaoSur
+          },
+          {
+            "name": "cibaoNordeste",
+            "className": "ct-outstanding",
+            "value": this.cibaoNordeste
+          },
+          {
+            "name": "cibaoNoroeste",
+            "className": "ct-started",
+            "value": this.cibaoNoroeste
+          },
+          {
+            "name": "valdesia",
+            "className": "ct-finish2",
+            "value": this.valdesia
+          },
+          {
+            "name": "enriquillo",
+            "className": "ct-done2",
+            "value": this.enriquillo
+          },
+          {
+            "name": "elValle",
+            "className": "ct-progress2",
+            "value": this.elValle
+          },
+          {
+            "name": "yuma",
+            "className": "ct-started2",
+            "value": this.yuma
+          },
+          {
+            "name": "higuamo",
+            "className": "ct-outstanding2",
+            "value": this.higuamo
+          },
 
-            {
-              "name": "ozama",
-              "className": "ct-finish",
-              "value": this.ozama
-            }
-          ]
-      }
-      // asigna la data para el grafico de donats
-      this.DonutChart.data = this.dataDonuts;
+          {
+            "name": "ozama",
+            "className": "ct-finish",
+            "value": this.ozama
+          }
+        ]
+    }
+    // asigna la data para el grafico de donats
+    this.DonutChart.data = this.dataDonuts;
 
   }
 

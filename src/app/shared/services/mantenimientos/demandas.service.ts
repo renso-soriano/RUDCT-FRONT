@@ -9,6 +9,7 @@ import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Console } from 'console';
+import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
 
 
 @Injectable({
@@ -62,6 +63,10 @@ export class DemandasService {
 
   getDemandasForDashboard(params?: HttpParams): Observable<Demanda[]> {
     return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
+  }
+
+  getDemandasForDashboardAbierto(params?: HttpParams): Observable<DashboardResponse[]> {
+    return this.http.get<DashboardResponse[]>(`${this.URL}/GetDashboardGobiernoAbierto`, { params });
   }
 
   getDemanda(idDemanda: string): Observable<IDemanda> {

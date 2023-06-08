@@ -28,20 +28,20 @@
                 etapas.
               </p>
               <div>
-                <h5 class="card-title mb-0">Distribución de las demandas por ejes END</h5>
+                <h5 class="card-title mb-0">Distribución de las demandas segun su estado</h5>
               </div>
               <!--Statistics cards Starts-->
               <div class="row">
 
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-info">
+                  <div class="card bg-primary">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">Whatever</h2>
-                            <span>No vistas</span>
+                            <h2 class="font-large-1 white mb-0">75</h2>
+                            <span>total</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-home font-large-1"></i>
@@ -58,13 +58,13 @@
                 </div>
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-warning">
+                  <div class="card bg-primary">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">Something</h2>
-                            <span>Something</span>
+                            <h2 class="font-large-1 white mb-0">50</h2>
+                            <span>Vistas</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-users font-large-1"></i>
@@ -81,13 +81,13 @@
                 </div>
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-danger">
+                  <div class="card bg-primary">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">stepOver</h2>
-                            <span>mayBe</span>
+                            <h2 class="font-large-1 white mb-0">25</h2>
+                            <span>Incluidas en PEI</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-trending-up font-large-1"></i>
@@ -104,13 +104,13 @@
                 </div>
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-success">
+                  <div class="card bg-primary">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">i can't</h2>
-                            <span>Medio ambiental</span>
+                            <h2 class="font-large-1 white mb-0">25</h2>
+                            <span>Incluidas en POA</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-sun font-large-1"></i>
@@ -186,7 +186,7 @@
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                   <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                                     title="Ver detalles"></a>
-                                  <a class="btn-sm ml-1 btn-success text-white ft-cloud" (click)="verArchivos(row.id)"
+                                  <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
                                     title="Ver archivos"></a>
 
                                 </ng-template>
@@ -225,7 +225,7 @@
                 <div class="col-8">
                   <div class="card">
                     <h5 class="bg-primary text-white text-center p-2 rounded-top">
-                      Cantidad de inclución de los territorios en iniciativas</h5>
+                      Cantidad de demandas en los territorios</h5>
 
                     <div class="card-content">
                       <div class="card-body" style="min-height:900px;">
@@ -251,7 +251,7 @@
                 <div class="col-12 col-md-4">
                   <div class="card">
                     <h5 class="bg-primary text-white text-center p-2 rounded-top">
-                      Porcentaje iniciativas por region
+                      Porcentaje demandas por region
                     </h5>
                     <div class="card-content">
                       <div class="card-body align-items-center" style="min-height:900px;">

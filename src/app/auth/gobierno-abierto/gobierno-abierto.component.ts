@@ -29,6 +29,7 @@ import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 import { RegionChartComponent } from 'app/shared/components/region-chart/region-chart.component';
 import { MapaComponent } from 'app/shared/components/mapa/mapa.component';
 import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
+import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -46,6 +47,8 @@ export class GobiernoAbiertoComponent implements OnInit {
 
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
+
+  dashboard:DashboardResponse;
 
   menuItems: ItemMenu[] = [
     {
@@ -96,12 +99,6 @@ export class GobiernoAbiertoComponent implements OnInit {
   rowsFilterByGoups: any;
   tipoEstado: string;
 
-
-
-
-
-
-
   // row data
   public rows = data;
   limitSelected: any = 10;
@@ -126,13 +123,13 @@ export class GobiernoAbiertoComponent implements OnInit {
     //"regionId": null,
     "provinciaId": null,
     "municipioId": null,
-    "fuenteDemandaId": null,
-    "temaCommun": null,
-    "temaComunId": null,
+    //"fuenteDemandaId": null,
+   // "temaCommun": null,
+    //"temaComunId": null,
     "institucionId": null,
     //"demandaTipoId": null,
-    "politicaPNPSPId": null,
-    "estadoId": null,
+   // "politicaPNPSPId": null,
+    //"estadoId": null,
     "tipoInversionId": null,
   }
 
@@ -140,9 +137,10 @@ export class GobiernoAbiertoComponent implements OnInit {
   public columns = [
     { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
     { name: 'Año', prop: 'anio', sorteable: false, visible: true },
-    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
+    // { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
+    { name: 'Institución Responsable', prop: 'nombreInstitucionResponsable', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
     { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
   ];
@@ -247,8 +245,9 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngOnInit() {
     this.activeModules = [1,2];
 
-      this.listadoEstados = this.dropdownService.getEstados();
       this.tipoEstado = "ejecución";
+
+
       this.reloadTable();
 
       // Initially load first page
@@ -294,7 +293,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         async: true,
         multiple: false
       }),
-      new FiltrosDinamicos().deserialize({
+      /* new FiltrosDinamicos().deserialize({
         name: 'fuenteDemandaId',
         label: 'Fuente',
         servicio: this.dropdownService.getFuentes(),
@@ -302,8 +301,8 @@ export class GobiernoAbiertoComponent implements OnInit {
         placeholder: 'Seleccione una fuente de demanda',
         async: true,
         multiple: false
-      }),
-      new FiltrosDinamicos().deserialize({
+      }), */
+      /* new FiltrosDinamicos().deserialize({
         name: 'temaCommun',
         label: 'Tema común',
         servicio: this.dropdownService.getTemasComunes(),
@@ -313,8 +312,8 @@ export class GobiernoAbiertoComponent implements OnInit {
         multiple: false,
         filtroHijo: 'temaComunId',
         servicioHijo: 'getClasificadorByTemaComun',
-      }),
-      new FiltrosDinamicos().deserialize({
+      }), */
+     /*  new FiltrosDinamicos().deserialize({
         name: 'temaComunId',
         label: 'Clasificador Funcional',
         servicio: this.dropdownService.getClasificadorByTemaComun(null),
@@ -323,7 +322,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         async: true,
         multiple: false,
 
-      }),
+      }), */
 
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
@@ -334,7 +333,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         async: true,
         multiple: false
       }),
-      new FiltrosDinamicos().deserialize({
+      /* new FiltrosDinamicos().deserialize({
         name: 'estadoId',
         label: 'Estado',
         servicio: this.dropdownService.getEstados(),
@@ -342,7 +341,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         placeholder: 'Seleccione un estado',
         async: true,
         multiple: false
-      }),
+      }), */
       new FiltrosDinamicos().deserialize({
         name: 'tipoInversionId',
         label: 'Tipo inversion',
@@ -351,7 +350,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         placeholder: 'Seleccione un tipo',
         async: true,
         multiple: false
-      }),
+      })/* ,
       new FiltrosDinamicos().deserialize({
         name: 'politicaPNPSPId',
         label: 'Politica PNPSP',
@@ -360,7 +359,7 @@ export class GobiernoAbiertoComponent implements OnInit {
         placeholder: 'Seleccione politica',
         async: true,
         multiple: false
-      })
+      }) */
     ];
     this.loadingIndicator = false;
 
@@ -412,13 +411,27 @@ export class GobiernoAbiertoComponent implements OnInit {
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('grupoId', grupoId);
 
-    this.demandasService.getDemandasGobiernoAbierto(params).subscribe((data: any) => {
-      // NOTE: the format of the returned data depends on your API!
-      this.page.count = data.total;
-      this.rows = data.items;
-      console.log("laDAta =>",)
-      document.getElementById('dataTable1').click();
-    });
+      this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto(params);
+      this.mapSettings.servicio.subscribe(res => {
+        this.dashboard = res
+        console.log("data dashboard", this.dashboard)
+
+        this.page.count = res['data']['total'];
+        this.rows = res['data']['items'];
+        console.log("laDAta =>", this.rows )
+        document.getElementById('dataTable1').click();
+        this.recargaMapa();
+        this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;
+        this.regionChart.initAll(this.dashboard.demandasPorRegion)
+
+      }, () => { }
+        , () => {
+
+        });
+
+
+
+
   }
 
   public async _changeRowLimits(event: any) {
@@ -571,13 +584,13 @@ demo()
   console.log("clickPiña")
 }
 get regiones() {
-  return this.rows.regiones ?? []
+  return this.dashboard?.demandasPorRegion ?? []
 }
 
 mapSettings: MapSettings = {
   servicio: null,
-  BindProperty: 'iniciativasPorProvincia',
-  BindValue: 'totalIniciativas',
+  BindProperty: 'demandasPorProvincia',
+  BindValue: 'totalDemandas',
   GeoDataFile: 'do_provincias',
   Label: 'Provincia'
 }
@@ -588,11 +601,11 @@ changeMap(event: any) {
   switch (event.target.value) {
     case '1':
       this.mapSettings.GeoDataFile = 'do_provincias';
-      this.mapSettings.BindProperty = 'iniciativasPorProvincia';
-      this.mapSettings.BindValue = 'totalIniciativas';
+      this.mapSettings.BindProperty = 'demandasPorProvincia';
+      this.mapSettings.BindValue = 'totalDemandas';
       this.mapSettings.Label = 'Provincia';
       this.referenciaMapa = 'Provincias';
-      //this.mapSettings.servicio = this.iniciativaReportService.getDashboard(this.filtrosBusqueda);
+      //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
       break;
 
     case '2':
@@ -601,15 +614,21 @@ changeMap(event: any) {
       this.mapSettings.BindValue = 'totalDemandas';
       this.mapSettings.Label = 'Municipio';
       this.referenciaMapa = 'Municipios';
-      // this.mapSettings.servicio = this.iniciativaReportService.getDashboard(this.filtrosBusqueda);
+      //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
       break;
 
     default:
       break;
   }
 
-  this.mapaComponent.onReload(this.mapSettings);
+  this.recargaMapa();
 
+}
+
+recargaMapa()
+{
+  console.log("recargando el mapa")
+  this.mapaComponent.onReload(this.mapSettings);
 }
 
 }
