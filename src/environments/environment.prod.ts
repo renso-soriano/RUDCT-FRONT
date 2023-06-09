@@ -4,6 +4,16 @@ export const environment = {
   apiUrl: "https://apirudt.mepyd.gob.do/api/",
   appName: "Registro Único de Demandas Ciudadanas Territoriales",
   appShortName: "RUDCT",
+  allowedMimeTypes: [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  ],
+  allowedFileTypes: ['pdf', 'xlsx', 'xls', 'doc', 'docx'],
+  appMaxFileSize: 5, // Tamaño en MB
+  appMaxFileCount: 10,
   appStartYear: 2016,
   specialChars: {
     "Á": "A",
