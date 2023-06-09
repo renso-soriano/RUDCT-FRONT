@@ -609,6 +609,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
+        console.log("Lista de demandas", demanda);
       },
       (err: any) => {
         console.error(err);

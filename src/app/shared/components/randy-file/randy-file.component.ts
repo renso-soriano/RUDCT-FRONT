@@ -82,7 +82,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private toastrService: ToastrService,
   ) {
-    console.log("Ramdy File Init");
+    // console.log("Ramdy File Init");
 
     this.multiple = this.fileLimit > 1
     this.uploader = new FileUploader({
@@ -97,7 +97,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
       console.log(fileItem, "Demo ")
 
       if (name === FileException.MimeType) {
-        console.log(name, "mimeType");
+        // console.log(name, "mimeType");
         this.toastr.warning(`Los formatos permitidos son: ${this.fileType.map(value => " " + value)} `, 'Formato de archivo')
       }
 
@@ -111,13 +111,13 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
       }
       else {
-        console.log("add", this.uploader.queue);
+        // console.log("add", this.uploader.queue);
         this.addedFileToQueue()
 
       }
     }
     this.uploader.onAfterAddingFile = () => {
-      console.log("AQUI");
+      // console.log("AQUI");
       this.addedFileToQueue()
     }
 
@@ -135,7 +135,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   getFiles(): Archivo[] {
     const files = this.selected.filter(x => !x.id)
-    console.log(files, "FILES");
+    // console.log(files, "FILES");
     return files;
 
   }

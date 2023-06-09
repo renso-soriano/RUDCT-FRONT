@@ -75,4 +75,5 @@ export class Demanda implements Deserializable {
     Object.assign(this, input);
     return this;
   }
+  demandaAnexos: []
 }
