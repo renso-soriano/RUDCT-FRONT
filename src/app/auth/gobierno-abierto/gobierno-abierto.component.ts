@@ -431,11 +431,11 @@ export class GobiernoAbiertoComponent implements OnInit {
       this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;
       this.regionChart.initAll(this.dashboard.demandasPorRegion)
 
-      this.contenidaEnPOA = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPOAActual).cantidad;
+      this.contenidaEnPOA = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPOAActual)?.cantidad ?? 0 ;
       console.log(this.dashboard, "das")
-      this.vista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.VistoRecibido).cantidad;
-      this.noVista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.NoVista).cantidad;
-      this.contenidasEnPEI = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPEI).cantidad;
+      this.vista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.VistoRecibido)?.cantidad ?? 0;
+      this.noVista = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.NoVista)?.cantidad ?? 0;
+      this.contenidasEnPEI = this.dashboard.demandasPorEstado.find((demanda: any) => demanda.estadoId == Estados.ContenidaPEI)?.cantidad ?? 0;
       console.log(this.noVista, this.vista, this.contenidasEnPEI, "cantidades")
 
     }, () => { }
