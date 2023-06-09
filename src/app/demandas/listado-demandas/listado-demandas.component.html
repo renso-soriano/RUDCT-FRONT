@@ -245,7 +245,7 @@
       </div>
 
       <div class="modal-footer">
-        <a class="btn btn-primary" (click)="openFileModal(modalAnexo)" ><span>
+        <a class="btn btn-primary" (click)="openFileModal(modalAnexo)" *ngIf="gruposUsuario.includes(1008)"><span>
           Subir Evidencia </span>
          </a>
         <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="modal.close('Close click')"><span>Volver a
