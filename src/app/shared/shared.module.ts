@@ -40,6 +40,9 @@ import { ChartistModule } from 'ng-chartist';
 import { MatchHeightModule } from './directives/match-height.directive';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { AngularResizedEventModule } from 'angular-resize-event';
+import { RandyFileComponent } from './components/randy-file/randy-file.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
     exports: [
@@ -58,6 +61,8 @@ import { AngularResizedEventModule } from 'angular-resize-event';
         DataFilterComponent,
         MapaComponent,
         LeafletModule,
+        RandyFileComponent,
+        ModalComponent,
         RegionChartComponent,
     ],
     imports: [
@@ -80,7 +85,9 @@ import { AngularResizedEventModule } from 'angular-resize-event';
         NgbModule,
         MatchHeightModule,
         NgApexchartsModule,
-        AngularResizedEventModule
+        AngularResizedEventModule,
+        FileUploadModule
+        // RandyFileComponent,
 
     ],
     declarations: [
@@ -101,6 +108,8 @@ import { AngularResizedEventModule } from 'angular-resize-event';
         TopMenuDirective,
         DataFilterComponent,
         MapaComponent,
+        RandyFileComponent,
+        ModalComponent,
         RegionChartComponent,
     ],
     providers: [DecimalPipe],

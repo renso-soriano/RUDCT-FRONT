@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { ComingSoonPageComponent } from './../pages/content-pages/coming-soon/coming-soon-page.component';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from 'app/shared/guards/role.guard';
 import { DetalleDemandasComponent } from './detalle-demandas/detalle-demandas.component';

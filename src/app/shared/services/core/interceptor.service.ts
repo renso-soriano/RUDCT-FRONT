@@ -15,8 +15,8 @@ export class InterceptorService {
     const headersRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${this.authService.getToken()}`,
-        Accept: 'application/json',
-        "Content-Type": 'application/json'
+        // Accept: 'application/json',
+        // "Content-Type": 'application/json'
       }
     });
 

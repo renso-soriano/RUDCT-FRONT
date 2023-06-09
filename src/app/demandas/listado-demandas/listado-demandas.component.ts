@@ -1,5 +1,5 @@
 import { ExcelService } from './../../shared/services/excel.service';
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, TemplateRef, AfterContentInit } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
 import {
   ColumnMode,
@@ -25,6 +25,15 @@ import { saveAs } from 'file-saver';
 import * as L from 'leaflet';
 import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
+import { FileManagerService } from '../services/fileManager.service';
+import { TipoDocumento } from '../enum/tipo-documento.enum';
+import Archivo from '../interface/archivo.interface';
+import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { Console } from 'console';
+
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -34,10 +43,12 @@ const data: any = require('../../shared/data/Demandas.json');
   templateUrl: './listado-demandas.component.html',
   styleUrls: ['./listado-demandas.component.scss', '../../../assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [NGXToastrService]
+  providers: [NGXToastrService],
 })
-export class ListadoDemandasComponent implements OnInit {
+export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit{
 
+  @ViewChild("randyFile") randyFile:RandyFileComponent
+  @ViewChild("modalAnexo") modalAnexo:ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
@@ -48,8 +59,16 @@ export class ListadoDemandasComponent implements OnInit {
   notFound = false;
   modal: NgbModal;
   @ViewChild("content") content: ElementRef<HTMLElement>;
+  //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
   listadoEstados: Observable<any[]>;
+  tiposDocumentos: any[] = [
+    {name: 'Identificacion' ,index: 1},
+    {name: 'Acta De Nacimiento' ,index: 2},
+    {name: 'Documento Prueba' ,index:3},
+    {name: 'Prueba' ,index: 4}];
+  tipoDocumentoId: number = 0
+    // private FileURL = 'http://apidemandas.economia.local/Api/File';
   listadoEstadosValidacion: Observable<any[]>;
   institucionUsuarioSSO: number;
   institucionUsuarioEnRUDT: any;
@@ -59,6 +78,16 @@ export class ListadoDemandasComponent implements OnInit {
   capas: any;
   rowsFilterByGoups: any;
   tipoEstado: string;
+  file: any
+  demandaId: any
+  listaAnexosId: any
+  modalConfig: IModalConfig = {
+    modalTitle: "Anexos de Demandas"
+  }
+  modalOption: IModalOption ={
+    size: "xl",
+    centered: true
+  }
 
 
   estadoForm = this.formBuilder.group({
@@ -156,6 +185,11 @@ export class ListadoDemandasComponent implements OnInit {
   dataExcel: any;
   rowExportExcel: any;
 
+  openFileModal(demandaId:number):void{
+    console.log(demandaId, "Demanda ID NOEL")
+  this.modalAnexo.open();
+  }
+
   /**
    * filterUpdate
    *
@@ -207,10 +241,19 @@ export class ListadoDemandasComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dropdownService: DropDownServiceService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private fileManager: FileManagerService
+    ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+  }
+  ngAfterContentInit(): void {
+
+  }
+  ngAfterViewInit(): void {
+    console.log(this.randyFile, "AQUI RANDY FILE REF");
+    console.log(this.modalAnexo, "AQUI ng-template REF");
   }
 
   //Actions Methods
@@ -562,11 +605,12 @@ export class ListadoDemandasComponent implements OnInit {
   }
 
 
-  openVerticallyCentered(content, id: string) {
+  openVerticallyCentered(content, id: any) {
     this.EF.estado.setValue(null);
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
+        console.log("Lista de demandas", demanda);
       },
       (err: any) => {
         console.error(err);
@@ -577,7 +621,7 @@ export class ListadoDemandasComponent implements OnInit {
         document.body.click();
       }
     );
-
+    this.demandaId = id;
     this.modalService.open(content, {
       centered: true,
       backdrop: "static",
@@ -720,6 +764,122 @@ export class ListadoDemandasComponent implements OnInit {
 
     }
   }
+
+  openSubirEvidencia(modalAnexo){
+    this.modalService.open(modalAnexo, {
+    centered: true,
+    backdrop: "static",
+    keyboard: false,
+    size: "xl",
+  });
+}
+
+getFile(event: any){
+  this.file = event.target.files[0]
+  console.log('Archivo seleccionado: ', this.file)
+}
+
+saveFiles(obs:Observable<number[]>){
+  obs.subscribe((res)=>{
+    console.log(res,"amores van y vienen");
+
+    //creando el objeto que guardara la relacion
+    //entre archivos y demanda
+    var lista = res.map(id => {
+      return {
+        id: 0,
+        FileId: id,
+        demandaId: this.demandaId
+      };
+    });
+
+    console.log(lista, "la lista de demandaAnexo");
+
+    this.demandasService.saveDemandaAnexo(lista)
+      .subscribe(res => {
+        console.log(res);
+      });
+
+  });
+}
+
+submitData(){
+
+  // const files: Archivo[] = [
+  //   {
+  //     id: 0,
+  //     entityId: this.demanda.id,
+  //     file: this.file,
+  //     tipoDocumentoId: this.tipoDocumentoId
+  //   }
+  // ]
+  console.log(this.modalAnexo, "ref" );
+  // let files = this.randyFile.getFiles();
+  // console.log(files);
+
+  // let data = this.fileManager.createFormData(files);
+  // console.log(data.,"DATA");
+  // data.forEach(value=>{
+  //   console.log(value,"VALUE");
+  // })
+
+  // this.fileManager.uploadFiles(data).subscribe(res => {
+  //   console.log(res);
+  // })
+}
+
+// onFileSelected(event) {
+
+//   const file:File = event.target.files[0];
+//   console.log('Documento ID', this.tipoDocumentoId)
+//   if (file) {
+
+//       // this.fileName = file.name;
+
+//       const files: Archivo[] = [
+//         {
+//           id: 0,
+//           entityId: this.demanda.id,
+//           file,
+//           tipoDocumentoId: this.tipoDocumentoId
+//         }
+//       ]
+
+//       let convertToFormBase = this.fileManager.createFormData(files)
+
+//       console.log("BAAAAAAAAASE", convertToFormBase);
+//   let result = this.fileManager.convertBase64ToBlob(file);
+//    console.log("fileeeeeeeeee", file);
+//    console.log("Resuuuuuut", result);
+
+//       const upload$ = this.fileManager.uploadFiles(formData);
+
+//       upload$.subscribe(x => {
+//         console.log("que haces?",x)
+//       });
+//   }
+// }
+
+// uploader = Uploader({
+//   apiKey: "free"
+// });
+
+// options1: UploadWidgetConfig = {
+//   multi: false
+
+// };
+
+// onUpdate = (files: UploadWidgetResult[]) => {
+//   alert(files.map(x => x.fileUrl).join("\n"));
+// };
+
+// width = "400px";
+//   height = "275px";
+
+
+
+
+
   //manejarClick(event:LeafletMouseEvent) {
 
   // const latitud = Number( event.latlng.lat);
@@ -741,5 +901,6 @@ export class ListadoDemandasComponent implements OnInit {
 
   //   );
   //}
+
 
 }
