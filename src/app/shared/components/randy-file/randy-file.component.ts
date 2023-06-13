@@ -130,7 +130,6 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   update() {
     this.emitFileCount()
-
   }
 
   getFiles(): Archivo[] {
