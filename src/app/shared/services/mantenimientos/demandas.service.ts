@@ -9,6 +9,7 @@ import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Console } from 'console';
+import Archivo from 'app/demandas/interface/archivo.interface';
 
 
 @Injectable({
@@ -67,7 +68,9 @@ export class DemandasService {
       map(demanda =>
         new Demanda().deserialize(demanda)
       )
+
     );
+
   }
 
   createDemanda(demanda: Demanda): Observable<Demanda> {
@@ -93,5 +96,7 @@ export class DemandasService {
     const url = `https://localhost:5001/Api/DemandaAnexo/guardar`;
     return this.http.post<any>(url, listado);
   }
+
+
 
 }

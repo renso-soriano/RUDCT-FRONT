@@ -297,7 +297,9 @@
 </div>
 <UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption">
   <!-- <ng-template #modal-body> -->
-    <Randy-File [withModal]="true" (onSubmit)="saveFiles($event)"></Randy-File>
+    <Randy-File [withModal]="true"
+    [listaDemanda]="(listaDeAnexos)"
+    (onSubmit)="saveFiles($event)"></Randy-File>
 
   <!-- </ng-template> -->
   <!-- <Randy-File></Randy-File> -->

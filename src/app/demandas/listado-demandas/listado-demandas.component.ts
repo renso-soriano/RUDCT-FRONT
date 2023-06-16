@@ -1,5 +1,5 @@
 import { ExcelService } from './../../shared/services/excel.service';
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, TemplateRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, TemplateRef, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
 import {
   ColumnMode,
@@ -51,6 +51,10 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   @ViewChild("modalAnexo") modalAnexo:ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+
+  //Input and Output
+@Output()anexosDemandas = new EventEmitter<any>();
+@Input()listaDeAnexos: Archivo[]
 
   // public
   public contentHeader: object;
@@ -602,14 +606,31 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
 
   }
+  mapFile(){
+        let file: any[];
+        file = this.listaDeAnexos;
+         let files: Archivo[] = []
+         this.listaDeAnexos.forEach((item: any) => {
+          files.push({
+            file:{
+              ...item?.file
+            },
+            tipoDocumentoId: item.file?.tipoDocumentoId, id: item.id,
+            entityId: item?.demandaId
 
+          })
+         })
+    console.log(this.listaDeAnexos, "ARCHIVOS MAPEADOS");
+  }
 
   openVerticallyCentered(content, id: any) {
     this.EF.estado.setValue(null);
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
-        console.log("Lista de demandas", demanda);
+        this.listaDeAnexos = demanda.demandaAnexos
+        this.mapFile()
+        console.log("Lista de Anexos", this.listaDeAnexos);
       },
       (err: any) => {
         console.error(err);

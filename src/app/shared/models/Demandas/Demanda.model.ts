@@ -7,6 +7,7 @@ import { DemandaEnd } from "./DemandaEnd.model";
 import { DemandaInstitucion } from "./DemandaInstitucion.model";
 import { DemandaPolitica } from "./DemandaPolitica.model";
 import { DemandaTipoInversion } from "./DemandaTipoInversion.model";
+import Archivo from "app/demandas/interface/archivo.interface";
 
 export class Demanda implements Deserializable {
   id?: number;
@@ -75,5 +76,5 @@ export class Demanda implements Deserializable {
     Object.assign(this, input);
     return this;
   }
-  demandaAnexos: []
+  demandaAnexos:Archivo []
 }

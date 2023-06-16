@@ -30,6 +30,8 @@ export class RandyFileService {
 
   ) { }
 
+
+
  getFileType(){
   return this._dropDowm.getFileType();
  }

@@ -37,6 +37,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   @Input() isDetail: boolean;
   @Input() name: string = ''
   @Input() disabled = false
+  @Input() listaDemanda: any[];
   // @Input() modalRef: ModalComponent //referencia del modal
   // @Input() documentTypeExplicit: TipoDocumento //Tipo de documento
   @Input() route: string //Terminal de la ruta EJEMPLO: "Negociacion | Seguimiento | Iniciativa"
@@ -95,7 +96,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
     this.uploader.onWhenAddingFileFailed = (fileItem, { name }) => {
       console.log(fileItem, "Demo ")
-
+      console.log(this.listaDemanda, "INIT Anexos demandas");
       if (name === FileException.MimeType) {
         // console.log(name, "mimeType");
         this.toastr.warning(`Los formatos permitidos son: ${this.fileType.map(value => " " + value)} `, 'Formato de archivo')
@@ -123,6 +124,11 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   }
 
+  recibirListaDeAnexos(listaDeAnexos: any[]){
+    this.selected = listaDeAnexos;
+    console.log("Vamooooooooooooos",listaDeAnexos);
+
+  }
 
   get getCount() {
     return this.selected.length
@@ -163,7 +169,6 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dropdownFileType();
-    // console.log(this.fileEntityType, "INIT RANDY FILE");
   }
 
 
