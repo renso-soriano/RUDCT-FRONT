@@ -151,6 +151,9 @@
             </div>
           </div>
         </div>
+
+
+
       </div>
 
 
@@ -247,8 +250,14 @@
 
       </div>
 
+      <div class="col-12">
+        <Randy-File  [withModal]="false"
+    [anexoDataDb]="files.length> 0 ?files : []"
+    (onSubmit)="saveFiles($event)"></Randy-File>
+      </div>
+
       <div class="modal-footer">
-        <a class="btn btn-primary" (click)="openFileModal(modalAnexo)" ><span>
+        <a class="btn btn-primary" (click)="openFileModal()" ><span>
           Subir Evidencia </span>
          </a>
         <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="modal.close('Close click')"><span>Volver a
@@ -295,15 +304,7 @@
 
 
 </div>
-<UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption">
-  <!-- <ng-template #modal-body> -->
-    <Randy-File [withModal]="true"
-    [listaDemanda]="(listaDeAnexos)"
-    (onSubmit)="saveFiles($event)"></Randy-File>
 
-  <!-- </ng-template> -->
-  <!-- <Randy-File></Randy-File> -->
-</UIModal>
 
 
 <!-- <ng-template #modalAnexo let-modal>
@@ -360,4 +361,18 @@
 
 
 </div>
-</ng-container>
+
+<!-- <ng-template> -->
+
+  <!-- </ng-template> -->
+  </ng-container>
+
+  <UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption">
+    <!-- <ng-template #modal-body> -->
+      <Randy-File  [withModal]="true"
+      [anexoDataDb]="files"
+      (onSubmit)="saveFiles($event)"></Randy-File>
+
+      <!-- </ng-template> -->
+      <!-- <Randy-File></Randy-File> -->
+    </UIModal>

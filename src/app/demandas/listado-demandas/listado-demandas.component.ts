@@ -47,7 +47,9 @@ const data: any = require('../../shared/data/Demandas.json');
 })
 export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit{
 
-  @ViewChild("randyFile") randyFile:RandyFileComponent
+  @ViewChild("randyFile", {
+    static : true
+  }) randyFile:RandyFileComponent
   @ViewChild("modalAnexo") modalAnexo:ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
@@ -65,6 +67,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   @ViewChild("content") content: ElementRef<HTMLElement>;
   //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
+  files: Archivo[] = [];
   listadoEstados: Observable<any[]>;
   tiposDocumentos: any[] = [
     {name: 'Identificacion' ,index: 1},
@@ -189,10 +192,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   dataExcel: any;
   rowExportExcel: any;
 
-  openFileModal(demandaId:number):void{
-    console.log(demandaId, "Demanda ID NOEL")
-  this.modalAnexo.open();
-  }
+
 
   /**
    * filterUpdate
@@ -256,10 +256,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
   ngAfterViewInit(): void {
-    console.log(this.randyFile, "AQUI RANDY FILE REF");
-    console.log(this.modalAnexo, "AQUI ng-template REF");
+
   }
 
+  openFileModal(demandaId:number):void{
+    this.mapFile();
+    console.log(demandaId, "Demanda ID NOEL")
+    this.modalAnexo.open();
+  }
   //Actions Methods
 
   verDetalles(CodigoDemanda: string) {
@@ -607,20 +611,21 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
   mapFile(){
-        let file: any[];
-        file = this.listaDeAnexos;
-         let files: Archivo[] = []
-         this.listaDeAnexos.forEach((item: any) => {
-          files.push({
+
+      //  let file = this.listaDeAnexos;
+         this.demanda.demandaAnexos.forEach((item: any) => {
+          this.files.push({
             file:{
               ...item?.file
             },
-            tipoDocumentoId: item.file?.tipoDocumentoId, id: item.id,
+            tipoDocumentoId: item.file.fileType.id.toString(),
+            id: item.id,
             entityId: item?.demandaId
 
           })
          })
-    console.log(this.listaDeAnexos, "ARCHIVOS MAPEADOS");
+        //  return this.files;
+    console.log(this.files, "ARCHIVOS MAPEADOS");
   }
 
   openVerticallyCentered(content, id: any) {
@@ -628,9 +633,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
-        this.listaDeAnexos = demanda.demandaAnexos
+        // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile()
-        console.log("Lista de Anexos", this.listaDeAnexos);
+        // console.log("Lista de Anexos", this.files);
       },
       (err: any) => {
         console.error(err);
@@ -646,6 +651,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       centered: true,
       backdrop: "static",
       keyboard: false,
+      size:"xl"
     });
   }
 
@@ -785,14 +791,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     }
   }
 
-  openSubirEvidencia(modalAnexo){
-    this.modalService.open(modalAnexo, {
-    centered: true,
-    backdrop: "static",
-    keyboard: false,
-    size: "xl",
-  });
-}
+  // openSubirEvidencia(modalAnexo){
+  //   this.modalService.open(modalAnexo, {
+  //   centered: true,
+  //   backdrop: "static",
+  //   keyboard: false,
+  //   size: "xl",
+  // });
+// }
 
 getFile(event: any){
   this.file = event.target.files[0]
@@ -805,20 +811,20 @@ saveFiles(obs:Observable<number[]>){
 
     //creando el objeto que guardara la relacion
     //entre archivos y demanda
-    var lista = res.map(id => {
-      return {
-        id: 0,
-        FileId: id,
-        demandaId: this.demandaId
-      };
-    });
+    // var lista = res.map(id => {
+    //   return {
+    //     id: 0,
+    //     FileId: id,
+    //     demandaId: this.demandaId
+    //   };
+    // });
 
-    console.log(lista, "la lista de demandaAnexo");
 
-    this.demandasService.saveDemandaAnexo(lista)
-      .subscribe(res => {
-        console.log(res);
-      });
+
+    // this.demandasService.saveDemandaAnexo(lista)
+    //   .subscribe(res => {
+    //     console.log(res);
+    //   });
 
   });
 }

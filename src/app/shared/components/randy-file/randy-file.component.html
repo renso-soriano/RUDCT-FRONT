@@ -32,6 +32,8 @@
     <tbody>
 
       <tr *ngFor="let item of selected; let indexOfelement = index;">
+        <!-- {{item | json}} -->
+        <!-- {{tipoDocumentos | async | json}} -->
         <td class="text-bold-600">{{ item.file?.name }}</td>
         <td class="text-bold-600">
           <ng-select required="Debe llenar campo" [disabled]="documentTypeExplicit ? true : false"
