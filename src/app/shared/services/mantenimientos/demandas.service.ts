@@ -65,8 +65,8 @@ export class DemandasService {
     return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
   }
 
-  getDemandasForDashboardAbierto(params?: HttpParams): Observable<DashboardResponse[]> {
-    return this.http.get<DashboardResponse[]>(`${this.URL}/GetDashboardGobiernoAbierto`, { params });
+  getDemandasForDashboardAbierto(params?: HttpParams): Observable<DashboardResponse> {
+    return this.http.get<DashboardResponse>(`${this.URL}/GetDashboardGobiernoAbierto`, { params });
   }
 
   getDemanda(idDemanda: string): Observable<IDemanda> {
@@ -78,6 +78,15 @@ export class DemandasService {
     // return this.http.get<IDemanda[]>(this.URL + CodigoDemanda)
 
     return this.http.get<Demanda>(`${this.URL}/${demandaId}`).pipe(
+      map(demanda =>
+        new Demanda().deserialize(demanda)
+      )
+    );
+  }
+
+  getDemandaByIdGobiernoAbierto(demandaId: string): Observable<Demanda> {
+
+    return this.http.get<Demanda>(`${this.URL}/GetByIdGobiernoAbierto/${demandaId}`).pipe(
       map(demanda =>
         new Demanda().deserialize(demanda)
       )

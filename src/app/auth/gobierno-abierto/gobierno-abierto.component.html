@@ -7,66 +7,42 @@
           <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
           <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
         </div>
-        <!-- <h4 class="card-title mb-0">Probando otras cosas</h4> -->
+        <div class="row mt-3">
+          <div class="col-10 m-auto">
+            <p class="my-2 proposito text-color">
+              Transparentar las demandas territoriales ciudadanas a nivel nacional,
+              a través de una herramienta digital donde se puedan visualizar los requerimientos surgidos
+              y canalizados por los consejos provinciales de desarrollo, de igual forma el estatus de estas.
+              <br>
+              Este sistema permitirá un registro único de las demandas territoriales de la ciudadanía residente en los
+              distintos
+              puntos de la geografía nacional, para que sean atendidas por el Gobierno, para mejorar la respuesta
+              oportuna
+              y con esto elevar las condiciones de vida de la población.
+            </p>
+          </div>
+        </div>
+
       </div>
       <div class="card-content">
         <div class="card-body">
           <div class="row mt-3">
             <div class="col-10 m-auto">
-              <p class="my-2 text-color">
-                El sistema RUDCT es la herramienta que sistematiza los datos generados en el proceso de gestión de la
-                cooperación
-                internacional no reembolsable, ofreciendo un lenguaje estandarizado en torno a las iniciativas de
-                cooperación y
-                permitiendo la generación de información para la toma de decisiones, el diseño de políticas públicas, la
-                transparencia y la rendición de cuentas.
-                <br>
-                <br>
-                El Sistema está compuesto por un conjunto de módulos que representan cada etapa del ciclo de gestión de
-                las
-                iniciativas, permitiendo registrar y dar seguimiento a toda la información generada en cada una de estas
-                etapas.
-              </p>
+
               <div>
-                <h5 class="card-title mb-0">Distribución de las demandas segun su estado</h5>
+                <h5 class="card-title mb-0">Distribución de las demandas por ejes END</h5>
               </div>
               <!--Statistics cards Starts-->
-              <div class="row">
-
-
+              <div class="row" (resized)="onResized($event)">
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-primary">
+                  <div class="card bg-info">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">{{ vista }}</h2>
-                            <span>Vistas</span>
-                          </div>
-                          <div class="media-right white text-right">
-                            <i class="ft-users font-large-1"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
-
-                      </div>
-                      <br>
-                      <br>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-primary">
-                    <div class="card-content">
-                      <div class="card-body py-0">
-                        <div class="media pb-1">
-                          <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">{{ contenidaEnPOA }}</h2>
-                            <span>Contenidas En POA</span>
+                            <h2 class="font-large-1 white mb-0">{{ejeInstitucional}}</h2>
+                            <span>Institucionalidad</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-home font-large-1"></i>
@@ -83,13 +59,38 @@
                 </div>
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-primary">
+                  <div class="card bg-warning">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0" >{{ contenidasEnPEI }}</h2>
-                            <span>Incluidas en PEI</span>
+                            <h2 class="font-large-1 white mb-0">{{ejeSocial}}</h2>
+                            <span>Social</span>
+                          </div>
+                          <div class="media-right white text-right">
+                            <i class="ft-users font-large-1"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
+
+                      </div>
+                      <br>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+                  <div class="card bg-danger">
+                    <div class="card-content">
+                      <div class="card-body py-0">
+                        <div class="media pb-1">
+                          <div class="media-body white text-left">
+                            <h2 class="font-large-1 white mb-0">{{ejeEconomico}}</h2>
+                            <span>Economico</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-trending-up font-large-1"></i>
@@ -106,13 +107,13 @@
                 </div>
 
                 <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-                  <div class="card bg-primary">
+                  <div class="card bg-success">
                     <div class="card-content">
                       <div class="card-body py-0">
                         <div class="media pb-1">
                           <div class="media-body white text-left">
-                            <h2 class="font-large-1 white mb-0">{{ noVista }}</h2>
-                            <span>No vistas</span>
+                            <h2 class="font-large-1 white mb-0">{{ejeMedioAmbiental}}</h2>
+                            <span>Medio ambiental</span>
                           </div>
                           <div class="media-right white text-right">
                             <i class="ft-sun font-large-1"></i>
@@ -120,6 +121,7 @@
                         </div>
                       </div>
                       <div id="Widget-line-chart" class=" WidgetlineChart WidgetlineChartshadow mb-2">
+
                       </div>
                       <br>
                       <br>
@@ -128,12 +130,52 @@
                 </div>
 
               </div>
+              <!--Statistics cards Ends-->
+
+            </div>
+            <div class="col-10 m-auto">
+
+
+              <!--mapa data y regiones-->
+              <div class="row match-height">
+                <div class="col-8">
+                  <div class="card border border-primary">
+                    <h5 class="bg-primary text-white text-center p-2 rounded-top">
+                      Cantidad de demandas en los territorios</h5>
+
+                    <div class="card-content">
+                      <div class="card-body" style="min-height:800px;">
+
+                        <div id="map" leaflet [leafletOptions]="options" [leafletLayers]="capas">
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-12 col-md-4">
+                  <div class="card border border-primary">
+                    <h5 class="bg-primary text-white text-center p-2 rounded-top">
+                      Porcentaje demandas por region
+                    </h5>
+                    <div class="card-content">
+                      <div class="card-body align-items-center" style="min-height:800px;">
+                        <app-region-chart #regionChart [regionesInfo]="regiones"></app-region-chart>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!--mapaData y regiones-->
 
               <!-- Filter Datatables -->
               <section id="ngx-datatable-filter">
                 <div class="row">
                   <div class="col-12">
-                    <div class="card">
+                    <div class="card border border-primary">
                       <div class="card-header">
                         <h4 class="card-title ml-2">Listado de demandas</h4>
                       </div>
@@ -156,10 +198,10 @@
                                 title="Exportar listado actual en Excel" class="btn btn btn-success btn-sm ml-1">
                                 <i class="fa fa-file-excel-o"> Exportar Excel</i>
                               </a>
-                              <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
+                              <!-- <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
                                   mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)"
                                 title="Ver listado en el mapa"><i class="fa fa-map-marker mapaselect "
-                                  aria-hidden="true "></i></a>
+                                  aria-hidden="true "></i></a> -->
                             </div>
                           </div><br>
 
@@ -186,7 +228,7 @@
                               <!-- Acciones -->
                               <ngx-datatable-column name="Acciones">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                                  <a class="btn-sm      btn-warning text-white  ft-eye" (click)="openVerticallyCentered(content,row.id)"
                                     title="Ver detalles"></a>
                                   <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
                                     title="Ver archivos"></a>
@@ -222,52 +264,7 @@
               </section>
               <!--/ Filter Datatables -->
 
-              <!--mapa data y regiones-->
-              <div class="row match-height">
-                <div class="col-8">
-                  <div class="card">
-                    <h5 class="bg-primary text-white text-center p-2 rounded-top">
-                      Cantidad de demandas en los territorios</h5>
-
-                    <div class="card-content">
-                      <div class="card-body" style="min-height:900px;">
-                        <div class="form-group w-25">
-                          <label>Cambiar tipo de mapa</label>
-                          <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
-                            <option value="1">Provincial</option>
-                            <option value="2">Municipal</option>
-                          </select>
-                        </div>
-
-                        <app-mapa #mapaComponent [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile"
-                          [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty"
-                          [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
-
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="col-12 col-md-4">
-                  <div class="card">
-                    <h5 class="bg-primary text-white text-center p-2 rounded-top">
-                      Porcentaje demandas por region
-                    </h5>
-                    <div class="card-content">
-                      <div class="card-body align-items-center" style="min-height:900px;">
-                        <app-region-chart #regionChart [regionesInfo]="regiones"></app-region-chart>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              <!--mapaData y regiones-->
-
               <!--modal mapa-->
-
               <div class="row">
                 <ng-template #contentMapa let-modal>
                   <div class="modal-header">
@@ -290,14 +287,440 @@
                     <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
                   </div>
                 </ng-template>
-
-
               </div>
-
               <!--modal mapa-->
 
+              <!-- modal1Start -->
+
+              <ng-template #content let-modal>
+                <div class="modal-header">
+                  <h4 class="modal-title">Detalle de la demanda</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+
+                  <!-- start -->
+                  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box"
+                    [fullScreen]="false">
+                    <p style="color: white"> Cargando... </p>
+                  </ngx-spinner>
+                  <div class="row">
+                    <div class="col-12">
+                      <!-- Kick start -->
+                      <div id="kick-start" class="card">
+                        <div class="card-header">
+                          <!-- <h4 class="card-title">Detalles de demanda</h4> -->
+                        </div>
+                        <div class="card-content">
+                          <div class="card-body">
+                            <h5 class="danger" *ngIf="notFound">
+                              Esta demanda territorial no existe.
+                            </h5>
+                            <ngb-accordion #acc="ngbAccordion" [closeOthers]="true" activeIds="static-1"
+                              *ngIf="demanda != null">
+                              <ngb-panel id="static-1">
+                                <ng-template ngbPanelTitle>
+                                  <span><i class="ft-info mr-1"></i> <b>Información general</b></span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                  <div class="row">
+                                    <div class="col-6">
+                                      <div class="row">
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Código demanda: </span>
+                                            <label for="CodigoDemanda">{{demanda.codigo}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Año: </span>
+                                            <label for="año">{{demanda.anio}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Demanda: </span>
+                                            <label for="demandaDescripcion">{{demanda.descripcion}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Detalles: </span>
+                                            <textarea class="form-control" readonly cols="30" rows="4"
+                                              [value]="demanda.detalle"></textarea>
+                                          </div>
+                                        </div>
+
+                                        <!-- <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold"> </span>
+                          <div *ngFor="let item of demanda.demandaActividades">
+                            <label for="actividades">{{item.numero}} - {{item.descripcion}}</label>
+                          </div>
+                        </div>
+                      </div> -->
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Clasificador funcional: </span>
+                                            <label for="subFuncion">{{demanda.nombreTemaComun}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Tema común: </span>
+                                            <label for="temaComun">{{demanda.temaComunTema}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Institución responsable: </span>
+                                            <label
+                                              for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="row">
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Región: </span>
+                                            <label for="region">{{demanda.nombreRegion}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Provincia: </span>
+                                            <label for="provincia">{{demanda.nombreProvincia}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4" *ngIf="demanda.municipioId">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Municipio: </span>
+                                            <label for="municipio">{{demanda.nombreMunicipio}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Dirección: </span>
+                                            <label for="direccion">{{demanda.direccion}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Fuente de la demanda: </span>
+                                            <label for="fuente">{{demanda.nombreFuenteDemanda}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Prioridad: </span>
+                                            <label for="Prioridad">{{demanda.prioridad}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Prioridad provincial: </span>
+                                            <label for="Prioridad">{{demanda.prioridadProvincial}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Tipo Demanda: </span>
+                                            <label for="TipoDemanda">{{demanda.nombreTipoDemanda}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group"
+                                            *ngIf="demanda.nivelDemanda == 'Municipales';else other_content">
+                                            <span class="danger font-weight-bold">Escala territorial: </span>
+                                            <label for="Nivel">MUNICIPAL</label>
+                                          </div>
+                                          <ng-template class="form-group" #other_content>
+                                            <span class="danger font-weight-bold">Escala territorial: </span>
+                                            <label for="Nivel">PROVINCIAL</label>
+                                          </ng-template>
+                                        </div>
+                                        <div class="col-4">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Tipo de inversión: </span>
+                                            <br />
+                                            <span
+                                              class="badge badge-pill badge-primary mr-1 mt-1">{{demanda.otroTipoInversion
+                                              == null ?
+                                              demanda.nombreTipoInversion : demanda.otroTipoInversion }} </span>
+
+                                          </div>
+                                        </div>
 
 
+                                        <div class="col-12" *ngIf="demanda.resultanteDe">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Resultante de consolidar: </span>
+                                            <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
+                                          </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Eje y Objetivo END vinculados: </span>
+                                            <div>
+                                              <label for="objetivosEnd">{{demanda.nombreEjeEnd}} -
+                                                {{demanda.nombreObjetivoEnd}}</label>
+                                            </div>
+
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">ODS vinculado: </span>
+                                            <div>
+                                              <label for="ODS">{{demanda.odsId}}- {{demanda.nombreODS}}</label>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Política PNPSP vinculada: </span>
+                                            <div>
+                                              <label for="NombrePolitica">{{demanda.nombrePoliticaPNPSP}}</label>
+                                            </div>
+
+                                          </div>
+                                        </div>
+
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </ngb-panel>
+                              <ngb-panel id="static-2">
+                                <ng-template ngbPanelTitle>
+                                  <span><i class="ft-archive mr-1"></i> <b>Información complementaria</b></span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                  <div class="row">
+                                    <div class="col-6">
+                                      <div class="row">
+
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Estado ejecución: </span>
+                                            <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12" *ngIf="gruposUsuario.includes(1008) == false">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Estado validacion: </span>
+                                            <label for="EstadoValidacion">{{demanda.nombreEstadoValidacion}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12" *ngIf="demanda.comentarioEstado">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Comentario estado: </span>
+                                            <label for="comentarioEstado">{{demanda.comentarioEstado}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12" *ngIf="demanda.codigoPei">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Código PEI: </span>
+                                            <label for="codigoPei">{{demanda.codigoPei}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12" *ngIf="demanda.codigoPoa">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Código POA: </span>
+                                            <label for="codigoPoa">{{demanda.codigoPoa}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12" *ngIf="demanda.codigoSnip">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Código Snip: </span>
+                                            <label for="codigoSnip">{{demanda.codigoSnip}}</label>
+                                          </div>
+                                        </div>
+                                        <div class="col-12">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Benficiarios directos: </span>
+                                          </div>
+                                        </div>
+                                        <div class="col-3">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Personas: </span>
+                                            <label for="temaComun">{{demanda.beneficiariosPersonas}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Familias: </span>
+                                            <label for="temaComun">{{demanda.beneficiariosFamilias}}</label>
+                                          </div>
+                                        </div>
+
+                                        <!-- <div class="col-12">
+                        <span class="danger font-weight-bold">Beneficiarios</span>
+                        <div class="row">
+                          <div class="card shadow col-5 m-1" *ngFor="let item of demanda.demandaBeneficiarios">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Tipo: </span>
+                                    <label for="NombreTipoBeneficiario">{{item.nombreTipo}}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Categoria: </span>
+                                    <label for="NombreCategoriaBeneficiario">{{item.nombreCategoria}}</label>
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <span class="primary font-weight-bold">Cantidad: </span>
+                                    <label for="cantidad">{{item.cantidad |number}}</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+
+                                      </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                      <div class="row">
+
+                                        <!-- <div class="col-12">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
+                          <div *ngFor="let item of demanda.institucionesInvolucradas">
+                            <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
+                          </div>
+                        </div>
+                      </div> -->
+
+                                        <div class="col-12" *ngIf="demanda.nivelDemanda == 'Municipales'">
+                                          <div class="form-group">
+                                            <span class="danger font-weight-bold">Técnico OMPP: </span>
+                                            <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-12" *ngIf="!demanda.municipioId">
+                                          <span class="danger font-weight-bold">Contactos</span>
+                                          <div class="row">
+                                            <div class="card shadow col-5 m-1"
+                                              *ngFor="let contacto of demanda.demandaContactos">
+                                              <div class="card-body">
+                                                <div class="row">
+                                                  <div class="col-12">
+                                                    <div class="form-group">
+                                                      <span class="danger font-weight-bold">Nombre: </span>
+                                                      <label for="ContactoNombre">{{contacto.nombreCompleto}}</label>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-12">
+                                                    <div class="form-group">
+                                                      <span class="danger font-weight-bold">Telefono: </span>
+                                                      <label for="ContactoTelefono">{{contacto.telefono}}</label>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-12">
+                                                    <div class="form-group">
+                                                      <span class="danger font-weight-bold">Descripción: </span>
+                                                      <label for="ContactoDescripcion">{{contacto.descripcion}}</label>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+
+                                      </div>
+
+
+                                    </div>
+
+
+                                  </div>
+                                </ng-template>
+                              </ngb-panel>
+                              <ngb-panel id="static-3">
+                                <ng-template ngbPanelTitle>
+                                  <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                  <div class="row">
+                                    <div *ngFor="let item of demanda.demandaComentarios" class="col-4">
+                                      <div class="card card-inverse bg-info mb-2">
+                                        <div class="card-content">
+                                          <div class="card-body">
+                                            <div class="media">
+                                              <div class="media-body text-left">
+                                                <p>
+                                                  {{item.comentrio}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- <div class="row">
+                  <div class="col-4">
+                    <div class="card card-inverse bg-info">
+                      <div class="card-content">
+                        <div class="card-body">
+                          <div class="media">
+                            <div class="media-body text-left">
+                              <p>
+                                {{demanda.demandaComentarios[demanda.demandaComentarios.length - 1].comentrio}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                                </ng-template>
+                              </ngb-panel>
+                            </ngb-accordion>
+                          </div>
+                        </div>
+                      </div>
+                      <!--/ Kick start -->
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+
+                  <input type="button" value="Volver" class="btn btn-primary" (click)="modal.close('Close click')">
+                </div>
+
+              </ng-template>
+
+              <!-- endModal -->
 
 
             </div>

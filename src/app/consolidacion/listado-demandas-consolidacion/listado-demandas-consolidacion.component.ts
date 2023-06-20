@@ -338,6 +338,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       //windowClass: 'modal-xl'
     });
   }
+
   openVertically(content) {
     if (this.demandasSelected.length < 2) {
       this.serviceStr.typeError(
