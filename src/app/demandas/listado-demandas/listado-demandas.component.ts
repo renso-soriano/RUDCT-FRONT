@@ -33,6 +33,8 @@ import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
 import { Console } from 'console';
+import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
+import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 
 
 declare var require: any;
@@ -45,23 +47,23 @@ const data: any = require('../../shared/data/Demandas.json');
   encapsulation: ViewEncapsulation.None,
   providers: [NGXToastrService],
 })
-export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit{
+export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit {
 
-  @ViewChild("randyFile", {
-    static : true
-  }) randyFile:RandyFileComponent
-  @ViewChild("modalAnexo") modalAnexo:ModalComponent
+  @ViewChild("randyFile", {static:false}) randyFile: RandyFileComponent
+  @ViewChild("modalFile") modalAnexo: ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
   //Input and Output
-@Output()anexosDemandas = new EventEmitter<any>();
-@Input()listaDeAnexos: Archivo[]
+  @Output() anexosDemandas = new EventEmitter<any>();
+  @Input() listaDeAnexos: Archivo[]
+  @Input() isDetail: boolean = false;
 
   // public
   public contentHeader: object;
 
   //data:any[];
+  estadoDemanda: any;
   notFound = false;
   modal: NgbModal;
   @ViewChild("content") content: ElementRef<HTMLElement>;
@@ -69,13 +71,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   demanda: Demanda;
   files: Archivo[] = [];
   listadoEstados: Observable<any[]>;
+  nuevosAnexos: any[] = [];
   tiposDocumentos: any[] = [
-    {name: 'Identificacion' ,index: 1},
-    {name: 'Acta De Nacimiento' ,index: 2},
-    {name: 'Documento Prueba' ,index:3},
-    {name: 'Prueba' ,index: 4}];
+    { name: 'Identificacion', index: 1 },
+    { name: 'Acta De Nacimiento', index: 2 },
+    { name: 'Documento Prueba', index: 3 },
+    { name: 'Prueba', index: 4 }];
   tipoDocumentoId: number = 0
-    // private FileURL = 'http://apidemandas.economia.local/Api/File';
+  // private FileURL = 'http://apidemandas.economia.local/Api/File';
   listadoEstadosValidacion: Observable<any[]>;
   institucionUsuarioSSO: number;
   institucionUsuarioEnRUDT: any;
@@ -91,7 +94,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   modalConfig: IModalConfig = {
     modalTitle: "Anexos de Demandas"
   }
-  modalOption: IModalOption ={
+  modalOption: IModalOption = {
     size: "xl",
     centered: true
   }
@@ -246,8 +249,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     private router: Router,
     private dropdownService: DropDownServiceService,
     private excelService: ExcelService,
-    private fileManager: FileManagerService
-    ) {
+    private fileManager: FileManagerService,
+    private randyFileService: RandyFileService
+  ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -259,7 +263,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
 
-  openFileModal(demandaId:number):void{
+  openFileModal(demandaId: number): void {
     this.mapFile();
     console.log(demandaId, "Demanda ID NOEL")
     this.modalAnexo.open();
@@ -293,25 +297,22 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.listadoEstados = this.dropdownService.getEstados();
+      console.log("Estados: ", this.listadoEstados);
       this.tipoEstado = "ejecución";
     }
     else {
-       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true)
-       {
+      if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.DGDES);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.VIOTDR);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.regionalesRUDT);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacion();
-       }
+      }
 
       this.tipoEstado = "validación";
     }
@@ -610,22 +611,27 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
 
   }
-  mapFile(){
+  mapFile() {
 
-      //  let file = this.listaDeAnexos;
-         this.demanda.demandaAnexos.forEach((item: any) => {
-          this.files.push({
-            file:{
-              ...item?.file
-            },
-            tipoDocumentoId: item.file.fileType.id.toString(),
-            id: item.id,
-            entityId: item?.demandaId
+    //  let file = this.listaDeAnexos;
+    this.demanda.demandaAnexos.forEach((item: any) => {
+      this.files.push({
+        file: {
+          ...item?.file
+        },
+        tipoDocumentoId: item.file.fileType.id.toString(),
+        id: item.id,
+        entityId: item?.demandaId
 
-          })
-         })
-        //  return this.files;
-    console.log(this.files, "ARCHIVOS MAPEADOS");
+      })
+    })
+
+
+  }
+  removeFile(fileId){
+    const index = this.demanda.demandaAnexos.findIndex(x=> x.id === fileId);
+    this.demanda.demandaAnexos.splice(index, 1);
+
   }
 
   openVerticallyCentered(content, id: any) {
@@ -633,6 +639,13 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
+        this.estadoDemanda = demanda.nombreEstadoDemanda;
+        if (this.demanda.demandaAnexos.length > 0) {
+          this.isDetail = true
+          console.log("Que es demanda ahora mismo: ", this.demanda.nombreEstadoDemanda);
+        } else {
+          console.log("Demanda vino sin anexos: ", this.demanda.nombreEstadoDemanda);
+        }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile()
         // console.log("Lista de Anexos", this.files);
@@ -647,14 +660,18 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       }
     );
     this.demandaId = id;
-    this.modalService.open(content, {
-      centered: true,
-      backdrop: "static",
-      keyboard: false,
-      size:"xl"
-    });
+    this.modalAnexo.open()
+    // this.modalService.open(content, {
+    //   centered: true,
+    //   backdrop: "static",
+    //   keyboard: false,
+    //   size: "xl"
+    // });
   }
 
+  closeModal(){
+    this.modalAnexo.close()
+  }
   submit() {
 
     //validaciones finales de listados
@@ -683,7 +700,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     }
   }
 
-  enviar() {
+  async enviar() {
 
     const formValue = this.estadoForm.value;
 
@@ -694,16 +711,32 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
     }
 
+    let files = this.randyFile.getFiles();
+    if (files.length > 0) {
+      let formData = this.randyFileService.createFormData(files);
+      let fileIds = await this.randyFileService.uploadFiles(formData).toPromise();
+      fileIds.forEach(fileId => {
+        this.demanda.demandaAnexos.push(
+
+          {
+            demandaId: this.demanda.id,
+            fileId,
+            id: 0
+          }
+
+        )
+
+      })
+    }
+
     this.demanda.codigoPei = formValue.codigoPei;
     this.demanda.codigoPoa = formValue.codigoPoa;
     this.demanda.codigoSnip = formValue.codigoSnip;
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
 
-    this.spinner.show();
-    console.log(formValue);
-    console.log(this.demanda);
 
+    this.spinner.show();
     this.demandasService
       .updateDemanda(this.demanda)
       .toPromise()
@@ -715,7 +748,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         }, 1500);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Que sucede? ", err);
         this.serviceStr.typeError(
           "Ocurrió un error inesperado al actualizar la demanda, contacte con Soporte TIC"
         );
@@ -798,109 +831,37 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   //   keyboard: false,
   //   size: "xl",
   // });
-// }
+  // }
 
-getFile(event: any){
-  this.file = event.target.files[0]
-  console.log('Archivo seleccionado: ', this.file)
-}
+  getFile(event: any) {
+    this.file = event.target.files[0]
+    console.log('Archivo seleccionado: ', this.file)
+  }
 
-saveFiles(obs:Observable<number[]>){
-  obs.subscribe((res)=>{
-    console.log(res,"amores van y vienen");
+  saveFiles(obs: Observable<any[]>) {
+    obs.subscribe((res) => {
+      console.log(res, "amores van y vienen");
 
-    //creando el objeto que guardara la relacion
-    //entre archivos y demanda
-    // var lista = res.map(id => {
-    //   return {
-    //     id: 0,
-    //     FileId: id,
-    //     demandaId: this.demandaId
-    //   };
-    // });
+      //creando el objeto que guardara la relacion
+      //entre archivos y demanda
+      var lista = res.map(id => {
+        return {
+          id: 0,
+          FileId: id,
+          demandaId: this.demandaId
+        };
+      });
+
+      console.log("Lista nueva:", lista)
+      // this.demandasService.saveDemandaAnexo(lista)
+      //   .subscribe(res => {
+      //     console.log(res);
+      //   });
+
+    });
+  }
 
 
-
-    // this.demandasService.saveDemandaAnexo(lista)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //   });
-
-  });
-}
-
-submitData(){
-
-  // const files: Archivo[] = [
-  //   {
-  //     id: 0,
-  //     entityId: this.demanda.id,
-  //     file: this.file,
-  //     tipoDocumentoId: this.tipoDocumentoId
-  //   }
-  // ]
-  console.log(this.modalAnexo, "ref" );
-  // let files = this.randyFile.getFiles();
-  // console.log(files);
-
-  // let data = this.fileManager.createFormData(files);
-  // console.log(data.,"DATA");
-  // data.forEach(value=>{
-  //   console.log(value,"VALUE");
-  // })
-
-  // this.fileManager.uploadFiles(data).subscribe(res => {
-  //   console.log(res);
-  // })
-}
-
-// onFileSelected(event) {
-
-//   const file:File = event.target.files[0];
-//   console.log('Documento ID', this.tipoDocumentoId)
-//   if (file) {
-
-//       // this.fileName = file.name;
-
-//       const files: Archivo[] = [
-//         {
-//           id: 0,
-//           entityId: this.demanda.id,
-//           file,
-//           tipoDocumentoId: this.tipoDocumentoId
-//         }
-//       ]
-
-//       let convertToFormBase = this.fileManager.createFormData(files)
-
-//       console.log("BAAAAAAAAASE", convertToFormBase);
-//   let result = this.fileManager.convertBase64ToBlob(file);
-//    console.log("fileeeeeeeeee", file);
-//    console.log("Resuuuuuut", result);
-
-//       const upload$ = this.fileManager.uploadFiles(formData);
-
-//       upload$.subscribe(x => {
-//         console.log("que haces?",x)
-//       });
-//   }
-// }
-
-// uploader = Uploader({
-//   apiKey: "free"
-// });
-
-// options1: UploadWidgetConfig = {
-//   multi: false
-
-// };
-
-// onUpdate = (files: UploadWidgetResult[]) => {
-//   alert(files.map(x => x.fileUrl).join("\n"));
-// };
-
-// width = "400px";
-//   height = "275px";
 
 
 

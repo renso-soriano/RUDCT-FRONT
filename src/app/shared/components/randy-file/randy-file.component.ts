@@ -95,7 +95,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
     private http: HttpClient,
     private toastrService: ToastrService,
   ) {
-    // console.log("Ramdy File Init");
+    console.log("Ramdy File Init");
 
     this.multiple = this.fileLimit > 1
     this.uploader = new FileUploader({
@@ -230,7 +230,9 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   downLoadFile(item) {
-    this.randyFileService.downloadFile(item.id).subscribe((res: any) => {
+    // console.log(item, "ITEM");
+    // return
+    this.randyFileService.downloadFile(item.file.id).subscribe((res: any) => {
       console.log(res, "DOWNLOAD");
       this.archivo = res;
       saveAs(this.archivo.file, this.archivo.nombreArchivo)
@@ -250,6 +252,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
+    console.log("SE DESTRUYE");
     this.sub$.next(true)
     this.sub$.unsubscribe()
     // this.fileService.clearService()
