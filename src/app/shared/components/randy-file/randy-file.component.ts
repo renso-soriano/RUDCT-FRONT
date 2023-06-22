@@ -1,7 +1,7 @@
 // import { IDropDown } from '@/shared/interfaces/IDropDown';
 // import { ModalComponent } from '@/shared/components/element/modal/modal.component';
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 // import { DropdownService } from '@/shared/services/dropdown.service';
@@ -28,7 +28,7 @@ import { FileUploader } from 'ng2-file-upload';
   templateUrl: './randy-file.component.html',
   styleUrls: ['./randy-file.component.scss'],
 })
-export class RandyFileComponent implements OnInit, OnDestroy {
+export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
@@ -37,6 +37,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   @Input() isDetail: boolean;
   @Input() name: string = ''
   @Input() disabled = false
+  @Input() listaDemanda: Archivo[];
   // @Input() modalRef: ModalComponent //referencia del modal
   // @Input() documentTypeExplicit: TipoDocumento //Tipo de documento
   @Input() route: string //Terminal de la ruta EJEMPLO: "Negociacion | Seguimiento | Iniciativa"
@@ -60,14 +61,15 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   loading: boolean = false
   uploader: FileUploader
   hasBaseDropZoneOver = false
-  tipoDocumentos: any = [];
+  tipoDocumentos: Observable<any>;
   archivo: any;
   pruebaa: any;
   listaIds: any;
   deletedFielsQueue = [];
   hiddenDownLoad = true;
   _anexoDataDb: any
-  @Input() set anexoDataDb(value: any[]) {
+  @Input('anexoDataDb') set anexoDataDb(value: any[]) {
+    console.log("Noel a verfg", value);
     if (value?.length > 0) {
       console.log(value, "KLK ANEXOS");
 
@@ -77,12 +79,23 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // if(changes['anexoDataDb']){
+
+    //     this._anexoDataDb = changes['anexoDataDb'].currentValue
+    //     this.selected = changes['anexoDataDb'].currentValue
+    //     this.update();
+    // }
+    console.log(changes, "QUE TA PASANDO CON ESTOS INPUTS");
+  }
+
   constructor(private toastr: ToastrService,
     private randyFileService: RandyFileService,
     private http: HttpClient,
     private toastrService: ToastrService,
   ) {
-    // console.log("Ramdy File Init");
+    console.log("Ramdy File Init");
 
     this.multiple = this.fileLimit > 1
     this.uploader = new FileUploader({
@@ -94,8 +107,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     })
 
     this.uploader.onWhenAddingFileFailed = (fileItem, { name }) => {
-      console.log(fileItem, "Demo ")
-
+      console.log(fileItem, "Demo ");
       if (name === FileException.MimeType) {
         // console.log(name, "mimeType");
         this.toastr.warning(`Los formatos permitidos son: ${this.fileType.map(value => " " + value)} `, 'Formato de archivo')
@@ -130,7 +142,6 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   update() {
     this.emitFileCount()
-
   }
 
   getFiles(): Archivo[] {
@@ -164,7 +175,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.dropdownFileType();
-    // console.log(this.fileEntityType, "INIT RANDY FILE");
+    console.log("Estoy en el on INit klk");
   }
 
 
@@ -219,7 +230,9 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   }
 
   downLoadFile(item) {
-    this.randyFileService.downloadFile(item.id).subscribe((res: any) => {
+    // console.log(item, "ITEM");
+    // return
+    this.randyFileService.downloadFile(item.file.id).subscribe((res: any) => {
       console.log(res, "DOWNLOAD");
       this.archivo = res;
       saveAs(this.archivo.file, this.archivo.nombreArchivo)
@@ -239,6 +252,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log("SE DESTRUYE");
     this.sub$.next(true)
     this.sub$.unsubscribe()
     // this.fileService.clearService()

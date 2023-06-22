@@ -10,6 +10,7 @@ import { ConsolidationRequest } from 'app/shared/models/Consolidacion/Consolidat
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Console } from 'console';
 import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
+import Archivo from 'app/demandas/interface/archivo.interface';
 
 
 @Injectable({
@@ -81,7 +82,9 @@ export class DemandasService {
       map(demanda =>
         new Demanda().deserialize(demanda)
       )
+
     );
+
   }
 
   getDemandaByIdGobiernoAbierto(demandaId: string): Observable<Demanda> {
@@ -116,5 +119,7 @@ export class DemandasService {
     const url = `https://localhost:5001/Api/DemandaAnexo/guardar`;
     return this.http.post<any>(url, listado);
   }
+
+
 
 }

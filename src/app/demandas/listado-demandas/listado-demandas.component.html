@@ -1,7 +1,16 @@
 <style>
-  .my-drop-zone { border: dotted 3px lightgray; }
-  .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-  .another-file-over-class { border: dotted 3px green; }
+  .my-drop-zone {
+    border: dotted 3px lightgray;
+  }
+
+  .nv-file-over {
+    border: dotted 3px red;
+  }
+
+  /* Default class applied to drop zones on over */
+  .another-file-over-class {
+    border: dotted 3px green;
+  }
 </style>
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
@@ -11,151 +20,142 @@
 
 
 
-<div class="row">
-  <div class="col-12 ">
-    <div class="w-100 d-flex justify-content-end ">
-      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
-        [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar nueva</i></a>
+  <div class="row">
+    <div class="col-12 ">
+      <div class="w-100 d-flex justify-content-end ">
+        <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
+          [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
+          title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
+            nueva</i></a>
 
-      <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
-        title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+        <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
+          title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
 
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Filter Datatables -->
-<section id="ngx-datatable-filter">
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title ml-2">Listado de demandas</h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
+  <!-- Filter Datatables -->
+  <section id="ngx-datatable-filter">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title ml-2">Listado de demandas</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
 
-            <div class="col-md-12 mb-2">
-              <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros"
-                (filterEvent)="getFilters($event)">
-              </app-data-filter>
-            </div>
-
-            <div class="col-md-10">
-              <div class="w-100 d-flex left-content-end">
-                <ng-select [items]="limitSelect" bindLabel="label" bindValue="value" (change)="_changeRowLimits($event)"
-                  name="limit" id="limit" [(ngModel)]="limitSelected" style="width: 25%;" [clearable]="false">
-                </ng-select>
-                <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom" title="Exportar listado actual en Excel"
-                  class="btn btn btn-success btn-sm ml-1">
-                  <i class="fa fa-file-excel-o"> Exportar Excel</i>
-                </a>
-                <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)" title="Ver listado en el mapa"><i
-                    class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
+              <div class="col-md-12 mb-2">
+                <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
+                </app-data-filter>
               </div>
-            </div><br>
 
-            <div class="col-md-12">
-              <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
-                [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
-                [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
-                [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}" [sortable]="column.sortable"
-                  prop="{{column.prop}}" >
-                  <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
-                    <span *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
-                      {{value}}
-                    </span>
-                    <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
-                      [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
-                      {{ value }}
-                    </div>
-                    <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(1008) == false" class="badge badge-pill"
-                      [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR'}">
-                      {{ value }}
-                    </div>
-                    <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(1008) == true" class="badge badge-pill"
-                    [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
-                    {{value == '' ?  "No Aplicada" : value }}
-                  </div>
-                  </ng-template>
-                </ngx-datatable-column>
-                <!-- Acciones -->
-                <ngx-datatable-column name="Acciones">
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
-                      class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
-                      title="Ver detalles"></a>
-                    <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
+              <div class="col-md-12">
+                <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+                  [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
+                  [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
+                  [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
+                  <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}"
+                    [sortable]="column.sortable" prop="{{column.prop}}">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <span
+                        *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
+                        {{value}}
+                      </span>
+                      <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
+                        [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
+                        {{ value }}
+                      </div>
+                      <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(1008) == false"
+                        class="badge badge-pill"
+                        [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR'}">
+                        {{ value }}
+                      </div>
+                      <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(1008) == true"
+                        class="badge badge-pill"
+                        [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
+                        {{value == '' ? "No Aplicada" : value }}
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <!-- Acciones -->
+                  <ngx-datatable-column name="Acciones">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
+                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                        title="Ver detalles"></a>
+                      <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
                       title="Cargar evidencia"></a> -->
-                    <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
-                      (click)="editar(row.id)" title="Editar"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
-                      class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
-                      title="Eliminar"></a>
-                    <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
-                      class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
-                      (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
-                  </ng-template>
-                </ngx-datatable-column>
+                      <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
+                        (click)="editar(row.id)" title="Editar"></a>
+                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
+                        class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                        title="Eliminar"></a>
+                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
+                        class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
+                        (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
+                    </ng-template>
+                  </ngx-datatable-column>
 
-                <ngx-datatable-footer>
-                  <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
-                    let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset"
-                    let-isVisible="isVisible">
-                    <div class="page-count">
-                      Mostrando {{(offset * pageSize)+1}} a {{(rowCount>
-                      (curPage*pageSize))?(curPage*pageSize):(rowCount)}} de
-                      {{(rowCount)}} registros.
-                    </div>
-                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
-                      [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
-                      [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
-                      [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
-                    </datatable-pager>
-                  </ng-template>
-                </ngx-datatable-footer>
-              </ngx-datatable>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!--/ Filter Datatables -->
-
-<!-- modalStart -->
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Cambiar estado {{tipoEstado}}</h4>
-  </div>
-  <div class="modal-body">
-    <form (submit)="submit()" [formGroup]="estadoForm">
-
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group">
-            <label for="estado">Estado</label>
-            <ng-select [appendTo]="'body'" [items]="listadoEstados | async" bindLabel="name" bindValue="id"
-              name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
-              formControlName="estado">
-            </ng-select>
-            <div *ngIf="EF.estado.invalid && (EF.estado.dirty || EF.estado.touched)"
-              class="help-block mt-1 text-danger">
-
-              <div *ngIf="EF.estado.errors.required">
-                <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                  <ngx-datatable-footer>
+                    <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+                      let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset"
+                      let-isVisible="isVisible">
+                      <div class="page-count">
+                        Mostrando {{(offset * pageSize)+1}} a {{(rowCount>
+                        (curPage*pageSize))?(curPage*pageSize):(rowCount)}} de
+                        {{(rowCount)}} registros.
+                      </div>
+                      <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                        [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                        [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize" [count]="rowCount"
+                        [hidden]="!((rowCount / pageSize) > 1)" (change)="table.onFooterPage($event)">
+                      </datatable-pager>
+                    </ng-template>
+                  </ngx-datatable-footer>
+                </ngx-datatable>
               </div>
 
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+  <!--/ Filter Datatables -->
+
+  <!-- modalStart -->
+
+
+  <UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalFile>
+    <form (submit)="submit()" [formGroup]="estadoForm">
+
+      <!-- <div class="row"> -->
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="estado">Estado {{estadoDemanda}}</label>
+          <ng-select [appendTo]="'body'" [items]="(listadoEstados | async) || estadoDemanda" bindLabel="name"
+            bindValue="id" name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
+            formControlName="estado">
+          </ng-select>
+          <div *ngIf="EF.estado.invalid && (EF.estado.dirty || EF.estado.touched)" class="help-block mt-1 text-danger">
+
+            <div *ngIf="EF.estado.errors.required">
+              <i class="ft-alert-circle align-middle"></i> El campo es requerido
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <ng-template #estadoDefault>
+
+      </ng-template>
+
+
+
+      <!-- </div> -->
 
 
 
@@ -166,13 +166,13 @@
             <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3"
               formControlName="codigoPei">
             <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
+                          class="help-block mt-1 text-danger">
 
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
+                          <div *ngIf="nivelDemanda.errors.required">
+                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                          </div>
 
-                          </div> -->
+                        </div> -->
           </div>
         </div>
       </div>
@@ -184,13 +184,13 @@
             <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3"
               formControlName="codigoPoa">
             <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
+                          class="help-block mt-1 text-danger">
 
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
+                          <div *ngIf="nivelDemanda.errors.required">
+                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                          </div>
 
-                          </div> -->
+                        </div> -->
           </div>
         </div>
       </div>
@@ -202,106 +202,99 @@
             <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
               formControlName="codigoSnip">
             <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
+                          class="help-block mt-1 text-danger">
 
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
+                          <div *ngIf="nivelDemanda.errors.required">
+                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                          </div>
 
-                          </div> -->
+                        </div> -->
           </div>
         </div>
 
       </div>
 
-      <div class="row" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
-          <div class="form-group">
-            <label for="comentarioEstado">Comentario</label>
-            <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
-              formControlName="comentarioEstado"></textarea>
-            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
+      <!-- <div class="row" > -->
+      <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
+        <div class="form-group">
+          <label for="comentarioEstado">Comentario</label>
+          <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
+            formControlName="comentarioEstado"></textarea>
+          <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
+                          class="help-block mt-1 text-danger">
 
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
+                          <div *ngIf="nivelDemanda.errors.required">
+                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                          </div>
 
-                          </div> -->
-          </div>
+                        </div> -->
         </div>
       </div>
+      <!-- </div> -->
 
-      <div class="row" *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
+      <div class="row"
+        *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
         <div class="col-sm-8">
           <div class="form-group">
             <label for="devolucion">Razón de devolución</label>
             <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
               formControlName="razonDevolucion"></textarea>
-
           </div>
         </div>
 
       </div>
 
+      <div class="col-12">
+        <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
+          (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
+      </div>
+
       <div class="modal-footer">
-        <a class="btn btn-primary" (click)="openFileModal(modalAnexo)" *ngIf="gruposUsuario.includes(1008)"><span>
-          Subir Evidencia </span>
-         </a>
-        <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="modal.close('Close click')"><span>Volver a
+        <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="closeModal()"><span>Volver a
             listado</span>
         </a>
 
         <input type="submit" value="Continuar" class="btn btn-success" [disabled]="estadoForm.invalid"
-          (click)="modal.close('Close click')">
+          (click)="closeModal()">
       </div>
 
     </form>
-
-  </div>
-
-
-</ng-template>
+  </UIModal>
 
 
-<!--modal mapa-->
 
-<div class="row">
-  <ng-template #contentMapa let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Vista geográfica de selección</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="card-content">
-        <div class="card-body">
-          <div class="col-xl-12 col-lg-12 col-12">
-            <div id="map" leaflet [leafletOptions]="options"
-              [leafletLayers]="capas">
+
+  <!--modal mapa-->
+
+  <div class="row">
+    <ng-template #contentMapa let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Vista geográfica de selección</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="col-xl-12 col-lg-12 col-12">
+              <div id="map" leaflet [leafletOptions]="options" [leafletLayers]="capas">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
-    </div>
-  </ng-template>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
+      </div>
+    </ng-template>
 
 
-</div>
-<UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption">
-  <!-- <ng-template #modal-body> -->
-    <Randy-File [withModal]="true" (onSubmit)="saveFiles($event)"></Randy-File>
-
-  <!-- </ng-template> -->
-  <!-- <Randy-File></Randy-File> -->
-</UIModal>
+  </div>
 
 
-<!-- <ng-template #modalAnexo let-modal>
+
+  <!-- <ng-template #modalAnexo let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Evidencia De Demandas</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -315,18 +308,18 @@
 
 </ng-template> -->
 
-<!-- ModalAnexoDemanda -->
+  <!-- ModalAnexoDemanda -->
 
-<div class="row">
-  <ng-template  let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Evidencia De Demandas</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <!-- <div class="card-content">
+  <div class="row">
+    <ng-template let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Evidencia De Demandas</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="card-content">
         <div class="card-body">
           <div class="col-xl-12 col-lg-12 col-12">
             <h4 for="anexo">Tipo de Archivo</h4>
@@ -341,18 +334,30 @@
 
           </div>
         </div> -->
-      <!-- </div> -->
+        <!-- </div> -->
 
 
 
 
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
-      <button type="button" class="btn btn-success" (click)="submitData()">Guardar</button>
-    </div>
-  </ng-template>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
+        <button type="button" class="btn btn-success" (click)="submitData()">Guardar</button>
+      </div>
+    </ng-template>
 
 
-</div>
+  </div>
+
+  <!-- <ng-template> -->
+
+  <!-- </ng-template> -->
 </ng-container>
+
+<!-- <UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption"> -->
+<!-- <ng-template #modal-body> -->
+<!-- <Randy-File [withModal]="true" [anexoDataDb]="files" (onSubmit)="saveFiles($event)"></Randy-File> -->
+
+<!-- </ng-template> -->
+<!-- <Randy-File></Randy-File> -->
+<!-- </UIModal> -->

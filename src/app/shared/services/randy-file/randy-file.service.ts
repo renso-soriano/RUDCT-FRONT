@@ -30,6 +30,8 @@ export class RandyFileService {
 
   ) { }
 
+
+
  getFileType(){
   return this._dropDowm.getFileType();
  }
@@ -40,7 +42,7 @@ export class RandyFileService {
   }
 
   downloadFile(fileId: number): Observable<any> {
-    return this._http.get<any>(`${this.API_URL_DOWNLOAD}/${fileId}`)
+    return this._http.get<any>(`${this.API_URL_DOWNLOAD}/${fileId}`,{})
       .pipe(
         map((res: any) => {
           console.log(res, "DOWNLOAD");
