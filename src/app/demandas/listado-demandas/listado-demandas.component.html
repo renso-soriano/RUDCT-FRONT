@@ -142,7 +142,7 @@
   <UIModal  [modalOption]="modalOption" [modalConfig]="modalConfig" #modalFile>
     <form (submit)="submit()" [formGroup]="estadoForm">
 
-      <div class="row">
+      <!-- <div class="row"> -->
         <div class="col-sm-12">
           <div class="form-group">
             <label for="estado">Estado {{estadoDemanda}}</label>
@@ -166,7 +166,7 @@
 
 
 
-      </div>
+      <!-- </div> -->
 
 
 
@@ -225,8 +225,8 @@
 
       </div>
 
-      <div class="row" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
+      <!-- <div class="row" > -->
+        <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
           <div class="form-group">
             <label for="comentarioEstado">Comentario</label>
             <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
@@ -241,7 +241,7 @@
                         </div> -->
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
       <div class="row"
         *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">

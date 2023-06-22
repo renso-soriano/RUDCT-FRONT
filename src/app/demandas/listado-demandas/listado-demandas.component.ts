@@ -297,7 +297,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.listadoEstados = this.dropdownService.getEstados();
-      console.log("Estados: ", this.listadoEstados);
+      console.log("Estados: ", this.listadoEstados.subscribe(res => {
+        res = this.estadoDemanda;
+      }));
       this.tipoEstado = "ejecución";
     }
     else {
