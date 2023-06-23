@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { IDemanda } from "app/shared/models/Idemanda";
@@ -17,7 +17,10 @@ export class DetalleDemandasComponent implements OnInit {
   //demanda:IDemanda;
   demanda: any;
   notFound = false;
-  gruposUsuario:any;
+  gruposUsuario: any;
+  @Input() idExterno: number;
+
+  abierto = false;
 
   constructor(
     private demandaService: DemandasService,
@@ -26,15 +29,31 @@ export class DetalleDemandasComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private _location: Location,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       if (params.has("id")) {
         this.getDemanda(params.get("id"));
+        this.gruposUsuario = this.authService.getGrupos()?.map(g => g.groupId) ?? [];
+      }
+      else {
+        this.init()
       }
     });
-    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+
+  }
+
+  init() {
+    this.abierto = true;
+    if(this.idExterno)
+    {
+      this.getDemanda(this.idExterno.toString());
+    }
+    else{
+      this.demanda = null;
+    }
+
   }
 
   /**************************** */
@@ -43,22 +62,41 @@ export class DetalleDemandasComponent implements OnInit {
     this.notFound = false;
     this.demanda = null;
     this.spinner.show();
-    this.demandaService.getDemandaById(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () =>{
-        this.spinner.hide();
-      }
-    );
+
+    if (this.abierto) {
+      this.demandaService.getDemandaByIdGobiernoAbierto(demandaId).subscribe(
+        (demanda: Demanda) => {
+          this.demanda = demanda;
+        },
+        (err: any) => {
+          console.error(err);
+          this.notFound = true;
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
+    }
+    else {
+      this.demandaService.getDemandaById(demandaId).subscribe(
+        (demanda: Demanda) => {
+          this.demanda = demanda;
+        },
+        (err: any) => {
+          console.error(err);
+          this.notFound = true;
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
+    }
+
   }
 
-  goBack(){
+  goBack() {
     this._location.back();
   }
 

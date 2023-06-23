@@ -86,7 +86,7 @@ export class AuthService {
 
   getGrupos(): Grupo[] {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
-    return userdata.grupos;
+    return userdata && userdata.grupos  ? userdata.grupos : []  ;
   }
 
   findModule(path: string): RouteInfo {

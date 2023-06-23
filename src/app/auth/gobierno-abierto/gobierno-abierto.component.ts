@@ -32,7 +32,10 @@ import { MapSettings } from 'app/shared/models/Core/MapSettings.model';
 import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
 import { Estados } from 'app/shared/models/auth/estados.enum'
 import { EjeEnd } from 'app/shared/models/ejeEnd.enum';
-
+import { DetalleDemandasComponent } from 'app/demandas/detalle-demandas/detalle-demandas.component';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
 
@@ -49,6 +52,19 @@ export class GobiernoAbiertoComponent implements OnInit {
 
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
+
+  @ViewChild("modalDetalles") modalDetalles: ModalComponent
+  @ViewChild("Detalles") Detalles: DetalleDemandasComponent
+
+  modalConfig: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+  }
+
+  demandaId:number;
 
   dashboard: DashboardResponse;
 
@@ -430,8 +446,6 @@ export class GobiernoAbiertoComponent implements OnInit {
       this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;
       this.regionChart.initAll(this.dashboard.demandasPorRegion)
 
-      console.log(this.dashboard, "das")
-
       this.ejeInstitucional = this.dashboard.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Institucionalidad)?.cantidad ?? 0;
       this.ejeSocial = this.dashboard.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Social)?.cantidad ?? 0;
       this.ejeEconomico = this.dashboard.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Economico)?.cantidad ?? 0;
@@ -495,7 +509,6 @@ export class GobiernoAbiertoComponent implements OnInit {
     this.demandasService.getDemandasExportarGobiernoAbierto(params).subscribe((data: any) => {
       this.page.count = data.total;
       this.rowExportExcel = data.items;
-      console.log("rowsExcel=>", this.rowExportExcel);
       this.preparanDataExcel(this.rowExportExcel);
       //  this.spinner.hide();
       this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
@@ -605,58 +618,28 @@ export class GobiernoAbiertoComponent implements OnInit {
   }
 
   demo() {
-    console.log("clickPiña")
   }
   get regiones() {
     return this.dashboard?.demandasPorRegion ?? []
   }
 
   openVerticallyCentered(content, id) {
-    this.getDemanda(id);
 
-    this.modalService.open(content, {
-      //centered: true,
-      //backdrop: "static",
-      keyboard: false,
-      size: 'xl',
-      //windowClass: 'modal-xl'
-    });
+    this.demandaId = id;
+    this.Detalles.idExterno = this.demandaId;
+    this.Detalles.init();
+
+    this.modalDetalles.open()
+
   }
 
-  getDemanda(demandaId: string) {
-    this.notFound = false;
-    this.demanda = null;
-    this.spinner.show();
-
-    console.log("el ID =>",demandaId )
-    this.demandasService.getDemandaByIdGobiernoAbierto(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-        console.log("la DEmanda =>", this.demanda)
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () => {
-        this.spinner.hide();
-      }
-    );
+  closeModal(){
+    this.modalDetalles.close()
   }
-
-
-
 
   referenciaMapa: string = 'provincias';
 
-
-
-
-
-
   recargaMapa() {
-    console.log("recargando el mapa")
     this.BuscarMap(this.rows);
     //this.mapaComponent.onReload(this.mapSettings);
   }

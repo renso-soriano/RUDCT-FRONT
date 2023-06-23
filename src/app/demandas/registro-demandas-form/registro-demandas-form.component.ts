@@ -828,15 +828,12 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         this.serviceStr.typeError(
           "Debe Tener al menos 1 contacto asociado a la demanda"
         );
-        console.log("Noenviar")
       }
       else {
-        console.log("enviar")
         this.enviar();
       }
     }
     else {
-      console.log("enviar")
       this.enviar();
     }
   }

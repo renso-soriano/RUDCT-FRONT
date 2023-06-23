@@ -574,7 +574,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
       this.rowExportExcel = data.items;
-      console.log("rowsExcel=>", this.rowExportExcel);
       this.preparanDataExcel(this.rowExportExcel);
       //  this.spinner.hide();
       this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
@@ -843,7 +842,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   saveFiles(obs: Observable<any[]>) {
     obs.subscribe((res) => {
-      console.log(res, "amores van y vienen");
 
       //creando el objeto que guardara la relacion
       //entre archivos y demanda

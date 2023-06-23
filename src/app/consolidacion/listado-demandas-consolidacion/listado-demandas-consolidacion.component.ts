@@ -23,6 +23,10 @@ import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { Console } from 'console';
 import { AuthService } from 'app/shared/services/core/auth.service';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { DetalleDemandasComponent } from 'app/demandas/detalle-demandas/detalle-demandas.component';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -38,6 +42,20 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+
+
+  @ViewChild("modalDetalles") modalDetalles: ModalComponent
+  @ViewChild("Detalles") Detalles: DetalleDemandasComponent
+
+  modalConfig: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+  }
+
+  demandaId:number;
 
   // public
   public contentHeader: object;
@@ -325,20 +343,6 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   }
 
-  //metodo para abrir el modal
-
-  openVerticallyCentered(content, id) {
-    this.getDemanda(id);
-
-    this.modalService.open(content, {
-      //centered: true,
-      //backdrop: "static",
-      keyboard: false,
-      size: 'xl',
-      //windowClass: 'modal-xl'
-    });
-  }
-
   openVertically(content) {
     if (this.demandasSelected.length < 2) {
       this.serviceStr.typeError(
@@ -355,25 +359,6 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       });
     }
 
-  }
-
-  getDemanda(demandaId: string) {
-    this.notFound = false;
-    this.demanda = null;
-    this.spinner.show();
-    this.demandaService.getDemandaById(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () => {
-        this.spinner.hide();
-      }
-    );
   }
 
   agregarContacto() {
@@ -454,6 +439,21 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
 
 
+  }
+
+
+  openVerticallyCentered(content, id) {
+
+    this.demandaId = id;
+    this.Detalles.idExterno = this.demandaId;
+    this.Detalles.init();
+
+    this.modalDetalles.open()
+
+  }
+
+  closeModal(){
+    this.modalDetalles.close()
   }
 
 

@@ -408,7 +408,7 @@
 </div>
 
 <div>
-  <a class="btn btn-primary" (click)="goBack()"><span>Volver a listado</span>
+  <a class="btn btn-primary" *ngIf="!abierto" (click)="goBack()"><span>Volver a listado</span>
   </a>
 
 </div>

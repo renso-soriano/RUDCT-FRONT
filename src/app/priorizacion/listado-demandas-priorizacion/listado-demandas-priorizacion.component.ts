@@ -24,6 +24,10 @@ import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { Console } from 'console';
 import { AuthService } from 'app/shared/services/core/auth.service';
 import { NivelPrioridadProvincial } from 'app/shared/models/Priorizacion/nivelPrioridadProvincial.enum';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { DetalleDemandasComponent } from 'app/demandas/detalle-demandas/detalle-demandas.component';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -39,6 +43,18 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+
+
+  @ViewChild("modalDetalles") modalDetalles: ModalComponent
+  @ViewChild("Detalles") Detalles: DetalleDemandasComponent
+
+  modalConfig: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+  }
 
   // public
   public contentHeader: object;
@@ -308,49 +324,13 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
   }
 
 
-  //metodo para abrir el modal
-
-  openVerticallyCentered(content, id) {
-    this.getDemanda(id);
-    this.demandaId = id;
-
-    this.modalService.open(content, {
-      //centered: true,
-      //backdrop: "static",
-      keyboard: false,
-      size: 'xl',
-      //windowClass: 'modal-xl'
-    });
-  }
-
-
-  getDemanda(demandaId: string) {
-    this.notFound = false;
-    this.demanda = null;
-    this.spinner.show();
-    this.demandaService.getDemandaById(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () => {
-        this.spinner.hide();
-      }
-    );
-  }
 
   submit() {
-    console.log("entro al submit si o no?")
     this.guardarPriorizacion();
 
   }
 
   guardarPriorizacion() {
-    console.log("entro al guardar si o no?")
 
     const formValue = this.priorizarForm.value;
     this.demanda.prioridadProvincial = formValue.priorizacion;
@@ -378,6 +358,20 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
       });
 
 
+  }
+
+  openVerticallyCentered(content, id) {
+
+    this.demandaId = id;
+    this.Detalles.idExterno = this.demandaId;
+    this.Detalles.init();
+
+    this.modalDetalles.open()
+
+  }
+
+  closeModal(){
+    this.modalDetalles.close()
   }
 
 }

@@ -21,6 +21,8 @@ import { MatchHeightModule } from 'app/shared/directives/match-height.directive'
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { RegionChartComponent } from 'app/shared/components/region-chart/region-chart.component';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { DemandasModule } from 'app/demandas/demandas.module';
 
 
 @NgModule({
@@ -54,6 +56,7 @@ import { RegionChartComponent } from 'app/shared/components/region-chart/region-
     NgApexchartsModule,
     AngularResizedEventModule,
     SharedModule,
+    DemandasModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

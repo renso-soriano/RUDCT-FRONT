@@ -40,6 +40,9 @@ import { SharedModule } from 'app/shared/shared.module';
     SharedModule,
     // UploaderModule
 
+  ],
+  exports:[
+    DetalleDemandasComponent
   ]
 })
 export class DemandasModule { }

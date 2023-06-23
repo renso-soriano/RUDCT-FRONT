@@ -11,6 +11,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'app/shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ListadoDemandasPriorizacionComponent } from './listado-demandas-priorizacion/listado-demandas-priorizacion.component';
+import { DemandasModule } from 'app/demandas/demandas.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ListadoDemandasPriorizacionComponent } from './listado-demandas-prioriz
     NgbModule,
     ToastrModule,
     NgxSpinnerModule,
-    SharedModule
+    SharedModule,
+    DemandasModule
   ]
 })
 export class PriorizacionModule { }
