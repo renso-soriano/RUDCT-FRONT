@@ -565,7 +565,10 @@ export class GobiernoAbiertoComponent implements OnInit {
         accessToken: environment.mapbox.accessToken,
       }),
     ],
-    zoom: 8,
+    zoomControl: true,
+    zoomSnap: 0.25,
+    zoomDelta: 0.5,
+    zoom: 8.30,
     center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY)
 
   };
