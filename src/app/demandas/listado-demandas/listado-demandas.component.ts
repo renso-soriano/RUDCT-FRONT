@@ -672,9 +672,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   closeModal(){
+    this.submit();
     this.modalAnexo.close()
   }
   submit() {
+    console.log("Rainiery ta loco por mojar la cabra");
 
     //validaciones finales de listados
     if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.comentarioEstado.value == null) {

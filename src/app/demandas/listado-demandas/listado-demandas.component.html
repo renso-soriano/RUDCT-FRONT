@@ -145,8 +145,8 @@
       <!-- <div class="row"> -->
         <div class="col-sm-12">
           <div class="form-group">
-            <label for="estado">Estado {{estadoDemanda}}</label>
-            <ng-select [appendTo]="'body'" [items]="(listadoEstados | async) || estadoDemanda" bindLabel="name" bindValue="id"
+            <label for="estado">Estado: <b>{{estadoDemanda}}</b></label>
+            <ng-select [appendTo]="'body'" [items]="listadoEstados | async" bindLabel="name" bindValue="id"
               name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
               formControlName="estado">
             </ng-select>
@@ -170,8 +170,8 @@
 
 
 
-      <div class="row" *ngIf="EF.estado.value == '5' && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
+      <!-- <div class="row" > -->
+        <div class="col-sm-12" *ngIf="EF.estado.value == '5' && gruposUsuario.includes(1008) == true">
           <div class="form-group">
             <label for="codigoPei">Codigo PEI</label>
             <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3"
@@ -186,10 +186,10 @@
                         </div> -->
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
-      <div class="row" *ngIf="EF.estado.value == '6'">
-        <div class="col-sm-8">
+      <!-- <div class="row" > -->
+        <div class="col-sm-12" *ngIf="EF.estado.value == '6'">
           <div class="form-group">
             <label for="codigoPoa">Codigo POA</label>
             <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3"
@@ -204,10 +204,10 @@
                         </div> -->
           </div>
         </div>
-      </div>
+      <!-- </div> -->
 
-      <div class="row" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
+      <!-- <div class="row" > -->
+        <div class="col-sm-12" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == true">
           <div class="form-group">
             <label for="codigoSnip">Codigo Snip</label>
             <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
@@ -223,7 +223,7 @@
           </div>
         </div>
 
-      </div>
+      <!-- </div> -->
 
       <!-- <div class="row" > -->
         <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
@@ -242,10 +242,10 @@
           </div>
         </div>
       <!-- </div> -->
-
+<!--
       <div class="row"
-        *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
-        <div class="col-sm-8">
+        > -->
+        <div class="col-sm-12" *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
           <div class="form-group">
             <label for="devolucion">Razón de devolución</label>
             <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
@@ -261,7 +261,7 @@
           </div>
         </div>
 
-      </div>
+      <!-- </div> -->
 
       <div class="col-12">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
