@@ -50,6 +50,22 @@
                 </app-data-filter>
               </div>
 
+              <div class="col-md-10">
+                <div class="w-100 d-flex left-content-end">
+                  <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
+                    (change)="_changeRowLimits($event)" name="limit" id="limit" [(ngModel)]="limitSelected"
+                    style="width: 25%;" [clearable]="false">
+                  </ng-select>
+                  <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom"
+                    title="Exportar listado actual en Excel" class="btn btn btn-success btn-sm ml-1">
+                    <i class="fa fa-file-excel-o"> Exportar Excel</i>
+                  </a>
+                  <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
+                      mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)" title="Ver listado en el mapa"><i
+                      class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
+                </div>
+              </div><br>
+
               <div class="col-md-12">
                 <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
@@ -134,7 +150,8 @@
       <!-- <div class="row"> -->
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="estado">Estado {{estadoDemanda}}</label>
+          <!-- <label for="estado">Estado {{estadoDemanda}}</label> -->
+          <label for="estado">Estado </label>
           <ng-select [appendTo]="'body'" [items]="(listadoEstados | async) || estadoDemanda" bindLabel="name"
             bindValue="id" name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
             formControlName="estado">
@@ -152,81 +169,40 @@
 
       </ng-template>
 
-
-
       <!-- </div> -->
 
+      <div class="col-sm-12"
+        *ngIf="EF.estado.value == '5' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        <div class="form-group">
+          <label for="codigoPei">Codigo PEI</label>
+          <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3" formControlName="codigoPei">
 
-
-      <div class="row" *ngIf="EF.estado.value == '5' && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
-          <div class="form-group">
-            <label for="codigoPei">Codigo PEI</label>
-            <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3"
-              formControlName="codigoPei">
-            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                          class="help-block mt-1 text-danger">
-
-                          <div *ngIf="nivelDemanda.errors.required">
-                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                          </div>
-
-                        </div> -->
-          </div>
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '6'">
-        <div class="col-sm-8">
-          <div class="form-group">
-            <label for="codigoPoa">Codigo POA</label>
-            <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3"
-              formControlName="codigoPoa">
-            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                          class="help-block mt-1 text-danger">
 
-                          <div *ngIf="nivelDemanda.errors.required">
-                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                          </div>
+      <div class="col-sm-12" *ngIf="EF.estado.value == '6'">
+        <div class="form-group">
+          <label for="codigoPoa">Codigo POA</label>
+          <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3" formControlName="codigoPoa">
 
-                        </div> -->
-          </div>
         </div>
       </div>
 
-      <div class="row" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(1008) == true">
-        <div class="col-sm-8">
+        <div class="col-sm-12" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
           <div class="form-group">
             <label for="codigoSnip">Codigo Snip</label>
             <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
               formControlName="codigoSnip">
-            <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                          class="help-block mt-1 text-danger">
-
-                          <div *ngIf="nivelDemanda.errors.required">
-                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                          </div>
-
-                        </div> -->
           </div>
         </div>
 
-      </div>
-
       <!-- <div class="row" > -->
-      <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(1008) == true">
+      <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="comentarioEstado">Comentario</label>
           <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
             formControlName="comentarioEstado"></textarea>
-          <!-- <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                          class="help-block mt-1 text-danger">
-
-                          <div *ngIf="nivelDemanda.errors.required">
-                            <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                          </div>
-
-                        </div> -->
         </div>
       </div>
       <!-- </div> -->
@@ -243,7 +219,7 @@
 
       </div>
 
-      <div class="col-12">
+      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT)">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>
@@ -259,9 +235,6 @@
 
     </form>
   </UIModal>
-
-
-
 
   <!--modal mapa-->
 
@@ -288,24 +261,7 @@
       </div>
     </ng-template>
 
-
   </div>
-
-
-
-  <!-- <ng-template #modalAnexo let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Evidencia De Demandas</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <Randy-File [withModal]="true" #randyFile></Randy-File>
-  </div>
-
-
-</ng-template> -->
 
   <!-- ModalAnexoDemanda -->
 
@@ -318,25 +274,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- <div class="card-content">
-        <div class="card-body">
-          <div class="col-xl-12 col-lg-12 col-12">
-            <h4 for="anexo">Tipo de Archivo</h4>
-            <ng-select [appendTo]="'body'" [items]="tiposDocumentos" bindLabel="name" bindValue="index"
-              name="anexo" id="anexo" [(ngModel)]="tipoDocumentoId" placeholder="Seleccione el tipo de documento"
-              >
-            </ng-select>
-            <h4>Seleciona el archivo</h4>
-            <form>
-              <input type="file" name="pdfFile" (change)="getFile($event)" multiple />
-            </form>
-
-          </div>
-        </div> -->
-        <!-- </div> -->
-
-
-
 
       </div>
       <div class="modal-footer">
@@ -345,18 +282,8 @@
       </div>
     </ng-template>
 
-
   </div>
 
-  <!-- <ng-template> -->
-
-  <!-- </ng-template> -->
 </ng-container>
 
-<!-- <UIModal #modalAnexo [modalConfig]="modalConfig" [modalOption]="modalOption"> -->
-<!-- <ng-template #modal-body> -->
-<!-- <Randy-File [withModal]="true" [anexoDataDb]="files" (onSubmit)="saveFiles($event)"></Randy-File> -->
 
-<!-- </ng-template> -->
-<!-- <Randy-File></Randy-File> -->
-<!-- </UIModal> -->

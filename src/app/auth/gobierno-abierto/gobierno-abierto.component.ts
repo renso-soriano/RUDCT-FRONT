@@ -437,7 +437,6 @@ export class GobiernoAbiertoComponent implements OnInit {
      this.demandasService.getDemandasForDashboardAbierto(params).subscribe(res => {
       this.dashboard = res
 
-
       this.page.count = res['data']['total'];
       this.rows = res['data']['items'];
       document.getElementById('dataTable1').click();
@@ -455,9 +454,6 @@ export class GobiernoAbiertoComponent implements OnInit {
       , () => {
 
       });
-
-
-
 
   }
 

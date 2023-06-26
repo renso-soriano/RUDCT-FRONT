@@ -15,48 +15,9 @@
             <div class="div">
               <form (submit)="submit()" [formGroup]="registerForm">
 
-                <!-- modalStart -->
-
-                <!-- <ng-template #content let-modal>
-                  <div class="modal-header">
-                    <h4 class="modal-title">Seleccione el nivel de la demanda</h4>
-                  </div>
-                  <div class="modal-body">
-
-                    <div class="row">
-                      <div class="col-sm-8">
-                        <div class="form-group">
-                          <label for="nivelDemanda">Nivel de demanda</label>
-                          <ng-select [items]="listadoNivelDemandas | async" bindLabel="text" bindValue="value"
-                            name="nivelDemanda" id="nivelDemanda" placeholder="Seleccione nivel demanda"
-                            formControlName="nivelDemanda">
-                          </ng-select>
-                          <div *ngIf="nivelDemanda.invalid && (nivelDemanda.dirty || nivelDemanda.touched)"
-                            class="help-block mt-1 text-danger">
-
-                            <div *ngIf="nivelDemanda.errors.required">
-                              <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a [routerLink]="['/demandas']" class="btn btn-primary"
-                      (click)="modal.close('Close click')"><span>Volver a listado</span>
-                    </a>
-                    <input type="button" value="Continuar" [disabled]="nivelDemanda.invalid" class="btn btn-success"
-                      (click)="modal.close('Close click')">
-                  </div>
-
-                </ng-template> -->
-
                 <input type="button" value="ModalOculto" class="btn btn-outline-primary mb-2 mr-2"
                   (click)="openVerticallyCentered(content)" id="miBoton" style='display:none'>
 
-                <!-- endModal -->
 
                 <!-- navStart -->
 
@@ -66,7 +27,6 @@
                     <ng-template ngbNavContent>
 
                       <div class="row">
-
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -85,8 +45,6 @@
                             </div>
                           </div>
                         </div>
-
-
 
 
                         <div class="col-sm-4">
@@ -171,16 +129,6 @@
                                 class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
                             <input type="text" class="form-control" id="coordenadaX" name="coordenadaX"
                               formControlName="coordenadaX" maxlength="30">
-                            <!-- <div *ngIf="coordenadaX.invalid && (coordenadaX.dirty || coordenadaX.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="coordenadaX.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-                              <div *ngIf="coordenadaX.errors.maxlength">
-                                <i class="ft-alert-circle align-middle"></i> El campo debe tener maxímo 30 caracteres.
-                              </div>
-                            </div> -->
                           </div>
                         </div>
 
@@ -189,15 +137,6 @@
                             <label for="coordenadaY">Coordenada Y</label>
                             <input type="text" min="0" class="form-control" name="coordenadaY" id="coordenadaY"
                               formControlName="coordenadaY">
-
-                            <!-- <div *ngIf="coordenadaY.invalid && (coordenadaY.dirty || coordenadaY.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="coordenadaY.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
 
                           </div>
                         </div>
@@ -208,27 +147,8 @@
                             <input type="text" min="0" class="form-control" name="direccion" id="direccion"
                               formControlName="direccion">
 
-                            <!-- <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="direccion.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
-
                           </div>
                         </div>
-
-                        <!-- <div class="col-sm-4" *ngIf="nivelDemanda.value == 5">
-                          <div class="form-group">
-                            <label for="distrito">Distrito municipal</label>
-                            <ng-select [items]="distritosMunicipales | async" bindLabel="name" bindValue="id"
-                              name="distrito" id="distrito" placeholder="Seleccione distrito"
-                              formControlName="distrito">
-                            </ng-select>
-                          </div>
-                        </div> -->
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -253,15 +173,6 @@
                             <label for="prioridad">Prioridad</label>
                             <input type="number" min="0" class="form-control" name="prioridad" id="prioridad"
                               formControlName="prioridad">
-
-                            <!-- <div *ngIf="prioridad.invalid && (prioridad.dirty || prioridad.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="prioridad.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
 
                           </div>
                         </div>
@@ -302,13 +213,6 @@
                           </div>
                         </div>
 
-                        <!-- <div class="col-sm-3">
-                            <div class="form-group">
-                              <a class="btn btn-primary mt-3 ft-plus" (click)="agregarActividad()"
-                                title="Agregar actividad"></a>
-                            </div>
-                          </div> -->
-
                       </div>
 
 
@@ -321,14 +225,6 @@
                               bindValue="id" name="tipo" id="tipo" placeholder="Seleccione los tipos de inversion"
                               (change)="onTipoChange()" formControlName="tiposInversion">
                             </ng-select>
-                            <!-- <div *ngIf="tiposInversion.invalid && (tiposInversion.dirty || tiposInversion.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="tiposInversion.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
 
                           </div>
                         </div>
@@ -356,52 +252,10 @@
                         </div>
 
                       </div>
-                      <!--
-                      <div class="row">
-                        <div class="col-12">
-
-                          <div class="div" *ngIf="listadoActividades.length > 0">
-                            <table class="table table-hover table-sm">
-                              <thead>
-                                <tr>
-                                  <th>Actividad</th>
-                                  <th>Eliminar</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="let actividad of listadoActividades;let i=index">
-                                  <td>{{ actividad.Actividad }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarActividad(i)"></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-
-                        </div>
-                      </div> -->
 
                       <h5 class="mt-1 mb-0">Beneficiarios directos</h5>
                       <hr class="mt-0">
                       <div class="row">
-
-                        <!-- <div class="col-sm-3">
-                          <div class="form-group">
-                            <label for="tipo">Tipo Beneficiarios</label>
-                            <ng-select [items]="listadoTipoBeneficiarios | async" bindLabel="name" name="tipo" id="tipo"
-                              placeholder="Seleccione tipo" formControlName="tipo">
-                            </ng-select>
-                          </div>
-                          </div>
-
-                          <div class="col-sm-3">
-                          <div class="form-group">
-                            <label for="tipo">Categoria Beneficiarios</label>
-                            <ng-select [items]="listadoCategoriaBeneficiarios | async" bindLabel="name" name="categoria"
-                              id="categoria" placeholder="Seleccione categoria" formControlName="categoria">
-                            </ng-select>
-                           </div>
-                          </div> -->
 
                         <div class="col-sm-4">
                           <div class="form-group">
@@ -419,37 +273,8 @@
                           </div>
                         </div>
 
-                        <!-- <div class="col-md-2 mt-3">
-                           <div class="form-group">
-                            <a class="btn btn-primary ft-plus" title="Agregar beneficiario"
-                              (click)="agregarBeneficiario()"></a>
-                           </div>
-                           </div> -->
-
                       </div>
 
-                      <!-- <div class="div" *ngIf="listadoBeneficiarios.length > 0">
-                        <table class="table table-hover table-sm">
-                          <thead>
-                            <tr>
-                              <th>Tipo Beneficiario</th>
-                              <th>Categoria Beneficiario</th>
-                              <th>Cantidad</th>
-                              <th>Eliminar</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let beneficiario of listadoBeneficiarios; let i = index">
-                              <td>{{ beneficiario.tipoNombre }}</td>
-                              <td>{{ beneficiario.categoriaNombre }}</td>
-                              <td>{{ beneficiario.cantidad | number:'1.2-2' }}</td>
-                              <td>{{ beneficiario.cantidad | number }}</td>
-                              <td><a class="btn btn-danger ft-trash-2" (click)="removerBeneficiario(i)"></a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div> -->
 
                       <div class="row ">
                         <h5 class="mt-1 mb-0 col-9">Sección de comentarios</h5>
@@ -584,34 +409,7 @@
                           </div>
                         </div>
 
-                        <!-- <div class="col-sm-4">
-                          <div class="form-group">
-                            <a class="btn btn-primary mt-3 ft-plus" (click)="agregarObjetivo()"
-                              title="Agregar objetivo"></a>
-                          </div>
-                        </div> -->
-
                       </div>
-
-                      <!-- <div class="div" *ngIf="listadoObjetivos.length > 0">
-                        <table class="table table-hover table-sm">
-                          <thead>
-                            <tr>
-                              <th>Eje</th>
-                              <th>Objetivo</th>
-                              <th>Eliminar</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let objetivo of listadoObjetivos; let i=index">
-                              <td>{{ objetivo.CodigoEje }}</td>
-                              <td>{{ objetivo.Nombre }}</td>
-                              <td><a class="btn btn-danger ft-trash-2" (click)="eliminarObjetivo(i)"></a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div> -->
 
                       <div class="row">
                         <div class="col-12">
@@ -623,15 +421,6 @@
                                 <ng-select [items]="ODS | async" bindLabel="name" bindValue="id" name="ODS" id="ODS"
                                   placeholder="Seleccione ODS" formControlName="odsId">
                                 </ng-select>
-
-                                <!-- <div *ngIf="objetivo.invalid && (objetivo.dirty || objetivo.touched)"
-                                  class="help-block mt-1 text-danger">
-
-                                  <div *ngIf="objetivo.errors.required">
-                                    <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                                  </div>
-
-                                </div> -->
 
                               </div>
                             </div>
@@ -648,42 +437,11 @@
                                 </ng-select>
 
                               </div>
-                              <!-- <div *ngIf="politica.invalid && (politica.dirty || politica.touched)"
-                                class="help-block mt-1 text-danger">
-
-                                <div *ngIf="politica.errors.required">
-                                  <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                                </div>
-
-                              </div> -->
 
                             </div>
 
-                            <!-- <div class="col-sm-4">
-                              <div class="form-group">
-                                <a class="btn btn-primary mt-3 ft-plus" (click)="agregarPolitica()"
-                                  title="Agregar politica"></a>
-                              </div>
-                            </div> -->
-                          </div>
 
-                          <!-- <div class="div" *ngIf="listadoPoliticas.length > 0">
-                            <table class="table table-hover table-sm">
-                              <thead>
-                                <tr>
-                                  <th>Politica</th>
-                                  <th>Eliminar</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="let politica of listadoPoliticas; let i = index">
-                                  <td>{{ politica.Nombre }}</td>
-                                  <td><a class="btn btn-danger ft-trash-2" (click)="eliminarPolitica(i)"></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div> -->
+                          </div>
 
                         </div>
                       </div>
@@ -700,14 +458,6 @@
                               (change)="onFinalidadChange()" formControlName="finalidad">
                             </ng-select>
 
-                            <!-- <div *ngIf="finalidad.invalid && (finalidad.dirty || finalidad.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="finalidad.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
                           </div>
                         </div>
 
@@ -722,14 +472,6 @@
                               formControlName="funcion">
                             </ng-select>
 
-                            <!-- <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="funcion.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
                           </div>
                         </div>
 
@@ -744,14 +486,6 @@
                               formControlName="subFuncion">
                             </ng-select>
 
-                            <!-- <div *ngIf="subFuncion.invalid && (subFuncion.dirty || subFuncion.touched)"
-                              class="help-block mt-1 text-danger">
-
-                              <div *ngIf="subFuncion.errors.required">
-                                <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                              </div>
-
-                            </div> -->
                           </div>
                         </div>
 
@@ -961,9 +695,6 @@
                 Coordenada y :</i> {{coordenadaY.value}}</span>
           </div>
           <div class="col-xl-12 col-lg-12 col-12">
-            <!-- <div id="map" leaflet [leafletOptions]="options" (leafletClick)="manejarClick($event)"
-              [leafletLayers]="capas">
-            </div> -->
 
             <div id="map">
             </div>

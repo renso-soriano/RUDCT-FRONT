@@ -6,6 +6,7 @@ import { DemandasService } from "app/shared/services/mantenimientos/demandas.ser
 import { NgxSpinnerService } from "ngx-spinner";
 import { Location } from '@angular/common';
 import { AuthService } from "app/shared/services/core/auth.service";
+import { GrupoUsuario } from "app/shared/models/grupoUsuario.enum";
 
 @Component({
   selector: "app-detalle-demandas",
@@ -19,6 +20,10 @@ export class DetalleDemandasComponent implements OnInit {
   notFound = false;
   gruposUsuario: any;
   @Input() idExterno: number;
+
+  rolesEnum = GrupoUsuario;
+
+
 
   abierto = false;
 
@@ -39,6 +44,7 @@ export class DetalleDemandasComponent implements OnInit {
       }
       else {
         this.init()
+
       }
     });
 

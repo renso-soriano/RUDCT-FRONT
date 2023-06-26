@@ -54,6 +54,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
+  rolesEnum = GrupoUsuario
+
   //Input and Output
   @Output() anexosDemandas = new EventEmitter<any>();
   @Input() listaDeAnexos: Archivo[]
@@ -92,11 +94,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   demandaId: any
   listaAnexosId: any
   modalConfig: IModalConfig = {
-    modalTitle: "Anexos de Demandas"
+    modalTitle: "Estado de Demandas"
   }
   modalOption: IModalOption = {
     size: "xl",
     centered: true
+
   }
 
 
@@ -107,10 +110,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     codigoPei: [null],
     codigoSnip: [null],
     razonDevolucion: [null]
+
   });
 
   get EF() {
     return this.estadoForm.controls;
+
   }
 
   estadoChange() {
@@ -861,10 +866,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
     });
   }
-
-
-
-
 
 
 

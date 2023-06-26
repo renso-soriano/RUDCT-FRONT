@@ -23,27 +23,27 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="row">
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.codigo">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código demanda: </span>
                           <label for="CodigoDemanda">{{demanda.codigo}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.anio">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Año: </span>
                           <label for="año">{{demanda.anio}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.descripcion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Demanda: </span>
                           <label for="demandaDescripcion">{{demanda.descripcion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.detalle">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Detalles: </span>
                           <textarea class="form-control" readonly cols="30" rows="4"
@@ -81,13 +81,13 @@
                   </div>
                   <div class="col-6">
                     <div class="row">
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.nombreRegion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Región: </span>
                           <label for="region">{{demanda.nombreRegion}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.nombreProvincia">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Provincia: </span>
                           <label for="provincia">{{demanda.nombreProvincia}}</label>
@@ -99,37 +99,37 @@
                           <label for="municipio">{{demanda.nombreMunicipio}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.direccion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Dirección: </span>
                           <label for="direccion">{{demanda.direccion}}</label>
                         </div>
                       </div>
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreFuenteDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Fuente de la demanda: </span>
                           <label for="fuente">{{demanda.nombreFuenteDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.prioridad">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad: </span>
                           <label for="Prioridad">{{demanda.prioridad}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.prioridadProvincial">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad provincial: </span>
                           <label for="Prioridad">{{demanda.prioridadProvincial}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.nombreTipoDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo Demanda: </span>
                           <label for="TipoDemanda">{{demanda.nombreTipoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-4" *ngIf="demanda.nivelDemanda">
                         <div class="form-group" *ngIf="demanda.nivelDemanda == 'Municipales';else other_content">
                           <span class="danger font-weight-bold">Escala territorial: </span>
                           <label for="Nivel">MUNICIPAL</label>
@@ -157,7 +157,7 @@
                       </div>
 
 
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreEjeEnd">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Eje y Objetivo END vinculados: </span>
                           <div>
@@ -203,20 +203,20 @@
                   <div class="col-6">
                     <div class="row">
 
-                      <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.nombreEstadoDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado ejecución: </span>
                           <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="gruposUsuario.includes(1008) == false">
+                      <div class="col-12" *ngIf="demanda.nombreEstadoValidacion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado validacion: </span>
                           <label for="EstadoValidacion">{{demanda.nombreEstadoValidacion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="gruposUsuario.includes(1008) == false && demanda.razonDevolucion != null ">
+                      <div class="col-12" *ngIf="(demanda.razonDevolucion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false)">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Razón devolución: </span>
                           <label for="razonDevolucion">{{demanda.razonDevolucion}}</label>
@@ -252,49 +252,19 @@
                           <span class="danger font-weight-bold">Benficiarios directos: </span>
                         </div>
                       </div>
-                      <div class="col-3">
+                      <div class="col-3" *ngIf="demanda.beneficiariosPersonas">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Personas: </span>
                           <label for="temaComun">{{demanda.beneficiariosPersonas}}</label>
                         </div>
                       </div>
 
-                      <div class="col-3">
+                      <div class="col-3" *ngIf="demanda.beneficiariosFamilias">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Familias: </span>
                           <label for="temaComun">{{demanda.beneficiariosFamilias}}</label>
                         </div>
                       </div>
-
-                      <!-- <div class="col-12">
-                        <span class="danger font-weight-bold">Beneficiarios</span>
-                        <div class="row">
-                          <div class="card shadow col-5 m-1" *ngFor="let item of demanda.demandaBeneficiarios">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-12">
-                                  <div class="form-group">
-                                    <span class="primary font-weight-bold">Tipo: </span>
-                                    <label for="NombreTipoBeneficiario">{{item.nombreTipo}}</label>
-                                  </div>
-                                </div>
-                                <div class="col-12">
-                                  <div class="form-group">
-                                    <span class="primary font-weight-bold">Categoria: </span>
-                                    <label for="NombreCategoriaBeneficiario">{{item.nombreCategoria}}</label>
-                                  </div>
-                                </div>
-                                <div class="col-12">
-                                  <div class="form-group">
-                                    <span class="primary font-weight-bold">Cantidad: </span>
-                                    <label for="cantidad">{{item.cantidad |number}}</label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
 
                     </div>
                   </div>
@@ -348,12 +318,9 @@
                         </div>
                       </div>
 
-
                     </div>
 
-
                   </div>
-
 
                 </div>
               </ng-template>
@@ -380,23 +347,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="row">
-                  <div class="col-4">
-                    <div class="card card-inverse bg-info">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media">
-                            <div class="media-body text-left">
-                              <p>
-                                {{demanda.demandaComentarios[demanda.demandaComentarios.length - 1].comentrio}}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
               </ng-template>
             </ngb-panel>
           </ngb-accordion>
