@@ -119,6 +119,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   estadoChange() {
+    console.log("ejecutando el change")
     this.estadoForm.patchValue({
       comentarioEstado: null,
       codigoPoa: null,
@@ -647,6 +648,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       (demanda: Demanda) => {
         this.demanda = demanda;
         this.estadoDemanda = demanda.nombreEstadoDemanda;
+
+        console.log(this.demanda.estadoId,"estadoID que viene")
+        this.EF.estado.setValue(this.demanda.estadoId.toString())
+
+        console.log(this.EF.estado.value,"que tiene luego asignado por mi")
+
         if (this.demanda.demandaAnexos.length > 0) {
           this.isDetail = true
           console.log("Que es demanda ahora mismo: ", this.demanda.nombreEstadoDemanda);
@@ -718,8 +725,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
     }
 
-    let files = this.randyFile.getFiles();
-    if (files.length > 0) {
+    let files = this.randyFile?.getFiles();
+    if (files?.length > 0) {
       let formData = this.randyFileService.createFormData(files);
       let fileIds = await this.randyFileService.uploadFiles(formData).toPromise();
       fileIds.forEach(fileId => {
@@ -741,6 +748,18 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demanda.codigoSnip = formValue.codigoSnip;
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
+
+    //something pending TO DO
+
+    /* if(formValue.comentarioEstado)
+    {
+      this.demanda.demandaComentarios.push({
+        id:0 ,
+        estatus: "A",
+        demandaId: this.demanda.demandaId,
+        comentrio: formValue.comentarioEstado
+      };)
+    } */
 
 
     this.spinner.show();

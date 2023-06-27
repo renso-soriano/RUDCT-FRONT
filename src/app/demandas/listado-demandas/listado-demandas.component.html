@@ -219,7 +219,7 @@
 
       </div>
 
-      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT)">
+      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > 3">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>
