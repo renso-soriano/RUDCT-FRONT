@@ -240,6 +240,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.tableResponsive.rowDetail.toggleExpandRow(row);
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    console.log("Se destruyo este modal?");
+    this.closeModalSimple();
+    this.closeModal();
+  }
+
   /**
    * Constructor
    *
@@ -271,7 +279,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   openFileModal(demandaId: number): void {
     this.mapFile();
-    console.log(demandaId, "Demanda ID NOEL")
     this.modalAnexo.open();
   }
   //Actions Methods
@@ -644,6 +651,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   openVerticallyCentered(content, id: any) {
     this.EF.estado.setValue(null);
+    this.files = []; //aca se inicializa siempre en 0, asi se evita que se repita
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
@@ -656,9 +664,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
         if (this.demanda.demandaAnexos.length > 0) {
           this.isDetail = true
-          console.log("Que es demanda ahora mismo: ", this.demanda.nombreEstadoDemanda);
         } else {
-          console.log("Demanda vino sin anexos: ", this.demanda.nombreEstadoDemanda);
+          this.isDetail = false
         }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile()
@@ -683,11 +690,15 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     // });
   }
 
+  closeModalSimple(){
+    this.modalAnexo.close()
+  }
+
   closeModal(){
+    this.submit();
     this.modalAnexo.close()
   }
   submit() {
-
     //validaciones finales de listados
     if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.comentarioEstado.value == null) {
       this.serviceStr.typeError(
@@ -861,7 +872,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   getFile(event: any) {
     this.file = event.target.files[0]
-    console.log('Archivo seleccionado: ', this.file)
   }
 
   saveFiles(obs: Observable<any[]>) {

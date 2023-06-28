@@ -9,12 +9,18 @@
 }
 
 .button-container {
-  display: inline-block;
-  margin-left: 10px;
+  display: flex;
+  margin-left: 2px;
 }
 
 #downloadButton{
-  margin-right: 10px;
+  display:flex;
+  margin-right: 5px;
+}
+
+#btnDelete2do{
+  display:flex;
+  margin-right: 5px;
 }
 
 

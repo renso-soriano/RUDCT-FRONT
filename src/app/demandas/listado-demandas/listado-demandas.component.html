@@ -180,8 +180,9 @@
         </div>
       </div>
 
-
-      <div class="col-sm-12" *ngIf="EF.estado.value == '6'">
+      <!-- <div class="row" > -->
+      <div class="col-sm-12"
+        *ngIf="EF.estado.value == '6' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPoa">Codigo POA</label>
           <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3" formControlName="codigoPoa">
@@ -189,35 +190,36 @@
         </div>
       </div>
 
-        <div class="col-sm-12" *ngIf="EF.estado.value == '4' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
-          <div class="form-group">
-            <label for="codigoSnip">Codigo Snip</label>
-            <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
-              formControlName="codigoSnip">
-          </div>
+      <div class="col-sm-12"
+        *ngIf="EF.estado.value == '4' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        <div class="form-group">
+          <label for="codigoSnip">Codigo Snip</label>
+          <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
+            formControlName="codigoSnip">
         </div>
+      </div>
+
 
       <!-- <div class="row" > -->
-      <div class="col-sm-12" *ngIf="EF.estado.value != null && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+      <div class="col-sm-12"
+        *ngIf="EF.estado.value != null && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="comentarioEstado">Comentario</label>
           <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
             formControlName="comentarioEstado"></textarea>
         </div>
       </div>
-      <!-- </div> -->
 
-      <div class="row"
+      <div class="col-sm-12"
         *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
-        <div class="col-sm-8">
-          <div class="form-group">
-            <label for="devolucion">Razón de devolución</label>
-            <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
-              formControlName="razonDevolucion"></textarea>
-          </div>
+        <div class="form-group">
+          <label for="devolucion">Razón de devolución</label>
+          <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
+            formControlName="razonDevolucion"></textarea>
         </div>
-
       </div>
+
+      <!-- </div> -->
 
       <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > 3">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
@@ -225,7 +227,7 @@
       </div>
 
       <div class="modal-footer">
-        <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="closeModal()"><span>Volver a
+        <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="closeModalSimple()"><span>Volver a
             listado</span>
         </a>
 
@@ -285,5 +287,3 @@
   </div>
 
 </ng-container>
-
-
