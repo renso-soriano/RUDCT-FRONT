@@ -211,7 +211,7 @@
       </div>
 
       <div class="col-sm-12"
-        *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(1008) == false">
+        *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
         <div class="form-group">
           <label for="devolucion">Razón de devolución</label>
           <textarea class="form-control" name="devolucion" id="devolucion" rows="3"

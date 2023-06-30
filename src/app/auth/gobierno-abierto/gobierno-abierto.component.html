@@ -139,11 +139,28 @@
               <h5 class="bg-primary text-white text-center p-2 rounded-top">
                 Cantidad de demandas en los territorios</h5>
 
-              <div class="card-content">
+              <!-- <div class="card-content">
                 <div class="card-body" style="min-height:605px; max-height:700px">
 
                   <div id="map" leaflet [leafletOptions]="options" [leafletLayers]="capas">
                   </div>
+
+                </div>
+              </div> -->
+              <div class="card-content">
+                <div class="card-body" style="min-height:605px; max-height:700px">
+                  <div class="form-group w-25">
+                    <label>Cambiar tipo de mapa</label>
+                    <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
+                      <option value="1">Provincial</option>
+                      <option value="2">Municipal</option>
+                    </select>
+                  </div>
+
+                  <app-mapa #mapaComponent [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile"
+                    [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty"
+                    [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
+
 
                 </div>
               </div>
@@ -260,34 +277,7 @@
         </section>
         <!--/ Filter Datatables -->
 
-        <!--modal mapa-->
-        <div class="row">
-          <ng-template #contentMapa let-modal>
-            <div class="modal-header">
-              <h4 class="modal-title">Vista geográfica de selección</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-xl-12 col-lg-12 col-12">
-                    <div id="map" leaflet [leafletOptions]="options" [leafletLayers]="capas">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
-            </div>
-          </ng-template>
-        </div>
-        <!--modal mapa-->
-
         <!--modal fixed-->
-
         <UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalDetalles>
           <app-detalle-demandas [idExterno]="demandaId" #Detalles></app-detalle-demandas>
           <div class="modal-footer">

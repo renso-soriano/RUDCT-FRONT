@@ -64,7 +64,15 @@ export class GobiernoAbiertoComponent implements OnInit {
     centered: true
   }
 
-  demandaId:number;
+  mapSettings: MapSettings = {
+    servicio: null,
+    BindProperty: 'demandasPorProvincia',
+    BindValue: 'totalDemandas',
+    GeoDataFile: 'do_provincias',
+    Label: 'Provincia'
+  }
+
+  demandaId: number;
 
   dashboard: DashboardResponse;
 
@@ -434,7 +442,8 @@ export class GobiernoAbiertoComponent implements OnInit {
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('grupoId', grupoId);
 
-     this.demandasService.getDemandasForDashboardAbierto(params).subscribe(res => {
+    this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto(params);
+    this.mapSettings.servicio.subscribe(res => {
       this.dashboard = res
 
       this.page.count = res['data']['total'];
@@ -632,15 +641,45 @@ export class GobiernoAbiertoComponent implements OnInit {
 
   }
 
-  closeModal(){
+  closeModal() {
     this.modalDetalles.close()
   }
 
   referenciaMapa: string = 'provincias';
 
+  //deleted lines
+  changeMap(event: any) {
+
+    switch (event.target.value) {
+      case '1':
+        this.mapSettings.GeoDataFile = 'do_provincias';
+        this.mapSettings.BindProperty = 'demandasPorProvincia';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Provincia';
+        this.referenciaMapa = 'Provincias';
+        //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
+        break;
+
+      case '2':
+        this.mapSettings.GeoDataFile = 'do_municipios';
+        //this.mapSettings.GeoDataFile = 'MUNICIPIOS';
+        this.mapSettings.BindProperty = 'demandasPorMunicipio';
+        this.mapSettings.BindValue = 'totalDemandas';
+        this.mapSettings.Label = 'Municipio';
+        this.referenciaMapa = 'Municipios';
+        //this.mapSettings.servicio = this.demandasService.getDemandasForDashboardAbierto();
+        break;
+      default:
+        break;
+    }
+    this.recargaMapa();
+  }
+
+  //deleted lines
+
   recargaMapa() {
     this.BuscarMap(this.rows);
-    //this.mapaComponent.onReload(this.mapSettings);
+    this.mapaComponent.onReload(this.mapSettings);
   }
 
 }

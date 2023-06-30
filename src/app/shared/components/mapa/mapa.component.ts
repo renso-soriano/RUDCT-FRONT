@@ -67,8 +67,8 @@ export class MapaComponent implements OnInit, AfterViewInit {
     return p;
   }
 
-  async onReload(mapSettings?: MapSettings){
-    if(mapSettings != undefined) {
+  async onReload(mapSettings?: MapSettings) {
+    if (mapSettings != undefined) {
       this.BIND_PROP = mapSettings.BindProperty;
       this.BIND_PROP_VALUE = mapSettings.BindValue;
       this.GEO_DATA_FILE = mapSettings.GeoDataFile;
@@ -77,6 +77,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     //filter
     this.getGeoJSON().then((res) => {
+      console.log("este es el mapa json=> ", res)
       this.EXTRA_DATA_SERVICE
         .subscribe(
           (result: any) => {
@@ -93,6 +94,26 @@ export class MapaComponent implements OnInit, AfterViewInit {
                 }
               });
             });
+            /*para provincias
+            if (this.LABEL == 'Provincia') {
+
+            } para municipioselse {
+
+              (res.objects['RD Municipios']['geometries']).forEach((e: any) => {
+                const arr = result[this.BIND_PROP];
+                const _toponimia = this.replaceTick(e.properties.TOPONIMIA);
+                arr.find((object, index) => {
+                  if (this.replaceTick(object.nombre) === _toponimia) {
+                    console.log("what =>", _toponimia)
+                    e.properties['color'] = this.getFillFeatureColor(this.totalDemandas, object.cantidad == undefined ? 0 : object.cantidad);
+                    e.properties['demandas'] = this.decimalPipe.transform(object.cantidad == undefined ? 0 : object.cantidad, '0.2-2');
+                    //e.properties['demandas'] = object.cantidad == undefined ? 0 : object.cantidad;
+                    e.properties['label'] = this.LABEL;
+                  }
+                });
+              });
+            }*/
+
           },
           (err: any) => console.log(err),
           () => {
@@ -116,7 +137,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
               this.bounds_group.addLayer(this.layer_PROVCenso2010_0);
               this.map.addLayer(this.layer_PROVCenso2010_0);
               this.setBounds();
-            this.map.setZoom(8);
+              this.map.setZoom(8);
             }, 500);
           }
         );
@@ -139,7 +160,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
             <td colspan="2"><b>Catidad de demandas:</b> ' + (feature.properties['demandas'] == undefined ? 0 : feature.properties['demandas']) + '</td>\
         </tr>\
     </table>';
-    layer.bindPopup(popupContent, { maxHeight: 400,closeOnClick: true, closeButton: false, autoClose: true, autoPan: true  });
+    layer.bindPopup(popupContent, { maxHeight: 400, closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
   }
 
   style_PROVCenso2010_0_0(feature: any): any {
@@ -180,8 +201,8 @@ export class MapaComponent implements OnInit, AfterViewInit {
    */
   getFillFeatureColor(total: number, cantidad: number): string {
     const porcentaje = (cantidad * 100) / total;
-    const opacity = ((porcentaje)/100)+0.1 >= 1 ? 0.9 : ((porcentaje)/100);
-    return `rgba(0,56,118,${ opacity})`;
+    const opacity = ((porcentaje) / 100) + 0.1 >= 1 ? 0.9 : ((porcentaje) / 100);
+    return `rgba(0,56,118,${opacity})`;
   }
 
 }
