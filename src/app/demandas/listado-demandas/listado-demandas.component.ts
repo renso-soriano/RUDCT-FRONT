@@ -245,7 +245,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     //Add 'implements OnDestroy' to the class.
     console.log("Se destruyo este modal?");
     this.closeModalSimple();
-    this.closeModal();
+    //this.closeModal();
   }
 
   /**
@@ -657,10 +657,15 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         this.demanda = demanda;
         this.estadoDemanda = demanda.nombreEstadoDemanda;
 
-        console.log(this.demanda.estadoId,"estadoID que viene")
-        this.EF.estado.setValue(this.demanda.estadoId.toString())
+        this.estadoForm.patchValue({
+          estado:this.demanda.estadoId.toString(),
+          comentarioEstado: demanda.comentarioEstado,
+          codigoPoa: demanda.codigoPoa,
+          codigoPei: demanda.codigoPei,
+          codigoSnip: demanda.codigoSnip,
+          razonDevolucion: demanda.razonDevolucion
+        });
 
-        console.log(this.EF.estado.value,"que tiene luego asignado por mi")
 
         if (this.demanda.demandaAnexos.length > 0) {
           this.isDetail = true
@@ -691,10 +696,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   closeModalSimple(){
+    console.log("modal simple close")
     this.modalAnexo.close()
   }
 
   closeModal(){
+    console.log("modal close");
     this.submit();
     this.modalAnexo.close()
   }
