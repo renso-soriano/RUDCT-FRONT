@@ -1,4 +1,6 @@
-import { Component, ViewChild, OnInit, ViewEncapsulation, ElementRef } from '@angular/core';
+
+
+import { Component, ViewChild, OnInit, ViewEncapsulation, ElementRef, AfterViewChecked } from '@angular/core';
 import { ItemMenu } from 'app/shared/models/auth/ItemMenu';
 import { ExcelService } from './../../shared/services/excel.service';
 import { DatatableData } from './data/datatables.data';
@@ -36,6 +38,8 @@ import { DetalleDemandasComponent } from 'app/demandas/detalle-demandas/detalle-
 import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
+import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
 
@@ -47,6 +51,12 @@ const data: any = require('../../shared/data/Demandas.json');
   providers: [NGXToastrService]
 })
 export class GobiernoAbiertoComponent implements OnInit {
+
+  //RANDY:
+  URL: string = environment.apiUrl;
+  @ViewChild("modalFiles") modalfiles: ModalComponent
+  @ViewChild("randyFile") randyFile: RandyFileComponent
+  files: any[] = []
 
   activeModules = []
 
@@ -60,6 +70,13 @@ export class GobiernoAbiertoComponent implements OnInit {
     modalTitle: "   "
   }
   modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+  }
+  modalConfigFiles: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOptionFiles: IModalOption = {
     size: "xl",
     centered: true
   }
@@ -258,13 +275,36 @@ export class GobiernoAbiertoComponent implements OnInit {
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
 
+
   //Actions Methods
 
   verDetalles(CodigoDemanda: string) {
     this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
   }
-  verArchivos(CodigoDemanda: string) {
-    this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
+  async verArchivos(demandaId) {
+    await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
+      .then((res: any) => {
+        this.mapFiles(res)
+      })
+
+    // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
+  }
+  openModalFile() {
+    this.modalfiles.open();
+  }
+  private mapFiles(res: any) {
+    let array = [];
+    res.result?.forEach((item) => {
+      array.push({
+        file: { ...item.file },
+        tipoDocumentoId: item.file.fileType.id.toString(),
+        entityId: item.demandaId
+      })
+
+    });
+    this.files = array;
+    this.openModalFile()
+    console.log(this.files, "files");
   }
 
 
@@ -625,8 +665,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     }
   }
 
-  demo() {
-  }
+
   get regiones() {
     return this.dashboard?.demandasPorRegion ?? []
   }

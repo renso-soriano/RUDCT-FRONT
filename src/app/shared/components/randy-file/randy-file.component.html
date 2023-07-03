@@ -1,5 +1,4 @@
-
-<div class="py-5 mb-3 text-center font-medium-5 text-uppercase grey my-drop-zone"
+<div class="py-5 mb-3 text-center font-medium-5 text-uppercase grey my-drop-zone" *ngIf="!isDetail"
   [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
   (onFileDrop)="addedFileToQueue()">
   <span class="d-block">Arrastre un archivo o hacer click en el botón</span>
@@ -20,7 +19,7 @@
         <th>Tipo Documento</th>
         <th class="text-center">
           <ng-contianer *ngIf="isDetail; else noDetail">
-            Descargar
+            Acciones
           </ng-contianer>
           <ng-template #noDetail>
             Remover Archivo
@@ -42,17 +41,26 @@
             (change)="changeType(item, $event)">
           </ng-select>
         </td>
-        <td class="text-center">
-          <ng-container *ngIf="isDetail">
+        <td col class="text-center">
+          <ng-container *ngIf="isDetail; else remove">
             <div class="button-container">
-              <button type="button" class="btn btn-primary" id="downloadButton" (click)="downLoadFile(item, fileEntityType)">
+              <button type="button" class="btn btn-primary" id="downloadButton" title="Descargar documento"
+                (click)="downLoadFile(item, fileEntityType)">
                 <span class="icon-cloud-download"></span>
               </button>
-              <button id="btnDelete2do" type="button" class="btn btn-danger" (click)="removeFileFromQueue(item, indexOfelement)">
-                <span class="fa fa-trash"></span>
+
+              <button type="button" class="btn btn-info" (click)="openDocument(item)" title="Ver documento">
+                <span class="ft-eye"></span>
               </button>
+
             </div>
           </ng-container>
+          <ng-template #remove>
+            <button type="button" class="btn btn-danger" (click)="removeFileFromQueue(item, indexOfelement)"
+              title="Eliminar documento">
+              <span class="fa fa-trash"></span>
+            </button>
+          </ng-template>
 
         </td>
 

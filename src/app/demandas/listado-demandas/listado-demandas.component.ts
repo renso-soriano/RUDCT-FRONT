@@ -51,7 +51,7 @@ const data: any = require('../../shared/data/Demandas.json');
 })
 export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit {
 
-  @ViewChild("randyFile", {static:false}) randyFile: RandyFileComponent
+  @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFile") modalAnexo: ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
@@ -647,8 +647,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
 
   }
-  removeFile(fileId){
-    const index = this.demanda.demandaAnexos.findIndex(x=> x.id === fileId);
+  removeFile(fileId) {
+    const index = this.demanda.demandaAnexos.findIndex(x => x.id === fileId);
     this.demanda.demandaAnexos.splice(index, 1);
 
   }
@@ -671,11 +671,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         });
 
 
-        if (this.demanda.demandaAnexos.length > 0) {
-          this.isDetail = true
-        } else {
-          this.isDetail = false
-        }
+        // if (this.demanda.demandaAnexos.length > 0) {
+        //   this.isDetail = true
+        // } else {
+        //   this.isDetail = false
+        // }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile()
         // console.log("Lista de Anexos", this.files);
@@ -699,13 +699,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     // });
   }
 
-  closeModalSimple(){
-    console.log("modal simple close")
+  closeModalSimple() {
     this.modalAnexo.close()
   }
 
-  closeModal(){
-    console.log("modal close");
+  closeModal() {
     this.submit();
     this.modalAnexo.close()
   }
