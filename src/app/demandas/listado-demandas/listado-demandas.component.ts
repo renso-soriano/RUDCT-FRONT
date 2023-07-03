@@ -662,7 +662,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         this.estadoDemanda = demanda.nombreEstadoDemanda;
 
         this.estadoForm.patchValue({
-          estado:this.demanda.estadoId.toString(),
+          estado:this.demanda.estadoId ? this.demanda.estadoId.toString() : null,
           comentarioEstado: demanda.comentarioEstado,
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
