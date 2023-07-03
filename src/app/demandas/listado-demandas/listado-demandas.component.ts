@@ -35,6 +35,8 @@ import { ModalComponent } from 'app/shared/components/modal/modal.component';
 import { Console } from 'console';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
+import { Estados } from 'app/shared/models/auth/estados.enum';
+import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum';
 
 
 declare var require: any;
@@ -54,7 +56,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
-  rolesEnum = GrupoUsuario
+  rolesEnum = GrupoUsuario;
+  estadoEjecucionEnum = Estados;
+  estadoValidacionEnum = EstadosValidacion;
 
   //Input and Output
   @Output() anexosDemandas = new EventEmitter<any>();
@@ -707,22 +711,24 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
   submit() {
     //validaciones finales de listados
-    if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.comentarioEstado.value == null) {
+    if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.comentarioEstado.value == null) {
       this.serviceStr.typeError(
         "Debe completar el por qué rechaza la demanda"
       );
     }
-    else if (this.EF.estado.value == 4 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoSnip.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
     }
-    else if (this.EF.estado.value == 5 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoPei.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.incluidoEnPEI && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPei.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo PEI"
+
+
       );
     }
-    else if (this.EF.estado.value == 6 && this.EF.codigoPoa.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPoa.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo POA"
       );

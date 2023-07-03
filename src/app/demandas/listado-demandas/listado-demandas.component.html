@@ -79,15 +79,15 @@
                         {{value}}
                       </span>
                       <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
-                        [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
+                        [ngClass]="{'bg-danger': value == 'Reasignación sectorial', 'bg-warning':value == 'Asignado a sectorial', 'bg-info':value == 'Incluido en PEI', 'bg-primary':value == 'En proceso de ejecución','bg-secondary':value == 'Pendiente asignar sectorial' ,'bg-success':value == 'Programado en POA','bg-dark':value == 'No inciada'}">
                         {{ value }}
                       </div>
-                      <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(1008) == false"
+                      <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false"
                         class="badge badge-pill"
-                        [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR'}">
+                        [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR','bg-dark':value == 'Rechazada - no competencia de sectorial'}">
                         {{ value }}
                       </div>
-                      <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(1008) == true"
+                      <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true"
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
@@ -172,7 +172,7 @@
       <!-- </div> -->
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == '5' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado.value == this.estadoEjecucionEnum.incluidoEnPEI && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPei">Codigo PEI</label>
           <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3" formControlName="codigoPei">
@@ -182,7 +182,7 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == '6' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPoa">Codigo POA</label>
           <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3" formControlName="codigoPoa">
@@ -191,7 +191,7 @@
       </div>
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == '4' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoSnip">Codigo Snip</label>
           <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
@@ -211,7 +211,7 @@
       </div>
 
       <div class="col-sm-12"
-        *ngIf="(EF.estado.value == '4' || EF.estado.value == '5') && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
+        *ngIf="(EF.estado.value == this.estadoValidacionEnum.devueltaPorDGDES || EF.estado.value == this.estadoValidacionEnum.devueltaPorVIOTDR) && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
         <div class="form-group">
           <label for="devolucion">Razón de devolución</label>
           <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
@@ -221,7 +221,7 @@
 
       <!-- </div> -->
 
-      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > 3">
+      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > this.estadoEjecucionEnum.reasignacionSectorial">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>

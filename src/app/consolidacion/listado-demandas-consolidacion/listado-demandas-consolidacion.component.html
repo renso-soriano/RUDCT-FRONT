@@ -34,13 +34,13 @@
                     {{value}}
                   </span>
                   <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
-                  [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
-                  {{ value }}
-                </div>
-                <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
-                [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante', 'bg-primary':value == 'Original'}">
-                {{ value }}
-              </div>
+                    [ngClass]="{'bg-danger': value == 'Reasignación sectorial', 'bg-warning':value == 'Asignado a sectorial', 'bg-info':value == 'Incluido en PEI', 'bg-primary':value == 'En proceso de ejecución','bg-secondary':value == 'Pendiente asignar sectorial' ,'bg-success':value == 'Programado en POA','bg-dark':value == 'No inciada'}">
+                    {{ value }}
+                  </div>
+                  <div *ngIf="column.prop == 'nombreTipoDemanda'" class="badge badge-pill"
+                    [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante de Consolidacion', 'bg-primary':value == 'Original sin cambios', 'bg-secondary':value == 'Original modificada', 'bg-dark':value == 'Resultante modificacion'}">
+                    {{ value }}
+                  </div>
                 </ng-template>
               </ngx-datatable-column>
               <!-- Acciones -->

@@ -1,10 +1,10 @@
 
 export enum Estados {
-  NoVista = 1,
-  VistoRecibido = 2,
-  Rechazado = 3,
-  ProyectoInversionPublica = 4,
-  ContenidaPEI = 5,
-  ContenidaPOAActual = 6,
-  AcogidaProgramaProyecto = 7,
+  pendienteAsignarSectorial = 1,
+  asignadoASectorial = 2,
+  reasignacionSectorial  = 3,
+  enProcesoDeEjecucion = 4,
+  incluidoEnPEI = 5,
+  programadoEnPOA = 6,
+  noInciada = 7,
 }
