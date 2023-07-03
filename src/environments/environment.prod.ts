@@ -9,9 +9,17 @@ export const environment = {
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'image/jpeg',
+    'image/png'
   ],
-  allowedFileTypes: ['pdf', 'xlsx', 'xls', 'doc', 'docx'],
+  allowedFileTypes: [
+    "image",
+    "pdf",
+    "doc",
+    "docx",
+    "xlsx",
+    "xls"],
   appMaxFileSize: 5, // Tamaño en MB
   appMaxFileCount: 10,
   appStartYear: 2016,
@@ -31,14 +39,14 @@ export const environment = {
   },
   mapbox: {
     //accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
-    accessToken:'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
+    accessToken: 'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
 
   },
   InicializarMapa: {
-    coordenadaX:18.842270,
+    coordenadaX: 18.842270,
     coordenadaY: -69.845067,
     //accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
-    accessToken:'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
+    accessToken: 'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
 
   },
 };
