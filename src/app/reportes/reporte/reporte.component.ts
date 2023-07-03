@@ -39,6 +39,8 @@ export class ReporteComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
+  rolesEnum = GrupoUsuario;
+
   //data:any[];
   notFound = false;
 
@@ -74,6 +76,7 @@ export class ReporteComponent implements OnInit {
 
   get RF() {
     return this.reportForm.controls;
+
   }
 
   constructor(private http: HttpClient,
