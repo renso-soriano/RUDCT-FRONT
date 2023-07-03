@@ -19,36 +19,36 @@ import { environment } from 'environments/environment';
 export class RandyFileService {
 
   public route: string
-  private API_URL_POST =environment.apiUrl+"File/UploadFileList"
-  private API_URL_DOWNLOAD = environment.apiUrl+"File/Download"
+  private API_URL_POST = environment.apiUrl + "File/UploadFileList"
+  private API_URL_DOWNLOAD = environment.apiUrl + "File/Download"
 
 
   constructor(
     private _dropDowm: DropDownServiceService,
-    private _http : HttpClient,
+    private _http: HttpClient,
     private toastrService: ToastrService,
 
   ) { }
 
 
 
- getFileType(){
-  return this._dropDowm.getFileType();
- }
+  getFileType() {
+    return this._dropDowm.getFileType();
+  }
 
 
   uploadFiles(archivos: FormData) {
-    return this._http.post<number[]>( this.API_URL_POST,archivos)
+    return this._http.post<number[]>(this.API_URL_POST, archivos)
   }
 
   downloadFile(fileId: number): Observable<any> {
-    return this._http.get<any>(`${this.API_URL_DOWNLOAD}/${fileId}`,{})
+    return this._http.get<any>(`${this.API_URL_DOWNLOAD}/${fileId}`, {})
       .pipe(
         map((res: any) => {
           console.log(res, "DOWNLOAD");
 
           let file = this.convertBase64ToBlob(res);
-          let data = { file: file, nombreArchivo: res.fileDownloadName }
+          let data = { file: file, nombreArchivo: res.fileDownloadName, base64: res.fileContents }
           return data;
         })
       );

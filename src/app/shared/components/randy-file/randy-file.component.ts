@@ -22,6 +22,7 @@ import { RandyFileService } from 'app/shared/services/randy-file/randy-file.serv
 import { HttpClient } from '@angular/common/http';
 import { FileException } from 'app/shared/enum/file-Exception.enum';
 import { FileUploader } from 'ng2-file-upload';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'Randy-File',
@@ -68,6 +69,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   deletedFielsQueue = [];
   hiddenDownLoad = true;
   _anexoDataDb: any
+  documentUrl: any;
   @Input('anexoDataDb') set anexoDataDb(value: any[]) {
     console.log("Noel a verfg", value);
     if (value?.length > 0) {
@@ -94,6 +96,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
     private randyFileService: RandyFileService,
     private http: HttpClient,
     private toastrService: ToastrService,
+    private sanitizer: DomSanitizer
   ) {
     console.log("Ramdy File Init");
 
@@ -150,28 +153,35 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
     return files;
 
   }
+  async openDocument(item) {
+
+    await this.randyFileService.downloadFile(item.file.id).toPromise().then((res: any) => {
+      console.log(res);
+      this.receiveBase64Document(res.base64, res.file.type);
 
 
-  // saveFiles(): Observable<IResponse<Array<number>>> {
+    })
 
-  //   console.log(this.selected, "ARCHIVOS");
-  //   let response: Array<number>;
 
-  //   const fileData = new FormData()
-  //   const files = this.selected.filter(x => !x.id)
-  //   console.log(files, "FILES");
+    if (this.documentUrl) {
+      window.open(this.documentUrl.changingThisBreaksApplicationSecurity);
+    }
+  }
+  private receiveBase64Document(base64: string, contentType: string) {
+    // const contentType = 'application/pdf'; // Reemplaza por el tipo de contenido adecuado
 
-  //   if (files.length > 0) {
+    // Crea la URL segura a partir del base64
+    const binaryData = atob(base64);
+    const arrayBuffer = new ArrayBuffer(binaryData.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < binaryData.length; i++) {
+      uintArray[i] = binaryData.charCodeAt(i);
+    }
+    const blob = new Blob([uintArray], { type: contentType });
+    this.documentUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));
+  }
 
-  //     files.map(archivo => {
-  //       fileData.append("formData", archivo.file)
-  //       fileData.append("tipoDocumentoId", archivo.tipoDocumentoId.toString())
-  //     })
 
-  //     return this.http.post<IResponse<Array<number>>>(fileData, `${this.UPLOAD_URL}`);
-
-  //   }
-  // }
 
   ngOnInit() {
     this.dropdownFileType();
@@ -192,7 +202,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   }
   addedFileToQueue() {
     const files = this.uploader.queue.map(file => file?._file)
-    this.selected.push({ file: files[files.length - 1], tipoDocumentoId: 1})
+    this.selected.push({ file: files[files.length - 1], tipoDocumentoId: 1 })
     console.log(this.selected, "Files");
     this.emitFileCount()
 
@@ -222,7 +232,7 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-  getAnexos(){
+  getAnexos() {
     this.randyFileService.uploadFiles(this.listaIds).subscribe(res => {
       res = this.listaIds;
       console.log("Lista de Ids", this.listaIds);
@@ -241,8 +251,8 @@ export class RandyFileComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   close() {
-    const files = this.selected.filter(x=> !x.id)
-    if(files.length > 0){
+    const files = this.selected.filter(x => !x.id)
+    if (files.length > 0) {
       const data = this.randyFileService.createFormData(files);
       const obs = this.randyFileService.uploadFiles(data);
       this.onSubmit.emit(obs)
