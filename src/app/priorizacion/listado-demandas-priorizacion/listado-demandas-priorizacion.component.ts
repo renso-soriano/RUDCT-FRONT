@@ -360,6 +360,18 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
 
   }
 
+  openVertically(content, id) {
+
+    this.modalService.open(content, {
+      //centered: true,
+      //backdrop: "static",
+      keyboard: false,
+      size: 'xl',
+      //windowClass: 'modal-xl'
+    });
+
+  }
+
   openVerticallyCentered(content, id) {
 
     this.demandaId = id;
