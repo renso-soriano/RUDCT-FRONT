@@ -488,7 +488,6 @@ export class GobiernoAbiertoComponent implements OnInit {
 
       this.page.count = res['data']['total'];
       this.rows = res['data']['items'];
-      document.getElementById('dataTable1').click();
 
       this.recargaMapa();
       this.regionChart.regionesInfo = this.dashboard.demandasPorRegion;

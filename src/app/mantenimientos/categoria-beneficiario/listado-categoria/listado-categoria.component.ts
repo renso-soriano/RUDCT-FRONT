@@ -201,13 +201,6 @@ export class ListadoCategoriaComponent implements OnInit {
     alertFunctions.EliminarRegistro("/mantenimientos/categoria_beneficiarios",this.categoriaBeneficiarioService.deleteCategoria(idCategoria));
   }
 
-  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
-
-  triggerFalseClick() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
-  }
-
 
 
   // Lifecycle Hooks
@@ -225,7 +218,6 @@ export class ListadoCategoriaComponent implements OnInit {
         this.data = categoriasFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
-        this.triggerFalseClick();
       },
       (err: any) => {
         console.error(err);

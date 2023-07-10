@@ -200,15 +200,6 @@ export class ListadoTecnicosComponent implements OnInit {
 
   }
 
-  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
-
-  triggerFalseClick() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
-  }
-
-
-
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -224,7 +215,6 @@ export class ListadoTecnicosComponent implements OnInit {
         this.data = tecnicosFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
-        this.triggerFalseClick();
       },
       (err: any) => {
         console.error(err);

@@ -538,7 +538,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-      document.body.click();
     });
   }
 
@@ -683,10 +682,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       (err: any) => {
         console.error(err);
         this.notFound = true;
-        document.body.click();
       },
       () => {
-        document.body.click();
       }
     );
     this.demandaId = id;

@@ -186,12 +186,6 @@ export class ListadoTemaComunComponent implements OnInit {
     alertFunctions.EliminarRegistro("/mantenimientos/temaComun",this.temaComunService.deleteTemaComun(idTema));
 
   }
-  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
-
-  triggerFalseClick() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
-  }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -208,7 +202,6 @@ export class ListadoTemaComunComponent implements OnInit {
         this.data = temasComunesFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
-        this.triggerFalseClick();
       },
       (err: any) => {
         console.error(err);

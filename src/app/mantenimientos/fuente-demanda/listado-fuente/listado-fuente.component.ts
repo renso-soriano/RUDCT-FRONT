@@ -186,12 +186,7 @@ export class ListadoFuenteComponent implements OnInit {
 
   }
 
-  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
 
-  triggerFalseClick() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
-  }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -208,7 +203,6 @@ export class ListadoFuenteComponent implements OnInit {
         this.data = fuentesFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
-        this.triggerFalseClick();
       },
       (err: any) => {
         console.error(err);

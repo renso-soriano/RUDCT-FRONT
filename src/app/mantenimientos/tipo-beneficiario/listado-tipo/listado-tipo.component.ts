@@ -191,13 +191,6 @@ export class ListadoTipoComponent implements OnInit {
 
   }
 
-  @ViewChild("myDiv") myDiv: ElementRef<HTMLElement>;
-
-  triggerFalseClick() {
-    let el: HTMLElement = this.myDiv.nativeElement;
-    el.click();
-  }
-
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -213,7 +206,7 @@ export class ListadoTipoComponent implements OnInit {
         this.data = tiposFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
-        this.triggerFalseClick();
+        //this.triggerFalseClick();
       },
       (err: any) => {
         console.error(err);

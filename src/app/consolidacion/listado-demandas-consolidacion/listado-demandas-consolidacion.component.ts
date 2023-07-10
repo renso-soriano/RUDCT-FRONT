@@ -312,7 +312,6 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       this.page.count = data.total;
       this.rows = data.items;
       this.checkBoxClear();
-      document.body.click();
     });
   }
 

@@ -314,7 +314,6 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-      document.body.click();
     });
   }
 
