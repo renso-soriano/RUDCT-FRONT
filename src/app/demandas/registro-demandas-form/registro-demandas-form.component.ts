@@ -842,7 +842,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     let listadoEjes = [];
     this.registerForm.patchValue({
       // politica: this.listadoPoliticas,
-      // institucionesColaboradoras: this.listadoInstituciones,
+      institucionesColaboradoras: this.listadoInstituciones,
       // actividad: this.listadoActividades,
       // beneficiarios: this.listadoBeneficiarios,
       // objetivo: this.listadoObjetivos,
@@ -975,19 +975,19 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           })
           : null,
 
-      // institucionesInvolucradas:
-      //   formValue.institucionesColaboradoras != undefined
-      //     ? formValue.institucionesColaboradoras.map((item: any) => {
-      //       return {
-      //         id: 0,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit
-      //           ? parseInt(this.demandaId, 10)
-      //           : item.CodigoDemanda,
-      //         institucionId: parseInt(item.InstitucionId, 10),
-      //       };
-      //     })
-      //     : null,
+      institucionesInvolucradas:
+        formValue.institucionesColaboradoras != undefined
+          ? formValue.institucionesColaboradoras.map((item: any) => {
+            return {
+              id: 0,
+              estatus: "A",
+              demandaId: this.typeEdit
+                ? parseInt(this.demandaId, 10)
+                : item.CodigoDemanda,
+              institucionId: parseInt(item.InstitucionId, 10),
+            };
+          })
+          : null,
     });
 
     this.spinner.show();
@@ -1060,16 +1060,16 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     //     Nombre: item.nombrePolitica,
     //   };
     // });
-    // this.listadoInstituciones = demanda.institucionesInvolucradas.map(
-    //   (item: any) => {
-    //     return {
-    //       Id: item.id,
-    //       CodigoDemanda: item.demandaId,
-    //       InstitucionId: item.institucionId,
-    //       Nombre: item.nombreInstitucion,
-    //     };
-    //   }
-    // );
+    this.listadoInstituciones = demanda.institucionesInvolucradas.map(
+      (item: any) => {
+        return {
+          Id: item.id,
+          CodigoDemanda: item.demandaId,
+          InstitucionId: item.institucionId,
+          Nombre: item.nombreInstitucion,
+        };
+      }
+    );
     // this.listadoActividades = demanda.demandaActividades.map(
     //   (item: any, i: number) => {
     //     return {

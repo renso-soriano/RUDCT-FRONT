@@ -54,6 +54,7 @@ export class DetalleDemandasComponent implements OnInit {
     this.abierto = true;
     if(this.idExterno)
     {
+      //this.gruposUsuario = [this.rolesEnum.soloLectura];
       this.getDemanda(this.idExterno.toString());
     }
     else{

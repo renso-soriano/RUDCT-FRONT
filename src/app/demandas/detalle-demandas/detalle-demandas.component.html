@@ -209,14 +209,14 @@
                           <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreEstadoValidacion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
+                      <div class="col-12" *ngIf="demanda.nombreEstadoValidacion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado validacion: </span>
                           <label for="EstadoValidacion">{{demanda.nombreEstadoValidacion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="(demanda.razonDevolucion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false)">
+                      <div class="col-12" *ngIf="demanda.razonDevolucion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Razón devolución: </span>
                           <label for="razonDevolucion">{{demanda.razonDevolucion}}</label>
@@ -272,16 +272,16 @@
                   <div class="col-6">
                     <div class="row">
 
-                      <!-- <div class="col-12">
+                      <div class="col-12" *ngIf="demanda.institucionesInvolucradas.length > 0">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                           </div>
                         </div>
-                      </div> -->
+                      </div>
 
-                      <div class="col-12" *ngIf="demanda.nivelDemanda == 'Municipales'">
+                      <div class="col-12" *ngIf="demanda.nombreTecnicoOmpp">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Técnico OMPP: </span>
                           <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
