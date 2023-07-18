@@ -210,6 +210,20 @@
         </div>
       </div>
 
+      <div class="col-sm-12">
+        <div class="form-group">
+          <div>
+            <div class="comment-label">
+              <span class="comment-name">{{UserName}}</span> <br>
+              <span class="comment-time"> - 5 days ago</span>
+            </div>
+            <div class="comment-content">
+
+            </div>
+          </div>
+        </div>
+    </div>
+
       <div class="col-sm-12"
         *ngIf="(EF.estado.value == this.estadoValidacionEnum.devueltaPorDGDES || EF.estado.value == this.estadoValidacionEnum.devueltaPorVIOTDR) && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
         <div class="form-group">

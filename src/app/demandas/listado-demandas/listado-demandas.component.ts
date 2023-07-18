@@ -92,6 +92,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   usuarioPermisos: any = [''];
   pdf: any;
   capas: any;
+  UserName: any;
   rowsFilterByGoups: any;
   tipoEstado: string;
   file: any
@@ -307,6 +308,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
+    this.UserName =  this.authService.getUserCompleteName();
+    console.log("Name the  User Login: ", this.UserName);
 
     this.institucionUsuarioSSO = this.authService.getInstitucion();
     this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
