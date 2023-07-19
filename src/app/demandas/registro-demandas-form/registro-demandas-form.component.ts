@@ -40,6 +40,8 @@ import { search } from "core-js/fn/symbol";
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 const provider = new OpenStreetMapProvider();
 import * as GeoSearch from 'leaflet-geosearch';
+import { AuthService } from "app/shared/services/core/auth.service";
+
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -59,11 +61,13 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     private serviceStr: NGXToastrService,
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
+    private authService: AuthService,
   ) { }
   marker;
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
     this.llenarDropDownFijos();
+    this.UserName =  this.authService.getUserCompleteName();
 
     this.route.paramMap.subscribe((params) => {
       if (params.has("id")) {
@@ -95,6 +99,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   @ViewChild("content") content: ElementRef<HTMLElement>;
 
   //propiedades
+  UserName: any;
   codigoDemanda: number = 0;
   anios: any;
   regiones: Observable<any[]>;
@@ -921,7 +926,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
               id: item.id,
               estatus: "A",
               demandaId: item.demandaId,
-              comentrio: item.comentrio
+              comentrio: item.comentrio,
+              userName: this.UserName
             };
           })
           : null,
@@ -1006,6 +1012,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
             this.router.navigate(["/demandas"]);
             this.spinner.hide();
           }, 1000);
+          console.log("Probando: ", this._demanda);
         })
         .catch((err) => {
           console.error(err);
@@ -1418,7 +1425,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
 
   agregarComentario() {
-
+    console.log("A verL ", this.comentarios.value);
     if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
       if (this.listadoComentarios == null) {
         this.listadoComentarios = [];
@@ -1428,7 +1435,10 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           id: 0,
           demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
           comentrio: this.comentarios.value,
-          estatus: "A"
+          estatus: "A",
+          userName: this.UserName
+
+
         }
       )
     } else {
