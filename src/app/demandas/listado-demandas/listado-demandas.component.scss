@@ -12,3 +12,47 @@
   padding-left: 16px;
   color: #2f8be6;
 }
+
+.card .bg-info {
+  margin: 0;
+  background-color: #2F8BE6 !important;
+  margin-bottom: 1;
+}
+
+
+
+  .commentariosDesing {
+    display: flex;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 10px;
+    .comment-label {
+      line-height: 1;
+      .UserName {
+        font-weight: 500;
+        font-size: 1.20rem;
+        color: #020101;
+      }
+      .FechaComentario {
+        font-weight: 100;
+        color: #050505;
+      }
+    }
+    .comentarios {
+      color: #768791;
+      margin-top: 0.1rem;
+
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
