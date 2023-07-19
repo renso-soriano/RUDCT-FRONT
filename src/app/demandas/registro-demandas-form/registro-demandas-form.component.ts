@@ -823,7 +823,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     //     "Debe Tener al menos 1 objetivo asociado a la demanda"
     //   );
     // }
-    if (this.nivelDemanda.value == 'Provinciales') {
+
       if (this.listadoContactos.length < 1) {
         this.serviceStr.typeError(
           "Debe Tener al menos 1 contacto asociado a la demanda"
@@ -832,10 +832,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       else {
         this.enviar();
       }
-    }
-    else {
-      this.enviar();
-    }
+
   }
 
   enviar() {
@@ -1079,7 +1076,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     //     };
     //   }
     // );
-    this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
+    this.listadoContactos = demanda.demandaContactos.length > 0 ? demanda.demandaContactos.map((item: any) => {
       return {
         CodigoDemanda: item.demandaId,
         id: item.id,

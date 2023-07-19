@@ -524,7 +524,7 @@
                           </div>
                         </div>
 
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                           <div class="form-group">
                             <label for="institucionResponsable">Institución Responsable</label>
                             <ng-select [items]="instituciones | async" bindLabel="name" bindValue="id"
@@ -532,7 +532,7 @@
                               placeholder="Seleccione Institucion" formControlName="institucionResponsable"
                               (change)="onInstitucionPrimariaChange()">
                             </ng-select>
-                            <!-- <div
+                             <div
                               *ngIf="institucionResponsable.invalid && (institucionResponsable.dirty || institucionResponsable.touched)"
                               class="help-block mt-1 text-danger">
 
@@ -540,9 +540,9 @@
                                 <i class="ft-alert-circle align-middle"></i> El campo es requerido
                               </div>
 
-                            </div> -->
+                            </div>
                           </div>
-                        </div>
+                        </div> -->
 
                       </div>
 
@@ -551,7 +551,7 @@
                           <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="institucionesColaboradoras">Instituciones colaboradoras</label>
+                                <label for="institucionesColaboradoras">Instituciones responsables</label>
                                 <ng-select [items]="instituciones | async" bindLabel="name"
                                   name="institucionesColaboradoras" id="institucionesColaboradoras"
                                   placeholder="Seleccione Institucion" formControlName="institucionesColaboradoras">
@@ -571,7 +571,7 @@
                             <table class="table table-hover table-sm">
                               <thead>
                                 <tr>
-                                  <th>Instituciones colaboradoras</th>
+                                  <th>Instituciones responsables</th>
                                   <th>Eliminar</th>
                                 </tr>
                               </thead>

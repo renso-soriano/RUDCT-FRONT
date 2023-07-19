@@ -772,19 +772,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
 
-    //something pending TO DO
-
-    /* if(formValue.comentarioEstado)
-    {
-      this.demanda.demandaComentarios.push({
-        id:0 ,
-        estatus: "A",
-        demandaId: this.demanda.demandaId,
-        comentrio: formValue.comentarioEstado
-      };)
-    } */
-
-
     this.spinner.show();
     this.demandasService
       .updateDemanda(this.demanda)

@@ -71,12 +71,12 @@
                           <label for="temaComun">{{demanda.temaComunTema}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
+                      <!-- <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Institución responsable: </span>
                           <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="col-6">
@@ -274,7 +274,7 @@
 
                       <div class="col-12" *ngIf="demanda.institucionesInvolucradas.length > 0">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
+                          <span class="danger font-weight-bold">Instituciones responsables: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                           </div>
@@ -288,7 +288,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="!demanda.municipioId">
+                      <div class="col-12" *ngIf="demanda.demandaContactos.length > 0">
                         <span class="danger font-weight-bold">Contactos</span>
                         <div class="row">
                           <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda.demandaContactos">
