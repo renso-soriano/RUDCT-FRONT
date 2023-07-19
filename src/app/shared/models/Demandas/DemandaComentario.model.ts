@@ -7,7 +7,7 @@ export class DemandaComentario implements Deserializable {
   demandaId?: number;
   comentario?: string;
   userName?: string;
-  fechaModificacion?: Date;
+  fechaRegistro?: Date;
 
   deserialize(input: any): this {
     Object.assign(this, input);
