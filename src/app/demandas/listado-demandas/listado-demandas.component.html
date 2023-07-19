@@ -244,7 +244,7 @@
     <ng-template #contentMapa let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Vista geográfica de selección</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); this.isModalOpen = false;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -259,7 +259,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="modal.close('Close click')">Aceptar</button>
+        <button type="button" class="btn btn-success" (click)="modal.close('Close click');this.isModalOpen = false;">Aceptar</button>
       </div>
     </ng-template>
 

@@ -67,6 +67,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   // public
   public contentHeader: object;
+  isModalOpen: boolean = false;
 
   //data:any[];
   estadoDemanda: any;
@@ -245,11 +246,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    console.log("Se destruyo este modal?");
-    this.closeModalSimple();
-    //this.closeModal();
+    if(this.isModalOpen)
+    {
+      this.closeModalSimple();
+    }
+
   }
 
   /**
@@ -653,6 +654,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   openVerticallyCentered(content, id: any) {
+    this.isModalOpen = true;
     this.EF.estado.setValue(null);
     this.files = []; //aca se inicializa siempre en 0, asi se evita que se repita
     this.demandasService.getDemandaById(id).subscribe(
@@ -697,11 +699,13 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   closeModalSimple() {
+    this.isModalOpen = false;
     this.modalAnexo.close()
   }
 
   closeModal() {
     this.submit();
+    this.isModalOpen = false;
     this.modalAnexo.close()
   }
   submit() {
@@ -824,6 +828,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   //#region  Sección Mapa
   SeleccioneMapa(content) {
+    this.isModalOpen = true;
     this.modalService.open(content, { size: 'lg', centered: true });
     this.options;
     this.BuscarMap(this.rows);
