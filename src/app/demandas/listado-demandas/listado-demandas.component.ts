@@ -676,12 +676,13 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   setListasDemandas(demanda: Demanda): void {
-  this.ComentariosList = demanda.demandaComentarios.map((item: any) => {
+  this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
     return {
       id: item.id,
       demandaId: item.demandaId,
       comentrio: item.comentrio,
-      estatus: item.estatus
+      estatus: item.estatus,
+      userName:item.userName
     };
   });
 }

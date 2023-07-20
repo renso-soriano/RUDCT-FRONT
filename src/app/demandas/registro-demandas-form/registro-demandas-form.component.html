@@ -289,11 +289,11 @@
                       </div>
 
                       <hr class="mt-0 mb-0">
-                      <div *ngIf="!listadoComentarios.length > 0"
+                      <div *ngIf="!listadoComentarios?.length > 0"
                         class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
                         No hay comentarios
                       </div>
-                      <ngb-accordion class="ml-0" *ngIf="listadoComentarios.length > 0">
+                      <ngb-accordion class="ml-0" *ngIf="listadoComentarios?.length > 0">
                         <ngb-panel id="static-1" class="ml-0">
 
                           <ng-template ngbPanelTitle>
@@ -569,7 +569,7 @@
                               </thead>
                               <tbody>
                                 <tr *ngFor="let institucion of listadoInstituciones; let i=index">
-                                  <td>{{ institucion.Nombre }}</td>
+                                  <td>{{ institucion.nombre }}</td>
                                   <td><a class="btn btn-danger ft-trash-2" (click)="eliminarInstitucion(i)"></a>
                                   </td>
                                 </tr>

@@ -42,6 +42,7 @@ const provider = new OpenStreetMapProvider();
 import * as GeoSearch from 'leaflet-geosearch';
 import { AuthService } from "app/shared/services/core/auth.service";
 import { utc } from "moment";
+import { Estados } from "app/shared/models/auth/estados.enum";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -609,9 +610,10 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         ) == -1
       ) {
         this.listadoInstituciones.push({
-          InstitucionId: institucionSelected.id,
-          Nombre: institucionSelected.name,
-          CodigoDemanda: 0,
+          institucionId: institucionSelected.id,
+          nombre: institucionSelected.name,
+          codigoDemanda: 0,
+          estadoId:Estados.asignadoASectorial
         });
       } else {
         this.serviceStr.typeWarning("No puede repetir Instituciones");
@@ -986,8 +988,9 @@ enviar() {
             estatus: "A",
             demandaId: this.typeEdit
               ? parseInt(this.demandaId, 10)
-              : item.CodigoDemanda,
-            institucionId: parseInt(item.InstitucionId, 10),
+              : item.codigoDemanda,
+            institucionId: parseInt(item.institucionId, 10),
+            estadoId:parseInt(item.estadoId, 10),
           };
         })
         : null,
@@ -1066,10 +1069,11 @@ setListasDemandas(demanda: Demanda): void {
   this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
     (item: any) => {
       return {
-        Id: item.id,
-        CodigoDemanda: item.demandaId,
-        InstitucionId: item.institucionId,
-        Nombre: item.nombreInstitucion,
+        id: item.id,
+        codigoDemanda: item.demandaId,
+        institucionId: item.institucionId,
+        nombre: item.nombreInstitucion,
+        estadoId:item.estadoId
       };
     }
   );
@@ -1118,7 +1122,7 @@ setListasDemandas(demanda: Demanda): void {
   //   };
   // });
 
-  this.listadoComentarios = demanda.demandaComentarios.map((item: any) => {
+  this.listadoComentarios = demanda.demandaComentarios?.map((item: any) => {
     return {
       id: item.id,
       demandaId: item.demandaId,
