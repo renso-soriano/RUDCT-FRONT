@@ -1064,7 +1064,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     //     Nombre: item.nombrePolitica,
     //   };
     // });
-    this.listadoInstituciones = demanda.institucionesInvolucradas.map(
+    this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
       (item: any) => {
         return {
           Id: item.id,
