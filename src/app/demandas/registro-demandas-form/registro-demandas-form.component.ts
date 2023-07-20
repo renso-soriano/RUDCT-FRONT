@@ -40,6 +40,8 @@ import { search } from "core-js/fn/symbol";
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 const provider = new OpenStreetMapProvider();
 import * as GeoSearch from 'leaflet-geosearch';
+import { AuthService } from "app/shared/services/core/auth.service";
+import { utc } from "moment";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -59,10 +61,13 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     private serviceStr: NGXToastrService,
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
+    private authService: AuthService
   ) { }
   marker;
+  userName;
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
+    this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
 
     this.route.paramMap.subscribe((params) => {
@@ -595,857 +600,860 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     let institucionSelected = this.institucionesColaboradoras.value;
 
     if (institucionSelected != null) {
-      if (institucionSelected.id != this.institucionResponsable.value) {
-        if (this.listadoInstituciones == null) {
-          this.listadoInstituciones = [];
-        }
-        if (
-          this.listadoInstituciones.findIndex(
-            (item) => item.InstitucionId == institucionSelected.id
-          ) == -1
-        ) {
-          this.listadoInstituciones.push({
-            InstitucionId: institucionSelected.id,
-            Nombre: institucionSelected.name,
-            CodigoDemanda: 0,
-          });
-        } else {
-          this.serviceStr.typeWarning("No puede repetir Instituciones");
-        }
-      } else {
-        this.serviceStr.typeError("Esa ya es la institucion primaria");
-      }
-    } else {
-      this.serviceStr.typeError("No ha seleccionado institucion colaboradora");
-    }
-
-    this.registerForm.patchValue({
-      institucionesColaboradoras: null,
-    });
-  }
-
-  eliminarInstitucion(id: number) {
-    this.listadoInstituciones.splice(id, 1);
-  }
-
-  onInstitucionPrimariaChange(): void {
-    let institucionSelected = this.institucionResponsable.value;
-    if (this.listadoInstituciones != null) {
-      let indice = this.listadoInstituciones.findIndex(
-        (item) => item.InstitucionId == institucionSelected
-      );
-      if (indice != -1) {
-        this.serviceStr.typeError("Esa ya es una institución colaboradora");
-        this.institucionResponsable.setValue(null);
-      }
-    }
-  }
-
-  agregarActividad() {
-    // if (this.actividad.value != null && this.actividad.value.trim() != '') {
-    //   if (this.listadoActividades == null) {
-    //     this.listadoActividades = [];
-    //   }
-    //   this.listadoActividades.push({
-    //     ActividadId: 0,
-    //     CodigoDemanda: 0,
-    //     Actividad: this.actividad.value,
-    //   });
-    //   this.activCount++;
-    // } else {
-    //   this.serviceStr.typeError("No puede añadir actividades vacias");
-    // }
-
-    // this.registerForm.patchValue({
-    //   actividad: null,
-    // });
-  }
-
-  eliminarActividad(id: number) {
-    this.listadoActividades.splice(id, 1);
-  }
-
-  onTipoChange() {
-    const otro = 8;
-    let contieneOtro = this.tiposInversion.value;
-    if (contieneOtro == otro) {
-      this.otrosTiposShow = true;
-    } else {
-      this.otrosTiposShow = false;
-      this.otrosTiposInversion.setValue(null);
-    }
-  }
-
-  agregarBeneficiario() {
-    let tipoSelected = this.tipo.value;
-    let categoriaSelected = this.categoria.value;
-    let cantidad = this.cantidad.value;
-
-    if (tipoSelected != null && categoriaSelected != null && cantidad != null) {
-      if (this.listadoBeneficiarios == null) {
-        this.listadoBeneficiarios = [];
-      }
-
-      let combinedSelection = tipoSelected.name + categoriaSelected.name;
-      let repetido = this.listadoBeneficiarios.findIndex(
-        (item) => item.seleccionCombinada == combinedSelection
-      );
-
-      if (repetido == -1) {
-        this.listadoBeneficiarios.push({
-          Id: 0,
-          tipoId: tipoSelected.id,
-          tipoNombre: tipoSelected.name,
-          categoriaId: categoriaSelected.id,
-          categoriaNombre: categoriaSelected.name,
-          cantidad: cantidad,
-          Activo: 1,
-          codigoDemanda: this.codigoDemanda,
-          seleccionCombinada: combinedSelection,
-        });
-
-        this.registerForm.patchValue({
-          tipo: null,
-          categoria: null,
-          cantidad: null,
-        });
-      } else {
-        this.serviceStr.typeError(
-          "Ya hay una seleccion con esa combinacion tipo-categoria"
-        );
-      }
-    } else {
-      this.serviceStr.typeError(
-        "No ha rellenado todos los campos de beneficiarios"
-      );
-    }
-  }
-
-  removerBeneficiario(index: number) {
-    this.listadoBeneficiarios.splice(index, 1);
-  }
-
-  agregarObjetivo() {
-    let objetivoSelected: DropdownResponse = this.objetivo.value;
-
-    if (objetivoSelected != null) {
-      if (this.listadoObjetivos == null) {
-        this.listadoObjetivos = [];
+      if (this.listadoInstituciones == null) {
+        this.listadoInstituciones = [];
       }
       if (
-        this.listadoObjetivos.findIndex(
-          (item) => item.ObjetivoId == objetivoSelected.id
+        this.listadoInstituciones.findIndex(
+          (item) => item.InstitucionId == institucionSelected.id
         ) == -1
       ) {
-        this.listadoObjetivos.push({
-          EjeId: this.eje.value,
-          ObjetivoId: objetivoSelected.id,
-          CodigoEje: objetivoSelected.extraInfo,
-          Nombre: objetivoSelected.name,
+        this.listadoInstituciones.push({
+          InstitucionId: institucionSelected.id,
+          Nombre: institucionSelected.name,
           CodigoDemanda: 0,
         });
       } else {
-        this.serviceStr.typeWarning("No puede repetir objetivos");
+        this.serviceStr.typeWarning("No puede repetir Instituciones");
       }
-    } else {
-      this.serviceStr.typeError("No ha seleccionado objetivo");
+
+    }  else {
+  this.serviceStr.typeError("No ha seleccionado institucion colaboradora");
+}
+
+this.registerForm.patchValue({
+  institucionesColaboradoras: null,
+});
+  }
+
+eliminarInstitucion(id: number) {
+  this.listadoInstituciones.splice(id, 1);
+}
+
+onInstitucionPrimariaChange(): void {
+  let institucionSelected = this.institucionResponsable.value;
+  if(this.listadoInstituciones != null) {
+  let indice = this.listadoInstituciones.findIndex(
+    (item) => item.InstitucionId == institucionSelected
+  );
+  if (indice != -1) {
+    this.serviceStr.typeError("Esa ya es una institución colaboradora");
+    this.institucionResponsable.setValue(null);
+  }
+}
+  }
+
+agregarActividad() {
+  // if (this.actividad.value != null && this.actividad.value.trim() != '') {
+  //   if (this.listadoActividades == null) {
+  //     this.listadoActividades = [];
+  //   }
+  //   this.listadoActividades.push({
+  //     ActividadId: 0,
+  //     CodigoDemanda: 0,
+  //     Actividad: this.actividad.value,
+  //   });
+  //   this.activCount++;
+  // } else {
+  //   this.serviceStr.typeError("No puede añadir actividades vacias");
+  // }
+
+  // this.registerForm.patchValue({
+  //   actividad: null,
+  // });
+}
+
+eliminarActividad(id: number) {
+  this.listadoActividades.splice(id, 1);
+}
+
+onTipoChange() {
+  const otro = 8;
+  let contieneOtro = this.tiposInversion.value;
+  if (contieneOtro == otro) {
+    this.otrosTiposShow = true;
+  } else {
+    this.otrosTiposShow = false;
+    this.otrosTiposInversion.setValue(null);
+  }
+}
+
+agregarBeneficiario() {
+  let tipoSelected = this.tipo.value;
+  let categoriaSelected = this.categoria.value;
+  let cantidad = this.cantidad.value;
+
+  if (tipoSelected != null && categoriaSelected != null && cantidad != null) {
+    if (this.listadoBeneficiarios == null) {
+      this.listadoBeneficiarios = [];
     }
-    this.objetivo.setValue(null);
-    this.eje.setValue(null);
-  }
 
-  eliminarObjetivo(id: number) {
-    this.listadoObjetivos.splice(id, 1);
-  }
+    let combinedSelection = tipoSelected.name + categoriaSelected.name;
+    let repetido = this.listadoBeneficiarios.findIndex(
+      (item) => item.seleccionCombinada == combinedSelection
+    );
 
-  agregarContacto() {
-    if (
-      this.nombreCompletoContacto.value != null &&
-      this.telefonoContacto != null
-    ) {
-      if (this.listadoContactos == null) {
-        this.listadoContactos = [];
-      }
-      this.listadoContactos.push({
-        CodigoDemanda: 0,
-        id: 0,
-        nombreCompleto: this.nombreCompletoContacto.value,
-        telefono: this.telefonoContacto.value,
-        descripcion: this.descripcionContacto.value,
+    if (repetido == -1) {
+      this.listadoBeneficiarios.push({
+        Id: 0,
+        tipoId: tipoSelected.id,
+        tipoNombre: tipoSelected.name,
+        categoriaId: categoriaSelected.id,
+        categoriaNombre: categoriaSelected.name,
+        cantidad: cantidad,
+        Activo: 1,
+        codigoDemanda: this.codigoDemanda,
+        seleccionCombinada: combinedSelection,
+      });
+
+      this.registerForm.patchValue({
+        tipo: null,
+        categoria: null,
+        cantidad: null,
       });
     } else {
       this.serviceStr.typeError(
-        "No puede añadir Contactos sin nombres y telefonos"
+        "Ya hay una seleccion con esa combinacion tipo-categoria"
       );
     }
+  } else {
+    this.serviceStr.typeError(
+      "No ha rellenado todos los campos de beneficiarios"
+    );
+  }
+}
 
-    this.registerForm.patchValue({
-      nombreCompletoContacto: null,
-      telefonoContacto: null,
-      descripcionContacto: null,
+removerBeneficiario(index: number) {
+  this.listadoBeneficiarios.splice(index, 1);
+}
+
+agregarObjetivo() {
+  let objetivoSelected: DropdownResponse = this.objetivo.value;
+
+  if (objetivoSelected != null) {
+    if (this.listadoObjetivos == null) {
+      this.listadoObjetivos = [];
+    }
+    if (
+      this.listadoObjetivos.findIndex(
+        (item) => item.ObjetivoId == objetivoSelected.id
+      ) == -1
+    ) {
+      this.listadoObjetivos.push({
+        EjeId: this.eje.value,
+        ObjetivoId: objetivoSelected.id,
+        CodigoEje: objetivoSelected.extraInfo,
+        Nombre: objetivoSelected.name,
+        CodigoDemanda: 0,
+      });
+    } else {
+      this.serviceStr.typeWarning("No puede repetir objetivos");
+    }
+  } else {
+    this.serviceStr.typeError("No ha seleccionado objetivo");
+  }
+  this.objetivo.setValue(null);
+  this.eje.setValue(null);
+}
+
+eliminarObjetivo(id: number) {
+  this.listadoObjetivos.splice(id, 1);
+}
+
+agregarContacto() {
+  if (
+    this.nombreCompletoContacto.value != null &&
+    this.telefonoContacto != null
+  ) {
+    if (this.listadoContactos == null) {
+      this.listadoContactos = [];
+    }
+    this.listadoContactos.push({
+      CodigoDemanda: 0,
+      id: 0,
+      nombreCompleto: this.nombreCompletoContacto.value,
+      telefono: this.telefonoContacto.value,
+      descripcion: this.descripcionContacto.value,
     });
+  } else {
+    this.serviceStr.typeError(
+      "No puede añadir Contactos sin nombres y telefonos"
+    );
   }
 
-  eliminarContacto(id: number) {
-    this.listadoContactos.splice(id, 1);
-  }
+  this.registerForm.patchValue({
+    nombreCompletoContacto: null,
+    telefonoContacto: null,
+    descripcionContacto: null,
+  });
+}
 
-  //metodo para abrir el modal
+eliminarContacto(id: number) {
+  this.listadoContactos.splice(id, 1);
+}
 
-  openVerticallyCentered(content) {
-    this.modalService.open(content, {
-      centered: true,
-      backdrop: "static",
-      keyboard: false,
-    });
-  }
+//metodo para abrir el modal
 
-  submit() {
+openVerticallyCentered(content) {
+  this.modalService.open(content, {
+    centered: true,
+    backdrop: "static",
+    keyboard: false,
+  });
+}
 
-    //validaciones finales de listados
-    // if (this.listadoPoliticas.length < 1) {
-    //   this.serviceStr.typeError(
-    //     "Debe Tener al menos 1 politica asociada a la demanda"
-    //   );
-    // }
-    // else if (this.listadoActividades.length < 1) {
-    //   this.serviceStr.typeError(
-    //     "Debe Tener al menos 1 actividad asociada a la demanda"
-    //   );
-    // }
-    // else if (this.listadoBeneficiarios.length < 1) {
-    //   this.serviceStr.typeError(
-    //     "Debe Tener al menos 1 tipo de beneficiarios asociado a la demanda"
-    //   );
-    // }
-    // else if (this.listadoObjetivos.length < 1) {
-    //   this.serviceStr.typeError(
-    //     "Debe Tener al menos 1 objetivo asociado a la demanda"
-    //   );
-    // }
-    if (this.nivelDemanda.value == 'Provinciales') {
-      if (this.listadoContactos.length < 1) {
-        this.serviceStr.typeError(
-          "Debe Tener al menos 1 contacto asociado a la demanda"
-        );
-      }
-      else {
-        this.enviar();
-      }
+submit() {
+
+  //validaciones finales de listados
+  // if (this.listadoPoliticas.length < 1) {
+  //   this.serviceStr.typeError(
+  //     "Debe Tener al menos 1 politica asociada a la demanda"
+  //   );
+  // }
+  // else if (this.listadoActividades.length < 1) {
+  //   this.serviceStr.typeError(
+  //     "Debe Tener al menos 1 actividad asociada a la demanda"
+  //   );
+  // }
+  // else if (this.listadoBeneficiarios.length < 1) {
+  //   this.serviceStr.typeError(
+  //     "Debe Tener al menos 1 tipo de beneficiarios asociado a la demanda"
+  //   );
+  // }
+  // else if (this.listadoObjetivos.length < 1) {
+  //   this.serviceStr.typeError(
+  //     "Debe Tener al menos 1 objetivo asociado a la demanda"
+  //   );
+  // }
+  if (this.nivelDemanda.value == 'Provinciales') {
+    if (this.listadoContactos.length < 1) {
+      this.serviceStr.typeError(
+        "Debe Tener al menos 1 contacto asociado a la demanda"
+      );
     }
     else {
       this.enviar();
     }
   }
-
-  enviar() {
-    let listadoEjes = [];
-    this.registerForm.patchValue({
-      // politica: this.listadoPoliticas,
-      institucionesColaboradoras: this.listadoInstituciones,
-      // actividad: this.listadoActividades,
-      // beneficiarios: this.listadoBeneficiarios,
-      // objetivo: this.listadoObjetivos,
-      // eje: listadoEjes,
-      contacto: this.listadoContactos,
-      comentarios: this.listadoComentarios
-    });
-
-    const formValue = this.registerForm.value;
-
-    this._demanda = new Demanda().deserialize({
-      estatus: "A",
-      anio: formValue.anio,
-      regionId: parseInt(formValue.region, 10),
-      provinciaId: parseInt(formValue.provincia, 10),
-      municipioId: formValue.municipio != null ? parseInt(formValue.municipio, 10) : null,
-      distritoMunicipalId: formValue.distrito != null ? parseInt(formValue.distrito, 10) : null,
-      fuenteDemandaId: parseInt(formValue.fuente, 10),
-      descripcion: formValue.demanda,
-      tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico, 10) : null,
-      institucionId: formValue.institucionResponsable != null ? parseInt(formValue.institucionResponsable, 10) : null,
-      tipoInversionId: formValue.tiposInversion,
-      estadoId: formValue.estadoId,
-      estadoValidacionId: formValue.estadoValidacionId,
-      temaComunId:formValue.temaComunId != null ? parseInt(formValue.temaComunId, 10) : null,
-      prioridad: formValue.prioridad,
-      demandaTipoId: formValue.demandaTipoId,
-      coordenadaX: formValue.coordenadaX,
-      coordenadaY: formValue.coordenadaY,
-      consolidadaEn: formValue.consolidadaEn,
-      codigoSisplan: formValue.codigoSisplan,
-      codigoSnip: formValue.codigoSnip,
-      codigoPoa: formValue.codigoPoa,
-      codigoPei: formValue.codigoPei,
-      comentarioEstado: formValue.comentarioEstado,
-      razonDevolucion: formValue.razonDevolucion,
-      direccion: formValue.direccion,
-      detalle: formValue.detalle,
-      otroTipoInversion: formValue.otrosTiposInversion,
-      ejeEndId: formValue.eje,
-      odsId: formValue.odsId,
-      objetivoEndId: formValue.objetivo,
-      politicaPNPSPId: formValue.politica,
-      beneficiariosPersonas: formValue.beneficiariosPersonas,
-      beneficiariosFamilias: formValue.beneficiariosFamilias,
-      nivelDemanda: formValue.nivelDemanda,
-      // demandaActividades:
-      //   formValue.actividad != undefined
-      //     ? formValue.actividad.map((item: any, i: number) => {
-      //       return {
-      //         id: item.ActividadId,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         numero: i + 1,
-      //         descripcion: item.Actividad,
-      //       };
-      //     })
-      //     : null,
-      // demandaBeneficiarios:
-      //   formValue.beneficiarios != undefined
-      //     ? formValue.beneficiarios.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         beneficiarioCategoriaId: item.categoriaId,
-      //         beneficiarioTipoId: item.tipoId,
-      //         cantidad: item.cantidad,
-      //       };
-      //     })
-      //     : null,
-      demandaComentarios:
-        formValue.comentarios != undefined
-          ? formValue.comentarios.map((item: any) => {
-            return {
-              id: item.id,
-              estatus: "A",
-              demandaId: item.demandaId,
-              comentrio: item.comentrio
-            };
-          })
-          : null,
-      // demandaResultadosEND:
-      //   formValue.objetivo != undefined
-      //     ? formValue.objetivo.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         ejeENDId: item.EjeId,
-      //         objetivoENDId: item.ObjetivoId,
-      //       };
-      //     })
-      //     : null,
-      // demandaPoliticasPNPSP:
-      //   formValue.politica != undefined
-      //     ? formValue.politica.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         politicaPNPSPId: item.PoliticaId,
-      //       };
-      //     })
-      //     : null,
-      // demandaTipoInversiones:
-      //   formValue.tiposInversion != null
-      //     ? formValue.tiposInversion.map((item: any) => {
-      //       return {
-      //         id: 0,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         tipoInversionId: parseInt(item, 10),
-      //         tipoInversionOtros:
-      //           item == 8 ? this.otrosTiposInversion.value : null,
-      //       };
-      //     })
-      //     : null,
-      demandaContactos:
-        formValue.contacto != null
-          ? formValue.contacto.map((item: any) => {
-            return {
-              demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-              nombreCompleto: item.nombreCompleto,
-              telefono: item.telefono,
-              descripcion: item.descripcion,
-              id: this.typeEdit ? item.id : 0,
-              estatus: "A"
-            };
-          })
-          : null,
-
-      institucionesInvolucradas:
-        formValue.institucionesColaboradoras != undefined
-          ? formValue.institucionesColaboradoras.map((item: any) => {
-            return {
-              id: 0,
-              estatus: "A",
-              demandaId: this.typeEdit
-                ? parseInt(this.demandaId, 10)
-                : item.CodigoDemanda,
-              institucionId: parseInt(item.InstitucionId, 10),
-            };
-          })
-          : null,
-    });
-
-    this.spinner.show();
-    console.log(formValue);
-    console.log(this._demanda);
-    this.spinner.hide();
-
-    if (this.typeEdit) {
-      this._demanda.id = parseInt(this.demandaId, 10);
-      this.demandaService
-        .updateDemanda(this._demanda)
-        .toPromise()
-        .then((res: any) => {
-          setTimeout(() => {
-            this.serviceStr.typeSuccess("La demanda se actualizó con éxito");
-            this.router.navigate(["/demandas"]);
-            this.spinner.hide();
-          }, 1000);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.serviceStr.typeError(
-            "Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC"
-          );
-          this.spinner.hide();
-        });
-    } else {
-      this.demandaService
-        .createDemanda(this._demanda)
-        .toPromise()
-        .then((res: any) => {
-          setTimeout(() => {
-            this.serviceStr.typeSuccess("La demanda se registró con éxito");
-            this.router.navigate(["/demandas"]);
-            this.spinner.hide();
-          }, 1000);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.serviceStr.typeError(
-            "Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC"
-          );
-          this.spinner.hide();
-        });
-    }
-    //this.refrescar();
+  else {
+    this.enviar();
   }
+}
 
-  refrescar() {
-    //let nivel = this.nivelDemanda.value;
-    this.registerForm.reset();
-    //this.nivelDemanda.setValue(nivel);
-    this.listadoPoliticas = [];
-    this.listadoObjetivos = [];
-    this.listadoInstituciones = [];
-    this.listadoActividades = [];
-    this.listadoBeneficiarios = [];
-    this.listadoContactos = [];
-    this.InversionesSelected = [];
-    this.listadoComentarios = [];
-    this.otrosTiposShow = false;
+enviar() {
+  let listadoEjes = [];
+  this.registerForm.patchValue({
+    // politica: this.listadoPoliticas,
+    institucionesColaboradoras: this.listadoInstituciones,
+    // actividad: this.listadoActividades,
+    // beneficiarios: this.listadoBeneficiarios,
+    // objetivo: this.listadoObjetivos,
+    // eje: listadoEjes,
+    contacto: this.listadoContactos,
+    comentarios: this.listadoComentarios
+  });
+
+  const formValue = this.registerForm.value;
+
+  this._demanda = new Demanda().deserialize({
+    estatus: "A",
+    anio: formValue.anio,
+    regionId: parseInt(formValue.region, 10),
+    provinciaId: parseInt(formValue.provincia, 10),
+    municipioId: formValue.municipio != null ? parseInt(formValue.municipio, 10) : null,
+    distritoMunicipalId: formValue.distrito != null ? parseInt(formValue.distrito, 10) : null,
+    fuenteDemandaId: parseInt(formValue.fuente, 10),
+    descripcion: formValue.demanda,
+    tecnicoOMPPId: formValue.tecnico != null ? parseInt(formValue.tecnico, 10) : null,
+    institucionId: formValue.institucionResponsable != null ? parseInt(formValue.institucionResponsable, 10) : null,
+    tipoInversionId: formValue.tiposInversion,
+    estadoId: formValue.estadoId,
+    estadoValidacionId: formValue.estadoValidacionId,
+    temaComunId: formValue.temaComunId != null ? parseInt(formValue.temaComunId, 10) : null,
+    prioridad: formValue.prioridad,
+    demandaTipoId: formValue.demandaTipoId,
+    coordenadaX: formValue.coordenadaX,
+    coordenadaY: formValue.coordenadaY,
+    consolidadaEn: formValue.consolidadaEn,
+    codigoSisplan: formValue.codigoSisplan,
+    codigoSnip: formValue.codigoSnip,
+    codigoPoa: formValue.codigoPoa,
+    codigoPei: formValue.codigoPei,
+    comentarioEstado: formValue.comentarioEstado,
+    razonDevolucion: formValue.razonDevolucion,
+    direccion: formValue.direccion,
+    detalle: formValue.detalle,
+    otroTipoInversion: formValue.otrosTiposInversion,
+    ejeEndId: formValue.eje,
+    odsId: formValue.odsId,
+    objetivoEndId: formValue.objetivo,
+    politicaPNPSPId: formValue.politica,
+    beneficiariosPersonas: formValue.beneficiariosPersonas,
+    beneficiariosFamilias: formValue.beneficiariosFamilias,
+    nivelDemanda: formValue.nivelDemanda,
+    // demandaActividades:
+    //   formValue.actividad != undefined
+    //     ? formValue.actividad.map((item: any, i: number) => {
+    //       return {
+    //         id: item.ActividadId,
+    //         estatus: "A",
+    //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+    //         numero: i + 1,
+    //         descripcion: item.Actividad,
+    //       };
+    //     })
+    //     : null,
+    // demandaBeneficiarios:
+    //   formValue.beneficiarios != undefined
+    //     ? formValue.beneficiarios.map((item: any) => {
+    //       return {
+    //         id: item.Id,
+    //         estatus: "A",
+    //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+    //         beneficiarioCategoriaId: item.categoriaId,
+    //         beneficiarioTipoId: item.tipoId,
+    //         cantidad: item.cantidad,
+    //       };
+    //     })
+    //     : null,
+    demandaComentarios:
+      formValue.comentarios != undefined
+        ? formValue.comentarios.map((item: any) => {
+          return {
+            id: item.id,
+            estatus: "A",
+            demandaId: item.demandaId,
+            comentrio: item.comentrio,
+            userName: item.userName
+          };
+        })
+        : null,
+    // demandaResultadosEND:
+    //   formValue.objetivo != undefined
+    //     ? formValue.objetivo.map((item: any) => {
+    //       return {
+    //         id: item.Id,
+    //         estatus: "A",
+    //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+    //         ejeENDId: item.EjeId,
+    //         objetivoENDId: item.ObjetivoId,
+    //       };
+    //     })
+    //     : null,
+    // demandaPoliticasPNPSP:
+    //   formValue.politica != undefined
+    //     ? formValue.politica.map((item: any) => {
+    //       return {
+    //         id: item.Id,
+    //         estatus: "A",
+    //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+    //         politicaPNPSPId: item.PoliticaId,
+    //       };
+    //     })
+    //     : null,
+    // demandaTipoInversiones:
+    //   formValue.tiposInversion != null
+    //     ? formValue.tiposInversion.map((item: any) => {
+    //       return {
+    //         id: 0,
+    //         estatus: "A",
+    //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+    //         tipoInversionId: parseInt(item, 10),
+    //         tipoInversionOtros:
+    //           item == 8 ? this.otrosTiposInversion.value : null,
+    //       };
+    //     })
+    //     : null,
+    demandaContactos:
+      formValue.contacto != null
+        ? formValue.contacto.map((item: any) => {
+          return {
+            demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
+            nombreCompleto: item.nombreCompleto,
+            telefono: item.telefono,
+            descripcion: item.descripcion,
+            id: this.typeEdit ? item.id : 0,
+            estatus: "A"
+          };
+        })
+        : null,
+
+    institucionesInvolucradas:
+      formValue.institucionesColaboradoras != undefined
+        ? formValue.institucionesColaboradoras.map((item: any) => {
+          return {
+            id: 0,
+            estatus: "A",
+            demandaId: this.typeEdit
+              ? parseInt(this.demandaId, 10)
+              : item.CodigoDemanda,
+            institucionId: parseInt(item.InstitucionId, 10),
+          };
+        })
+        : null,
+  });
+
+  this.spinner.show();
+  console.log(formValue);
+  console.log(this._demanda);
+  this.spinner.hide();
+
+  if (this.typeEdit) {
+    this._demanda.id = parseInt(this.demandaId, 10);
+    this.demandaService
+      .updateDemanda(this._demanda)
+      .toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess("La demanda se actualizó con éxito");
+          this.router.navigate(["/demandas"]);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC"
+        );
+        this.spinner.hide();
+      });
+  } else {
+    this.demandaService
+      .createDemanda(this._demanda)
+      .toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess("La demanda se registró con éxito");
+          this.router.navigate(["/demandas"]);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al guardar la demanda, contacte con Soporte TIC"
+        );
+        this.spinner.hide();
+      });
   }
+  //this.refrescar();
+}
 
-  setListasDemandas(demanda: Demanda): void {
-    // this.listadoPoliticas = demanda.demandaPoliticasPNPSP.map((item: any) => {
-    //   return {
-    //     id: item.id,
-    //     CodigoDemanda: item.demandaId,
-    //     PoliticaId: item.politicaPNPSPId,
-    //     Nombre: item.nombrePolitica,
-    //   };
-    // });
-    this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
-      (item: any) => {
-        return {
-          Id: item.id,
-          CodigoDemanda: item.demandaId,
-          InstitucionId: item.institucionId,
-          Nombre: item.nombreInstitucion,
-        };
-      }
-    );
-    // this.listadoActividades = demanda.demandaActividades.map(
-    //   (item: any, i: number) => {
-    //     return {
-    //       ActividadId: item.id,
-    //       CodigoDemanda: item.demandaId,
-    //       Actividad: item.descripcion,
-    //     };
-    //   }
-    // );
-    this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
+refrescar() {
+  //let nivel = this.nivelDemanda.value;
+  this.registerForm.reset();
+  //this.nivelDemanda.setValue(nivel);
+  this.listadoPoliticas = [];
+  this.listadoObjetivos = [];
+  this.listadoInstituciones = [];
+  this.listadoActividades = [];
+  this.listadoBeneficiarios = [];
+  this.listadoContactos = [];
+  this.InversionesSelected = [];
+  this.listadoComentarios = [];
+  this.otrosTiposShow = false;
+}
+
+setListasDemandas(demanda: Demanda): void {
+  // this.listadoPoliticas = demanda.demandaPoliticasPNPSP.map((item: any) => {
+  //   return {
+  //     id: item.id,
+  //     CodigoDemanda: item.demandaId,
+  //     PoliticaId: item.politicaPNPSPId,
+  //     Nombre: item.nombrePolitica,
+  //   };
+  // });
+  this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
+    (item: any) => {
       return {
+        Id: item.id,
         CodigoDemanda: item.demandaId,
-        id: item.id,
-        nombreCompleto: item.nombreCompleto,
-        telefono: item.telefono,
-        descripcion: item.descripcion,
+        InstitucionId: item.institucionId,
+        Nombre: item.nombreInstitucion,
       };
-    }) : [];
+    }
+  );
+  // this.listadoActividades = demanda.demandaActividades.map(
+  //   (item: any, i: number) => {
+  //     return {
+  //       ActividadId: item.id,
+  //       CodigoDemanda: item.demandaId,
+  //       Actividad: item.descripcion,
+  //     };
+  //   }
+  // );
+  this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
+    return {
+      CodigoDemanda: item.demandaId,
+      id: item.id,
+      nombreCompleto: item.nombreCompleto,
+      telefono: item.telefono,
+      descripcion: item.descripcion,
+    };
+  }) : [];
 
-    // this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
-    //   (item: any) => {
-    //     return {
-    //       Id: item.id,
-    //       codigoDemanda: item.demandaId,
-    //       categoriaId: item.beneficiarioCategoriaId,
-    //       tipoId: item.beneficiarioTipoId,
-    //       cantidad: item.cantidad,
-    //       tipoNombre: item.nombreTipo,
-    //       categoriaNombre: item.nombreCategoria,
-    //       seleccionCombinada: item.nombreTipo + item.nombreCategoria,
-    //     };
-    //   }
-    // );
+  // this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
+  //   (item: any) => {
+  //     return {
+  //       Id: item.id,
+  //       codigoDemanda: item.demandaId,
+  //       categoriaId: item.beneficiarioCategoriaId,
+  //       tipoId: item.beneficiarioTipoId,
+  //       cantidad: item.cantidad,
+  //       tipoNombre: item.nombreTipo,
+  //       categoriaNombre: item.nombreCategoria,
+  //       seleccionCombinada: item.nombreTipo + item.nombreCategoria,
+  //     };
+  //   }
+  // );
 
-    // this.listadoObjetivos = demanda.demandaResultadosEND.map((item: any) => {
-    //   return {
-    //     Id: item.id,
-    //     CodigoDemanda: item.demandaId,
-    //     EjeId: item.ejeENDId,
-    //     ObjetivoId: item.objetivoENDId,
-    //     CodigoEje: item.nombreEjeEnd,
-    //     Nombre: item.nombreObjetivoEnd,
-    //   };
-    // });
+  // this.listadoObjetivos = demanda.demandaResultadosEND.map((item: any) => {
+  //   return {
+  //     Id: item.id,
+  //     CodigoDemanda: item.demandaId,
+  //     EjeId: item.ejeENDId,
+  //     ObjetivoId: item.objetivoENDId,
+  //     CodigoEje: item.nombreEjeEnd,
+  //     Nombre: item.nombreObjetivoEnd,
+  //   };
+  // });
 
-    this.listadoComentarios = demanda.demandaComentarios.map((item: any) => {
-      return {
-        id: item.id,
-        demandaId: item.demandaId,
-        comentrio: item.comentrio,
-        estatus: item.estatus
-      };
-    });
+  this.listadoComentarios = demanda.demandaComentarios.map((item: any) => {
+    return {
+      id: item.id,
+      demandaId: item.demandaId,
+      comentrio: item.comentrio,
+      estatus: item.estatus,
+      userName: item.userName,
+      fechaRegistro: item.fechaRegistro
+    };
+  });
 
-    /*********************************************************************************** */
-    let params0 = new HttpParams()
-      .set('param', `finalidad`)
-      .set('content', demanda.temaComunTema)
-      .set('temaCommun', demanda.temaComunTema);
+  /*********************************************************************************** */
+  let params0 = new HttpParams()
+    .set('param', `finalidad`)
+    .set('content', demanda.temaComunTema)
+    .set('temaCommun', demanda.temaComunTema);
 
-    this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params0);
+  this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params0);
 
-    /*********************************************************************************** */
-    let params = new HttpParams()
-      .set('param', `funcion`)
-      .set('content', demanda.finalidadTemaComun)
-      .set('temaCommun', demanda.temaComunTema);
+  /*********************************************************************************** */
+  let params = new HttpParams()
+    .set('param', `funcion`)
+    .set('content', demanda.finalidadTemaComun)
+    .set('temaCommun', demanda.temaComunTema);
 
-    this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
+  this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
 
-    /*********************************************************************************** */
-    let params2 = new HttpParams()
-      .set('param', `nombre`)
-      .set('content', demanda.funcionTemaComun)
-      .set('temaCommun', demanda.temaComunTema);
+  /*********************************************************************************** */
+  let params2 = new HttpParams()
+    .set('param', `nombre`)
+    .set('content', demanda.funcionTemaComun)
+    .set('temaCommun', demanda.temaComunTema);
 
-    this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params2);
+  this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params2);
 
-  }
+}
 
-  // options = {
-  //   layers: [
-  //     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-  //       minZoom: 8,
-  //       maxZoom: 18,
-  //       attribution: '...',
-  //       id: 'mapbox/streets-v11',
-  //       tileSize: 512,
-  //       zoomOffset: -1,
-  //       accessToken: environment.mapbox.accessToken,
-  //     }),
-  //   ],
-  //   zoom: 8,
-  //   center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY),
+// options = {
+//   layers: [
+//     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+//       minZoom: 8,
+//       maxZoom: 18,
+//       attribution: '...',
+//       id: 'mapbox/streets-v11',
+//       tileSize: 512,
+//       zoomOffset: -1,
+//       accessToken: environment.mapbox.accessToken,
+//     }),
+//   ],
+//   zoom: 8,
+//   center: L.latLng(environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY),
 
-  // };
+// };
 
-  // Sección Mapa
-  openModalMapa(content) {
+// Sección Mapa
+openModalMapa(content) {
 
-    this.modalService.open(content, { size: 'lg', centered: true });
-    //this.options;
+  this.modalService.open(content, { size: 'lg', centered: true });
+  //this.options;
 
-    const map = L.map('map')
-      .setView([environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY], 8);
+  const map = L.map('map')
+    .setView([environment.InicializarMapa.coordenadaX, environment.InicializarMapa.coordenadaY], 8);
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-      minZoom: 8,
-      maxZoom: 18,
-      attribution: '...',
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      accessToken: environment.mapbox.accessToken
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    minZoom: 8,
+    maxZoom: 18,
+    attribution: '...',
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: environment.mapbox.accessToken
 
-    }).addTo(map);
-    var marker;
+  }).addTo(map);
+  var marker;
 
-    let lat = this.coordenadaX;
-    let long = this.coordenadaY;
+  let lat = this.coordenadaX;
+  let long = this.coordenadaY;
 
-    if (lat != null && long != null) {
+  if (lat != null && long != null) {
 
-      marker = L.marker([Number(lat.value), Number(long.value)], {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [15, 41],
-          iconUrl: 'assets/mapa//marker-icon.png',
-          shadowUrl: 'assets/mapa/marker-shadow.png',
-        })
-      }).bindPopup(`
+    marker = L.marker([Number(lat.value), Number(long.value)], {
+      icon: L.icon({
+        iconSize: [25, 41],
+        iconAnchor: [15, 41],
+        iconUrl: 'assets/mapa//marker-icon.png',
+        shadowUrl: 'assets/mapa/marker-shadow.png',
+      })
+    }).bindPopup(`
         <strong>Coordenada X:</strong> ${lat.value} <br/>
         <strong>Coordenada Y:</strong> ${long.value}`,
-        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
+      { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
-      // anade la marca  nueva
-      map.addLayer(marker);
-    }
+    // anade la marca  nueva
+    map.addLayer(marker);
+  }
 
-    //mapClick event
-    map.on('click', function (e) {
+  //mapClick event
+  map.on('click', function (e) {
 
-      const latitud = Number(e['latlng']['lat']);
-      const longitud = Number(e['latlng']['lng']);
+    const latitud = Number(e['latlng']['lat']);
+    const longitud = Number(e['latlng']['lng']);
 
-      lat.setValue(latitud)
-      long.setValue(longitud);
+    lat.setValue(latitud)
+    long.setValue(longitud);
 
-      //borra las marcas anteriores
-      map.eachLayer((layer) => {
-        if (layer['_latlng'] != undefined)
-          layer.remove();
-      });
+    //borra las marcas anteriores
+    map.eachLayer((layer) => {
+      if (layer['_latlng'] != undefined)
+        layer.remove();
+    });
 
-      marker = L.marker([latitud, longitud], {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [15, 41],
-          iconUrl: 'assets/mapa//marker-icon.png',
-          shadowUrl: 'assets/mapa/marker-shadow.png',
-        })
-      }).bindPopup(`
+    marker = L.marker([latitud, longitud], {
+      icon: L.icon({
+        iconSize: [25, 41],
+        iconAnchor: [15, 41],
+        iconUrl: 'assets/mapa//marker-icon.png',
+        shadowUrl: 'assets/mapa/marker-shadow.png',
+      })
+    }).bindPopup(`
       <strong>Coordenada X:</strong> ${latitud} <br/>
       <strong>Coordenada Y:</strong> ${longitud}`,
-        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
+      { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
-      // anade la marca  nueva
-      map.addLayer(marker);
+    // anade la marca  nueva
+    map.addLayer(marker);
 
+  });
+
+  //componente search del mapa
+  const search = GeoSearch.GeoSearchControl({
+    position: 'topleft',
+    marker: {
+      icon: L.icon({
+        iconSize: [25, 41],
+        iconAnchor: [15, 41],
+        iconUrl: 'assets/mapa//marker-icon.png',
+        shadowUrl: 'assets/mapa/marker-shadow.png',
+
+      }),
+      draggable: false,
+    },
+    style: 'bar',
+    showMarker: true,
+    showPopup: false,
+    popupFormat: ({ result }) => `${result.label}<br/>Coordenada X: ${result.y}<br/>Coordenada Y: ${result.x}`,
+    resultFormat: ({ result }) => `${result.label} ${result.y} ${result.x}`,
+    maxMarkers: 1,
+    maxSuggestions: 5,
+    retainZoomLevel: false,
+    animateZoom: true,
+    searchLabel: 'Buscar por nombre del lugar o dirección',
+    notFoundMessage: 'Lugar no encontrado',
+    messageHideDelay: 3000,
+    zoomLevel: 18,
+    classNames: {
+      container: 'leaflet-bar leaflet-control leaflet-control-geosearch',
+      button: 'leaflet-bar-part leaflet-bar-part-single',
+      resetButton: 'reset',
+      msgbox: 'leaflet-bar message',
+      form: '',
+      input: '',
+      resultlist: '',
+      item: '',
+      notfound: 'leaflet-bar-notfound',
+    },
+    autoComplete: true,
+    autoCompleteDelay: 250,
+    autoClose: false,
+    keepResult: false,
+    updateMap: true,
+    provider: provider,
+  });
+
+  //mapSerching event
+  map.on('geosearch/showlocation', function (e) {
+
+    const latitud = Number(e['location']['y']);
+    const longitud = Number(e['location']['x']);
+    const location = e['location']['label']
+
+    lat.setValue(latitud)
+    long.setValue(longitud);
+
+    //borra las marcas anteriores
+    map.eachLayer((layer) => {
+      if (layer['_latlng'] != undefined)
+        layer.remove();
     });
 
-    //componente search del mapa
-    const search = GeoSearch.GeoSearchControl({
-      position: 'topleft',
-      marker: {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [15, 41],
-          iconUrl: 'assets/mapa//marker-icon.png',
-          shadowUrl: 'assets/mapa/marker-shadow.png',
-
-        }),
-        draggable: false,
-      },
-      style: 'bar',
-      showMarker: true,
-      showPopup: false,
-      popupFormat: ({ result }) => `${result.label}<br/>Coordenada X: ${result.y}<br/>Coordenada Y: ${result.x}`,
-      resultFormat: ({ result }) => `${result.label} ${result.y} ${result.x}`,
-      maxMarkers: 1,
-      maxSuggestions: 5,
-      retainZoomLevel: false,
-      animateZoom: true,
-      searchLabel: 'Buscar por nombre del lugar o dirección',
-      notFoundMessage: 'Lugar no encontrado',
-      messageHideDelay: 3000,
-      zoomLevel: 18,
-      classNames: {
-        container: 'leaflet-bar leaflet-control leaflet-control-geosearch',
-        button: 'leaflet-bar-part leaflet-bar-part-single',
-        resetButton: 'reset',
-        msgbox: 'leaflet-bar message',
-        form: '',
-        input: '',
-        resultlist: '',
-        item: '',
-        notfound: 'leaflet-bar-notfound',
-      },
-      autoComplete: true,
-      autoCompleteDelay: 250,
-      autoClose: false,
-      keepResult: false,
-      updateMap: true,
-      provider: provider,
-    });
-
-    //mapSerching event
-    map.on('geosearch/showlocation', function (e) {
-
-      const latitud = Number(e['location']['y']);
-      const longitud = Number(e['location']['x']);
-      const location = e['location']['label']
-
-      lat.setValue(latitud)
-      long.setValue(longitud);
-
-      //borra las marcas anteriores
-      map.eachLayer((layer) => {
-        if (layer['_latlng'] != undefined)
-          layer.remove();
-      });
-
-      marker = L.marker([latitud, longitud], {
-        icon: L.icon({
-          iconSize: [25, 41],
-          iconAnchor: [15, 41],
-          iconUrl: 'assets/mapa//marker-icon.png',
-          shadowUrl: 'assets/mapa/marker-shadow.png',
-        })
-      }).bindPopup(`
+    marker = L.marker([latitud, longitud], {
+      icon: L.icon({
+        iconSize: [25, 41],
+        iconAnchor: [15, 41],
+        iconUrl: 'assets/mapa//marker-icon.png',
+        shadowUrl: 'assets/mapa/marker-shadow.png',
+      })
+    }).bindPopup(`
         <strong>Lugar:</strong> ${location} <br/>
         <strong>Coordenada X:</strong> ${latitud} <br/>
         <strong>Coordenada Y:</strong> ${longitud}`,
-        { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
+      { closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });
 
-      // anade la marca  nueva
-      map.addLayer(marker);
-    });
+    // anade la marca  nueva
+    map.addLayer(marker);
+  });
 
-    map.addControl(search);
+  map.addControl(search);
 
-  }
+}
 
-  // manejarClick(event: LeafletMouseEvent) {
+// manejarClick(event: LeafletMouseEvent) {
 
-  //   console.log("entro entro")
-  //   const latitud = Number(event.latlng.lat);
-  //   const longitud = Number(event.latlng.lng);
-  //   this.registerForm.patchValue({
-  //     coordenadaX: latitud,
-  //     coordenadaY: longitud
-  //   });
-  // this.capas = [];
-  // this.capas.push(
-  //   L.marker([latitud, longitud], {
-  //     icon: L.icon({
-  //       iconSize: [25, 41],
-  //       iconAnchor: [15, 41],
-  //       iconUrl: 'assets/mapa//marker-icon.png',
-  //       shadowUrl: 'assets/mapa/marker-shadow.png',
+//   console.log("entro entro")
+//   const latitud = Number(event.latlng.lat);
+//   const longitud = Number(event.latlng.lng);
+//   this.registerForm.patchValue({
+//     coordenadaX: latitud,
+//     coordenadaY: longitud
+//   });
+// this.capas = [];
+// this.capas.push(
+//   L.marker([latitud, longitud], {
+//     icon: L.icon({
+//       iconSize: [25, 41],
+//       iconAnchor: [15, 41],
+//       iconUrl: 'assets/mapa//marker-icon.png',
+//       shadowUrl: 'assets/mapa/marker-shadow.png',
 
-  //     })
-  //   }).bindPopup(`
-  //     <strong>Coordenada X:</strong> ${latitud} <br/>
-  //     <strong>Coordenada Y:</strong> ${longitud}`,
-  //     { autoClose: true, autoPan: true })
+//     })
+//   }).bindPopup(`
+//     <strong>Coordenada X:</strong> ${latitud} <br/>
+//     <strong>Coordenada Y:</strong> ${longitud}`,
+//     { autoClose: true, autoPan: true })
 
-  // );
+// );
 
-  //}
+//}
 
-  onFinalidadChange() {
+onFinalidadChange() {
 
-    let params = new HttpParams()
-      .set('param', `funcion`)
-      .set('content', this.finalidad.value)
-      .set('temaCommun', `noImporta`);
+  let params = new HttpParams()
+    .set('param', `funcion`)
+    .set('content', this.finalidad.value)
+    .set('temaCommun', `noImporta`);
 
-    this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
-    //this.listadoTemaComun = null;
+  this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
+  //this.listadoTemaComun = null;
 
-    this.funcion.setValue(null);
-    this.subFuncion.setValue(null);
-    this.temaComunId.setValue(null);
-    this.temaCommun.setValue(null)
+  this.funcion.setValue(null);
+  this.subFuncion.setValue(null);
+  this.temaComunId.setValue(null);
+  this.temaCommun.setValue(null)
 
-  }
+}
 
-  onFuncionChange() {
+onFuncionChange() {
 
-    let params = new HttpParams()
-      .set('param', `nombre`)
-      .set('content', this.funcion.value)
-      .set('temaCommun', `noImporta`);
+  let params = new HttpParams()
+    .set('param', `nombre`)
+    .set('content', this.funcion.value)
+    .set('temaCommun', `noImporta`);
 
-    this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params);
-    this.subFuncion.setValue(null);
-    this.temaComunId.setValue(null);
-    this.temaCommun.setValue(null)
-
-
-  }
-  onSubFuncionChange() {
-
-    console.log(this.subFuncion.value)
-
-    this.temaComunId.setValue(this.subFuncion.value.id);
-    this.temaCommun.setValue(this.subFuncion.value.temaCommun)
+  this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params);
+  this.subFuncion.setValue(null);
+  this.temaComunId.setValue(null);
+  this.temaCommun.setValue(null)
 
 
-  }
+}
+onSubFuncionChange() {
 
-  // onTemaCommunChange() {
-  //   let params = new HttpParams()
-  //     .set('param', `finalidad`)
-  //     .set('content', this.temaCommun.value)
-  //     .set('temaCommun', this.temaCommun.value);
+  console.log(this.subFuncion.value)
 
-  //   this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
-
-  //   this.listadoTemaComunFuncion = null;
-  //   this.listadoTemaComun = null;
-  //   this.temaComunId.setValue(null);
-  //   this.funcion.setValue(null);
-  //   this.finalidad.setValue(null);
-  // }
-
-  openModalComentario(contentComentario) {
-    this.modalService.open(contentComentario, {
-      centered: true,
-      backdrop: "static",
-      keyboard: false,
-    });
-
-  }
+  this.temaComunId.setValue(this.subFuncion.value.id);
+  this.temaCommun.setValue(this.subFuncion.value.temaCommun)
 
 
-  agregarComentario() {
+}
 
-    if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
-      if (this.listadoComentarios == null) {
-        this.listadoComentarios = [];
-      }
-      this.listadoComentarios.push(
-        {
-          id: 0,
-          demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
-          comentrio: this.comentarios.value,
-          estatus: "A"
-        }
-      )
-    } else {
-      this.serviceStr.typeError("No puede añadir comentarios vacíos");
+// onTemaCommunChange() {
+//   let params = new HttpParams()
+//     .set('param', `finalidad`)
+//     .set('content', this.temaCommun.value)
+//     .set('temaCommun', this.temaCommun.value);
+
+//   this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params);
+
+//   this.listadoTemaComunFuncion = null;
+//   this.listadoTemaComun = null;
+//   this.temaComunId.setValue(null);
+//   this.funcion.setValue(null);
+//   this.finalidad.setValue(null);
+// }
+
+openModalComentario(contentComentario) {
+  this.modalService.open(contentComentario, {
+    centered: true,
+    backdrop: "static",
+    keyboard: false,
+  });
+
+}
+
+
+agregarComentario() {
+
+  if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
+    if (this.listadoComentarios == null) {
+      this.listadoComentarios = [];
     }
+    this.listadoComentarios.push(
+      {
+        id: 0,
+        demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+        comentrio: this.comentarios.value,
+        estatus: "A",
+        userName: this.userName,
+        fechaRegistro: new Date
 
-    this.registerForm.patchValue({
-      comentarios: null
-    });
-
-
+      }
+    )
+  } else {
+    this.serviceStr.typeError("No puede añadir comentarios vacíos");
   }
 
-  removerComentario(id) {
-    this.listadoComentarios.splice(id, 1);
+  this.registerForm.patchValue({
+    comentarios: null
+  });
 
-  }
+
+}
+
+removerComentario(id) {
+  this.listadoComentarios.splice(id, 1);
+
+}
 
 
 
