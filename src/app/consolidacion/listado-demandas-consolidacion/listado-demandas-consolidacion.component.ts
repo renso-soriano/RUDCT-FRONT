@@ -42,6 +42,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  userName;
 
 
   @ViewChild("modalDetalles") modalDetalles: ModalComponent
@@ -190,7 +191,9 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private modalService: NgbModal,
+  constructor(private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
     private demandaService: DemandasService,
     private spinner: NgxSpinnerService,
     private serviceStr: NGXToastrService,
@@ -208,6 +211,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+    this.userName = this.authService.getUserCompleteName();
+
     // Initially load first page
     this.pageCallback({ offset: 0 });
     this.filtros = [
@@ -415,7 +420,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       descripcion: this.cf.descripcion.value,
       prioridad: this.cf.prioridad.value,
       comentarioConsolidacion: this.cf.comentario.value,
-      demandaContactos: this.listadoContactos
+      demandaContactos: this.listadoContactos,
+      userName: this.userName
     });
 
 
