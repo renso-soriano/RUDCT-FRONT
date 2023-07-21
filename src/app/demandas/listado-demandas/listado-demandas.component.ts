@@ -328,9 +328,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
-      console.log("Estados: ", this.listadoEstados.subscribe(res => {
-        res = this.estadoDemanda;
-      }));
+      // console.log("Estados: ", this.listadoEstados.subscribe(res => {
+      //   res = this.estadoDemanda;
+      // }));
       this.tipoEstado = "ejecución";
       //console.log(this.estadoDemanda, 'deandaasssssssssssssssss')
     }
@@ -538,7 +538,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('grupoId', grupoId);
 
-    this.demandasService.getDemandas(params).pipe(tap(console.log)).subscribe((data: any) => {
+    this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
@@ -718,12 +718,12 @@ agregarComentario() {
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
-        this.estadoDemanda = demanda.nombreEstadoDemanda;
+        this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
         this.ComentariosList = demanda.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
         this.estadoForm.patchValue({
-          estado:this.demanda.estadoId ? this.demanda.estadoId.toString() : null,
+          estado:this.demanda.institucionesInvolucradas.map((e)=>e.estadoId)? this.demanda.institucionesInvolucradas.map((id)=>id.estadoId).toString() : null,
           comentarioEstado: demanda.comentarioEstado,
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
@@ -801,7 +801,11 @@ agregarComentario() {
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.demanda.estadoId = parseInt(formValue.estado, 10);
+      // this.demanda.estadoId = parseInt(formValue.estado, 10);
+      this.demanda.institucionesInvolucradas.forEach((institucion) => {
+        institucion.estadoId = parseInt(formValue.estado, 10);
+      });
+      
     }
     else {
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);

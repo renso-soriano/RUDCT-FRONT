@@ -36,9 +36,9 @@ export class Demanda implements Deserializable {
   nombreTecnicoOmpp?: string;
 
 
-  estadoId?: number;
+  // estadoId?: number;
 
-  nombreEstadoDemanda?: string;
+  // nombreEstadoDemanda?: string;
 
   estadoValidacionId: number;
 
