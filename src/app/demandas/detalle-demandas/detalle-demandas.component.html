@@ -71,12 +71,12 @@
                           <label for="temaComun">{{demanda.temaComunTema}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
+                      <!-- <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Institución responsable: </span>
                           <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="col-6">
@@ -274,7 +274,7 @@
 
                       <div class="col-12" *ngIf="demanda.institucionesInvolucradas.length > 0">
                         <div class="form-group">
-                          <span class="danger font-weight-bold">Otras instituciones involucradas: </span>
+                          <span class="danger font-weight-bold">Instituciones responsables: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                           </div>
@@ -288,7 +288,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="!demanda.municipioId">
+                      <div class="col-12" *ngIf="demanda.demandaContactos.length > 0">
                         <span class="danger font-weight-bold">Contactos</span>
                         <div class="row">
                           <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda.demandaContactos">
@@ -329,7 +329,7 @@
               <ng-template ngbPanelTitle>
                 <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
               </ng-template>
-              <ng-template ngbPanelContent>
+              <!-- <ng-template ngbPanelContent>
                 <div class="row">
                   <div *ngFor="let item of demanda.demandaComentarios" class="col-4">
                     <div class="card card-inverse bg-info mb-2">
@@ -338,7 +338,7 @@
                           <div class="media">
                             <div class="media-body text-left">
                               <p>
-                                {{item.comentrio}}
+                                {{item | json}}
                               </p>
                             </div>
                           </div>
@@ -347,7 +347,34 @@
                     </div>
                   </div>
                 </div>
-              </ng-template>
+              </ng-template>  -->
+              <!--listado de comentarios-->
+            <ng-template ngbPanelContent>
+              <div class="grid-cols-3 mb-3">
+                <div *ngFor="let List of demanda.demandaComentarios" class="card card-inverse bg-info">
+                  <div class="card-content">
+                    <div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
+                      <p class="UserName" value>{{List.userName}}</p>
+                      <p class="FechaComentario text-sm"> - {{List.fechaRegistro | date}}</p>
+                    </div>
+                    <div class="card-body px-3 py-1">
+                      <div class="comentarios">
+                        {{List.comentrio}}
+                      </div>
+                      <!-- <div class="media">
+                        <div class="media-body text-left">
+                          <div class="commentariosDesing" >
+                            <div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  </div>
+              </div>
+
+          </ng-template>
             </ngb-panel>
           </ngb-accordion>
         </div>

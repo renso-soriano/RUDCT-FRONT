@@ -9,3 +9,9 @@
   background-position: center, right;
   background-repeat: no-repeat, no-repeat;
 }
+
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}

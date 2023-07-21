@@ -37,6 +37,7 @@ import { RandyFileService } from 'app/shared/services/randy-file/randy-file.serv
 import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 import { Estados } from 'app/shared/models/auth/estados.enum';
 import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum';
+import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
 
 declare var require: any;
@@ -91,8 +92,13 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   institucionUsuarioEnRUDT: any;
   gruposUsuario: number[] = [];
   usuarioPermisos: any = [''];
+  ComentariosList: any[] = [];
+  listadoComentarios: any[] = [];
+  demandaForEdit: Demanda;
+  typeEdit = false;
   pdf: any;
   capas: any;
+  UserName: any;
   rowsFilterByGoups: any;
   tipoEstado: string;
   file: any
@@ -114,10 +120,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     codigoPoa: [null],
     codigoPei: [null],
     codigoSnip: [null],
-    razonDevolucion: [null]
+    razonDevolucion: [null],
+    comentarios: [null]
 
   });
+  get comentarios() {
+    return this.estadoForm.get("comentarios");
 
+  }
   get EF() {
     return this.estadoForm.controls;
   }
@@ -307,6 +317,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
+    this.UserName =  this.authService.getUserCompleteName();
+
+    console.log("Name the  User Login: ", this.UserName);
 
     this.institucionUsuarioSSO = this.authService.getInstitucion();
     this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
@@ -645,6 +658,59 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
 
+  openModalComentario(contentComentario) {
+    this.modalService.open(contentComentario, {
+      centered: true,
+      backdrop: "static",
+      keyboard: false,
+    });
+
+  }
+
+  setListasDemandas(demanda: Demanda): void {
+  this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
+    return {
+      id: item.id,
+      demandaId: item.demandaId,
+      comentrio: item.comentrio,
+      estatus: item.estatus,
+      userName:item.userName
+    };
+  });
+}
+
+
+agregarComentario() {
+  console.log("A verL ", this.comentarios.value);
+  if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
+    if (this.ComentariosList == null) {
+      this.ComentariosList = [];
+    }
+    this.ComentariosList.push(
+      {
+        id: 0,
+        demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+        comentrio: this.comentarios.value,
+        estatus: "A",
+        userName: this.UserName
+
+
+      }
+
+    )
+    console.log("A verL ", this.ComentariosList);
+  } else {
+    this.serviceStr.typeError("No puede añadir comentarios vacíos");
+  }
+
+  this.estadoForm.patchValue({
+    comentarios: null
+  });
+
+
+}
+
+
   openVerticallyCentered(content, id: any) {
     this.isModalOpen = true;
     this.EF.estado.setValue(null);
@@ -653,7 +719,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       (demanda: Demanda) => {
         this.demanda = demanda;
         this.estadoDemanda = demanda.nombreEstadoDemanda;
-
+        this.ComentariosList = demanda.demandaComentarios;
+        console.log("Lista de comentarios: ", this.ComentariosList);
+        console.log("Lista de otras cosas: ", this.demanda);
         this.estadoForm.patchValue({
           estado:this.demanda.estadoId ? this.demanda.estadoId.toString() : null,
           comentarioEstado: demanda.comentarioEstado,
@@ -757,24 +825,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       })
     }
 
+    this.demanda.demandaComentarios = this.ComentariosList;
     this.demanda.codigoPei = formValue.codigoPei;
     this.demanda.codigoPoa = formValue.codigoPoa;
     this.demanda.codigoSnip = formValue.codigoSnip;
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
-
-    //something pending TO DO
-
-    /* if(formValue.comentarioEstado)
-    {
-      this.demanda.demandaComentarios.push({
-        id:0 ,
-        estatus: "A",
-        demandaId: this.demanda.demandaId,
-        comentrio: formValue.comentarioEstado
-      };)
-    } */
-
 
     this.spinner.show();
     this.demandasService
