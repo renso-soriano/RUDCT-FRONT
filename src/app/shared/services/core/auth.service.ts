@@ -34,17 +34,17 @@ export class AuthService {
   async loggedIn(): Promise<any> {
     const response = await new Promise<any>((resolve, reject) => {
       this.http.get<any>(`${this.API_URL}Auth/GetPermissionsByModuleId/${81}`)
-      .toPromise()
-      .then(
-        res => {
-          resolve(res)
-        },
-      )
-      .catch(
-        err => {
-          reject(err)
-        }
-      )
+        .toPromise()
+        .then(
+          res => {
+            resolve(res)
+          },
+        )
+        .catch(
+          err => {
+            reject(err)
+          }
+        )
     })
     return response;
   }
@@ -86,7 +86,7 @@ export class AuthService {
 
   getGrupos(): Grupo[] {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
-    return userdata && userdata.grupos  ? userdata.grupos : []  ;
+    return userdata && userdata.grupos ? userdata.grupos : [];
   }
 
   findModule(path: string): RouteInfo {
@@ -111,58 +111,59 @@ export class AuthService {
   async getPermissions(moduloId: number): Promise<any> {
     const perfil = await new Promise<any>((resolve, reject) => {
       this.http.get<any>(`${this.API_URL}Auth/GetPermissionsByModuleId/${moduloId}`)
-      .toPromise()
-      .then(
-        res => {
-          resolve(res)
-        },
-      )
-      .catch(
-        err => {
-          reject(err)
-        }
-      )
+        .toPromise()
+        .then(
+          res => {
+            resolve(res)
+          },
+        )
+        .catch(
+          err => {
+            reject(err)
+          }
+        )
     })
     return perfil;
   }
 
 
 
+
   logOut(): void {
-    this.http.post<any>(`${this.API_URL}Auth/Logout`, null).subscribe(
-      () => {
-        sessionStorage.removeItem('userdata');
-        this.router.navigate(['/auth']);
-      }
-    );
+    sessionStorage.removeItem('userdata');
+    // this.http.post<any>(`${this.API_URL}Auth/Logout`, null).subscribe(
+    //   () => {
+    //     this.router.navigate(['/auth']);
+    //   }
+    // );
   }
 
   async refreshToken(): Promise<any> {
     const response = await new Promise<any>((resolve, reject) => {
       this.http.post<any>(`${this.API_URL}Auth/Refresh`, null)
-      .toPromise()
-      .then(
-        res => {
-          resolve(res)
-        },
-      )
-      .catch(
-        err => {
-          reject(err)
-        }
-      )
+        .toPromise()
+        .then(
+          res => {
+            resolve(res)
+          },
+        )
+        .catch(
+          err => {
+            reject(err)
+          }
+        )
     })
     return response;
   }
 
-/*   changePassword(data: any): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}auth/ChangePassword`, data).pipe(
-      map(
-        res => {
-          return new Token().deserialize(res.data);
-        }
-      )
-    );
-  } */
+  /*   changePassword(data: any): Observable<any> {
+      return this.http.post<any>(`${this.API_URL}auth/ChangePassword`, data).pipe(
+        map(
+          res => {
+            return new Token().deserialize(res.data);
+          }
+        )
+      );
+    } */
 
 }
