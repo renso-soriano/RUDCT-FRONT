@@ -985,6 +985,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
                 ? parseInt(this.demandaId, 10)
                 : item.CodigoDemanda,
               institucionId: parseInt(item.InstitucionId, 10),
+              estadoId: 1,
+                
             };
           })
           : null,
@@ -1067,6 +1069,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           CodigoDemanda: item.demandaId,
           InstitucionId: item.institucionId,
           Nombre: item.nombreInstitucion,
+          EstadoId: item.estadoId,
+          NombreEstado: item.nombreEstado,
         };
       }
     );
@@ -1415,7 +1419,6 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     });
 
   }
-
 
   agregarComentario() {
 

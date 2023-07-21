@@ -16,7 +16,9 @@ export interface IDemanda {
   beneficiarios:IBeneficiario[];
   institucionResponsableId:number;
   tecnicoOMPPId:number;
+
   estadoEjecucionId:number;
+  
   politicasIds:number[];
   actividades:Iactividad[];
   institucionesColaboradorasIds:number[];

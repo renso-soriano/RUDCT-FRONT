@@ -7,7 +7,7 @@ import {
   SelectionType
 } from '@swimlane/ngx-datatable';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
@@ -120,7 +120,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   get EF() {
     return this.estadoForm.controls;
-
   }
 
   estadoChange() {
@@ -320,6 +319,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         res = this.estadoDemanda;
       }));
       this.tipoEstado = "ejecución";
+      //console.log(this.estadoDemanda, 'deandaasssssssssssssssss')
     }
     else {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
@@ -338,26 +338,19 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.tipoEstado = "validación";
     }
 
-
     this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
-
+      // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
     });
 
     const observable = from(this.authService.getPermissions(modulo.id));
 
-
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-
-
     }, (err: any) => {
       console.error(err);
     });
-
-
-
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -432,7 +425,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         multiple: false,
 
       }),
-
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
         label: 'Institución responsable',
@@ -471,8 +463,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       })
     ];
     this.loadingIndicator = false;
-
-
   }
 
   setFilterAnnios(): any[] {
@@ -535,11 +525,13 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('grupoId', grupoId);
 
-    this.demandasService.getDemandas(params).subscribe((data: any) => {
+    this.demandasService.getDemandas(params).pipe(tap(console.log)).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
+      console.log(data.items);
     });
+    //console.log(getDemandas(params))
   }
 
   public async _changeRowLimits(event: any) {
@@ -670,7 +662,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
           codigoSnip: demanda.codigoSnip,
           razonDevolucion: demanda.razonDevolucion
         });
-
 
         // if (this.demanda.demandaAnexos.length > 0) {
         //   this.isDetail = true
@@ -807,7 +798,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   //para el mapa
-
 
   options = {
     layers: [

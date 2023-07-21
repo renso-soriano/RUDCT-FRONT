@@ -34,10 +34,17 @@ export class Demanda implements Deserializable {
   nombreInstitucionResponsable?: string;
   tecnicoOMPPId?: number;
   nombreTecnicoOmpp?: string;
+
+
   estadoId?: number;
+
   nombreEstadoDemanda?: string;
+
   estadoValidacionId: number;
+
   nombreEstadoValidacion: string;
+
+
   demandaTipoId?: number;
   nombreTipoDemanda?: string;
   estatus?: string;
@@ -51,7 +58,11 @@ export class Demanda implements Deserializable {
   codigoSnip?: string;
   codigoPoa?: string;
   codigoPei?: string;
+
+
   comentarioEstado?: string;
+
+  
   razonDevolucion?: string;
   direccion?: string;
   detalle?: string;
@@ -70,7 +81,11 @@ export class Demanda implements Deserializable {
   demandaComentarios: DemandaComentario[];
   demandaResultadosEND: DemandaEnd[];
   demandaPoliticasPNPSP: DemandaPolitica[];
+  
+
   institucionesInvolucradas: DemandaInstitucion[];
+
+
   demandaTipoInversiones: DemandaTipoInversion[];
   demandaContactos: DemandaContacto[];
 
