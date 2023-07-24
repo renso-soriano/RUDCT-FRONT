@@ -7,4 +7,5 @@ export enum Estados {
   incluidoEnPEI = 5,
   programadoEnPOA = 6,
   noInciada = 7,
+  ejecutado = 24
 }
