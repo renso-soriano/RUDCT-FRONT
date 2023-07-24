@@ -75,10 +75,10 @@
                     [sortable]="column.sortable" prop="{{column.prop}}">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       <span
-                        *ngIf="column.prop != 'nombreEstadoDemanda' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
+                        *ngIf="column.prop != 'institucionesInvolucradas.estado' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
                         {{value}}
                       </span>
-                      <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
+                      <div *ngIf="column.prop == 'institucionesInvolucradas.estado'" class="badge badge-pill"
                         [ngClass]="{'bg-danger': value == 'Reasignación sectorial', 'bg-warning':value == 'Asignado a sectorial', 'bg-info':value == 'Incluido en PEI', 'bg-primary':value == 'En proceso de ejecución','bg-secondary':value == 'Pendiente asignar sectorial' ,'bg-success':value == 'Programado en POA','bg-dark':value == 'No inciada'}">
                         {{ value }}
                       </div>

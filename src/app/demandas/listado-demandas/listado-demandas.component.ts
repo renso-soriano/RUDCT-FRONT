@@ -141,6 +141,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       codigoSnip: null,
       razonDevolucion: null
     });
+
   }
 
 
@@ -186,7 +187,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    { name: 'Estado de ejecución', prop: 'institucionesInvolucradas.estado' , sorteable: false, visible: false },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
@@ -322,6 +323,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     console.log("Name the  User Login: ", this.UserName);
 
     this.institucionUsuarioSSO = this.authService.getInstitucion();
+  //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
     this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
@@ -355,8 +357,10 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
       // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
+      
     });
 
+  
     const observable = from(this.authService.getPermissions(modulo.id));
 
     observable.subscribe((res: any) => {
@@ -505,6 +509,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     let grupoId;
     let institucion;
 
+    
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
       institucion = this.institucionUsuarioEnRUDT;
@@ -521,6 +526,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
+    
+
 
     params = new HttpParams()
       .set('Page', `${this.page.offset + 1}`)
@@ -541,8 +548,18 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
-      this.rows = data.items;
-      console.log(data.items);
+      // console.log(exist, 'Coincidencia')
+      let p
+      let filtered
+      let mydata = []
+      data.items?.map(i => {      
+        p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
+        filtered = p.filter(i => i.insti === +institucion)[0]
+        mydata.push(filtered)      
+      })
+      
+      this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
+      console.log(this.rows)
     });
     //console.log(getDemandas(params))
   }
