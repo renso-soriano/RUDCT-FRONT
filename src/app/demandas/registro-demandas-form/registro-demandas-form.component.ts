@@ -152,9 +152,9 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     municipio: [null],
     distrito: [],
     fuente: [null, { validators: [Validators.required] }],
-    eje: [null, { validators: [Validators.required] }],
+    eje: [null],
     odsId: [null],
-    objetivo: [null, { validators: [Validators.required] }],
+    objetivo: [null],
     demanda: [
       "",
       {
