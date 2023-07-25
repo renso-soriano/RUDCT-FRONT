@@ -121,7 +121,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
     { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
     { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false },
-    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
+    // { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
     { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false }
   ];
 

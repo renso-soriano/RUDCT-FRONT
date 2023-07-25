@@ -145,6 +145,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
 
+  public idInstitucionProp: any;
+
+
   // row data
   public rows = data;
   limitSelected: any = 10;
@@ -187,7 +190,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de ejecución', prop: 'institucionesInvolucradas.estado' , sorteable: false, visible: false },
+    // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
@@ -329,6 +332,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
+      this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
       // console.log("Estados: ", this.listadoEstados.subscribe(res => {
       //   res = this.estadoDemanda;
@@ -356,6 +360,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
+      console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
       // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
       
     });
@@ -368,6 +373,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     }, (err: any) => {
       console.error(err);
     });
+    console.log(observable)
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -548,18 +554,22 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
+      this.rows = data.items;
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+      this.idInstitucionProp = idRudt;
+      console.log(data.items);
       // console.log(exist, 'Coincidencia')
-      let p
-      let filtered
-      let mydata = []
-      data.items?.map(i => {      
-        p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
-        filtered = p.filter(i => i.insti === +institucion)[0]
-        mydata.push(filtered)      
-      })
+      // let p
+      // let filtered
+      // let mydata = []
+      // data.items?.map(i => {      
+      //   p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
+      //   filtered = p.filter(i => i.insti === +institucion)[0]
+      //   mydata.push(filtered)      
+      // })
       
-      this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
-      console.log(this.rows)
+      // this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
+      // console.log(this.rows)
     });
     //console.log(getDemandas(params))
   }
@@ -774,6 +784,50 @@ agregarComentario() {
     // });
   }
 
+  getEstadoIdForInstitucion(institucionesInvolucradas: any[], idInstitucion: number): number | null {
+    const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
+    return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
+  }
+
+  titleEstadoEjecucion(id:number):string{
+
+    switch (id) {
+      case Estados.pendienteAsignarSectorial:
+        return 'Pendiente Asignar Sectorial';
+      case Estados.asignadoASectorial:
+        return 'Asignado A Sectorial';
+      case Estados.reasignacionSectorial:
+        return 'Reasignacion Sectorial';
+      case Estados.enProcesoDeEjecucion:
+        return 'En Proceso De Ejecucion';
+      case Estados.incluidoEnPEI:
+        return 'Incluido En PEI';
+      case Estados.programadoEnPOA:
+        return 'Programado En POA';
+      case Estados.noInciada:
+        return 'No Iniciada';
+      case Estados.ejecutado:
+        return 'Ejecutado';
+      default:
+        return '';
+    }
+
+  }
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+  
+  
+
   closeModalSimple() {
     this.isModalOpen = false;
     this.modalAnexo.close()
@@ -815,18 +869,37 @@ agregarComentario() {
 
   async enviar() {
 
+    
+
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      // this.demanda.estadoId = parseInt(formValue.estado, 10);
+      // // this.demanda.estadoId = parseInt(formValue.estado, 10);
+      // this.demanda.institucionesInvolucradas.forEach((institucion) => {
+      //   institucion.estadoId = parseInt(formValue.estado, 10);
+      //   console.log('Soy el iddddddddddddddd',institucion.estadoId);
+      //   console.log('Soy el id rudt',this.institucionUsuarioEnRUDT);
+      // });
+      const nuevoEstadoId = parseInt(formValue.estado, 10);
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+
       this.demanda.institucionesInvolucradas.forEach((institucion) => {
-        institucion.estadoId = parseInt(formValue.estado, 10);
+        //console.log(institucion.institucionId, idRudt)
+        if ( institucion.institucionId === idRudt ) {
+          // Solo actualiza el estadoId para la institución específica
+          institucion.estadoId = nuevoEstadoId;
+          //console.log('Estoy dentro del foreche', institucion.estadoId);
+        }
+        // console.log('Soy el iddddddddddddddd', institucion.estadoId);
+        // console.log('Soy el nuevo id: ', nuevoEstadoId)
+        // console.log('Soy el id rudt', this.institucionUsuarioEnRUDT);
       });
       
     }
     else {
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
     }
+
 
     let files = this.randyFile?.getFiles();
     if (files?.length > 0) {

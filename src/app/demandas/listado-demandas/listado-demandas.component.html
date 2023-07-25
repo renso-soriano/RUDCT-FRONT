@@ -75,12 +75,11 @@
                     [sortable]="column.sortable" prop="{{column.prop}}">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       <span
-                        *ngIf="column.prop != 'institucionesInvolucradas.estado' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
+                        *ngIf="column.prop != 'institucionesInvolucradas' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
                         {{value}}
                       </span>
-                      <div *ngIf="column.prop == 'institucionesInvolucradas.estado'" class="badge badge-pill"
-                        [ngClass]="{'bg-danger': value == 'Reasignación sectorial', 'bg-warning':value == 'Asignado a sectorial', 'bg-info':value == 'Incluido en PEI', 'bg-primary':value == 'En proceso de ejecución','bg-secondary':value == 'Pendiente asignar sectorial' ,'bg-success':value == 'Programado en POA','bg-dark':value == 'No inciada'}">
-                        {{ value }}
+                      <div *ngIf="column.prop == 'institucionesInvolucradas'" class="badge badge-pill" [ngClass]="getEstadoClass(getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp))">
+                        {{ titleEstadoEjecucion(getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp)) }}
                       </div>
                       <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false"
                         class="badge badge-pill"
@@ -176,7 +175,6 @@
         <div class="form-group">
           <label for="codigoPei">Codigo PEI</label>
           <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3" formControlName="codigoPei">
-
         </div>
       </div>
 
