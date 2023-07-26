@@ -236,8 +236,14 @@
                               [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
                               {{ value }}
                             </div>
-
-
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Instituciones responsables" prop="institucionesInvolucradas">
+                          <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
+                            <ng-template ngFor let-obj [ngForOf]="value">
+                             {{ obj.nombreInstitucion}}.
+                              <br />
+                            </ng-template>
                           </ng-template>
                         </ngx-datatable-column>
                         <!-- Acciones -->
@@ -246,8 +252,11 @@
                             <a class="btn-sm      btn-warning text-white  ft-eye"
                               (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
 
-                            <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
-                              [class.no-event]="!row.demandaAnexos.length >0" title=" Ver archivos"></a>
+                              <!-- temporalmente desactivado -->
+                            <!-- <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
+                              [class.no-event]="!row.demandaAnexos.length >0" title=" Ver archivos"></a> -->
+
+
 
                           </ng-template>
                         </ngx-datatable-column>

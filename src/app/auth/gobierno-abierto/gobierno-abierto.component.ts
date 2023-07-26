@@ -189,9 +189,9 @@ export class GobiernoAbiertoComponent implements OnInit {
     // { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
-    { name: 'Institución Responsable', prop: 'nombreInstitucionResponsable', sorteable: false, visible: true },
+    //{ name: 'Institución Responsable', prop: 'nombreInstitucionResponsable', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    //{ name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
   ];
 
   // multi Purpose datatable Row data

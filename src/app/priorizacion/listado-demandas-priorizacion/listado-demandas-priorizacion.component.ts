@@ -111,8 +111,8 @@ export class ListadoDemandasPriorizacionComponent implements OnInit {
     //{ name: 'Año', prop: 'anio', sorteable: false },
     { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
-    { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
-    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
+    //{ name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
+    //{ name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
     { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false },
     { name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false },
   ];
