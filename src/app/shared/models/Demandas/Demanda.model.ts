@@ -55,9 +55,9 @@ export class Demanda implements Deserializable {
   coordenadaY?: string;
   consolidadaEn?: string;
   codigoSisplan?: string;
-  codigoSnip?: string;
-  codigoPoa?: string;
-  codigoPei?: string;
+  // codigoSnip?: string;
+  // codigoPoa?: string;
+  // codigoPei?: string;
 
 
   comentarioEstado?: string;

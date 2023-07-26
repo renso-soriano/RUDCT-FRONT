@@ -752,9 +752,9 @@ agregarComentario() {
         this.estadoForm.patchValue({
           estado:this.demanda.institucionesInvolucradas.map((e)=>e.estadoId)? this.demanda.institucionesInvolucradas.map((id)=>id.estadoId).toString() : null,
           comentarioEstado: demanda.comentarioEstado,
-          codigoPoa: demanda.codigoPoa,
-          codigoPei: demanda.codigoPei,
-          codigoSnip: demanda.codigoSnip,
+          codigoPoa: demanda.institucionesInvolucradas.map((e)=>e.codigoPoa),
+          codigoPei: demanda.institucionesInvolucradas.map((e)=>e.codigoPei),
+          codigoSnip: demanda.institucionesInvolucradas.map((e)=>e.codigoSnip),
           razonDevolucion: demanda.razonDevolucion
         });
 
@@ -874,25 +874,16 @@ agregarComentario() {
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      // // this.demanda.estadoId = parseInt(formValue.estado, 10);
-      // this.demanda.institucionesInvolucradas.forEach((institucion) => {
-      //   institucion.estadoId = parseInt(formValue.estado, 10);
-      //   console.log('Soy el iddddddddddddddd',institucion.estadoId);
-      //   console.log('Soy el id rudt',this.institucionUsuarioEnRUDT);
-      // });
+     
       const nuevoEstadoId = parseInt(formValue.estado, 10);
       const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
       this.demanda.institucionesInvolucradas.forEach((institucion) => {
-        //console.log(institucion.institucionId, idRudt)
         if ( institucion.institucionId === idRudt ) {
-          // Solo actualiza el estadoId para la institución específica
+   
           institucion.estadoId = nuevoEstadoId;
-          //console.log('Estoy dentro del foreche', institucion.estadoId);
         }
-        // console.log('Soy el iddddddddddddddd', institucion.estadoId);
-        // console.log('Soy el nuevo id: ', nuevoEstadoId)
-        // console.log('Soy el id rudt', this.institucionUsuarioEnRUDT);
+       
       });
       
     }
@@ -920,9 +911,23 @@ agregarComentario() {
     }
 
     this.demanda.demandaComentarios = this.ComentariosList;
-    this.demanda.codigoPei = formValue.codigoPei;
-    this.demanda.codigoPoa = formValue.codigoPoa;
-    this.demanda.codigoSnip = formValue.codigoSnip;
+
+    this.demanda.institucionesInvolucradas.forEach((institucion) => {
+      
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+
+      if ( institucion.institucionId === idRudt ) {
+       
+        institucion.codigoPei = formValue.codigoPei;
+        institucion.codigoPoa = formValue.codigoPoa;
+        institucion.codigoSnip = formValue.codigoSnip;
+
+        console.log(formValue.codigoSnip, 'codigo snip');
+        
+       
+      }
+      
+    });
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
 
