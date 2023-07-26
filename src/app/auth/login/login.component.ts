@@ -34,12 +34,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.authService.loggedIn()
-    .then((res: any) => this.router.navigate(['/dasboard']))
-    .catch((err: any) => {
-      sessionStorage.clear()
-      this.router.navigate(['/auth'])
-    })
+
+
+    // this.authService.loggedIn()
+    //   .then((res: any) => this.router.navigate(['/dasboard']))
+    //   .catch((err: any) => {
+    //     sessionStorage.clear()
+    //     this.router.navigate(['/auth'])
+    //   })
 
   }
 
@@ -61,18 +63,18 @@ export class LoginComponent implements OnInit {
       clave: this.loginForm.value.password
     };
     this.authService.signIn(userLogin).toPromise()
-    .then((res: any) => {
-      sessionStorage.setItem('userdata', JSON.stringify(new Token().deserialize(res)));
-      this.router.navigate(['/dashboard']);
+      .then((res: any) => {
+        sessionStorage.setItem('userdata', JSON.stringify(new Token().deserialize(res)));
+        this.router.navigate(['/dashboard']);
 
-      setTimeout(() => {
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        this.toastr.error(err.error.message, `Error ${err.status}`)
+        this.isLoginFailed = true;
         this.spinner.hide();
-      }, 1000);
-    })
-    .catch((err) => {
-      this.toastr.error(err.error.message, `Error ${err.status}`)
-      this.isLoginFailed = true;
-      this.spinner.hide();
-    });
+      });
   }
 }
