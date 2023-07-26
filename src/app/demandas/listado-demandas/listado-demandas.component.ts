@@ -7,7 +7,7 @@ import {
   SelectionType
 } from '@swimlane/ngx-datatable';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
@@ -130,7 +130,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
   get EF() {
     return this.estadoForm.controls;
-
   }
 
   estadoChange() {
@@ -142,7 +141,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       codigoSnip: null,
       razonDevolucion: null
     });
+
   }
+
+
+  public idInstitucionProp: any;
 
 
   // row data
@@ -187,7 +190,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
@@ -323,16 +326,19 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     console.log("Name the  User Login: ", this.UserName);
 
     this.institucionUsuarioSSO = this.authService.getInstitucion();
+  //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
     this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
+      this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
-      console.log("Estados: ", this.listadoEstados.subscribe(res => {
-        res = this.estadoDemanda;
-      }));
+      // console.log("Estados: ", this.listadoEstados.subscribe(res => {
+      //   res = this.estadoDemanda;
+      // }));
       this.tipoEstado = "ejecución";
+      //console.log(this.estadoDemanda, 'deandaasssssssssssssssss')
     }
     else {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
@@ -351,26 +357,23 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.tipoEstado = "validación";
     }
 
-
     this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
-
+      console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
+      // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
+      
     });
 
+  
     const observable = from(this.authService.getPermissions(modulo.id));
-
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-
-
     }, (err: any) => {
       console.error(err);
     });
-
-
-
+    console.log(observable)
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -445,7 +448,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         multiple: false,
 
       }),
-
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
         label: 'Institución responsable',
@@ -484,8 +486,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       })
     ];
     this.loadingIndicator = false;
-
-
   }
 
   setFilterAnnios(): any[] {
@@ -515,6 +515,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     let grupoId;
     let institucion;
 
+    
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
       institucion = this.institucionUsuarioEnRUDT;
@@ -531,6 +532,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
+    
+
 
     params = new HttpParams()
       .set('Page', `${this.page.offset + 1}`)
@@ -552,7 +555,23 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+      this.idInstitucionProp = idRudt;
+      console.log(data.items);
+      // console.log(exist, 'Coincidencia')
+      // let p
+      // let filtered
+      // let mydata = []
+      // data.items?.map(i => {      
+      //   p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
+      //   filtered = p.filter(i => i.insti === +institucion)[0]
+      //   mydata.push(filtered)      
+      // })
+      
+      // this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
+      // console.log(this.rows)
     });
+    //console.log(getDemandas(params))
   }
 
   public async _changeRowLimits(event: any) {
@@ -726,19 +745,18 @@ agregarComentario() {
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
-        this.estadoDemanda = demanda.nombreEstadoDemanda;
+        this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
         this.ComentariosList = demanda.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
         this.estadoForm.patchValue({
-          estado:this.demanda.estadoId ? this.demanda.estadoId.toString() : null,
+          estado:this.demanda.institucionesInvolucradas.map((e)=>e.estadoId)? this.demanda.institucionesInvolucradas.map((id)=>id.estadoId).toString() : null,
           comentarioEstado: demanda.comentarioEstado,
           codigoPoa: demanda.codigoPoa,
           codigoPei: demanda.codigoPei,
           codigoSnip: demanda.codigoSnip,
           razonDevolucion: demanda.razonDevolucion
         });
-
 
         // if (this.demanda.demandaAnexos.length > 0) {
         //   this.isDetail = true
@@ -765,6 +783,50 @@ agregarComentario() {
     //   size: "xl"
     // });
   }
+
+  getEstadoIdForInstitucion(institucionesInvolucradas: any[], idInstitucion: number): number | null {
+    const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
+    return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
+  }
+
+  titleEstadoEjecucion(id:number):string{
+
+    switch (id) {
+      case Estados.pendienteAsignarSectorial:
+        return 'Pendiente Asignar Sectorial';
+      case Estados.asignadoASectorial:
+        return 'Asignado A Sectorial';
+      case Estados.reasignacionSectorial:
+        return 'Reasignacion Sectorial';
+      case Estados.enProcesoDeEjecucion:
+        return 'En Proceso De Ejecucion';
+      case Estados.incluidoEnPEI:
+        return 'Incluido En PEI';
+      case Estados.programadoEnPOA:
+        return 'Programado En POA';
+      case Estados.noInciada:
+        return 'No Iniciada';
+      case Estados.ejecutado:
+        return 'Ejecutado';
+      default:
+        return '';
+    }
+
+  }
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+  
+  
 
   closeModalSimple() {
     this.isModalOpen = false;
@@ -807,14 +869,37 @@ agregarComentario() {
 
   async enviar() {
 
+    
+
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.demanda.estadoId = parseInt(formValue.estado, 10);
+      // // this.demanda.estadoId = parseInt(formValue.estado, 10);
+      // this.demanda.institucionesInvolucradas.forEach((institucion) => {
+      //   institucion.estadoId = parseInt(formValue.estado, 10);
+      //   console.log('Soy el iddddddddddddddd',institucion.estadoId);
+      //   console.log('Soy el id rudt',this.institucionUsuarioEnRUDT);
+      // });
+      const nuevoEstadoId = parseInt(formValue.estado, 10);
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+
+      this.demanda.institucionesInvolucradas.forEach((institucion) => {
+        //console.log(institucion.institucionId, idRudt)
+        if ( institucion.institucionId === idRudt ) {
+          // Solo actualiza el estadoId para la institución específica
+          institucion.estadoId = nuevoEstadoId;
+          //console.log('Estoy dentro del foreche', institucion.estadoId);
+        }
+        // console.log('Soy el iddddddddddddddd', institucion.estadoId);
+        // console.log('Soy el nuevo id: ', nuevoEstadoId)
+        // console.log('Soy el id rudt', this.institucionUsuarioEnRUDT);
+      });
+      
     }
     else {
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
     }
+
 
     let files = this.randyFile?.getFiles();
     if (files?.length > 0) {
@@ -863,7 +948,6 @@ agregarComentario() {
   }
 
   //para el mapa
-
 
   options = {
     layers: [

@@ -521,7 +521,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           objetivo: demanda.objetivoEndId.toString(),
           demanda: demanda.descripcion,
           tecnico: demanda.tecnicoOMPPId != null ? demanda.tecnicoOMPPId.toString() : null,
-          estadoId: demanda.estadoId,
+          estadoId: demanda.institucionesInvolucradas.map((id)=> id.estadoId),
           estadoValidacionId: demanda.estadoValidacionId,
           institucionResponsable: demanda.institucionId != null ? demanda.institucionId.toString() : null,
           institucionesColaboradoras: null,

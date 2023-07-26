@@ -5,6 +5,10 @@ export class DemandaInstitucion implements Deserializable {
   id?: number;
   estatus?: string  ;
   demandaId?: number;
+  
+  estadoId?: number;
+  nombreEstado?: string;
+
   institucionId?: number;
   nombreInstitucion?: string;
 
