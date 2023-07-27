@@ -43,6 +43,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 import { RandyFileComponent } from './components/randy-file/randy-file.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ModalComponent } from './components/modal/modal.component';
+import { EstadoUtilsService } from './utilidades/estados-utils';
 
 @NgModule({
     exports: [
@@ -63,7 +64,7 @@ import { ModalComponent } from './components/modal/modal.component';
         LeafletModule,
         RandyFileComponent,
         ModalComponent,
-        RegionChartComponent,
+        RegionChartComponent
     ],
     imports: [
         RouterModule,
@@ -86,7 +87,7 @@ import { ModalComponent } from './components/modal/modal.component';
         MatchHeightModule,
         NgApexchartsModule,
         AngularResizedEventModule,
-        FileUploadModule
+        FileUploadModule,
         // RandyFileComponent,
 
     ],

@@ -279,10 +279,10 @@
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
                             <article 
                               class="badge badge-pill ml-2 mt-3"
-                              [ngClass]="getEstadoClass(item.estadoId)"
+                              [ngClass]="estadoUtils.getEstadoClass(item.estadoId)"
                             >
                               <!-- {{item.estadoId}} -->
-                              {{ titleEstadoEjecucion(item.estadoId) }}
+                              {{ estadoUtils.titleEstadoEjecucion(item.estadoId) }}
                             </article>
                           </div>
                         </div>

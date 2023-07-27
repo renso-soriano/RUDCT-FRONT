@@ -7,7 +7,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Location } from '@angular/common';
 import { AuthService } from "app/shared/services/core/auth.service";
 import { GrupoUsuario } from "app/shared/models/grupoUsuario.enum";
-import { Estados } from "app/shared/models/auth/estados.enum";
+import { EstadoUtilsService } from "app/shared/utilidades/estados-utils";
 
 @Component({
   selector: "app-detalle-demandas",
@@ -34,7 +34,8 @@ export class DetalleDemandasComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private _location: Location,
-    private authService: AuthService
+    private authService: AuthService,
+    private estadoUtils: EstadoUtilsService
   ) { }
 
   ngOnInit() {
@@ -106,43 +107,6 @@ export class DetalleDemandasComponent implements OnInit {
 
   goBack() {
     this._location.back();
-  }
-
-  titleEstadoEjecucion(id:number):string{
-
-    switch (id) {
-      case Estados.pendienteAsignarSectorial:
-        return 'Pendiente Asignar Sectorial';
-      case Estados.asignadoASectorial:
-        return 'Asignado A Sectorial';
-      case Estados.reasignacionSectorial:
-        return 'Reasignacion Sectorial';
-      case Estados.enProcesoDeEjecucion:
-        return 'En Proceso De Ejecucion';
-      case Estados.incluidoEnPEI:
-        return 'Incluido En PEI';
-      case Estados.programadoEnPOA:
-        return 'Programado En POA';
-      case Estados.noInciada:
-        return 'No Iniciada';
-      case Estados.ejecutado:
-        return 'Ejecutado';
-      default:
-        return '';
-    }
-
-  }
-
-  getEstadoClass(estadoId: number): { [className: string]: boolean } {
-    return {
-      'bg-danger': estadoId === 3,
-      'bg-warning': estadoId === 2,
-      'bg-info': estadoId === 5,
-      'bg-primary': estadoId === 4,
-      'bg-secondary': estadoId === 1,
-      'bg-success': estadoId === 6,
-      'bg-dark': estadoId === 7
-    };
   }
   
 

@@ -39,6 +39,8 @@ import { Estados } from 'app/shared/models/auth/estados.enum';
 import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum';
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
+import { EstadoUtilsService } from 'app/shared/utilidades/estados-utils';
+
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -282,7 +284,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     private dropdownService: DropDownServiceService,
     private excelService: ExcelService,
     private fileManager: FileManagerService,
-    private randyFileService: RandyFileService
+    private randyFileService: RandyFileService,
+    private estadoUtils: EstadoUtilsService
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -639,7 +642,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         Anio: item.anio,
         EscalaTerritorial: item.nivelDemanda,
         Demanda: item.descripcion,
-        EstadoDemanda: item.nombreEstadoDemanda,
+        EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(this.estadoUtils.getEstadoIdForInstitucion(item.institucionesInvolucradas, this.idInstitucionProp)),
         Prioridad: item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
@@ -657,10 +660,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         // ModificadoEn: item.fechaModificacion
 
       };
-
     });
-
-
   }
   mapFile() {
 
@@ -755,7 +755,7 @@ agregarComentario() {
           const idRudt = parseInt(this.institucionUsuarioEnRUDT)
     
           if ( institucion.institucionId === idRudt ) {
-            const estadoName =  this.titleEstadoEjecucion(institucion.estadoId);
+            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion.estadoId);
             this.estadoDemanda = estadoName;
 
             this.estadoForm.patchValue({
@@ -796,48 +796,6 @@ agregarComentario() {
     //   keyboard: false,
     //   size: "xl"
     // });
-  }
-
-  getEstadoIdForInstitucion(institucionesInvolucradas: any[], idInstitucion: number): number | null {
-    const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
-    return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
-  }
-
-  titleEstadoEjecucion(id:number):string{
-
-    switch (id) {
-      case Estados.pendienteAsignarSectorial:
-        return 'Pendiente Asignar Sectorial';
-      case Estados.asignadoASectorial:
-        return 'Asignado A Sectorial';
-      case Estados.reasignacionSectorial:
-        return 'Reasignacion Sectorial';
-      case Estados.enProcesoDeEjecucion:
-        return 'En Proceso De Ejecucion';
-      case Estados.incluidoEnPEI:
-        return 'Incluido En PEI';
-      case Estados.programadoEnPOA:
-        return 'Programado En POA';
-      case Estados.noInciada:
-        return 'No Iniciada';
-      case Estados.ejecutado:
-        return 'Ejecutado';
-      default:
-        return "";
-    }
-
-  }
-
-  getEstadoClass(estadoId: number): { [className: string]: boolean } {
-    return {
-      'bg-danger': estadoId === 3,
-      'bg-warning': estadoId === 2,
-      'bg-info': estadoId === 5,
-      'bg-primary': estadoId === 4,
-      'bg-secondary': estadoId === 1,
-      'bg-success': estadoId === 6,
-      'bg-dark': estadoId === 7
-    };
   }
   
   
