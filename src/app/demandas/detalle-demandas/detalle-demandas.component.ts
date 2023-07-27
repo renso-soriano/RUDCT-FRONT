@@ -108,31 +108,6 @@ export class DetalleDemandasComponent implements OnInit {
     this._location.back();
   }
 
-  titleEstadoEjecucion(id:number):string{
-
-    switch (id) {
-      case Estados.pendienteAsignarSectorial:
-        return 'Pendiente Asignar Sectorial';
-      case Estados.asignadoASectorial:
-        return 'Asignado A Sectorial';
-      case Estados.reasignacionSectorial:
-        return 'Reasignacion Sectorial';
-      case Estados.enProcesoDeEjecucion:
-        return 'En Proceso De Ejecucion';
-      case Estados.incluidoEnPEI:
-        return 'Incluido En PEI';
-      case Estados.programadoEnPOA:
-        return 'Programado En POA';
-      case Estados.noInciada:
-        return 'No Iniciada';
-      case Estados.ejecutado:
-        return 'Ejecutado';
-      default:
-        return '';
-    }
-
-  }
-
   getEstadoClass(estadoId: number): { [className: string]: boolean } {
     return {
       'bg-danger': estadoId === 3,
@@ -144,6 +119,6 @@ export class DetalleDemandasComponent implements OnInit {
       'bg-dark': estadoId === 7
     };
   }
-  
+
 
 }
