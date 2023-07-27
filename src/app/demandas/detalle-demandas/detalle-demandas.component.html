@@ -277,11 +277,12 @@
                           <span class="danger font-weight-bold">Instituciones responsables y estados de ejecución: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
-                            <article class="badge badge-pill ml-2 mt-3"
+                            <br>
+                            <article class="badge badge-pill ml-2 mt-1"
                               [ngClass]="getEstadoClass(item.estadoId)">
                               {{item.nombreEstado}}
                             </article>
-                            - <strong><span *ngIf="item.codigoSnip">Codigo snip:{{item.codigoSnip}} </span> <span *ngIf="item.codigoPoa">Producto POA:{{item.codigoPoa}} </span> <span *ngIf="item.codigoPei">Codigo PEI:{{item.codigoPei}} </span></strong>
+                             <strong><span *ngIf="item.codigoSnip"> - Codigo snip: {{item.codigoSnip}} </span> <span *ngIf="item.codigoPoa"> - Producto POA: {{item.codigoPoa}} </span> <span *ngIf="item.codigoPei"> - Codigo PEI: {{item.codigoPei}} </span></strong>
                           </div>
                         </div>
                       </div>
