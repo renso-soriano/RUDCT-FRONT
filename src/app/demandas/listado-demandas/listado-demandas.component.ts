@@ -745,17 +745,31 @@ agregarComentario() {
     this.demandasService.getDemandaById(id).subscribe(
       (demanda: Demanda) => {
         this.demanda = demanda;
-        this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
+        //this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
         this.ComentariosList = demanda.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
-        this.estadoForm.patchValue({
-          estado:this.demanda.institucionesInvolucradas.map((e)=>e.estadoId)? this.demanda.institucionesInvolucradas.map((id)=>id.estadoId).toString() : null,
-          comentarioEstado: demanda.comentarioEstado,
-          codigoPoa: demanda.institucionesInvolucradas.map((e)=>e.codigoPoa),
-          codigoPei: demanda.institucionesInvolucradas.map((e)=>e.codigoPei),
-          codigoSnip: demanda.institucionesInvolucradas.map((e)=>e.codigoSnip),
-          razonDevolucion: demanda.razonDevolucion
+
+        this.demanda.institucionesInvolucradas.forEach((institucion) => {
+      
+          const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+    
+          if ( institucion.institucionId === idRudt ) {
+            const estadoName =  this.titleEstadoEjecucion(institucion.estadoId);
+            this.estadoDemanda = estadoName;
+
+            this.estadoForm.patchValue({
+
+              estado: institucion.estadoId.toString(),
+              comentarioEstado: this.demanda.comentarioEstado,
+              codigoSnip: institucion.codigoSnip,
+              codigoPoa: institucion.codigoPoa,
+              codigoPei: institucion.codigoPei,
+              razonDevolucion: this.demanda.razonDevolucion
+              
+            });
+          }
+          
         });
 
         // if (this.demanda.demandaAnexos.length > 0) {
@@ -809,7 +823,7 @@ agregarComentario() {
       case Estados.ejecutado:
         return 'Ejecutado';
       default:
-        return '';
+        return "";
     }
 
   }
