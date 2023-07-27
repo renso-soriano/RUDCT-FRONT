@@ -148,12 +148,15 @@
       <!-- <div class="row"> -->
       <div class="col-sm-12">
         <div class="form-group">
-          <!-- <label for="estado">Estado {{estadoDemanda}}</label> -->
-          <label for="estado">Estado </label>
-          <ng-select [appendTo]="'body'" [items]="(listadoEstados | async) || estadoDemanda" bindLabel="name"
+          <label for="estado">Estado</label>
+          <ng-select [appendTo]="'body'" [items]="(listadoEstados | async)" bindLabel="name"
             bindValue="id" name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
-            formControlName="estado">
+            formControlName="estado"
+          >
           </ng-select>
+
+          <!-- <pre>{{listadoEstados | async | json}}</pre> -->
+      
           <div *ngIf="EF.estado.invalid && (EF.estado.dirty || EF.estado.touched)" class="help-block mt-1 text-danger">
 
             <div *ngIf="EF.estado.errors.required">
