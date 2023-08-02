@@ -100,12 +100,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   typeEdit = false;
   pdf: any;
   capas: any;
-  UserName: any;
-  rowsFilterByGoups: any;
-  tipoEstado: string;
-  file: any
-  demandaId: any
-  listaAnexosId: any
+  UserName?: any;
+  rowsFilterByGoups?: any;
+  tipoEstado?: string;
+  file?: any
+  demandaId?: any
+  listaAnexosId?: any
   modalConfig: IModalConfig = {
     modalTitle: "Estado de Demandas"
   }
@@ -147,7 +147,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
 
-  public idInstitucionProp: any;
+  public idInstitucionProp?: any;
 
 
   // row data
@@ -229,7 +229,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
    * @param code
    */
   filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
+    const val = event.target.value?.toLowerCase();
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
@@ -323,16 +323,16 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
    */
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
-    const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
-    this.UserName =  this.authService.getUserCompleteName();
+    const modulo = this.authService?.findModule(this.router.routerState.snapshot.url);
+    this.UserName =  this.authService?.getUserCompleteName();
 
     console.log("Name the  User Login: ", this.UserName);
 
-    this.institucionUsuarioSSO = this.authService.getInstitucion();
+    this.institucionUsuarioSSO = this.authService?.getInstitucion();
   //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
-    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+    this.gruposUsuario = this.authService?.getGrupos().map(g => g.groupId);
 
-    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+    if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
       this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
@@ -360,7 +360,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.tipoEstado = "validación";
     }
 
-    this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
+    this.dropdownService?.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
       console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
@@ -369,7 +369,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     });
 
   
-    const observable = from(this.authService.getPermissions(modulo.id));
+    const observable = from(this.authService?.getPermissions(modulo.id));
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
@@ -646,7 +646,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.dataExcel = data.map((item: any) => {
 
       this.institucionesInvolucradasExcel = [];
-      item.institucionesInvolucradas.forEach((i)=>{
+      item?.institucionesInvolucradas.forEach((i)=>{
         this.institucionesInvolucradasExcel.push(
           {
             nombre: i.nombreInstitucion,
@@ -661,22 +661,22 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       });
 
       return {
-        Codigo: item.codigo,
-        Anio: item.anio,
-        EscalaTerritorial: item.nivelDemanda,
-        Demanda: item.descripcion,
-        EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(this.estadoUtils.getEstadoIdForInstitucion(item.institucionesInvolucradas, this.idInstitucionProp)),
-        Prioridad: item.prioridad,
-        Region: item.nombreRegion,
-        Provincia: item.nombreProvincia,
-        Municipio: item.nombreMunicipio,
-        Tema_Comun: item.temaComunTema,
-        Clasificador_Funcional: item.nombreTemaComun,
-        NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        TecnicoOmpp: item.nombreTecnicoOmpp,
-        ResultanteDe: item.resultanteDe,
-        Activo: item.estatus ? "Si" : "No"
+        Codigo: item?.codigo,
+        Anio: item?.anio,
+        EscalaTerritorial: item?.nivelDemanda,
+        Demanda: item?.descripcion,
+        EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(this.estadoUtils.getEstadoIdForInstitucion(item?.institucionesInvolucradas, this.idInstitucionProp)),
+        Prioridad: item?.prioridad,
+        Region: item?.nombreRegion,
+        Provincia: item?.nombreProvincia,
+        Municipio: item?.nombreMunicipio,
+        Tema_Comun: item?.temaComunTema,
+        Clasificador_Funcional: item?.nombreTemaComun,
+        NombreFuenteDemanda: item?.nombreFuenteDemanda,
+        InstitucionResponsable: item?.nombreInstitucionResponsable,
+        TecnicoOmpp: item?.nombreTecnicoOmpp,
+        ResultanteDe: item?.resultanteDe,
+        Activo: item?.estatus ? "Si" : "No"
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
         // modificadoPor: item.nombreModificadoPor,
@@ -720,11 +720,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   setListasDemandas(demanda: Demanda): void {
   this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
     return {
-      id: item.id,
-      demandaId: item.demandaId,
-      comentrio: item.comentrio,
-      estatus: item.estatus,
-      userName:item.userName
+      id: item?.id,
+      demandaId: item?.demandaId,
+      comentrio: item?.comentrio,
+      estatus: item?.estatus,
+      userName:item?.userName
     };
   });
 }
@@ -769,7 +769,7 @@ agregarComentario() {
       (demanda: Demanda) => {
         this.demanda = demanda;
         //this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
-        this.ComentariosList = demanda.demandaComentarios;
+        this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
 
@@ -778,17 +778,17 @@ agregarComentario() {
           const idRudt = parseInt(this.institucionUsuarioEnRUDT)
     
           if ( institucion.institucionId === idRudt ) {
-            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion.estadoId);
+            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
             this.estadoDemanda = estadoName;
 
             this.estadoForm.patchValue({
 
-              estado: institucion.estadoId.toString(),
-              comentarioEstado: this.demanda.comentarioEstado,
-              codigoSnip: institucion.codigoSnip,
-              codigoPoa: institucion.codigoPoa,
-              codigoPei: institucion.codigoPei,
-              razonDevolucion: this.demanda.razonDevolucion
+              estado: institucion.estadoId?.toString(),
+              comentarioEstado: this.demanda?.comentarioEstado,
+              codigoSnip: institucion?.codigoSnip,
+              codigoPoa: institucion?.codigoPoa,
+              codigoPei: institucion?.codigoPei,
+              razonDevolucion: this.demanda?.razonDevolucion
             });
           }
           
@@ -820,12 +820,12 @@ agregarComentario() {
     // });
   }
 
-  getEstadoIdForInstitucion(institucionesInvolucradas: any[], idInstitucion: number): number | null {
+  getEstadoIdForInstitucion(institucionesInvolucradas?: any[], idInstitucion?: number): number | null {
     const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
     return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
   }
 
-  titleEstadoEjecucion(id:number):string{
+  titleEstadoEjecucion(id?:number):string{
 
     switch (id) {
       case Estados.pendienteAsignarSectorial:
@@ -912,7 +912,7 @@ agregarComentario() {
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
      
       const nuevoEstadoId = parseInt(formValue.estado, 10);
-      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+      const idRudt = parseInt(this?.institucionUsuarioEnRUDT)
 
       this.demanda.institucionesInvolucradas.forEach((institucion) => {
         if ( institucion.institucionId === idRudt ) {
@@ -1020,16 +1020,16 @@ agregarComentario() {
     this.capas = [];
 
     for (var i = 0; i < data.length; i++) {
-      let provincia = [data[i].nombreProvincia]
-      let municipio = [data[i].nombreMunicipio]
-      let latitud = Number([data[i].coordenadaX])
-      let longitud = Number([data[i].coordenadaY])
-      let demanda = [data[i].descripcion]
-      let fuente = [data[i].nombreFuenteDemanda]
-      let institucionResponsable = [data[i].nombreInstitucionResponsable]
-      let clasificadorFuncional = [data[i].nombreTemaComun]
-      let anio = [data[i].anio]
-      let estado = [data[i].nombreEstadoDemanda]
+      let provincia = [data[i]?.nombreProvincia]
+      let municipio = [data[i]?.nombreMunicipio]
+      let latitud = Number([data[i]?.coordenadaX])
+      let longitud = Number([data[i]?.coordenadaY])
+      let demanda = [data[i]?.descripcion]
+      let fuente = [data[i]?.nombreFuenteDemanda]
+      let institucionResponsable = [data[i]?.nombreInstitucionResponsable]
+      let clasificadorFuncional = [data[i]?.nombreTemaComun]
+      let anio = [data[i]?.anio]
+      let estado = [data[i]?.nombreEstadoDemanda]
 
       this.capas.push(
         L.marker([latitud, longitud], {
