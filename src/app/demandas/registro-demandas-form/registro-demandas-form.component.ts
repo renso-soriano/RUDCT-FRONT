@@ -1069,11 +1069,11 @@ setListasDemandas(demanda: Demanda): void {
   this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
     (item: any) => {
       return {
-        id: item.id,
-        codigoDemanda: item.demandaId,
-        institucionId: item.institucionId,
-        nombre: item.nombreInstitucion,
-        estadoId:item.estadoId
+        id: item?.id,
+        codigoDemanda: item?.demandaId,
+        institucionId: item?.institucionId,
+        nombre: item?.nombreInstitucion,
+        estadoId:item?.estadoId
       };
     }
   );
@@ -1088,11 +1088,11 @@ setListasDemandas(demanda: Demanda): void {
   // );
   this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
     return {
-      CodigoDemanda: item.demandaId,
-      id: item.id,
-      nombreCompleto: item.nombreCompleto,
-      telefono: item.telefono,
-      descripcion: item.descripcion,
+      CodigoDemanda: item?.demandaId,
+      id: item?.id,
+      nombreCompleto: item?.nombreCompleto,
+      telefono: item?.telefono,
+      descripcion: item?.descripcion,
     };
   }) : [];
 
@@ -1124,36 +1124,36 @@ setListasDemandas(demanda: Demanda): void {
 
   this.listadoComentarios = demanda.demandaComentarios?.map((item: any) => {
     return {
-      id: item.id,
-      demandaId: item.demandaId,
-      comentrio: item.comentrio,
-      estatus: item.estatus,
-      userName: item.userName,
-      fechaRegistro: item.fechaRegistro
+      id: item?.id,
+      demandaId: item?.demandaId,
+      comentrio: item?.comentrio,
+      estatus: item?.estatus,
+      userName: item?.userName,
+      fechaRegistro: item?.fechaRegistro
     };
   });
 
   /*********************************************************************************** */
   let params0 = new HttpParams()
     .set('param', `finalidad`)
-    .set('content', demanda.temaComunTema)
-    .set('temaCommun', demanda.temaComunTema);
+    .set('content', demanda?.temaComunTema)
+    .set('temaCommun', demanda?.temaComunTema);
 
   this.listadoTemaComunFinalidad = this.temaComunService.getTemaComunByParam(params0);
 
   /*********************************************************************************** */
   let params = new HttpParams()
     .set('param', `funcion`)
-    .set('content', demanda.finalidadTemaComun)
-    .set('temaCommun', demanda.temaComunTema);
+    .set('content', demanda?.finalidadTemaComun)
+    .set('temaCommun', demanda?.temaComunTema);
 
   this.listadoTemaComunFuncion = this.temaComunService.getTemaComunByParam(params);
 
   /*********************************************************************************** */
   let params2 = new HttpParams()
     .set('param', `nombre`)
-    .set('content', demanda.funcionTemaComun)
-    .set('temaCommun', demanda.temaComunTema);
+    .set('content', demanda?.funcionTemaComun)
+    .set('temaCommun', demanda?.temaComunTema);
 
   this.listadoTemaComun = this.temaComunService.getTemaComunByParam(params2);
 
