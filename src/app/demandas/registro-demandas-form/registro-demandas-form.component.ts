@@ -93,56 +93,56 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
 
 
-  private _demanda: Demanda;
-  private demandaId: string;
+  private _demanda?: Demanda;
+  private demandaId?: string;
 
   modal: NgbModal;
 
   @ViewChild("content") content: ElementRef<HTMLElement>;
 
   //propiedades
-  codigoDemanda: number = 0;
-  anios: any;
-  regiones: Observable<any[]>;
-  provincias: Observable<any[]>;
-  municipios: Observable<any[]>;
-  distritosMunicipales: Observable<any[]>;
-  fuenteDemandas: Observable<any[]>;
-  ejesEnd: Observable<any[]>;
-  ODS: Observable<any[]>;
-  objetivosEnd: Observable<any[]>;
-  instituciones: Observable<any[]>;
-  politicas: Observable<any[]>;
-  tecnicos: Observable<any[]>;
-  tipoInversiones: Observable<any[]>;
-  listadoNivelDemandas: Observable<any[]>;
-  listadoTemaComun: Observable<any[]>;
-  listadoTemaComunFinalidad: Observable<any[]>;
-  listadoTemaComunFuncion: Observable<any[]>;
-  listadoTemaComunTema: Observable<any[]>;
+  codigoDemanda?: number = 0;
+  anios?: any;
+  regiones?: Observable<any[]>;
+  provincias?: Observable<any[]>;
+  municipios?: Observable<any[]>;
+  distritosMunicipales?: Observable<any[]>;
+  fuenteDemandas?: Observable<any[]>;
+  ejesEnd?: Observable<any[]>;
+  ODS?: Observable<any[]>;
+  objetivosEnd?: Observable<any[]>;
+  instituciones?: Observable<any[]>;
+  politicas?: Observable<any[]>;
+  tecnicos?: Observable<any[]>;
+  tipoInversiones?: Observable<any[]>;
+  listadoNivelDemandas?: Observable<any[]>;
+  listadoTemaComun?: Observable<any[]>;
+  listadoTemaComunFinalidad?: Observable<any[]>;
+  listadoTemaComunFuncion?: Observable<any[]>;
+  listadoTemaComunTema?: Observable<any[]>;
 
-  listadoPoliticas: any[] = [];
-  listadoObjetivos: any[] = [];
-  listadoInstituciones: any[] = [];
-  listadoActividades: any[] = [];
-  listadoEjes: any[];
-  listadoODS: any[];
-  listadoInversion: any[];
-  listadoComentarios: any[] = [];
-  InversionesSelected: any[] = [];
-  listadoTipoBeneficiarios: Observable<any[]>;
-  listadoCategoriaBeneficiarios: Observable<any[]>;
-  listadoBeneficiarios: any[] = [];
-  beneficiariosSelected: any[] = [];
-  listadoContactos: any[] = [];
-  capas: any[];
+  listadoPoliticas?: any[] = [];
+  listadoObjetivos?: any[] = [];
+  listadoInstituciones?: any[] = [];
+  listadoActividades?: any[] = [];
+  listadoEjes?: any[];
+  listadoODS?: any[];
+  listadoInversion?: any[];
+  listadoComentarios?: any[] = [];
+  InversionesSelected?: any[] = [];
+  listadoTipoBeneficiarios?: Observable<any[]>;
+  listadoCategoriaBeneficiarios?: Observable<any[]>;
+  listadoBeneficiarios?: any[] = [];
+  beneficiariosSelected?: any[] = [];
+  listadoContactos?: any[] = [];
+  capas?: any[];
 
   activCount = 0;
   notFound = false;
   otrosTiposShow = false;
-  mode: string;
+  mode?: string;
   typeEdit = false;
-  demandaForEdit: any;
+  demandaForEdit?: any;
   formGroup: FormGroup;
 
   registerForm = this.formBuilder.group({
@@ -491,7 +491,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.demandaForEdit = null;
     this.spinner.show();
     this.demandaService.getDemandaById(CodigoDemanda).subscribe(
-      (demanda: Demanda) => {
+      (demanda?: Demanda) => {
         this.demandaForEdit = demanda;
         this.setListasDemandas(demanda);
         this.setObjetivosDropdown(demanda.ejeEndId);
@@ -569,14 +569,14 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   }
 
   agregarPolitica() {
-    let politicaSelected = this.politica.value;
+    let politicaSelected = this.politica?.value;
     if (politicaSelected != null) {
       if (this.listadoPoliticas == null) {
         this.listadoPoliticas = [];
       }
       if (
-        this.listadoPoliticas.findIndex(
-          (item) => item.PoliticaId == politicaSelected.id
+        this.listadoPoliticas?.findIndex(
+          (item) => item.PoliticaId == politicaSelected?.id
         ) == -1
       ) {
         this.listadoPoliticas.push({
