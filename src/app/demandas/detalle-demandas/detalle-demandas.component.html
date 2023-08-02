@@ -277,12 +277,10 @@
                           <span class="danger font-weight-bold">Instituciones responsables: </span>
                           <div *ngFor="let item of demanda.institucionesInvolucradas">
                             <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
-                            <article 
-                              class="badge badge-pill ml-2 mt-3"
-                              [ngClass]="estadoUtils.getEstadoClass(item.estadoId)"
-                            >
-                              <!-- {{item.estadoId}} -->
-                              {{ estadoUtils.titleEstadoEjecucion(item.estadoId) }}
+                            <br>
+                            <article class="badge badge-pill ml-2 mt-1"
+                              [ngClass]="getEstadoClass(item.estadoId)">
+                              {{item.nombreEstado}}
                             </article>
                           </div>
                         </div>
