@@ -108,6 +108,18 @@ export class DetalleDemandasComponent implements OnInit {
   goBack() {
     this._location.back();
   }
-  
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+
 
 }
