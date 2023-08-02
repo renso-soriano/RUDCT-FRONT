@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-12 ">
       <div class="w-100 d-flex justify-content-end ">
-        <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
+        <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos.includes('POST')"
           [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
           title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
             nueva</i></a>
@@ -71,22 +71,22 @@
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                  <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}"
-                    [sortable]="column.sortable" prop="{{column.prop}}">
+                  <ngx-datatable-column *ngFor="let column of columns" name="{{column?.name}}"
+                    [sortable]="column?.sortable" prop="{{column?.prop}}">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       <span
-                        *ngIf="column.prop != 'institucionesInvolucradas' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
+                        *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial'">
                         {{value}}
                       </span>
-                      <div *ngIf="column.prop == 'institucionesInvolucradas'" class="badge badge-pill" [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp))">
-                        {{ estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp)) }}
+                      <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill" [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+                        {{ estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp)) }}
                       </div>
-                      <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false"
+                      <div *ngIf="column?.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
                         class="badge badge-pill"
                         [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR','bg-dark':value == 'Rechazada - no competencia de sectorial'}">
                         {{ value }}
                       </div>
-                      <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true"
+                      <div *ngIf="column?.prop == 'prioridadProvincial' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == true"
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
@@ -96,20 +96,20 @@
                   <!-- Acciones -->
                   <ngx-datatable-column name="Acciones">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
-                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
+                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
                         title="Ver detalles"></a>
                       <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
                       title="Cargar evidencia"></a> -->
-                      <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
-                        (click)="editar(row.id)" title="Editar"></a>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
-                        class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
+                        (click)="editar(row?.id)" title="Editar"></a>
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('DELETE')"
+                        class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row?.id)"
                         title="Eliminar"></a>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('PUT')"
                         class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
-                        (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
+                        (click)="openVerticallyCentered(content,row?.id)" title="Cambiar estados"></a>
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -157,9 +157,9 @@
 
           <!-- <pre>{{listadoEstados | async | json}}</pre> -->
       
-          <div *ngIf="EF.estado.invalid && (EF.estado.dirty || EF.estado.touched)" class="help-block mt-1 text-danger">
+          <div *ngIf="EF.estado?.invalid && (EF.estado?.dirty || EF.estado?.touched)" class="help-block mt-1 text-danger">
 
-            <div *ngIf="EF.estado.errors.required">
+            <div *ngIf="EF.estado?.errors.required">
               <i class="ft-alert-circle align-middle"></i> El campo es requerido
             </div>
 
@@ -174,7 +174,7 @@
       <!-- </div> -->
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.incluidoEnPEI && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.incluidoEnPEI && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPei">Codigo PEI</label>
           <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3" formControlName="codigoPei">
@@ -183,7 +183,7 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.programadoEnPOA && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPoa">Producto poa</label>
           <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3" formControlName="codigoPoa">
@@ -192,7 +192,7 @@
       </div>
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.enProcesoDeEjecucion && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoSnip">Codigo Snip</label>
           <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
@@ -203,7 +203,7 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12"
-        *ngIf="EF.estado.value != null && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value != null && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <!-- <div class="form-group">
           <label for="comentarioEstado">Comentario</label>
           <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
@@ -222,11 +222,11 @@
         </div>
 
         <hr class="mt-0 mb-0">
-        <div *ngIf="!ComentariosList.length > 0"
+        <div *ngIf="!ComentariosList?.length > 0"
           class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
           No hay comentarios
         </div>
-        <ngb-accordion class="ml-0" *ngIf="ComentariosList.length > 0">
+        <ngb-accordion class="ml-0" *ngIf="ComentariosList?.length > 0">
           <ngb-panel id="static-1" class="ml-0">
 
             <ng-template ngbPanelTitle>
@@ -241,12 +241,12 @@
                   <div *ngFor="let List of ComentariosList" class="card card-inverse bg-info">
                     <div class="card-content">
                       <div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
-                        <p class="UserName" value>{{List.userName}}</p>
-                        <p class="FechaComentario text-sm"> - {{List.fechaRegistro | date}}</p>
+                        <p class="UserName" value>{{List?.userName}}</p>
+                        <p class="FechaComentario text-sm"> - {{List?.fechaRegistro | date}}</p>
                       </div>
                       <div class="card-body px-3 py-1">
                         <div class="comentarios">
-                          {{List.comentrio}}
+                          {{List?.comentrio}}
                         </div>
                         <!-- <div class="media">
                           <div class="media-body text-left">
@@ -269,7 +269,7 @@
 
 
       <div class="col-sm-12"
-        *ngIf="(EF.estado.value == this.estadoValidacionEnum.devueltaPorDGDES || EF.estado.value == this.estadoValidacionEnum.devueltaPorVIOTDR) && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
+        *ngIf="(EF.estado?.value == this.estadoValidacionEnum?.devueltaPorDGDES || EF.estado?.value == this.estadoValidacionEnum?.devueltaPorVIOTDR) && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == false">
         <div class="form-group">
           <label for="devolucion">Razón de devolución</label>
           <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
@@ -279,7 +279,7 @@
 
       <!-- </div> -->
 
-      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > this.estadoEjecucionEnum.reasignacionSectorial">
+      <div class="col-12" *ngIf="gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) && EF.estado?.value > this.estadoEjecucionEnum?.reasignacionSectorial">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>
@@ -289,7 +289,7 @@
             listado</span>
         </a>
 
-        <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm.invalid"
+        <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm?.invalid"
           (click)="closeModal()">
       </div>
 
