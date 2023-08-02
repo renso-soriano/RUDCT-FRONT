@@ -644,7 +644,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   preparanDataExcel(data) {
     this.dataExcel = data.map((item: any) => {
-      
+
       this.institucionesInvolucradasExcel = [];
       item.institucionesInvolucradas.forEach((i)=>{
         this.institucionesInvolucradasExcel.push(
@@ -659,7 +659,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         const estadoInstitucion = this.estadoUtils.titleEstadoEjecucion(inst.estado);
         return `${inst.nombre} (${estadoInstitucion})`;
       });
-     
+
       return {
         Codigo: item.codigo,
         Anio: item.anio,
@@ -673,8 +673,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
         NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        InstitucionesInvolucradas: instituciones.join(','),
+        //InstitucionResponsable: item.nombreInstitucionResponsable,
         TecnicoOmpp: item.nombreTecnicoOmpp,
         ResultanteDe: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
@@ -820,8 +819,50 @@ agregarComentario() {
     //   size: "xl"
     // });
   }
-  
-  
+
+  getEstadoIdForInstitucion(institucionesInvolucradas: any[], idInstitucion: number): number | null {
+    const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
+    return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
+  }
+
+  titleEstadoEjecucion(id:number):string{
+
+    switch (id) {
+      case Estados.pendienteAsignarSectorial:
+        return 'Pendiente Asignar Sectorial';
+      case Estados.asignadoASectorial:
+        return 'Asignado A Sectorial';
+      case Estados.reasignacionSectorial:
+        return 'Reasignacion Sectorial';
+      case Estados.enProcesoDeEjecucion:
+        return 'En Proceso De Ejecucion';
+      case Estados.incluidoEnPEI:
+        return 'Incluido En PEI';
+      case Estados.programadoEnPOA:
+        return 'Programado En POA';
+      case Estados.noInciada:
+        return 'No Iniciada';
+      case Estados.ejecutado:
+        return 'Ejecutado';
+      default:
+        return "";
+    }
+
+  }
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+
+
 
   closeModalSimple() {
     this.isModalOpen = false;
