@@ -635,8 +635,31 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
 
+  institucionesInvolucradasExcel: any = [
+    {
+      nombre: '',
+      estado: 0
+    }
+  ];
+
   preparanDataExcel(data) {
     this.dataExcel = data.map((item: any) => {
+
+      this.institucionesInvolucradasExcel = [];
+      item.institucionesInvolucradas.forEach((i)=>{
+        this.institucionesInvolucradasExcel.push(
+          {
+            nombre: i.nombreInstitucion,
+            estado: i.estadoId
+          }
+        )
+      })
+
+      const instituciones = this.institucionesInvolucradasExcel.map((inst: any) => {
+        const estadoInstitucion = this.estadoUtils.titleEstadoEjecucion(inst.estado);
+        return `${inst.nombre} (${estadoInstitucion})`;
+      });
+
       return {
         Codigo: item.codigo,
         Anio: item.anio,
@@ -766,7 +789,6 @@ agregarComentario() {
               codigoPoa: institucion.codigoPoa,
               codigoPei: institucion.codigoPei,
               razonDevolucion: this.demanda.razonDevolucion
-              
             });
           }
           

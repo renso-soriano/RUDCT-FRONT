@@ -23,31 +23,31 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="row">
-                      <div class="col-12" *ngIf="demanda.codigo">
+                      <div class="col-12" *ngIf="demanda?.codigo">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código demanda: </span>
-                          <label for="CodigoDemanda">{{demanda.codigo}}</label>
+                          <label for="CodigoDemanda">{{demanda?.codigo}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.anio">
+                      <div class="col-12" *ngIf="demanda?.anio">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Año: </span>
-                          <label for="año">{{demanda.anio}}</label>
+                          <label for="año">{{demanda?.anio}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.descripcion">
+                      <div class="col-12" *ngIf="demanda?.descripcion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Demanda: </span>
-                          <label for="demandaDescripcion">{{demanda.descripcion}}</label>
+                          <label for="demandaDescripcion">{{demanda?.descripcion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.detalle">
+                      <div class="col-12" *ngIf="demanda?.detalle">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Detalles: </span>
                           <textarea class="form-control" readonly cols="30" rows="4"
-                            [value]="demanda.detalle"></textarea>
+                            [value]="demanda?.detalle"></textarea>
                         </div>
                       </div>
 
@@ -59,16 +59,16 @@
                           </div>
                         </div>
                       </div> -->
-                      <div class="col-12" *ngIf="demanda.nombreTemaComun">
+                      <div class="col-12" *ngIf="demanda?.nombreTemaComun">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Clasificador funcional: </span>
-                          <label for="subFuncion">{{demanda.nombreTemaComun}}</label>
+                          <label for="subFuncion">{{demanda?.nombreTemaComun}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.temaComunTema">
+                      <div class="col-12" *ngIf="demanda?.temaComunTema">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tema común: </span>
-                          <label for="temaComun">{{demanda.temaComunTema}}</label>
+                          <label for="temaComun">{{demanda?.temaComunTema}}</label>
                         </div>
                       </div>
                       <!-- <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
@@ -81,56 +81,56 @@
                   </div>
                   <div class="col-6">
                     <div class="row">
-                      <div class="col-4" *ngIf="demanda.nombreRegion">
+                      <div class="col-4" *ngIf="demanda?.nombreRegion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Región: </span>
-                          <label for="region">{{demanda.nombreRegion}}</label>
+                          <label for="region">{{demanda?.nombreRegion}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.nombreProvincia">
+                      <div class="col-4" *ngIf="demanda?.nombreProvincia">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Provincia: </span>
-                          <label for="provincia">{{demanda.nombreProvincia}}</label>
+                          <label for="provincia">{{demanda?.nombreProvincia}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.municipioId">
+                      <div class="col-4" *ngIf="demanda?.municipioId">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Municipio: </span>
-                          <label for="municipio">{{demanda.nombreMunicipio}}</label>
+                          <label for="municipio">{{demanda?.nombreMunicipio}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.direccion">
+                      <div class="col-12" *ngIf="demanda?.direccion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Dirección: </span>
-                          <label for="direccion">{{demanda.direccion}}</label>
+                          <label for="direccion">{{demanda?.direccion}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreFuenteDemanda">
+                      <div class="col-12" *ngIf="demanda?.nombreFuenteDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Fuente de la demanda: </span>
-                          <label for="fuente">{{demanda.nombreFuenteDemanda}}</label>
+                          <label for="fuente">{{demanda?.nombreFuenteDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.prioridad">
+                      <div class="col-4" *ngIf="demanda?.prioridad">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad: </span>
-                          <label for="Prioridad">{{demanda.prioridad}}</label>
+                          <label for="Prioridad">{{demanda?.prioridad}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.prioridadProvincial">
+                      <div class="col-4" *ngIf="demanda?.prioridadProvincial">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad provincial: </span>
-                          <label for="Prioridad">{{demanda.prioridadProvincial}}</label>
+                          <label for="Prioridad">{{demanda?.prioridadProvincial}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.nombreTipoDemanda">
+                      <div class="col-4" *ngIf="demanda?.nombreTipoDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo Demanda: </span>
-                          <label for="TipoDemanda">{{demanda.nombreTipoDemanda}}</label>
+                          <label for="TipoDemanda">{{demanda?.nombreTipoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda.nivelDemanda">
-                        <div class="form-group" *ngIf="demanda.nivelDemanda == 'Municipales';else other_content">
+                      <div class="col-4" *ngIf="demanda?.nivelDemanda">
+                        <div class="form-group" *ngIf="demanda?.nivelDemanda == 'Municipales';else other_content">
                           <span class="danger font-weight-bold">Escala territorial: </span>
                           <label for="Nivel">MUNICIPAL</label>
                         </div>
@@ -139,30 +139,30 @@
                           <label for="Nivel">PROVINCIAL</label>
                         </ng-template>
                       </div>
-                      <div class="col-4" *ngIf="demanda.nombreTipoInversion || demanda.otroTipoInversion ">
+                      <div class="col-4" *ngIf="demanda?.nombreTipoInversion || demanda?.otroTipoInversion ">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo de inversión: </span>
                           <br />
-                          <span class="badge badge-pill badge-primary mr-1 mt-1">{{demanda.otroTipoInversion == null ?
-                            demanda.nombreTipoInversion : demanda.otroTipoInversion }} </span>
+                          <span class="badge badge-pill badge-primary mr-1 mt-1">{{demanda?.otroTipoInversion == null ?
+                            demanda?.nombreTipoInversion : demanda?.otroTipoInversion }} </span>
 
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.resultanteDe">
+                      <div class="col-12" *ngIf="demanda?.resultanteDe">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Resultante de consolidar: </span>
-                          <label for="ResultanteDe">{{demanda.resultanteDe}}</label>
+                          <label for="ResultanteDe">{{demanda?.resultanteDe}}</label>
                         </div>
                       </div>
 
 
-                      <div class="col-12" *ngIf="demanda.nombreEjeEnd">
+                      <div class="col-12" *ngIf="demanda?.nombreEjeEnd">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Eje y Objetivo END vinculados: </span>
                           <div>
-                            <label for="objetivosEnd">{{demanda.nombreEjeEnd}} -
-                              {{demanda.nombreObjetivoEnd}}</label>
+                            <label for="objetivosEnd">{{demanda?.nombreEjeEnd}} -
+                              {{demanda?.nombreObjetivoEnd}}</label>
                           </div>
                           <!-- <div *ngFor="let item of demanda.demandaResultadosEND">
                             <label for="InstitucionResponsable">{{item.nombreEjeEnd}} -
@@ -171,19 +171,19 @@
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.odsId">
+                      <div class="col-12" *ngIf="demanda?.odsId">
                         <div class="form-group">
                           <span class="danger font-weight-bold">ODS vinculado: </span>
                           <div>
-                            <label for="ODS">{{demanda.odsId}}- {{demanda.nombreODS}}</label>
+                            <label for="ODS">{{demanda?.odsId}}- {{demanda?.nombreODS}}</label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombrePoliticaPNPSP">
+                      <div class="col-12" *ngIf="demanda?.nombrePoliticaPNPSP">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Política PNPSP vinculada: </span>
                           <div>
-                            <label for="NombrePolitica">{{demanda.nombrePoliticaPNPSP}}</label>
+                            <label for="NombrePolitica">{{demanda?.nombrePoliticaPNPSP}}</label>
                           </div>
                         </div>
                       </div>
@@ -203,48 +203,48 @@
                   <div class="col-6">
                     <div class="row">
 
-                      <div class="col-12" *ngIf="demanda.nombreEstadoDemanda">
+                      <div class="col-12" *ngIf="demanda?.nombreEstadoDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado ejecución: </span>
-                          <label for="EstadoEjecucion">{{demanda.nombreEstadoDemanda}}</label>
+                          <label for="EstadoEjecucion">{{demanda?.nombreEstadoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.nombreEstadoValidacion">
+                      <div class="col-12" *ngIf="demanda?.nombreEstadoValidacion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado validacion: </span>
-                          <label for="EstadoValidacion">{{demanda.nombreEstadoValidacion}}</label>
+                          <label for="EstadoValidacion">{{demanda?.nombreEstadoValidacion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.razonDevolucion">
+                      <div class="col-12" *ngIf="demanda?.razonDevolucion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Razón devolución: </span>
-                          <label for="razonDevolucion">{{demanda.razonDevolucion}}</label>
+                          <label for="razonDevolucion">{{demanda?.razonDevolucion}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.comentarioEstado">
+                      <div class="col-12" *ngIf="demanda?.comentarioEstado">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Comentario estado: </span>
-                          <label for="comentarioEstado">{{demanda.comentarioEstado}}</label>
+                          <label for="comentarioEstado">{{demanda?.comentarioEstado}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.codigoPei">
+                      <div class="col-12" *ngIf="demanda?.codigoPei">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código PEI: </span>
-                          <label for="codigoPei">{{demanda.codigoPei}}</label>
+                          <label for="codigoPei">{{demanda?.codigoPei}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.codigoPoa">
+                      <div class="col-12" *ngIf="demanda?.codigoPoa">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código POA: </span>
-                          <label for="codigoPoa">{{demanda.codigoPoa}}</label>
+                          <label for="codigoPoa">{{demanda?.codigoPoa}}</label>
                         </div>
                       </div>
-                      <div class="col-12" *ngIf="demanda.codigoSnip">
+                      <div class="col-12" *ngIf="demanda?.codigoSnip">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código Snip: </span>
-                          <label for="codigoSnip">{{demanda.codigoSnip}}</label>
+                          <label for="codigoSnip">{{demanda?.codigoSnip}}</label>
                         </div>
                       </div>
                       <div class="col-12">
@@ -252,17 +252,17 @@
                           <span class="danger font-weight-bold">Benficiarios directos: </span>
                         </div>
                       </div>
-                      <div class="col-3" *ngIf="demanda.beneficiariosPersonas">
+                      <div class="col-3" *ngIf="demanda?.beneficiariosPersonas">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Personas: </span>
-                          <label for="temaComun">{{demanda.beneficiariosPersonas}}</label>
+                          <label for="temaComun">{{demanda?.beneficiariosPersonas}}</label>
                         </div>
                       </div>
 
-                      <div class="col-3" *ngIf="demanda.beneficiariosFamilias">
+                      <div class="col-3" *ngIf="demanda?.beneficiariosFamilias">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Familias: </span>
-                          <label for="temaComun">{{demanda.beneficiariosFamilias}}</label>
+                          <label for="temaComun">{{demanda?.beneficiariosFamilias}}</label>
                         </div>
                       </div>
 
@@ -272,49 +272,49 @@
                   <div class="col-6">
                     <div class="row">
 
-                      <div class="col-12" *ngIf="demanda.institucionesInvolucradas.length > 0">
+                      <div class="col-12" *ngIf="demanda.institucionesInvolucradas?.length > 0">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Instituciones responsables: </span>
-                          <div *ngFor="let item of demanda.institucionesInvolucradas">
-                            <label for="InstitucionResponsable">{{item.nombreInstitucion}}</label>
+                          <div *ngFor="let item of demanda?.institucionesInvolucradas">
+                            <label for="InstitucionResponsable">{{item?.nombreInstitucion}}</label>
                             <br>
                             <article class="badge badge-pill ml-2 mt-1"
-                              [ngClass]="getEstadoClass(item.estadoId)">
-                              {{item.nombreEstado}}
+                              [ngClass]="getEstadoClass(item?.estadoId)">
+                              {{item?.nombreEstado}}
                             </article>
                           </div>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.nombreTecnicoOmpp">
+                      <div class="col-12" *ngIf="demanda?.nombreTecnicoOmpp">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Técnico OMPP: </span>
-                          <label for="TecnicoOMPP">{{demanda.nombreTecnicoOmpp}}</label>
+                          <label for="TecnicoOMPP">{{demanda?.nombreTecnicoOmpp}}</label>
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda.demandaContactos.length > 0">
+                      <div class="col-12" *ngIf="demanda.demandaContactos?.length > 0">
                         <span class="danger font-weight-bold">Contactos</span>
                         <div class="row">
-                          <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda.demandaContactos">
+                          <div class="card shadow col-5 m-1" *ngFor="let contacto of demanda?.demandaContactos">
                             <div class="card-body">
                               <div class="row">
                                 <div class="col-12">
                                   <div class="form-group">
                                     <span class="danger font-weight-bold">Nombre: </span>
-                                    <label for="ContactoNombre">{{contacto.nombreCompleto}}</label>
+                                    <label for="ContactoNombre">{{contacto?.nombreCompleto}}</label>
                                   </div>
                                 </div>
                                 <div class="col-12">
                                   <div class="form-group">
                                     <span class="danger font-weight-bold">Telefono: </span>
-                                    <label for="ContactoTelefono">{{contacto.telefono}}</label>
+                                    <label for="ContactoTelefono">{{contacto?.telefono}}</label>
                                   </div>
                                 </div>
                                 <div class="col-12">
                                   <div class="form-group">
                                     <span class="danger font-weight-bold">Descripción: </span>
-                                    <label for="ContactoDescripcion">{{contacto.descripcion}}</label>
+                                    <label for="ContactoDescripcion">{{contacto?.descripcion}}</label>
                                   </div>
                                 </div>
                               </div>
@@ -359,12 +359,12 @@
                 <div *ngFor="let List of demanda.demandaComentarios" class="card card-inverse bg-info">
                   <div class="card-content">
                     <div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
-                      <p class="UserName" value>{{List.userName}}</p>
-                      <p class="FechaComentario text-sm"> - {{List.fechaRegistro | date}}</p>
+                      <p class="UserName" value>{{List?.userName}}</p>
+                      <p class="FechaComentario text-sm"> - {{List?.fechaRegistro | date}}</p>
                     </div>
                     <div class="card-body px-3 py-1">
                       <div class="comentarios">
-                        {{List.comentrio}}
+                        {{List?.comentrio}}
                       </div>
                       <!-- <div class="media">
                         <div class="media-body text-left">

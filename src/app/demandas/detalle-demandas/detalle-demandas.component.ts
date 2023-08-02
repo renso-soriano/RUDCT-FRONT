@@ -74,7 +74,7 @@ export class DetalleDemandasComponent implements OnInit {
 
     if (this.abierto) {
       this.demandaService.getDemandaByIdGobiernoAbierto(demandaId).subscribe(
-        (demanda: Demanda) => {
+        (demanda?: Demanda) => {
           this.demanda = demanda;
         },
         (err: any) => {
@@ -89,7 +89,7 @@ export class DetalleDemandasComponent implements OnInit {
     }
     else {
       this.demandaService.getDemandaById(demandaId).subscribe(
-        (demanda: Demanda) => {
+        (demanda?: Demanda) => {
           this.demanda = demanda;
         },
         (err: any) => {
