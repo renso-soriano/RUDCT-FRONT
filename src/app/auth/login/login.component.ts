@@ -34,11 +34,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.authService.loggedIn().then((res: any) => this.router.navigate(['/dasboard']))
+    /* this.authService.loggedIn()
+    .then((res: any) => this.router.navigate(['/dasboard']))
     .catch((err: any) => {
       sessionStorage.clear()
       this.router.navigate(['/auth'])
-    })
+    }) */
 
   }
 

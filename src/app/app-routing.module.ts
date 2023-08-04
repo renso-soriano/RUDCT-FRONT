@@ -11,7 +11,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'auth/quien_soy',
     pathMatch: 'full',
   },
   { path: '', component: FullLayoutComponent, data: { title: 'full Views' }, children: Full_ROUTES, canActivate: [AuthGuard] },

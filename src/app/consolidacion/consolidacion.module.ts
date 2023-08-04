@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'app/shared/shared.module';
 import { ListadoDemandasConsolidacionComponent } from './listado-demandas-consolidacion/listado-demandas-consolidacion.component';
+import { DemandasModule } from 'app/demandas/demandas.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ListadoDemandasConsolidacionComponent } from './listado-demandas-consol
     NgbModule,
     ToastrModule,
     NgxSpinnerModule,
-    SharedModule
+    SharedModule,
+    DemandasModule
   ]
 })
 export class ConsolidacionModule { }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from "@angular/common";
+import { CommonModule, DecimalPipe } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -35,6 +35,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import{LeafletModule} from '@asymmetrik/ngx-leaflet'
+import { RegionChartComponent } from './components/region-chart/region-chart.component';
+import { ChartistModule } from 'ng-chartist';
+import { MatchHeightModule } from './directives/match-height.directive';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { AngularResizedEventModule } from 'angular-resize-event';
+import { RandyFileComponent } from './components/randy-file/randy-file.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ModalComponent } from './components/modal/modal.component';
+import { EstadoUtilsService } from './utilidades/estados-utils';
 
 @NgModule({
     exports: [
@@ -52,7 +61,10 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TranslateModule,
         DataFilterComponent,
         MapaComponent,
-        LeafletModule
+        LeafletModule,
+        RandyFileComponent,
+        ModalComponent,
+        RegionChartComponent
     ],
     imports: [
         RouterModule,
@@ -68,8 +80,15 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         PipeModule,
         NgSelectModule,
         NgxSpinnerModule,
-        LeafletModule
-
+        LeafletModule,
+        CommonModule,
+        ChartistModule,
+        NgbModule,
+        MatchHeightModule,
+        NgApexchartsModule,
+        AngularResizedEventModule,
+        FileUploadModule,
+        // RandyFileComponent,
 
     ],
     declarations: [
@@ -90,6 +109,10 @@ import{LeafletModule} from '@asymmetrik/ngx-leaflet'
         TopMenuDirective,
         DataFilterComponent,
         MapaComponent,
-    ]
+        RandyFileComponent,
+        ModalComponent,
+        RegionChartComponent,
+    ],
+    providers: [DecimalPipe],
 })
 export class SharedModule { }

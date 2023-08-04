@@ -1,0 +1,322 @@
+<!--cards-->
+<div class="row match-height main">
+  <div class="col-12">
+
+    <div class="col-lg-6 d-none d-lg-flex justify-content-left align-items-center auth-img-bg p-3">
+      <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
+      <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
+    </div>
+    <div class="row mt-3">
+      <div class="col-11 m-auto">
+        <p class="my-2 proposito text-color">
+          Transparentar las demandas territoriales ciudadanas a nivel nacional,
+          a través de una herramienta digital donde se puedan visualizar los requerimientos surgidos
+          y canalizados por los consejos provinciales de desarrollo, de igual forma el estatus de estas.
+          <br>
+          Este sistema permitirá un registro único de las demandas territoriales de la ciudadanía residente en los
+          distintos
+          puntos de la geografía nacional, para que sean atendidas por el Gobierno, para mejorar la respuesta
+          oportuna
+          y con esto elevar las condiciones de vida de la población.
+        </p>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-11 m-auto">
+
+        <div>
+          <h5 class="card-title mb-0">Distribución de las demandas por ejes END</h5>
+        </div>
+        <!--Statistics cards Starts-->
+        <div class="row" (resized)="onResized($event)">
+
+          <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+            <div class="card bg-info">
+              <div class="card-content">
+                <div class="card-body py-0">
+                  <div class="media pb-1">
+                    <div class="media-body white text-left">
+                      <h2 class="font-large-1 white mb-0">{{ejeInstitucional}}</h2>
+                      <span>Institucionalidad</span>
+                    </div>
+                    <div class="media-right white text-right">
+                      <i class="ft-home font-large-1"></i>
+                    </div>
+                  </div>
+                </div>
+                <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
+
+                  <br>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+            <div class="card bg-warning">
+              <div class="card-content">
+                <div class="card-body py-0">
+                  <div class="media pb-1">
+                    <div class="media-body white text-left">
+                      <h2 class="font-large-1 white mb-0">{{ejeSocial}}</h2>
+                      <span>Social</span>
+                    </div>
+                    <div class="media-right white text-right">
+                      <i class="ft-users font-large-1"></i>
+                    </div>
+                  </div>
+                </div>
+                <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
+
+                </div>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+            <div class="card bg-danger">
+              <div class="card-content">
+                <div class="card-body py-0">
+                  <div class="media pb-1">
+                    <div class="media-body white text-left">
+                      <h2 class="font-large-1 white mb-0">{{ejeEconomico}}</h2>
+                      <span>Economico</span>
+                    </div>
+                    <div class="media-right white text-right">
+                      <i class="ft-trending-up font-large-1"></i>
+                    </div>
+                  </div>
+                </div>
+                <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartshadow mb-2">
+
+                </div>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+            <div class="card bg-success">
+              <div class="card-content">
+                <div class="card-body py-0">
+                  <div class="media pb-1">
+                    <div class="media-body white text-left">
+                      <h2 class="font-large-1 white mb-0">{{ejeMedioAmbiental}}</h2>
+                      <span>Medio ambiental</span>
+                    </div>
+                    <div class="media-right white text-right">
+                      <i class="ft-sun font-large-1"></i>
+                    </div>
+                  </div>
+                </div>
+                <div id="Widget-line-chart" class=" WidgetlineChart WidgetlineChartshadow mb-2">
+
+                </div>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--Statistics cards Ends-->
+
+      </div>
+      <div class="col-11 m-auto">
+
+
+        <!--mapa data y regiones-->
+        <div class="row match-height">
+          <div class="col-8">
+            <div class="card  shadow">
+              <h5 class="bg-primary text-white text-center p-2 rounded-top">
+                Cantidad de demandas en los territorios</h5>
+
+              <!-- <div class="card-content">
+                <div class="card-body" style="min-height:605px; max-height:700px">
+
+                  <div id="map" leaflet [leafletOptions]="options" [leafletLayers]="capas">
+                  </div>
+
+                </div>
+              </div> -->
+              <div class="card-content">
+                <div class="card-body" style="min-height:605px; max-height:700px">
+                  <div class="form-group w-25">
+                    <label>Cambiar tipo de mapa</label>
+                    <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
+                      <option value="1">Provincial</option>
+                      <option value="2">Municipal</option>
+                    </select>
+                  </div>
+
+                  <app-mapa #mapaComponent [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile"
+                    [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty"
+                    [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12 col-md-4">
+            <div class="card border shadow">
+              <h5 class="bg-primary text-white text-center p-2 rounded-top">
+                Porcentaje demandas por region
+              </h5>
+              <div class="card-content">
+                <div class="card-body align-items-center" style="min-height:605px; max-height:700px ">
+                  <app-region-chart #regionChart [regionesInfo]="regiones"></app-region-chart>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!--mapaData y regiones-->
+
+        <!-- Filter Datatables -->
+        <section id="ngx-datatable-filter">
+          <div class="row">
+            <div class="col-12">
+              <div class="card shadow">
+                <div class="card-header">
+                  <h4 class="card-title ml-2">Listado de demandas</h4>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+
+                    <div class="col-md-12 mb-2">
+                      <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
+                      </app-data-filter>
+                    </div>
+
+                    <div class="col-md-10">
+                      <div class="w-100 d-flex left-content-end">
+                        <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
+                          (change)="_changeRowLimits($event)" name="limit" id="limit" [(ngModel)]="limitSelected"
+                          style="width: 25%;" [clearable]="false">
+                        </ng-select>
+                        <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom"
+                          title="Exportar listado actual en Excel" class="btn btn btn-success btn-sm ml-1">
+                          <i class="fa fa-file-excel-o"> Exportar Excel</i>
+                        </a>
+                        <!-- <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
+                            mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)"
+                          title="Ver listado en el mapa"><i class="fa fa-map-marker mapaselect "
+                            aria-hidden="true "></i></a> -->
+                      </div>
+                    </div><br>
+
+                    <div class="col-md-12">
+                      <ngx-datatable id="dataTable1" class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
+                        [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
+                        [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
+                        [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto"
+                        [reorderable]="reorderable">
+
+
+                        <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}"
+                          [sortable]="column.sortable" prop="{{column.prop}}" id="{{column.prop}}">
+                          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span *ngIf="column.prop != 'nombreEstadoDemanda'">
+                              {{value}}
+                            </span>
+                            <div *ngIf="column.prop == 'nombreEstadoDemanda'" class="badge badge-pill"
+                              [ngClass]="{'bg-danger': value == 'Rechazado', 'bg-warning':value == 'Visto/Recibido', 'bg-info':value == 'Existe en PEI', 'bg-primary':value == 'No vista', 'bg-success':value == 'Acogida para programa y/o proyecto'}">
+                              {{ value }}
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Instituciones responsables" prop="institucionesInvolucradas">
+                          <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
+                            <ng-template ngFor let-obj [ngForOf]="value">
+                             {{ obj.nombreInstitucion}}.
+                              <br />
+                            </ng-template>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <!-- Acciones -->
+                        <ngx-datatable-column name="Acciones">
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                            <a class="btn-sm      btn-warning text-white  ft-eye"
+                              (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
+
+                              <!-- temporalmente desactivado -->
+                            <!-- <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
+                              [class.no-event]="!row.demandaAnexos.length >0" title=" Ver archivos"></a> -->
+
+
+
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-footer>
+                          <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
+                            let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset"
+                            let-isVisible="isVisible">
+                            <div class="page-count">
+                              Mostrando {{(offset * pageSize)+1}} a {{(rowCount>
+                              (curPage*pageSize))?(curPage*pageSize):(rowCount)}} de
+                              {{(rowCount)}} registros.
+                            </div>
+                            <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                              [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                              [pagerNextIcon]="'datatable-icon-skip'" [page]="curPage" [size]="pageSize"
+                              [count]="rowCount" [hidden]="!((rowCount / pageSize) > 1)"
+                              (change)="table.onFooterPage($event)">
+                            </datatable-pager>
+                          </ng-template>
+                        </ngx-datatable-footer>
+                      </ngx-datatable>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!--/ Filter Datatables -->
+
+        <!--modal fixed-->
+        <UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalDetalles>
+          <app-detalle-demandas [idExterno]="demandaId" #Detalles></app-detalle-demandas>
+          <div class="modal-footer">
+
+            <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">
+          </div>
+          <!--end modal fixed-->
+        </UIModal>
+        <!--modal fixed-->
+
+
+        <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
+
+          <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true"></Randy-File>
+
+          <!-- <div class="modal-footer">
+
+            <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">
+          </div> -->
+          <!--end modal fixed-->
+        </UIModal>
+
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+<!--endCards-->

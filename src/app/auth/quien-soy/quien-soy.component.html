@@ -1,0 +1,42 @@
+<!--quienSoy Page Starts-->
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+<section id="login"  class="cupula">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3">
+                <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
+                <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
+              </div>
+              <div class="col-lg-6 col-12 px-4 py-3">
+                <h4 class="mb-2 card-title">Como deseas acceder a RUDCT?</h4>
+                <div class="card-container">
+
+                  <div class="card--container-wraper" *ngFor="let item of menuItems" (click)="navegar(item)">
+                    <div class="card--container-image">
+                      <img [src]="item.imagePath" alt="icon">
+                    </div>
+                    <div class="card--container-item" [class.is-inactive]="!activeModules.includes(item.id)">
+                      <div class="card-content text-center">
+                        <div class="card-body py-3">
+                          <span>{{item.titulo}}</span><br>
+                          <small class="card-subtitulo">{{item.subTitulo}}</small>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--quienSoy Page Ends-->

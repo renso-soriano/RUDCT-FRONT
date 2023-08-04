@@ -1,5 +1,5 @@
 import { ExcelService } from './../../shared/services/excel.service';
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit, TemplateRef, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatatableData } from './data/datatables.data';
 import {
   ColumnMode,
@@ -7,7 +7,7 @@ import {
   SelectionType
 } from '@swimlane/ngx-datatable';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 import { Router } from '@angular/router';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
@@ -25,6 +25,22 @@ import { saveAs } from 'file-saver';
 import * as L from 'leaflet';
 import { LeafletMouseEvent } from 'app/shared/utilidades/utilidades';
 import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
+import { FileManagerService } from '../services/fileManager.service';
+import { TipoDocumento } from '../enum/tipo-documento.enum';
+import Archivo from '../interface/archivo.interface';
+import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { Console } from 'console';
+import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
+import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
+import { Estados } from 'app/shared/models/auth/estados.enum';
+import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum';
+import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
+
+import { EstadoUtilsService } from 'app/shared/utilidades/estados-utils';
+
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -34,31 +50,70 @@ const data: any = require('../../shared/data/Demandas.json');
   templateUrl: './listado-demandas.component.html',
   styleUrls: ['./listado-demandas.component.scss', '../../../assets/sass/libs/datatables.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [NGXToastrService]
+  providers: [NGXToastrService],
 })
-export class ListadoDemandasComponent implements OnInit {
+export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit {
 
+  @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
+  @ViewChild("modalFile") modalAnexo: ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
+  rolesEnum = GrupoUsuario;
+  estadoEjecucionEnum = Estados;
+  estadoValidacionEnum = EstadosValidacion;
+
+  //Input and Output
+  @Output() anexosDemandas = new EventEmitter<any>();
+  @Input() listaDeAnexos: Archivo[]
+  @Input() isDetail: boolean = false;
+
   // public
   public contentHeader: object;
+  isModalOpen: boolean = false;
 
   //data:any[];
+  estadoDemanda: any;
   notFound = false;
   modal: NgbModal;
   @ViewChild("content") content: ElementRef<HTMLElement>;
+  //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
+  files: Archivo[] = [];
   listadoEstados: Observable<any[]>;
+  nuevosAnexos: any[] = [];
+  tiposDocumentos: any[] = [
+    { name: 'Identificacion', index: 1 },
+    { name: 'Acta De Nacimiento', index: 2 },
+    { name: 'Documento Prueba', index: 3 },
+    { name: 'Prueba', index: 4 }];
+  tipoDocumentoId: number = 0
+  // private FileURL = 'http://apidemandas.economia.local/Api/File';
   listadoEstadosValidacion: Observable<any[]>;
   institucionUsuarioSSO: number;
   institucionUsuarioEnRUDT: any;
   gruposUsuario: number[] = [];
   usuarioPermisos: any = [''];
+  ComentariosList: any[] = [];
+  listadoComentarios: any[] = [];
+  demandaForEdit: Demanda;
+  typeEdit = false;
   pdf: any;
   capas: any;
-  rowsFilterByGoups: any;
-  tipoEstado: string;
+  UserName?: any;
+  rowsFilterByGoups?: any;
+  tipoEstado?: string;
+  file?: any
+  demandaId?: any
+  listaAnexosId?: any
+  modalConfig: IModalConfig = {
+    modalTitle: "Estado de Demandas"
+  }
+  modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+
+  }
 
 
   estadoForm = this.formBuilder.group({
@@ -67,14 +122,20 @@ export class ListadoDemandasComponent implements OnInit {
     codigoPoa: [null],
     codigoPei: [null],
     codigoSnip: [null],
-    razonDevolucion: [null]
-  });
+    razonDevolucion: [null],
+    comentarios: [null]
 
+  });
+  get comentarios() {
+    return this.estadoForm.get("comentarios");
+
+  }
   get EF() {
     return this.estadoForm.controls;
   }
 
   estadoChange() {
+    console.log("ejecutando el change")
     this.estadoForm.patchValue({
       comentarioEstado: null,
       codigoPoa: null,
@@ -82,7 +143,11 @@ export class ListadoDemandasComponent implements OnInit {
       codigoSnip: null,
       razonDevolucion: null
     });
+
   }
+
+
+  public idInstitucionProp?: any;
 
 
   // row data
@@ -126,8 +191,9 @@ export class ListadoDemandasComponent implements OnInit {
     { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
+    { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
-    { name: 'Estado de ejecución', prop: 'nombreEstadoDemanda', sorteable: false, visible: false },
+    // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
   ];
 
@@ -156,13 +222,15 @@ export class ListadoDemandasComponent implements OnInit {
   dataExcel: any;
   rowExportExcel: any;
 
+
+
   /**
    * filterUpdate
    *
    * @param code
    */
   filterUpdate(event) {
-    const val = event.target.value.toLowerCase();
+    const val = event.target.value?.toLowerCase();
 
     // filter our data
     const temp = this.tempData.filter(function (d) {
@@ -193,6 +261,14 @@ export class ListadoDemandasComponent implements OnInit {
     this.tableResponsive.rowDetail.toggleExpandRow(row);
   }
 
+  ngOnDestroy(): void {
+    if(this.isModalOpen)
+    {
+      this.closeModalSimple();
+    }
+
+  }
+
   /**
    * Constructor
    *
@@ -207,12 +283,26 @@ export class ListadoDemandasComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dropdownService: DropDownServiceService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService,
+    private fileManager: FileManagerService,
+    private randyFileService: RandyFileService,
+    private estadoUtils: EstadoUtilsService
+  ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
   }
+  ngAfterContentInit(): void {
 
+  }
+  ngAfterViewInit(): void {
+
+  }
+
+  openFileModal(demandaId: number): void {
+    this.mapFile();
+    this.modalAnexo.open();
+  }
   //Actions Methods
 
   verDetalles(CodigoDemanda: string) {
@@ -234,57 +324,60 @@ export class ListadoDemandasComponent implements OnInit {
    */
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
-    const modulo = this.authService.findModule(this.router.routerState.snapshot.url);
+    const modulo = this.authService?.findModule(this.router.routerState.snapshot.url);
+    this.UserName =  this.authService?.getUserCompleteName();
 
-    this.institucionUsuarioSSO = this.authService.getInstitucion();
-    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+    console.log("Name the  User Login: ", this.UserName);
 
-    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
+    this.institucionUsuarioSSO = this.authService?.getInstitucion();
+  //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
+    this.gruposUsuario = this.authService?.getGrupos().map(g => g.groupId);
+
+    if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
+      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion' && x.prop !== 'nombreTipoDemanda' );
+      this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
+      this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
+      // console.log("Estados: ", this.listadoEstados.subscribe(res => {
+      //   res = this.estadoDemanda;
+      // }));
       this.tipoEstado = "ejecución";
+      //console.log(this.estadoDemanda, 'deandaasssssssssssssssss')
     }
     else {
-       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true)
-       {
+      if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.DGDES);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.VIOTDR);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(GrupoUsuario.regionalesRUDT);
-       }
-       if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true)
-       {
+      }
+      if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacion();
-       }
+      }
 
       this.tipoEstado = "validación";
     }
 
-
-    this.dropdownService.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
+    this.dropdownService?.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
+      console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
+      // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
 
     });
 
-    const observable = from(this.authService.getPermissions(modulo.id));
 
+    const observable = from(this.authService?.getPermissions(modulo.id));
 
     observable.subscribe((res: any) => {
       this.usuarioPermisos = res.acciones;
-
-
     }, (err: any) => {
       console.error(err);
     });
-
-
-
+    console.log(observable)
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -359,7 +452,6 @@ export class ListadoDemandasComponent implements OnInit {
         multiple: false,
 
       }),
-
       new FiltrosDinamicos().deserialize({
         name: 'institucionId',
         label: 'Institución responsable',
@@ -398,8 +490,6 @@ export class ListadoDemandasComponent implements OnInit {
       })
     ];
     this.loadingIndicator = false;
-
-
   }
 
   setFilterAnnios(): any[] {
@@ -429,6 +519,7 @@ export class ListadoDemandasComponent implements OnInit {
     let grupoId;
     let institucion;
 
+
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
       institucion = this.institucionUsuarioEnRUDT;
@@ -445,6 +536,8 @@ export class ListadoDemandasComponent implements OnInit {
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
+
+
 
     params = new HttpParams()
       .set('Page', `${this.page.offset + 1}`)
@@ -466,8 +559,23 @@ export class ListadoDemandasComponent implements OnInit {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
-      document.body.click();
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+      this.idInstitucionProp = idRudt;
+      console.log(data.items);
+      // console.log(exist, 'Coincidencia')
+      // let p
+      // let filtered
+      // let mydata = []
+      // data.items?.map(i => {
+      //   p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
+      //   filtered = p.filter(i => i.insti === +institucion)[0]
+      //   mydata.push(filtered)
+      // })
+
+      // this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
+      // console.log(this.rows)
     });
+    //console.log(getDemandas(params))
   }
 
   public async _changeRowLimits(event: any) {
@@ -519,7 +627,6 @@ export class ListadoDemandasComponent implements OnInit {
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
       this.rowExportExcel = data.items;
-      console.log("rowsExcel=>", this.rowExportExcel);
       this.preparanDataExcel(this.rowExportExcel);
       //  this.spinner.hide();
       this.excelService.exportAsExcelFile(this.dataExcel, 'Lista de demandas');
@@ -529,80 +636,265 @@ export class ListadoDemandasComponent implements OnInit {
 
   }
 
+  institucionesInvolucradasExcel: any = [
+    {
+      nombre: '',
+      estado: 0
+    }
+  ];
+
   preparanDataExcel(data) {
     this.dataExcel = data.map((item: any) => {
+
+      this.institucionesInvolucradasExcel = [];
+      item?.institucionesInvolucradas.forEach((i)=>{
+        this.institucionesInvolucradasExcel.push(
+          {
+            nombre: i.nombreInstitucion,
+            estado: i.estadoId
+          }
+        )
+      })
+
+      const instituciones = this.institucionesInvolucradasExcel.map((inst: any) => {
+        const estadoInstitucion = this.estadoUtils.titleEstadoEjecucion(inst.estado);
+        return `${inst.nombre} (${estadoInstitucion})`;
+      });
+
       return {
-        Codigo: item.codigo,
-        Anio: item.anio,
-        EscalaTerritorial: item.nivelDemanda,
-        Demanda: item.descripcion,
-        EstadoDemanda: item.nombreEstadoDemanda,
-        Prioridad: item.prioridad,
-        Region: item.nombreRegion,
-        Provincia: item.nombreProvincia,
-        Municipio: item.nombreMunicipio,
-        Tema_Comun: item.temaComunTema,
-        Clasificador_Funcional: item.nombreTemaComun,
-        NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        TecnicoOmpp: item.nombreTecnicoOmpp,
-        ResultanteDe: item.resultanteDe,
-        Activo: item.estatus ? "Si" : "No"
+        Codigo: item?.codigo,
+        Anio: item?.anio,
+        EscalaTerritorial: item?.nivelDemanda,
+        Demanda: item?.descripcion,
+        EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(this.estadoUtils.getEstadoIdForInstitucion(item?.institucionesInvolucradas, this.idInstitucionProp)),
+        Prioridad: item?.prioridad,
+        Region: item?.nombreRegion,
+        Provincia: item?.nombreProvincia,
+        Municipio: item?.nombreMunicipio,
+        Tema_Comun: item?.temaComunTema,
+        Clasificador_Funcional: item?.nombreTemaComun,
+        NombreFuenteDemanda: item?.nombreFuenteDemanda,
+        InstitucionResponsable: item?.nombreInstitucionResponsable,
+        TecnicoOmpp: item?.nombreTecnicoOmpp,
+        ResultanteDe: item?.resultanteDe,
+        Activo: item?.estatus ? "Si" : "No"
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
         // modificadoPor: item.nombreModificadoPor,
         // ModificadoEn: item.fechaModificacion
 
       };
-
     });
+  }
+  mapFile() {
+
+    //  let file = this.listaDeAnexos;
+    this.demanda.demandaAnexos.forEach((item: any) => {
+      this.files.push({
+        file: {
+          ...item?.file
+        },
+        tipoDocumentoId: item.file.fileType.id.toString(),
+        id: item.id,
+        entityId: item?.demandaId
+
+      })
+    })
 
 
   }
+  removeFile(fileId) {
+    const index = this.demanda.demandaAnexos.findIndex(x => x.id === fileId);
+    this.demanda.demandaAnexos.splice(index, 1);
 
+  }
 
-  openVerticallyCentered(content, id: string) {
-    this.EF.estado.setValue(null);
-    this.demandasService.getDemandaById(id).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        document.body.click();
-      },
-      () => {
-        document.body.click();
-      }
-    );
-
-    this.modalService.open(content, {
+  openModalComentario(contentComentario) {
+    this.modalService.open(contentComentario, {
       centered: true,
       backdrop: "static",
       keyboard: false,
     });
+
   }
 
-  submit() {
+  setListasDemandas(demanda: Demanda): void {
+  this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
+    return {
+      id: item?.id,
+      demandaId: item?.demandaId,
+      comentrio: item?.comentrio,
+      estatus: item?.estatus,
+      userName:item?.userName
+    };
+  });
+}
 
+
+agregarComentario() {
+  console.log("A verL ", this.comentarios.value);
+  if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
+    if (this.ComentariosList == null) {
+      this.ComentariosList = [];
+    }
+    this.ComentariosList.push(
+      {
+        id: 0,
+        demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+        comentrio: this.comentarios.value,
+        estatus: "A",
+        userName: this.UserName
+
+
+      }
+
+    )
+    console.log("A verL ", this.ComentariosList);
+  } else {
+    this.serviceStr.typeError("No puede añadir comentarios vacíos");
+  }
+
+  this.estadoForm.patchValue({
+    comentarios: null
+  });
+
+
+}
+
+
+  openVerticallyCentered(content, id: any) {
+    this.isModalOpen = true;
+    this.EF.estado.setValue(null);
+    this.files = []; //aca se inicializa siempre en 0, asi se evita que se repita
+    this.demandasService.getDemandaById(id).subscribe(
+      (demanda: Demanda) => {
+        this.demanda = demanda;
+        //this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
+        this.ComentariosList = demanda?.demandaComentarios;
+        console.log("Lista de comentarios: ", this.ComentariosList);
+        console.log("Lista de otras cosas: ", this.demanda);
+
+        this.demanda.institucionesInvolucradas.forEach((institucion) => {
+
+          const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+
+          if ( institucion.institucionId === idRudt ) {
+            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
+            this.estadoDemanda = estadoName;
+
+            this.estadoForm.patchValue({
+
+              estado: institucion.estadoId?.toString(),
+              comentarioEstado: this.demanda?.comentarioEstado,
+              codigoSnip: institucion?.codigoSnip,
+              codigoPoa: institucion?.codigoPoa,
+              codigoPei: institucion?.codigoPei,
+              razonDevolucion: this.demanda?.razonDevolucion
+            });
+          }
+
+        });
+
+        // if (this.demanda.demandaAnexos.length > 0) {
+        //   this.isDetail = true
+        // } else {
+        //   this.isDetail = false
+        // }
+        // this.listaDeAnexos = demanda.demandaAnexos
+        this.mapFile()
+        // console.log("Lista de Anexos", this.files);
+      },
+      (err: any) => {
+        console.error(err);
+        this.notFound = true;
+      },
+      () => {
+      }
+    );
+    this.demandaId = id;
+    this.modalAnexo.open()
+    // this.modalService.open(content, {
+    //   centered: true,
+    //   backdrop: "static",
+    //   keyboard: false,
+    //   size: "xl"
+    // });
+  }
+
+  getEstadoIdForInstitucion(institucionesInvolucradas?: any[], idInstitucion?: number): number | null {
+    const institucionInvolucrada = institucionesInvolucradas.find(institucion => institucion.institucionId === idInstitucion);
+    return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
+  }
+
+  titleEstadoEjecucion(id?:number):string{
+
+    switch (id) {
+      case Estados.pendienteAsignarSectorial:
+        return 'Pendiente Asignar Sectorial';
+      case Estados.asignadoASectorial:
+        return 'Asignado A Sectorial';
+      case Estados.reasignacionSectorial:
+        return 'Reasignacion Sectorial';
+      case Estados.enProcesoDeEjecucion:
+        return 'En Proceso De Ejecucion';
+      case Estados.incluidoEnPEI:
+        return 'Incluido En PEI';
+      case Estados.programadoEnPOA:
+        return 'Programado En POA';
+      case Estados.noInciada:
+        return 'No Iniciada';
+      case Estados.ejecutado:
+        return 'Ejecutado';
+      default:
+        return "";
+    }
+
+  }
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+
+
+
+  closeModalSimple() {
+    this.isModalOpen = false;
+    this.modalAnexo.close()
+  }
+
+  closeModal() {
+    this.submit();
+    this.isModalOpen = false;
+    this.modalAnexo.close()
+  }
+  submit() {
     //validaciones finales de listados
-    if (this.EF.estado.value == 3 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.comentarioEstado.value == null) {
+    if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.comentarioEstado.value == null) {
       this.serviceStr.typeError(
         "Debe completar el por qué rechaza la demanda"
       );
     }
-    else if (this.EF.estado.value == 4 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoSnip.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
     }
-    else if (this.EF.estado.value == 5 && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true && this.EF.codigoPei.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.incluidoEnPEI && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPei.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo PEI"
+
+
       );
     }
-    else if (this.EF.estado.value == 6 && this.EF.codigoPoa.value == null) {
+    else if (this.EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPoa.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo POA"
       );
@@ -612,27 +904,71 @@ export class ListadoDemandasComponent implements OnInit {
     }
   }
 
-  enviar() {
+  async enviar() {
+
+
 
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.demanda.estadoId = parseInt(formValue.estado, 10);
+
+      const nuevoEstadoId = parseInt(formValue.estado, 10);
+      const idRudt = parseInt(this?.institucionUsuarioEnRUDT)
+
+      this.demanda.institucionesInvolucradas.forEach((institucion) => {
+        if ( institucion.institucionId === idRudt ) {
+
+          institucion.estadoId = nuevoEstadoId;
+        }
+
+      });
+
     }
     else {
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
     }
 
-    this.demanda.codigoPei = formValue.codigoPei;
-    this.demanda.codigoPoa = formValue.codigoPoa;
-    this.demanda.codigoSnip = formValue.codigoSnip;
+
+    let files = this.randyFile?.getFiles();
+    if (files?.length > 0) {
+      let formData = this.randyFileService.createFormData(files);
+      let fileIds = await this.randyFileService.uploadFiles(formData).toPromise();
+      fileIds.forEach(fileId => {
+        this.demanda.demandaAnexos.push(
+
+          {
+            demandaId: this.demanda.id,
+            fileId,
+            id: 0
+          }
+
+        )
+
+      })
+    }
+
+    this.demanda.demandaComentarios = this.ComentariosList;
+
+    this.demanda.institucionesInvolucradas.forEach((institucion) => {
+
+      const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+
+      if ( institucion.institucionId === idRudt ) {
+
+        institucion.codigoPei = formValue.codigoPei;
+        institucion.codigoPoa = formValue.codigoPoa;
+        institucion.codigoSnip = formValue.codigoSnip;
+
+        console.log(formValue.codigoSnip, 'codigo snip');
+
+
+      }
+
+    });
     this.demanda.comentarioEstado = formValue.comentarioEstado;
     this.demanda.razonDevolucion = formValue.razonDevolucion;
 
     this.spinner.show();
-    console.log(formValue);
-    console.log(this.demanda);
-
     this.demandasService
       .updateDemanda(this.demanda)
       .toPromise()
@@ -644,7 +980,7 @@ export class ListadoDemandasComponent implements OnInit {
         }, 1500);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Que sucede? ", err);
         this.serviceStr.typeError(
           "Ocurrió un error inesperado al actualizar la demanda, contacte con Soporte TIC"
         );
@@ -654,7 +990,6 @@ export class ListadoDemandasComponent implements OnInit {
   }
 
   //para el mapa
-
 
   options = {
     layers: [
@@ -675,6 +1010,7 @@ export class ListadoDemandasComponent implements OnInit {
 
   //#region  Sección Mapa
   SeleccioneMapa(content) {
+    this.isModalOpen = true;
     this.modalService.open(content, { size: 'lg', centered: true });
     this.options;
     this.BuscarMap(this.rows);
@@ -685,16 +1021,16 @@ export class ListadoDemandasComponent implements OnInit {
     this.capas = [];
 
     for (var i = 0; i < data.length; i++) {
-      let provincia = [data[i].nombreProvincia]
-      let municipio = [data[i].nombreMunicipio]
-      let latitud = Number([data[i].coordenadaX])
-      let longitud = Number([data[i].coordenadaY])
-      let demanda = [data[i].descripcion]
-      let fuente = [data[i].nombreFuenteDemanda]
-      let institucionResponsable = [data[i].nombreInstitucionResponsable]
-      let clasificadorFuncional = [data[i].nombreTemaComun]
-      let anio = [data[i].anio]
-      let estado = [data[i].nombreEstadoDemanda]
+      let provincia = [data[i]?.nombreProvincia]
+      let municipio = [data[i]?.nombreMunicipio]
+      let latitud = Number([data[i]?.coordenadaX])
+      let longitud = Number([data[i]?.coordenadaY])
+      let demanda = [data[i]?.descripcion]
+      let fuente = [data[i]?.nombreFuenteDemanda]
+      let institucionResponsable = [data[i]?.nombreInstitucionResponsable]
+      let clasificadorFuncional = [data[i]?.nombreTemaComun]
+      let anio = [data[i]?.anio]
+      let estado = [data[i]?.nombreEstadoDemanda]
 
       this.capas.push(
         L.marker([latitud, longitud], {
@@ -719,6 +1055,44 @@ export class ListadoDemandasComponent implements OnInit {
 
     }
   }
+
+  // openSubirEvidencia(modalAnexo){
+  //   this.modalService.open(modalAnexo, {
+  //   centered: true,
+  //   backdrop: "static",
+  //   keyboard: false,
+  //   size: "xl",
+  // });
+  // }
+
+  getFile(event: any) {
+    this.file = event.target.files[0]
+  }
+
+  saveFiles(obs: Observable<any[]>) {
+    obs.subscribe((res) => {
+
+      //creando el objeto que guardara la relacion
+      //entre archivos y demanda
+      var lista = res.map(id => {
+        return {
+          id: 0,
+          FileId: id,
+          demandaId: this.demandaId
+        };
+      });
+
+      console.log("Lista nueva:", lista)
+      // this.demandasService.saveDemandaAnexo(lista)
+      //   .subscribe(res => {
+      //     console.log(res);
+      //   });
+
+    });
+  }
+
+
+
   //manejarClick(event:LeafletMouseEvent) {
 
   // const latitud = Number( event.latlng.lat);
@@ -740,5 +1114,6 @@ export class ListadoDemandasComponent implements OnInit {
 
   //   );
   //}
+
 
 }

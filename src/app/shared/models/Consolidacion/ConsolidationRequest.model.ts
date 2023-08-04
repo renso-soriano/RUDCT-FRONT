@@ -10,7 +10,9 @@ export class ConsolidationRequest implements Deserializable {
   prioridad?:number;
 
   comentarioConsolidacion: string;
+  userName: string;
   demandaContactos: DemandaContacto[];
+
 
   deserialize(input: any): this {
     Object.assign(this, input);

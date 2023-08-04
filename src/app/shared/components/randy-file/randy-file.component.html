@@ -1,0 +1,77 @@
+<div class="py-5 mb-3 text-center font-medium-5 text-uppercase grey my-drop-zone" *ngIf="!isDetail"
+  [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)"
+  (onFileDrop)="addedFileToQueue()">
+  <span class="d-block">Arrastre un archivo o hacer click en el botón</span>
+  <button type="button" class="btn btn-primary" (click)="handleFile(fileInput)"><i class="ft-search"></i> Buscar
+    Archivo</button>
+  <input #fileInput type="file" ng2FileSelect [uploader]="uploader" [hidden]="true" [multiple]="multiple">
+</div>
+<!-- <span [hidden]="false"><b>Cola de Archivos {{anexoDataDb | async}}</b></span> -->
+<!-- <p>Cantidad de Archivos: {{ selected?.length }}</p> -->
+<!-- <pre>{{selected |json}}</pre> -->
+
+<p>Cantidad de Archivos: {{ selected?.length }}</p>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre del Archivo</th>
+        <th>Tipo Documento</th>
+        <th class="text-center">
+          <ng-contianer *ngIf="isDetail; else noDetail">
+            Acciones
+          </ng-contianer>
+          <ng-template #noDetail>
+            Remover Archivo
+          </ng-template>
+
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let item of selected; let indexOfelement = index;">
+        <!-- {{item | json}} -->
+        <!-- {{tipoDocumentos | async | json}} -->
+        <td class="text-bold-600">{{ item.file?.name }}</td>
+        <td class="text-bold-600">
+          <ng-select required="Debe llenar campo" [disabled]="documentTypeExplicit ? true : false"
+            [items]="tipoDocumentos | async" bindLabel="name" bindValue="id"
+            placeholder="Seleccione el tipo de Documento" name="_selectedType" [(ngModel)]="item.tipoDocumentoId"
+            (change)="changeType(item, $event)">
+          </ng-select>
+        </td>
+        <td col class="text-center">
+          <ng-container *ngIf="isDetail; else remove">
+            <div class="button-container">
+              <button type="button" class="btn btn-primary" id="downloadButton" title="Descargar documento"
+                (click)="downLoadFile(item, fileEntityType)">
+                <span class="icon-cloud-download"></span>
+              </button>
+
+              <button type="button" class="btn btn-info" (click)="openDocument(item)" title="Ver documento">
+                <span class="ft-eye"></span>
+              </button>
+
+            </div>
+          </ng-container>
+          <ng-template #remove>
+            <button type="button" class="btn btn-danger" (click)="removeFileFromQueue(item, indexOfelement)"
+              title="Eliminar documento">
+              <span class="fa fa-trash"></span>
+            </button>
+          </ng-template>
+
+        </td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row mx-4 my-1 justify-content-end" *ngIf="withModal && !isDetail">
+  <button class="btn btn-success" (click)="close()">
+    <i class="ft ft-save"></i>
+    Guardar
+  </button>
+</div>

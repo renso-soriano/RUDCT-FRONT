@@ -23,6 +23,10 @@ import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { Console } from 'console';
 import { AuthService } from 'app/shared/services/core/auth.service';
+import { IModalOption } from 'app/shared/components/modal/IModalOptions';
+import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
+import { DetalleDemandasComponent } from 'app/demandas/detalle-demandas/detalle-demandas.component';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
 
 declare var require: any;
 const data: any = require('../../shared/data/Demandas.json');
@@ -38,6 +42,21 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  userName;
+
+
+  @ViewChild("modalDetalles") modalDetalles: ModalComponent
+  @ViewChild("Detalles") Detalles: DetalleDemandasComponent
+
+  modalConfig: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOption: IModalOption = {
+    size: "xl",
+    centered: true
+  }
+
+  demandaId:number;
 
   // public
   public contentHeader: object;
@@ -91,7 +110,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     "temaComunId": null,
     "institucionId": null,
     "estadoId": null,
-    "politicaPNPSPId":null
+    "politicaPNPSPId":null,
+    "tipoInversionId":null
   }
 
   // column header
@@ -100,9 +120,9 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
     //{ name: 'Año', prop: 'anio', sorteable: false },
     { name: 'Demanda', prop: 'descripcion', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false },
-    { name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
-    { name: 'Tema común', prop: 'nombreTemaComun', sorteable: false },
-    { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
+    //{ name: 'Institución', prop: 'nombreInstitucionResponsable', sorteable: false },
+    { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false },
+    // { name: 'Estado', prop: 'nombreEstadoDemanda', sorteable: false },
     { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false }
   ];
 
@@ -171,7 +191,9 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    *
    * @param {HttpClient} http
    */
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private modalService: NgbModal,
+  constructor(private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
     private demandaService: DemandasService,
     private spinner: NgxSpinnerService,
     private serviceStr: NGXToastrService,
@@ -189,6 +211,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+    this.userName = this.authService.getUserCompleteName();
+
     // Initially load first page
     this.pageCallback({ offset: 0 });
     this.filtros = [
@@ -220,6 +244,15 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
         servicio: this.dropdownService.getTemasComunes(),
         tipo: 'select',
         placeholder: 'Seleccione',
+        async: true,
+        multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'tipoInversionId',
+        label: 'Tipo inversion',
+        servicio: this.dropdownService.getTipoInversion(),
+        tipo: 'select',
+        placeholder: 'Seleccione un tipo',
         async: true,
         multiple: false
       }),
@@ -278,12 +311,12 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       .set('institucionId', this.filtrosActivos.institucionId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
       .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
+      .set('tipoInversionId',this.filtrosActivos.tipoInversionId)
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
       this.page.count = data.total;
       this.rows = data.items;
       this.checkBoxClear();
-      document.body.click();
     });
   }
 
@@ -314,19 +347,6 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
   }
 
-  //metodo para abrir el modal
-
-  openVerticallyCentered(content, id) {
-    this.getDemanda(id);
-
-    this.modalService.open(content, {
-      //centered: true,
-      //backdrop: "static",
-      keyboard: false,
-      size: 'xl',
-      //windowClass: 'modal-xl'
-    });
-  }
   openVertically(content) {
     if (this.demandasSelected.length < 2) {
       this.serviceStr.typeError(
@@ -343,25 +363,6 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       });
     }
 
-  }
-
-  getDemanda(demandaId: string) {
-    this.notFound = false;
-    this.demanda = null;
-    this.spinner.show();
-    this.demandaService.getDemandaById(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () => {
-        this.spinner.hide();
-      }
-    );
   }
 
   agregarContacto() {
@@ -419,7 +420,8 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
       descripcion: this.cf.descripcion.value,
       prioridad: this.cf.prioridad.value,
       comentarioConsolidacion: this.cf.comentario.value,
-      demandaContactos: this.listadoContactos
+      demandaContactos: this.listadoContactos,
+      userName: this.userName
     });
 
 
@@ -442,6 +444,21 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
 
 
 
+  }
+
+
+  openVerticallyCentered(content, id) {
+
+    this.demandaId = id;
+    this.Detalles.idExterno = this.demandaId;
+    this.Detalles.init();
+
+    this.modalDetalles.open()
+
+  }
+
+  closeModal(){
+    this.modalDetalles.close()
   }
 
 

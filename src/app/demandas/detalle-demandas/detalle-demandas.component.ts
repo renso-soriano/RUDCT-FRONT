@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Demanda } from "app/shared/models/Demandas/Demanda.model";
 import { IDemanda } from "app/shared/models/Idemanda";
@@ -6,6 +6,8 @@ import { DemandasService } from "app/shared/services/mantenimientos/demandas.ser
 import { NgxSpinnerService } from "ngx-spinner";
 import { Location } from '@angular/common';
 import { AuthService } from "app/shared/services/core/auth.service";
+import { GrupoUsuario } from "app/shared/models/grupoUsuario.enum";
+import { EstadoUtilsService } from "app/shared/utilidades/estados-utils";
 
 @Component({
   selector: "app-detalle-demandas",
@@ -17,7 +19,14 @@ export class DetalleDemandasComponent implements OnInit {
   //demanda:IDemanda;
   demanda: any;
   notFound = false;
-  gruposUsuario:any;
+  gruposUsuario: any;
+  @Input() idExterno: number;
+
+  rolesEnum = GrupoUsuario;
+
+
+
+  abierto = false;
 
   constructor(
     private demandaService: DemandasService,
@@ -25,16 +34,35 @@ export class DetalleDemandasComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private _location: Location,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private estadoUtils: EstadoUtilsService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       if (params.has("id")) {
         this.getDemanda(params.get("id"));
+        this.gruposUsuario = this.authService.getGrupos()?.map(g => g.groupId) ?? [];
+      }
+      else {
+        this.init()
+
       }
     });
-    this.gruposUsuario = this.authService.getGrupos().map(g => g.groupId);
+
+  }
+
+  init() {
+    this.abierto = true;
+    if(this.idExterno)
+    {
+      //this.gruposUsuario = [this.rolesEnum.soloLectura];
+      this.getDemanda(this.idExterno.toString());
+    }
+    else{
+      this.demanda = null;
+    }
+
   }
 
   /**************************** */
@@ -43,23 +71,55 @@ export class DetalleDemandasComponent implements OnInit {
     this.notFound = false;
     this.demanda = null;
     this.spinner.show();
-    this.demandaService.getDemandaById(demandaId).subscribe(
-      (demanda: Demanda) => {
-        this.demanda = demanda;
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-        this.spinner.hide();
-      },
-      () =>{
-        this.spinner.hide();
-      }
-    );
+
+    if (this.abierto) {
+      this.demandaService.getDemandaByIdGobiernoAbierto(demandaId).subscribe(
+        (demanda?: Demanda) => {
+          this.demanda = demanda;
+        },
+        (err: any) => {
+          console.error(err);
+          this.notFound = true;
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
+    }
+    else {
+      this.demandaService.getDemandaById(demandaId).subscribe(
+        (demanda?: Demanda) => {
+          this.demanda = demanda;
+        },
+        (err: any) => {
+          console.error(err);
+          this.notFound = true;
+          this.spinner.hide();
+        },
+        () => {
+          this.spinner.hide();
+        }
+      );
+    }
+
   }
 
-  goBack(){
+  goBack() {
     this._location.back();
   }
+
+  getEstadoClass(estadoId: number): { [className: string]: boolean } {
+    return {
+      'bg-danger': estadoId === 3,
+      'bg-warning': estadoId === 2,
+      'bg-info': estadoId === 5,
+      'bg-primary': estadoId === 4,
+      'bg-secondary': estadoId === 1,
+      'bg-success': estadoId === 6,
+      'bg-dark': estadoId === 7
+    };
+  }
+
 
 }

@@ -7,6 +7,8 @@ import { DemandaEnd } from "./DemandaEnd.model";
 import { DemandaInstitucion } from "./DemandaInstitucion.model";
 import { DemandaPolitica } from "./DemandaPolitica.model";
 import { DemandaTipoInversion } from "./DemandaTipoInversion.model";
+import { DemandaAnexos} from "./DemandaAnexos.model";
+import Archivo from "app/demandas/interface/archivo.interface";
 
 export class Demanda implements Deserializable {
   id?: number;
@@ -32,23 +34,35 @@ export class Demanda implements Deserializable {
   nombreInstitucionResponsable?: string;
   tecnicoOMPPId?: number;
   nombreTecnicoOmpp?: string;
-  estadoId?: number;
-  nombreEstadoDemanda?: string;
+
+
+  // estadoId?: number;
+
+  // nombreEstadoDemanda?: string;
+
   estadoValidacionId: number;
+
   nombreEstadoValidacion: string;
+
+
   demandaTipoId?: number;
   nombreTipoDemanda?: string;
   estatus?: string;
   tipoId?: number;
   prioridad?: number;
+  prioridadProvincial:string;
   coordenadaX?: string;
   coordenadaY?: string;
   consolidadaEn?: string;
   codigoSisplan?: string;
-  codigoSnip?: string;
-  codigoPoa?: string;
-  codigoPei?: string;
+  // codigoSnip?: string;
+  // codigoPoa?: string;
+  // codigoPei?: string;
+
+
   comentarioEstado?: string;
+
+  
   razonDevolucion?: string;
   direccion?: string;
   detalle?: string;
@@ -67,7 +81,11 @@ export class Demanda implements Deserializable {
   demandaComentarios: DemandaComentario[];
   demandaResultadosEND: DemandaEnd[];
   demandaPoliticasPNPSP: DemandaPolitica[];
+  
+
   institucionesInvolucradas: DemandaInstitucion[];
+
+
   demandaTipoInversiones: DemandaTipoInversion[];
   demandaContactos: DemandaContacto[];
 
@@ -75,4 +93,5 @@ export class Demanda implements Deserializable {
     Object.assign(this, input);
     return this;
   }
+  demandaAnexos:DemandaAnexos[]
 }

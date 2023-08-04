@@ -9,6 +9,8 @@ import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
 import { ConsolidationRequest } from 'app/shared/models/Consolidacion/ConsolidationRequest.model';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Console } from 'console';
+import { DashboardResponse } from 'app/shared/models/auth/gobierno-abierto.model';
+import Archivo from 'app/demandas/interface/archivo.interface';
 
 
 @Injectable({
@@ -29,6 +31,13 @@ export class DemandasService {
     return this.http.get<Demanda[]>(`${this.URL}/GetExportar`, { params });
   }
 
+  getDemandasGobiernoAbierto(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetPaginateGobiernoAbierto`, { params });
+  }
+  getDemandasExportarGobiernoAbierto(params?: HttpParams): Observable<Demanda[]> {
+    return this.http.get<Demanda[]>(`${this.URL}/GetExportarGobiernoAbierto`, { params });
+  }
+
   getDemandasReporte(params?: HttpParams) {
 
     return this.http.get(`${this.URL}/GetReporte`, { params: params, observe: 'response'}).pipe(
@@ -39,6 +48,8 @@ export class DemandasService {
       })
     );
   }
+
+
 
   convertBase64ToBlob(res): any {
     const byteCharacters = atob(res.body.fileContents);
@@ -55,6 +66,10 @@ export class DemandasService {
     return this.http.get<Demanda[]>(`${this.URL}/GetDashboard`, { params });
   }
 
+  getDemandasForDashboardAbierto(params?: HttpParams): Observable<DashboardResponse> {
+    return this.http.get<DashboardResponse>(`${this.URL}/GetDashboardGobiernoAbierto`, { params });
+  }
+
   getDemanda(idDemanda: string): Observable<IDemanda> {
     let params = new HttpParams().set('incluirDirecciones', "true");
     return this.http.get<IDemanda>(this.URL + '/' + idDemanda, { params: params });
@@ -64,6 +79,17 @@ export class DemandasService {
     // return this.http.get<IDemanda[]>(this.URL + CodigoDemanda)
 
     return this.http.get<Demanda>(`${this.URL}/${demandaId}`).pipe(
+      map(demanda =>
+        new Demanda().deserialize(demanda)
+      )
+
+    );
+
+  }
+
+  getDemandaByIdGobiernoAbierto(demandaId: string): Observable<Demanda> {
+
+    return this.http.get<Demanda>(`${this.URL}/GetByIdGobiernoAbierto/${demandaId}`).pipe(
       map(demanda =>
         new Demanda().deserialize(demanda)
       )
@@ -87,5 +113,13 @@ export class DemandasService {
 
     return this.http.post<Demanda>(`${this.URL}/Consolidar`, params);
   }
+
+  //metodo para guardar demandaAnexo
+  saveDemandaAnexo(listado: any): Observable<any>{
+    const url = `https://localhost:5001/Api/DemandaAnexo/guardar`;
+    return this.http.post<any>(url, listado);
+  }
+
+
 
 }

@@ -1,0 +1,152 @@
+
+.main {
+  margin: 0 auto;
+}
+
+.text-color {
+  color: #002060;
+}
+
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  margin: 2rem auto;
+  width: fit-content;
+  gap: 1.5rem;
+}
+
+.card--container-wraper {
+  width: 250px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+
+}
+
+.card--container-item {
+  width: inherit;
+  height: 7rem;
+  border-radius: 5px;
+  background-color: #bdd7ee;
+  transition: all 0.2s ease-in-out;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: #002060;
+
+}
+
+.card--container-item:hover {
+  cursor: pointer;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
+}
+
+.card--container-image {
+  display: grid;
+  place-items: center;
+}
+
+.card--container-image img {
+  height: 80px;
+  width: 80px;
+}
+
+.card-subtitulo {
+  font-size: 0.7rem;
+}
+
+.is-inactive{
+  background-color: #9a9999!important;
+  color: #fff;
+}
+
+.proposito{
+  font-size: 1.2rem;
+}
+
+
+@media screen and (min-width:600px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+
+}
+
+@media screen and (min-width:1200px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+
+  }
+
+}
+
+@media screen and (min-width:1800px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+
+  }
+
+}
+
+//mapa
+/* #map {
+  height: 550px;
+  width: 380%;
+  max-width: 730px;
+  //margin-bottom: 1rem;
+  //margin-top: 20px;
+  margin: auto;
+
+} */
+.mapaselect{
+  font-size: 30px;
+  padding-left: 16px;
+  color: #2f8be6;
+}
+
+/***********************************************/
+#map {
+  height: 550px;
+  width: 100%;
+  max-width: 120%;
+  //margin-bottom: 1rem;
+  //margin-top: 20px;
+  margin: auto;
+
+
+}
+.no-event{
+  pointer-events: none!important;
+  opacity: 0.5!important;
+}
+
+.no-event:hover{
+
+  cursor:not-allowed!important;
+}
+
+
+
+
+/* .card {
+
+  min-height: 450px;
+}
+
+.tab-background-color{
+  color: #fff;
+  background-color: #006be6;//#003876;
+}
+
+.tab-background-color:hover{
+  background-color: #003876;//#003876c4;
+
+} */
