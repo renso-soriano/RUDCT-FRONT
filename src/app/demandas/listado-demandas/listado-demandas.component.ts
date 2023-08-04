@@ -221,6 +221,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   private multiPurposeTemp = [];
   dataExcel: any;
   rowExportExcel: any;
+  usuarioInstitucional = false;
 
 
 
@@ -338,6 +339,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
       this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
+      this.usuarioInstitucional = true;
       // console.log("Estados: ", this.listadoEstados.subscribe(res => {
       //   res = this.estadoDemanda;
       // }));
@@ -773,27 +775,35 @@ agregarComentario() {
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
+         if(this.usuarioInstitucional)
+         {
+          this.demanda.institucionesInvolucradas.forEach((institucion) => {
 
-        this.demanda.institucionesInvolucradas.forEach((institucion) => {
+            const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
-          const idRudt = parseInt(this.institucionUsuarioEnRUDT)
+            if ( institucion.institucionId === idRudt ) {
+              const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
+              this.estadoDemanda = estadoName;
 
-          if ( institucion.institucionId === idRudt ) {
-            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
-            this.estadoDemanda = estadoName;
+              this.estadoForm.patchValue({
 
-            this.estadoForm.patchValue({
+                estado: institucion.estadoId?.toString(),
+                comentarioEstado: this.demanda?.comentarioEstado,
+                codigoSnip: institucion?.codigoSnip,
+                codigoPoa: institucion?.codigoPoa,
+                codigoPei: institucion?.codigoPei,
+                razonDevolucion: this.demanda?.razonDevolucion
+              });
+            }
 
-              estado: institucion.estadoId?.toString(),
-              comentarioEstado: this.demanda?.comentarioEstado,
-              codigoSnip: institucion?.codigoSnip,
-              codigoPoa: institucion?.codigoPoa,
-              codigoPei: institucion?.codigoPei,
-              razonDevolucion: this.demanda?.razonDevolucion
-            });
-          }
+          });
+         }
+         else{
+          this.estadoForm.patchValue({
+            estado: this.demanda.estadoValidacionId?.toString(),
+          });
+         }
 
-        });
 
         // if (this.demanda.demandaAnexos.length > 0) {
         //   this.isDetail = true
