@@ -118,11 +118,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   estadoForm = this.formBuilder.group({
     estado: [null, { validators: [Validators.required] }],
-    comentarioEstado: [null],
+    //comentarioEstado: [null],
     codigoPoa: [null],
     codigoPei: [null],
     codigoSnip: [null],
-    razonDevolucion: [null],
+    //razonDevolucion: [null],
     comentarios: [null]
 
   });
@@ -137,11 +137,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   estadoChange() {
     console.log("ejecutando el change")
     this.estadoForm.patchValue({
-      comentarioEstado: null,
+      //comentarioEstado: null,
       codigoPoa: null,
       codigoPei: null,
       codigoSnip: null,
-      razonDevolucion: null
+      //razonDevolucion: null
     });
 
   }
@@ -191,6 +191,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     { name: 'Clasificador funcional', prop: 'nombreTemaComun', sorteable: false, visible: true },
     { name: 'Provincia', prop: 'nombreProvincia', sorteable: false, visible: true },
     { name: 'Municipio', prop: 'nombreMunicipio', sorteable: false, visible: true },
+    { name: 'Tipo', prop: 'nombreTipoDemanda', sorteable: false },
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
     // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
@@ -220,6 +221,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   private multiPurposeTemp = [];
   dataExcel: any;
   rowExportExcel: any;
+  usuarioInstitucional = false;
 
 
 
@@ -333,10 +335,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.gruposUsuario = this.authService?.getGrupos().map(g => g.groupId);
 
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion');
+      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion' && x.prop !== 'nombreTipoDemanda' );
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
       this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
+      this.usuarioInstitucional = true;
       // console.log("Estados: ", this.listadoEstados.subscribe(res => {
       //   res = this.estadoDemanda;
       // }));
@@ -365,10 +368,10 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.reloadTable();
       console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
       // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
-      
+
     });
 
-  
+
     const observable = from(this.authService?.getPermissions(modulo.id));
 
     observable.subscribe((res: any) => {
@@ -518,7 +521,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     let grupoId;
     let institucion;
 
-    
+
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
       institucion = this.institucionUsuarioEnRUDT;
@@ -535,7 +538,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
-    
+
 
 
     params = new HttpParams()
@@ -565,12 +568,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       // let p
       // let filtered
       // let mydata = []
-      // data.items?.map(i => {      
+      // data.items?.map(i => {
       //   p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
       //   filtered = p.filter(i => i.insti === +institucion)[0]
-      //   mydata.push(filtered)      
+      //   mydata.push(filtered)
       // })
-      
+
       // this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
       // console.log(this.rows)
     });
@@ -775,27 +778,35 @@ agregarComentario() {
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
+         if(this.usuarioInstitucional)
+         {
+          this.demanda.institucionesInvolucradas.forEach((institucion) => {
 
-        this.demanda.institucionesInvolucradas.forEach((institucion) => {
-      
-          const idRudt = parseInt(this.institucionUsuarioEnRUDT)
-    
-          if ( institucion.institucionId === idRudt ) {
-            const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
-            this.estadoDemanda = estadoName;
+            const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
-            this.estadoForm.patchValue({
+            if ( institucion.institucionId === idRudt ) {
+              const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
+              this.estadoDemanda = estadoName;
 
-              estado: institucion.estadoId?.toString(),
-              comentarioEstado: this.demanda?.comentarioEstado,
-              codigoSnip: institucion?.codigoSnip,
-              codigoPoa: institucion?.codigoPoa,
-              codigoPei: institucion?.codigoPei,
-              razonDevolucion: this.demanda?.razonDevolucion
-            });
-          }
-          
-        });
+              this.estadoForm.patchValue({
+
+                estado: institucion.estadoId?.toString(),
+                //comentarioEstado: this.demanda?.comentarioEstado,
+                codigoSnip: institucion?.codigoSnip,
+                codigoPoa: institucion?.codigoPoa,
+                codigoPei: institucion?.codigoPei,
+                //razonDevolucion: this.demanda?.razonDevolucion
+              });
+            }
+
+          });
+         }
+         else{
+          this.estadoForm.patchValue({
+            estado: this.demanda.estadoValidacionId?.toString(),
+          });
+         }
+
 
         // if (this.demanda.demandaAnexos.length > 0) {
         //   this.isDetail = true
@@ -879,12 +890,12 @@ agregarComentario() {
   }
   submit() {
     //validaciones finales de listados
-    if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.comentarioEstado.value == null) {
-      this.serviceStr.typeError(
-        "Debe completar el por qué rechaza la demanda"
-      );
-    }
-    else if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
+    // if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) ) {
+    //   this.serviceStr.typeError(
+    //     "Debe completar el por qué rechaza la demanda"
+    //   );
+    // }else
+     if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
@@ -893,12 +904,11 @@ agregarComentario() {
       this.serviceStr.typeError(
         "Debe introducir el codigo PEI"
 
-
       );
     }
     else if (this.EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPoa.value == null) {
       this.serviceStr.typeError(
-        "Debe introducir el codigo POA"
+        "Debe introducir el nombre del producto POA"
       );
     }
     else {
@@ -908,23 +918,23 @@ agregarComentario() {
 
   async enviar() {
 
-    
+
 
     const formValue = this.estadoForm.value;
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-     
+
       const nuevoEstadoId = parseInt(formValue.estado, 10);
       const idRudt = parseInt(this?.institucionUsuarioEnRUDT)
 
       this.demanda.institucionesInvolucradas.forEach((institucion) => {
         if ( institucion.institucionId === idRudt ) {
-   
+
           institucion.estadoId = nuevoEstadoId;
         }
-       
+
       });
-      
+
     }
     else {
       this.demanda.estadoValidacionId = parseInt(formValue.estado, 10);
@@ -952,23 +962,23 @@ agregarComentario() {
     this.demanda.demandaComentarios = this.ComentariosList;
 
     this.demanda.institucionesInvolucradas.forEach((institucion) => {
-      
+
       const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
       if ( institucion.institucionId === idRudt ) {
-       
+
         institucion.codigoPei = formValue.codigoPei;
         institucion.codigoPoa = formValue.codigoPoa;
         institucion.codigoSnip = formValue.codigoSnip;
 
         console.log(formValue.codigoSnip, 'codigo snip');
-        
-       
+
+
       }
-      
+
     });
-    this.demanda.comentarioEstado = formValue.comentarioEstado;
-    this.demanda.razonDevolucion = formValue.razonDevolucion;
+    //this.demanda.comentarioEstado = formValue.comentarioEstado;
+    //this.demanda.razonDevolucion = formValue.razonDevolucion;
 
     this.spinner.show();
     this.demandasService

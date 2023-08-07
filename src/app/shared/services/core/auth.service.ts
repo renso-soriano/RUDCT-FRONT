@@ -131,9 +131,10 @@ export class AuthService {
 
   logOut(): void {
     sessionStorage.removeItem('userdata');
+    this.router.navigate(['/auth']);
+
     // this.http.post<any>(`${this.API_URL}Auth/Logout`, null).subscribe(
     //   () => {
-    //     this.router.navigate(['/auth']);
     //   }
     // );
   }

@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-12 ">
       <div class="w-100 d-flex justify-content-end ">
-        <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('POST')"
+        <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos.includes('POST')"
           [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
           title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
             nueva</i></a>
@@ -71,22 +71,33 @@
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                  <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}"
-                    [sortable]="column.sortable" prop="{{column.prop}}">
+                  <ngx-datatable-column *ngFor="let column of columns" name="{{column?.name}}"
+                    [sortable]="column?.sortable" prop="{{column?.prop}}">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       <span
-                        *ngIf="column.prop != 'institucionesInvolucradas' && column.prop != 'nombreEstadoValidacion' && column.prop != 'prioridadProvincial'">
+                        *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
                         {{value}}
                       </span>
-                      <div *ngIf="column.prop == 'institucionesInvolucradas'" class="badge badge-pill" [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp))">
-                        {{ estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row.institucionesInvolucradas, idInstitucionProp)) }}
+                      <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
+                        [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+                        {{
+                        estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
+                        idInstitucionProp)) }}
                       </div>
-                      <div *ngIf="column.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false"
+                      <div
+                        *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"
+                        class="badge badge-pill"
+                        [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante de Consolidacion', 'bg-primary':value == 'Original sin cambios', 'bg-secondary':value == 'Original modificada', 'bg-dark':value == 'Resultante modificacion'}">
+                        {{ value }}
+                      </div>
+                      <div
+                        *ngIf="column?.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
                         class="badge badge-pill"
                         [ngClass]="{'bg-danger': value == 'Devuelta por DGDES', 'bg-warning':value == 'Validada por VIOTDR', 'bg-success':value == 'Validada por DGDES', 'bg-primary':value == 'Registrada por ORP', 'bg-info': value == 'Devuelta por VIOTDR','bg-dark':value == 'Rechazada - no competencia de sectorial'}">
                         {{ value }}
                       </div>
-                      <div *ngIf="column.prop == 'prioridadProvincial' && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true"
+                      <div
+                        *ngIf="column?.prop == 'prioridadProvincial' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == true"
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
@@ -96,20 +107,20 @@
                   <!-- Acciones -->
                   <ngx-datatable-column name="Acciones">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
-                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
+                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
                         title="Ver detalles"></a>
                       <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
                       title="Cargar evidencia"></a> -->
-                      <a *ngIf="usuarioPermisos.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
-                        (click)="editar(row.id)" title="Editar"></a>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('DELETE')"
-                        class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE')" class="btn-sm ml-1 btn-success text-white ft-edit"
+                        (click)="editar(row?.id)" title="Editar"></a>
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('DELETE')"
+                        class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row?.id)"
                         title="Eliminar"></a>
-                      <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('PUT')"
+                      <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('PUT')"
                         class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
-                        (click)="openVerticallyCentered(content,row.id)" title="Cambiar estados"></a>
+                        (click)="openVerticallyCentered(content,row?.id)" title="Cambiar estados"></a>
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -149,24 +160,24 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="estado">Estado</label>
-          <ng-select [appendTo]="'body'" [items]="(listadoEstados | async)" bindLabel="name"
-            bindValue="id" name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
-            formControlName="estado"
-          >
+          <ng-select [appendTo]="'body'" [items]="(listadoEstados | async)" bindLabel="name" bindValue="id"
+            name="estado" id="estado" (change)="estadoChange()" placeholder="Seleccione estado"
+            formControlName="estado">
           </ng-select>
 
           <!-- <pre>{{listadoEstados | async | json}}</pre> -->
-      
-          <div *ngIf="EF.estado.invalid && (EF.estado.dirty || EF.estado.touched)" class="help-block mt-1 text-danger">
 
-            <div *ngIf="EF.estado.errors.required">
+          <div *ngIf="EF.estado?.invalid && (EF.estado?.dirty || EF.estado?.touched)"
+            class="help-block mt-1 text-danger">
+
+            <div *ngIf="EF.estado?.errors.required">
               <i class="ft-alert-circle align-middle"></i> El campo es requerido
             </div>
 
           </div>
         </div>
       </div>
-      
+
       <ng-template #estadoDefault>
 
       </ng-template>
@@ -174,7 +185,7 @@
       <!-- </div> -->
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.incluidoEnPEI && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.incluidoEnPEI && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPei">Codigo PEI</label>
           <input type="text" class="form-control" name="codigoPei" id="codigoPei" rows="3" formControlName="codigoPei">
@@ -183,7 +194,7 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.programadoEnPOA && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoPoa">Producto poa</label>
           <input type="text" class="form-control" name="codigoPoa" id="codigoPoa" rows="3" formControlName="codigoPoa">
@@ -192,7 +203,7 @@
       </div>
 
       <div class="col-sm-12"
-        *ngIf="EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value == this.estadoEjecucionEnum?.enProcesoDeEjecucion && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == true">
         <div class="form-group">
           <label for="codigoSnip">Codigo Snip</label>
           <input type="text" class="form-control" name="codigoSnip" id="codigoSnip" rows="3"
@@ -203,7 +214,7 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12"
-        *ngIf="EF.estado.value != null && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == true">
+        *ngIf="EF.estado?.value != null">
         <!-- <div class="form-group">
           <label for="comentarioEstado">Comentario</label>
           <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
@@ -214,19 +225,17 @@
           <h5 class="mt-1 mb-0 col-11">Sección de comentarios</h5>
           <div class="col-md-1 mb-0">
             <div class="form-group">
-              <a data-toggle="tooltip " data-placement="bottom "
-                (click)="openModalComentario(contentComentario)" title="Agregar Comentario "
-                class="btn btn-primary "><i class="ft-plus "></i></a>
+              <a data-toggle="tooltip " data-placement="bottom " (click)="openModalComentario(contentComentario)"
+                title="Agregar Comentario " class="btn btn-primary "><i class="ft-plus "></i></a>
             </div>
           </div>
         </div>
 
         <hr class="mt-0 mb-0">
-        <div *ngIf="!ComentariosList.length > 0"
-          class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
+        <div *ngIf="!ComentariosList?.length > 0" class="col-sm-12 mt-1 alert alert-secondary text-center" role="alert">
           No hay comentarios
         </div>
-        <ngb-accordion class="ml-0" *ngIf="ComentariosList.length > 0">
+        <ngb-accordion class="ml-0" *ngIf="ComentariosList?.length > 0">
           <ngb-panel id="static-1" class="ml-0">
 
             <ng-template ngbPanelTitle>
@@ -237,18 +246,18 @@
 
             <!--listado de comentarios-->
             <ng-template ngbPanelContent>
-                <div class="grid-cols-3 mb-3">
-                  <div *ngFor="let List of ComentariosList" class="card card-inverse bg-info">
-                    <div class="card-content">
-                      <div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
-                        <p class="UserName" value>{{List.userName}}</p>
-                        <p class="FechaComentario text-sm"> - {{List.fechaRegistro | date}}</p>
+              <div class="grid-cols-3 mb-3">
+                <div *ngFor="let List of ComentariosList" class="card card-inverse bg-info">
+                  <div class="card-content">
+                    <div class="d-flex align-items-center justify-content-between w-100 px-3 py-2">
+                      <p class="UserName" value>{{List?.userName}}</p>
+                      <p class="FechaComentario text-sm"> - {{List?.fechaRegistro | date}}</p>
+                    </div>
+                    <div class="card-body px-3 py-1">
+                      <div class="comentarios">
+                        {{List?.comentrio}}
                       </div>
-                      <div class="card-body px-3 py-1">
-                        <div class="comentarios">
-                          {{List.comentrio}}
-                        </div>
-                        <!-- <div class="media">
+                      <!-- <div class="media">
                           <div class="media-body text-left">
                             <div class="commentariosDesing" >
                               <div>
@@ -256,10 +265,10 @@
                             </div>
                           </div>
                         </div> -->
-                      </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
+              </div>
 
             </ng-template>
           </ngb-panel>
@@ -268,18 +277,19 @@
 
 
 
-      <div class="col-sm-12"
-        *ngIf="(EF.estado.value == this.estadoValidacionEnum.devueltaPorDGDES || EF.estado.value == this.estadoValidacionEnum.devueltaPorVIOTDR) && gruposUsuario.includes(this.rolesEnum.institucionalRUDT) == false">
+    <!--   <div class="col-sm-12"
+        *ngIf="(EF.estado?.value == this.estadoValidacionEnum?.devueltaPorDGDES || EF.estado?.value == this.estadoValidacionEnum?.devueltaPorVIOTDR) && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == false">
         <div class="form-group">
           <label for="devolucion">Razón de devolución</label>
           <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
             formControlName="razonDevolucion"></textarea>
         </div>
-      </div>
+      </div> -->
 
       <!-- </div> -->
 
-      <div class="col-12" *ngIf="gruposUsuario.includes(this.rolesEnum.institucionalRUDT) && EF.estado.value > this.estadoEjecucionEnum.reasignacionSectorial">
+      <div class="col-12"
+        *ngIf="gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) && EF.estado?.value > this.estadoEjecucionEnum?.reasignacionSectorial">
         <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>
@@ -289,37 +299,36 @@
             listado</span>
         </a>
 
-        <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm.invalid"
+        <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm?.invalid"
           (click)="closeModal()">
       </div>
 
- <!-- Modal Lista de Comentarios -->
+      <!-- Modal Lista de Comentarios -->
 
- <ng-template #contentComentario let-modal>
-  <div class="modal-header ">
-    <h4 class="modal-title ">Agregar comentario</h4>
-    <button type="button " class="close " aria-label="Close "
-      (click)="modal.dismiss( 'Cross click') ">
-      <span aria-hidden="true ">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body ">
-    <div class="col-sm-12 ">
-      <div class="form-group ">
-        <label for="comentario">Comentario</label>
-        <textarea class="form-control " name="comentario" id="comentario" rows="3"
-          formControlName="comentarios"></textarea>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer ">
-    <button type="button " title="Agregar Comentario " class="btn btn-primary"
-      (click)="agregarComentario()"><i class=" fa fa-plus-circle "> Agregar</i></button>
+      <ng-template #contentComentario let-modal>
+        <div class="modal-header ">
+          <h4 class="modal-title ">Agregar comentario</h4>
+          <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+            <span aria-hidden="true ">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
+          <div class="col-sm-12 ">
+            <div class="form-group ">
+              <label for="comentario">Comentario</label>
+              <textarea class="form-control " name="comentario" id="comentario" rows="3"
+                formControlName="comentarios"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="button " title="Agregar Comentario " class="btn btn-primary" (click)="agregarComentario()"><i
+              class=" fa fa-plus-circle "> Agregar</i></button>
 
-    <button type="button " class="btn btn-light " (click)="modal.close( 'Close click') "><i
-        class="fa fa-close "> Cerrar</i></button>
-  </div>
-</ng-template>
+          <button type="button " class="btn btn-light " (click)="modal.close( 'Close click') "><i class="fa fa-close ">
+              Cerrar</i></button>
+        </div>
+      </ng-template>
 
 
 
@@ -333,7 +342,8 @@
     <ng-template #contentMapa let-modal>
       <div class="modal-header">
         <h4 class="modal-title">Vista geográfica de selección</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click'); this.isModalOpen = false;">
+        <button type="button" class="close" aria-label="Close"
+          (click)="modal.dismiss('Cross click'); this.isModalOpen = false;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -348,7 +358,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="modal.close('Close click');this.isModalOpen = false;">Aceptar</button>
+        <button type="button" class="btn btn-success"
+          (click)="modal.close('Close click');this.isModalOpen = false;">Aceptar</button>
       </div>
     </ng-template>
 
