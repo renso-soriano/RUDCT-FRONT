@@ -663,6 +663,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         return `${inst.nombre} (${estadoInstitucion})`;
       });
 
+      console.log('this.institucionesInvolucradasExcel',this.institucionesInvolucradasExcel);
+      console.log('instituciones',instituciones);
+
       return {
         Codigo: item?.codigo,
         Anio: item?.anio,
@@ -676,7 +679,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         Tema_Comun: item?.temaComunTema,
         Clasificador_Funcional: item?.nombreTemaComun,
         NombreFuenteDemanda: item?.nombreFuenteDemanda,
-        InstitucionResponsable: item?.nombreInstitucionResponsable,
+        institucionesInvolucradas: instituciones.join(","),
         TecnicoOmpp: item?.nombreTecnicoOmpp,
         ResultanteDe: item?.resultanteDe,
         Activo: item?.estatus ? "Si" : "No"

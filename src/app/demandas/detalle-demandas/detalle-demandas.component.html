@@ -203,12 +203,6 @@
                   <div class="col-6">
                     <div class="row">
 
-                      <div class="col-12" *ngIf="demanda?.nombreEstadoDemanda">
-                        <div class="form-group">
-                          <span class="danger font-weight-bold">Estado ejecución: </span>
-                          <label for="EstadoEjecucion">{{demanda?.nombreEstadoDemanda}}</label>
-                        </div>
-                      </div>
                       <div class="col-12" *ngIf="demanda?.nombreEstadoValidacion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Estado validacion: </span>
@@ -216,19 +210,19 @@
                         </div>
                       </div>
 
-                      <div class="col-12" *ngIf="demanda?.razonDevolucion">
+                      <!-- <div class="col-12" *ngIf="demanda?.razonDevolucion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Razón devolución: </span>
                           <label for="razonDevolucion">{{demanda?.razonDevolucion}}</label>
                         </div>
-                      </div>
+                      </div> -->
 
-                      <div class="col-12" *ngIf="demanda?.comentarioEstado">
+                      <!-- <div class="col-12" *ngIf="demanda?.comentarioEstado">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Comentario estado: </span>
                           <label for="comentarioEstado">{{demanda?.comentarioEstado}}</label>
                         </div>
-                      </div>
+                      </div> -->
                       <div class="col-12" *ngIf="demanda?.codigoPei">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Código PEI: </span>
