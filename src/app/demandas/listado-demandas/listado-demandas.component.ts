@@ -118,11 +118,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   estadoForm = this.formBuilder.group({
     estado: [null, { validators: [Validators.required] }],
-    comentarioEstado: [null],
+    //comentarioEstado: [null],
     codigoPoa: [null],
     codigoPei: [null],
     codigoSnip: [null],
-    razonDevolucion: [null],
+    //razonDevolucion: [null],
     comentarios: [null]
 
   });
@@ -137,11 +137,11 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   estadoChange() {
     console.log("ejecutando el change")
     this.estadoForm.patchValue({
-      comentarioEstado: null,
+      //comentarioEstado: null,
       codigoPoa: null,
       codigoPei: null,
       codigoSnip: null,
-      razonDevolucion: null
+      //razonDevolucion: null
     });
 
   }
@@ -788,11 +788,11 @@ agregarComentario() {
               this.estadoForm.patchValue({
 
                 estado: institucion.estadoId?.toString(),
-                comentarioEstado: this.demanda?.comentarioEstado,
+                //comentarioEstado: this.demanda?.comentarioEstado,
                 codigoSnip: institucion?.codigoSnip,
                 codigoPoa: institucion?.codigoPoa,
                 codigoPei: institucion?.codigoPei,
-                razonDevolucion: this.demanda?.razonDevolucion
+                //razonDevolucion: this.demanda?.razonDevolucion
               });
             }
 
@@ -887,12 +887,12 @@ agregarComentario() {
   }
   submit() {
     //validaciones finales de listados
-    if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.comentarioEstado.value == null) {
-      this.serviceStr.typeError(
-        "Debe completar el por qué rechaza la demanda"
-      );
-    }
-    else if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
+    // if (this.EF.estado.value == this.estadoEjecucionEnum.reasignacionSectorial && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) ) {
+    //   this.serviceStr.typeError(
+    //     "Debe completar el por qué rechaza la demanda"
+    //   );
+    // }else
+     if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
@@ -901,12 +901,11 @@ agregarComentario() {
       this.serviceStr.typeError(
         "Debe introducir el codigo PEI"
 
-
       );
     }
     else if (this.EF.estado.value == this.estadoEjecucionEnum.programadoEnPOA && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoPoa.value == null) {
       this.serviceStr.typeError(
-        "Debe introducir el codigo POA"
+        "Debe introducir el nombre del producto POA"
       );
     }
     else {
@@ -975,8 +974,8 @@ agregarComentario() {
       }
 
     });
-    this.demanda.comentarioEstado = formValue.comentarioEstado;
-    this.demanda.razonDevolucion = formValue.razonDevolucion;
+    //this.demanda.comentarioEstado = formValue.comentarioEstado;
+    //this.demanda.razonDevolucion = formValue.razonDevolucion;
 
     this.spinner.show();
     this.demandasService
