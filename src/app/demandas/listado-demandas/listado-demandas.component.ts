@@ -54,10 +54,22 @@ const data: any = require('../../shared/data/Demandas.json');
 })
 export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterContentInit {
 
+  URL: string = environment.apiUrl;
   @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFile") modalAnexo: ModalComponent
+  @ViewChild("modalFiles") modalfiles: ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+
+
+  modalConfigFiles: IModalConfig = {
+    modalTitle: "   "
+  }
+  modalOptionFiles: IModalOption = {
+    size: "xl",
+    centered: true
+  }
+
 
   rolesEnum = GrupoUsuario;
   estadoEjecucionEnum = Estados;
@@ -79,7 +91,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   @ViewChild("content") content: ElementRef<HTMLElement>;
   //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
-  files: Archivo[] = [];
+  files: any[] = [];
   listadoEstados: Observable<any[]>;
   nuevosAnexos: any[] = [];
   tiposDocumentos: any[] = [
@@ -767,6 +779,37 @@ agregarComentario() {
 }
 
 
+async verArchivos(demandaId) {
+  await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
+    .then((res: any) => {
+      this.mapFiles(res)
+      console.log("Noel files GEEEET: ", res);
+    })
+
+
+  // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
+}
+
+openModalFile() {
+  console.log("Noel files OPEN: ");
+  this.modalfiles.open();
+}
+
+private mapFiles(res: any) {
+  let array = [];
+  res.result?.forEach((item) => {
+    array.push({
+      file: { ...item.file },
+      tipoDocumentoId: item.file.fileType.id.toString(),
+      entityId: item.demandaId
+    })
+
+  });
+  this.files = array;
+  this.openModalFile()
+  console.log(this.files, "files");
+}
+
   openVerticallyCentered(content, id: any) {
     this.isModalOpen = true;
     this.EF.estado.setValue(null);
@@ -808,11 +851,9 @@ agregarComentario() {
          }
 
 
-        // if (this.demanda.demandaAnexos.length > 0) {
-        //   this.isDetail = true
-        // } else {
-        //   this.isDetail = false
-        // }
+        if (this.demanda.demandaAnexos.length == 0) {
+          this.isDetail = false
+        }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile()
         // console.log("Lista de Anexos", this.files);

@@ -285,6 +285,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
       .then((res: any) => {
         this.mapFiles(res)
+        console.log("Lista de fileees: ", res)
       })
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);

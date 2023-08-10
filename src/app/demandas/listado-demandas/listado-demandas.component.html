@@ -121,6 +121,9 @@
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('PUT')"
                         class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                         (click)="openVerticallyCentered(content,row?.id)" title="Cambiar estados"></a>
+                           <!-- temporalmente desactivado -->
+                          <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
+                            [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -302,6 +305,18 @@
         <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm?.invalid"
           (click)="closeModal()">
       </div>
+
+
+      <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
+
+        <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true"></Randy-File>
+
+        <!-- <div class="modal-footer">
+
+          <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">
+        </div> -->
+        <!--end modal fixed-->
+      </UIModal>
 
       <!-- Modal Lista de Comentarios -->
 

@@ -15,3 +15,12 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
 }
+
+.no-event{
+  pointer-events: none!important;
+  opacity: 0.5!important;
+}
+
+.no-event:hover{
+  cursor:not-allowed!important;
+}
