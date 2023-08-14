@@ -5,4 +5,6 @@ export default interface Archivo {
   entityId?: number,
   file: any,
   tipoDocumentoId: TipoDocumento
+  estadoAnexo: boolean
+  fileId?: number
 }

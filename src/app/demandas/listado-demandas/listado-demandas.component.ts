@@ -57,7 +57,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   URL: string = environment.apiUrl;
   @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFile") modalAnexo: ModalComponent
-  @ViewChild("modalFiles") modalfiles: ModalComponent
+  @ViewChild("modalFiles") modalFiles: ModalComponent
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
@@ -714,7 +714,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         tipoDocumentoId: item.file.fileType.id.toString(),
         id: item.id,
         entityId: item?.demandaId
-
       })
     })
 
@@ -782,8 +781,9 @@ agregarComentario() {
 async verArchivos(demandaId) {
   await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
     .then((res: any) => {
-      this.mapFiles(res)
       console.log("Noel files GEEEET: ", res);
+      this.mapFiles(res)
+      console.log("Noel files Despues: ", res);
     })
 
 
@@ -791,23 +791,26 @@ async verArchivos(demandaId) {
 }
 
 openModalFile() {
-  console.log("Noel files OPEN: ");
-  this.modalfiles.open();
+  this.modalFiles.open();
 }
 
 private mapFiles(res: any) {
   let array = [];
   res.result?.forEach((item) => {
     array.push({
+      id: item?.id,
       file: { ...item.file },
       tipoDocumentoId: item.file.fileType.id.toString(),
-      entityId: item.demandaId
+      entityId: item.demandaId,
+      estadoAnexo: item.estadoAnexo,
+      fileId: item.fileId
+
     })
 
   });
   this.files = array;
   this.openModalFile()
-  console.log(this.files, "files");
+  console.log("files QUE HAY?:", this.files);
 }
 
   openVerticallyCentered(content, id: any) {

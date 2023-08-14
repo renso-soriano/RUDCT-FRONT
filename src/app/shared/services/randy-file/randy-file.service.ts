@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import Archivo from 'app/demandas/interface/archivo.interface';
 import { DropDownServiceService } from '../drop-down-service.service';
 import { environment } from 'environments/environment';
+import { APIResponse } from 'app/shared/models/Core/api-response.interface';
 // import { FileDownload } from '@/shared/interface/randy-file/file-download.interface';
 // import { IResponse } from '@/shared/interface/response.interface';
 // import Archivo from '@/shared/interface/randy-file/archivo.interface';
@@ -76,6 +77,8 @@ export class RandyFileService {
     const file = new Blob([byteArray], { type: data.contentType });
     return file;
   }
+
+
 
 }
 

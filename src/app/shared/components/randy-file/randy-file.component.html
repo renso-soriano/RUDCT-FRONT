@@ -53,6 +53,12 @@
                 <span class="ft-eye"></span>
               </button>
 
+              <button id="validarButton" title="Marcar documento como valido"
+              [class.no-event]="!item.estadoAnexo == false"
+                class="btn btn-success" (click)="validarDocumento(item);">
+                <fa class="fa fa-check-circle"></fa>
+              </button>
+
             </div>
           </ng-container>
           <ng-template #remove>
