@@ -35,7 +35,7 @@
         <!-- {{tipoDocumentos | async | json}} -->
         <td class="text-bold-600">{{ item.file?.name }}</td>
         <td class="text-bold-600">
-          <ng-select required="Debe llenar campo" [disabled]="documentTypeExplicit ? true : false"
+          <ng-select required="Debe llenar campo" [disabled]="isGobiernoAbierto"
             [items]="tipoDocumentos | async" bindLabel="name" bindValue="id"
             placeholder="Seleccione el tipo de Documento" name="_selectedType" [(ngModel)]="item.tipoDocumentoId"
             (change)="changeType(item, $event)">
@@ -51,6 +51,12 @@
 
               <button type="button" class="btn btn-info" (click)="openDocument(item)" title="Ver documento">
                 <span class="ft-eye"></span>
+              </button>
+
+              <button *ngIf="!isGobiernoAbierto" id="validarButton" title="Marcar documento como valido"
+              [class.no-event]="!item.estadoAnexo == false"
+                class="btn btn-success" (click)="validarDocumento(item);">
+                <fa class="fa fa-check-circle"></fa>
               </button>
 
             </div>

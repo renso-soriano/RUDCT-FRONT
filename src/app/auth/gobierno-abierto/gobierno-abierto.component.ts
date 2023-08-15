@@ -285,6 +285,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
       .then((res: any) => {
         this.mapFiles(res)
+        console.log("Lista de fileees: ", res)
       })
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
@@ -292,14 +293,21 @@ export class GobiernoAbiertoComponent implements OnInit {
   openModalFile() {
     this.modalfiles.open();
   }
+  validarFalse(data:any){
+    return data.some(x => x.estadoAnexo == true)
+  }
   private mapFiles(res: any) {
     let array = [];
     res.result?.forEach((item) => {
-      array.push({
-        file: { ...item.file },
-        tipoDocumentoId: item.file.fileType.id.toString(),
-        entityId: item.demandaId
-      })
+      if(item.estadoAnexo == true)
+      {
+        array.push({
+          file: { ...item.file },
+          tipoDocumentoId: item.file.fileType.id.toString(),
+          entityId: item.demandaId
+        })
+      }
+
 
     });
     this.files = array;

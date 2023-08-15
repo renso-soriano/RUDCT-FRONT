@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, Output, E
 import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 import { environment } from 'environments/environment';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import Archivo from 'app/demandas/interface/archivo.interface';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
@@ -10,6 +10,10 @@ import { HttpClient } from '@angular/common/http';
 import { FileException } from 'app/shared/enum/file-Exception.enum';
 import { FileItem, FileUploader } from 'ng2-file-upload';
 import { DomSanitizer } from '@angular/platform-browser';
+import { APIResponse } from 'app/shared/models/Core/api-response.interface';
+import { HttpClientService } from 'app/shared/core/http-client/http-client.service';
+import { ModalComponent } from '../modal/modal.component';
+import { SweetAlertService } from '../sweet-alert/sweet-alert.service';
 
 @Component({
   selector: 'Randy-File',
@@ -23,9 +27,13 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   sub$: Subject<boolean> = new Subject<boolean>()
   // @Input() fileEntityType: FileEntityType
   @Input() isDetail: boolean;
+  @Input() isGobiernoAbierto: boolean = false;
   @Input() name: string = ''
   @Input() disabled = false
   @Input() listaDemanda: Archivo[];
+  @Input() modalRef: ModalComponent
+  @Input() estadoAnexo: boolean
+  estadoObservable = new BehaviorSubject(false);
   // @Input() modalRef: ModalComponent //referencia del modal
   // @Input() documentTypeExplicit: TipoDocumento //Tipo de documento
   @Input() route: string //Terminal de la ruta EJEMPLO: "Negociacion | Seguimiento | Iniciativa"
@@ -44,6 +52,9 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   multiple: boolean = false
   //#endregion
   UPLOAD_URL: string = "File/UploadFileList/"
+  Validar_URL: String = environment.apiUrl + "DemandaAnexo"
+  URL: string = environment.apiUrl;
+
 
   selected: Archivo[] = []
   loading: boolean = false
@@ -66,15 +77,15 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   }
 
-
-
   constructor(private toastr: ToastrService,
     private randyFileService: RandyFileService,
     private http: HttpClient,
+    private http_noel: HttpClientService,
     private toastrService: ToastrService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _sas: SweetAlertService,
   ) {
-    console.log("Ramdy File Init");
+    // console.log("Ramdy File Init");
 
     this.multiple = this.fileLimit > 1
     this.uploader = new FileUploader({
@@ -88,8 +99,8 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     // console.log(this.uploader);
 
     this.uploader.onWhenAddingFileFailed = (fileItem, { name }) => {
-      console.log(fileItem, "Demo ");
-      console.log(name, "NAME");
+      // console.log(fileItem, "Demo ");
+      // console.log(name, "NAME");
       if (name === FileException.MimeType) {
         // console.log(name, "mimeType");
         this.toastr.warning(`Los formatos permitidos son: ${this.fileType.map(value => " " + value)} `, 'Formato de archivo')
@@ -115,7 +126,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
       }
     }
     this.uploader.onAfterAddingFile = (item: FileItem) => {
-      console.log(item, "AQUI");
+      // console.log(item, "AQUI");
       this.addedFileToQueue(item._file)
     }
 
@@ -124,6 +135,35 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     // }
 
   }
+
+  validarDocumento(id: Archivo) {
+    const idFrom = id;
+    let modifyStatus = [{ from: 'DemandaAnexo', op: "replace", path: "estadoAnexo", value: true }];
+    if (idFrom.estadoAnexo == false) {
+      this._sas.AlertConfirm('Validación evidencias', 'Esta seguro que desea validar la evidencia?', 'question')
+        .then((a) => {
+          if (a.valueOf() == true) {
+            this.http_noel.patch<APIResponse<any[]>>(modifyStatus, `demandaAnexo/${idFrom.id}`).subscribe( res => {
+              if(res.statusCode == 200){
+              this._sas.success('Documento Marcado Como valido Correctamente');
+                let index = this.selected.find(x => x.id === idFrom.id);
+                index.estadoAnexo = true
+              //TODO -> en vez de cerrar que actualize  la data que presenta
+              }
+            })
+          }
+
+        })
+
+      }
+    }
+
+
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 2000);
+    // window.location.reload();
+
 
 
   get getCount() {
@@ -136,7 +176,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   getFiles(): Archivo[] {
     const files = this.selected.filter(x => !x.id)
-    // console.log(files, "FILES");
+    console.log("Noel files", files);
     return files;
 
   }
@@ -171,10 +211,18 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+
     this.dropdownFileType();
     console.log("Estoy en el on INit klk");
   }
 
+  getFileList() {
+    // await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
+    // .then((res: any) => {
+    //   this.mapFiles(res)
+    //   console.log("Noel files GEEEET: ", res);
+    // })
+  }
 
   dropdownFileType() {
     this.tipoDocumentos = this.randyFileService.getFileType();
@@ -192,7 +240,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     // const files = this.uploader.queue.map(file => file?._file)
     // console.log(files, "FILEs");
     // this.selected.push({ file: files[files.length - 1], tipoDocumentoId: 1 })
-    this.selected.push({ file, tipoDocumentoId: null })
+    this.selected.push({ file, tipoDocumentoId: null, estadoAnexo: false })
     console.log(this.selected, "Files");
     this.emitFileCount()
 
@@ -225,7 +273,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   getAnexos() {
     this.randyFileService.uploadFiles(this.listaIds).subscribe(res => {
       res = this.listaIds;
-      console.log("Lista de Ids", this.listaIds);
+      console.log("Lista de Ids Nooooooel", this.listaIds);
     })
   }
 

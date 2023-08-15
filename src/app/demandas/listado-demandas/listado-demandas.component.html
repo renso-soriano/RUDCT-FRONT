@@ -121,6 +121,11 @@
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('PUT')"
                         class="btn-sm ml-1 btn-primary text-white ft-more-vertical"
                         (click)="openVerticallyCentered(content,row?.id)" title="Cambiar estados"></a>
+                      <!-- temporalmente desactivado -->
+                      <a *ngIf="gruposUsuario?.includes(this.rolesEnum?.DGDES)
+                          ||gruposUsuario?.includes(this.rolesEnum?.administradoresRUDT) "
+                        class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
+                        [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -213,8 +218,7 @@
 
 
       <!-- <div class="row" > -->
-      <div class="col-sm-12"
-        *ngIf="EF.estado?.value != null">
+      <div class="col-sm-12" *ngIf="EF.estado?.value != null">
         <!-- <div class="form-group">
           <label for="comentarioEstado">Comentario</label>
           <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
@@ -277,7 +281,7 @@
 
 
 
-    <!--   <div class="col-sm-12"
+      <!--   <div class="col-sm-12"
         *ngIf="(EF.estado?.value == this.estadoValidacionEnum?.devueltaPorDGDES || EF.estado?.value == this.estadoValidacionEnum?.devueltaPorVIOTDR) && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == false">
         <div class="form-group">
           <label for="devolucion">Razón de devolución</label>
@@ -302,6 +306,18 @@
         <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm?.invalid"
           (click)="closeModal()">
       </div>
+
+
+      <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
+
+        <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true" [modalRef]="modalFiles"></Randy-File>
+
+        <!-- <div class="modal-footer">
+
+          <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">
+        </div> -->
+        <!--end modal fixed-->
+      </UIModal>
 
       <!-- Modal Lista de Comentarios -->
 
