@@ -275,8 +275,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   ngOnDestroy(): void {
-    if(this.isModalOpen)
-    {
+    if (this.isModalOpen) {
       this.closeModalSimple();
     }
 
@@ -338,18 +337,18 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   ngOnInit() {
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService?.findModule(this.router.routerState.snapshot.url);
-    this.UserName =  this.authService?.getUserCompleteName();
+    this.UserName = this.authService?.getUserCompleteName();
 
     console.log("Name the  User Login: ", this.UserName);
 
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-  //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
+    //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
     this.gruposUsuario = this.authService?.getGrupos().map(g => g.groupId);
 
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
-      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion' && x.prop !== 'nombreTipoDemanda' );
+      this.columns = this.columns.filter(x => x.prop !== 'nombreEstadoValidacion' && x.prop !== 'nombreTipoDemanda');
       this.columns.push({ name: 'Prioridad provincial', prop: 'prioridadProvincial', sorteable: false, visible: true })
-      this.columns.push({  name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true })
+      this.columns.push({ name: 'Estado de ejecución', prop: 'institucionesInvolucradas', sorteable: false, visible: true })
       this.listadoEstados = this.dropdownService.getEstados();
       this.usuarioInstitucional = true;
       // console.log("Estados: ", this.listadoEstados.subscribe(res => {
@@ -378,7 +377,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.dropdownService?.getInstitucionById(this.institucionUsuarioSSO).subscribe((x: any) => {
       this.institucionUsuarioEnRUDT = x[0]['id'];
       this.reloadTable();
-      console.log('Soy el id de la institucion',this.institucionUsuarioEnRUDT)
+      console.log('Soy el id de la institucion', this.institucionUsuarioEnRUDT)
       // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
 
     });
@@ -661,7 +660,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.dataExcel = data.map((item: any) => {
 
       this.institucionesInvolucradasExcel = [];
-      item?.institucionesInvolucradas.forEach((i)=>{
+      item?.institucionesInvolucradas.forEach((i) => {
         this.institucionesInvolucradasExcel.push(
           {
             nombre: i.nombreInstitucion,
@@ -675,8 +674,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         return `${inst.nombre} (${estadoInstitucion})`;
       });
 
-      console.log('this.institucionesInvolucradasExcel',this.institucionesInvolucradasExcel);
-      console.log('instituciones',instituciones);
+      console.log('this.institucionesInvolucradasExcel', this.institucionesInvolucradasExcel);
+      console.log('instituciones', instituciones);
 
       return {
         Codigo: item?.codigo,
@@ -735,83 +734,83 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   }
 
   setListasDemandas(demanda: Demanda): void {
-  this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
-    return {
-      id: item?.id,
-      demandaId: item?.demandaId,
-      comentrio: item?.comentrio,
-      estatus: item?.estatus,
-      userName:item?.userName
-    };
-  });
-}
-
-
-agregarComentario() {
-  console.log("A verL ", this.comentarios.value);
-  if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
-    if (this.ComentariosList == null) {
-      this.ComentariosList = [];
-    }
-    this.ComentariosList.push(
-      {
-        id: 0,
-        demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
-        comentrio: this.comentarios.value,
-        estatus: "A",
-        userName: this.UserName
-
-
-      }
-
-    )
-    console.log("A verL ", this.ComentariosList);
-  } else {
-    this.serviceStr.typeError("No puede añadir comentarios vacíos");
+    this.ComentariosList = demanda.demandaComentarios?.map((item: any) => {
+      return {
+        id: item?.id,
+        demandaId: item?.demandaId,
+        comentrio: item?.comentrio,
+        estatus: item?.estatus,
+        userName: item?.userName
+      };
+    });
   }
 
-  this.estadoForm.patchValue({
-    comentarios: null
-  });
+
+  agregarComentario() {
+    console.log("A verL ", this.comentarios.value);
+    if (this.comentarios.value != null && this.comentarios.value.trim() != '') {
+      if (this.ComentariosList == null) {
+        this.ComentariosList = [];
+      }
+      this.ComentariosList.push(
+        {
+          id: 0,
+          demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+          comentrio: this.comentarios.value,
+          estatus: "A",
+          userName: this.UserName
 
 
-}
+        }
+
+      )
+      console.log("A verL ", this.ComentariosList);
+    } else {
+      this.serviceStr.typeError("No puede añadir comentarios vacíos");
+    }
+
+    this.estadoForm.patchValue({
+      comentarios: null
+    });
 
 
-async verArchivos(demandaId) {
-  await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
-    .then((res: any) => {
-      console.log("Noel files GEEEET: ", res);
-      this.mapFiles(res)
-      console.log("Noel files Despues: ", res);
-    })
+  }
 
 
-  // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
-}
+  async verArchivos(demandaId) {
+    await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`)
+    .toPromise().then((res: any) => {
+        console.log("Noel files GEEEET: ", res);
+        this.mapFiles(res)
+        console.log("Noel files Despues: ", res);
+      })
 
-openModalFile() {
-  this.modalFiles.open();
-}
 
-private mapFiles(res: any) {
-  let array = [];
-  res.result?.forEach((item) => {
-    array.push({
-      id: item?.id,
-      file: { ...item.file },
-      tipoDocumentoId: item.file.fileType.id.toString(),
-      entityId: item.demandaId,
-      estadoAnexo: item.estadoAnexo,
-      fileId: item.fileId
+    // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
+  }
 
-    })
+  openModalFile() {
+    this.modalFiles.open();
+  }
 
-  });
-  this.files = array;
-  this.openModalFile()
-  console.log("files QUE HAY?:", this.files);
-}
+  private mapFiles(res: any) {
+    let array = [];
+    res.result?.forEach((item) => {
+      array.push({
+        id: item?.id,
+        file: { ...item.file },
+        tipoDocumentoId: item.file.fileType.id.toString(),
+        entityId: item.demandaId,
+        estadoAnexo: item.estadoAnexo,
+        fileId: item.fileId
+
+      })
+
+    });
+    this.files = array;
+    this.openModalFile()
+    console.log("files QUE HAY?:", this.files);
+  }
 
   openVerticallyCentered(content, id: any) {
     this.isModalOpen = true;
@@ -824,14 +823,13 @@ private mapFiles(res: any) {
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
-         if(this.usuarioInstitucional)
-         {
+        if (this.usuarioInstitucional) {
           this.demanda.institucionesInvolucradas.forEach((institucion) => {
 
             const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
-            if ( institucion.institucionId === idRudt ) {
-              const estadoName =  this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
+            if (institucion.institucionId === idRudt) {
+              const estadoName = this.estadoUtils.titleEstadoEjecucion(institucion?.estadoId);
               this.estadoDemanda = estadoName;
 
               this.estadoForm.patchValue({
@@ -846,12 +844,12 @@ private mapFiles(res: any) {
             }
 
           });
-         }
-         else{
+        }
+        else {
           this.estadoForm.patchValue({
             estado: this.demanda.estadoValidacionId?.toString(),
           });
-         }
+        }
 
 
         if (this.demanda.demandaAnexos.length == 0) {
@@ -883,7 +881,7 @@ private mapFiles(res: any) {
     return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
   }
 
-  titleEstadoEjecucion(id?:number):string{
+  titleEstadoEjecucion(id?: number): string {
 
     switch (id) {
       case Estados.pendienteAsignarSectorial:
@@ -939,7 +937,7 @@ private mapFiles(res: any) {
     //     "Debe completar el por qué rechaza la demanda"
     //   );
     // }else
-     if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT)  && this.EF.codigoSnip.value == null) {
+    if (this.EF.estado.value == this.estadoEjecucionEnum.enProcesoDeEjecucion && this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) && this.EF.codigoSnip.value == null) {
       this.serviceStr.typeError(
         "Debe introducir el codigo snip del proyecto"
       );
@@ -972,7 +970,7 @@ private mapFiles(res: any) {
       const idRudt = parseInt(this?.institucionUsuarioEnRUDT)
 
       this.demanda.institucionesInvolucradas.forEach((institucion) => {
-        if ( institucion.institucionId === idRudt ) {
+        if (institucion.institucionId === idRudt) {
 
           institucion.estadoId = nuevoEstadoId;
         }
@@ -1009,7 +1007,7 @@ private mapFiles(res: any) {
 
       const idRudt = parseInt(this.institucionUsuarioEnRUDT)
 
-      if ( institucion.institucionId === idRudt ) {
+      if (institucion.institucionId === idRudt) {
 
         institucion.codigoPei = formValue.codigoPei;
         institucion.codigoPoa = formValue.codigoPoa;

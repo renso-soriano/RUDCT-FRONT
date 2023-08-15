@@ -13,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { APIResponse } from 'app/shared/models/Core/api-response.interface';
 import { HttpClientService } from 'app/shared/core/http-client/http-client.service';
 import { ModalComponent } from '../modal/modal.component';
+import { SweetAlertService } from '../sweet-alert/sweet-alert.service';
 
 @Component({
   selector: 'Randy-File',
@@ -78,7 +79,8 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private http_noel: HttpClientService,
     private toastrService: ToastrService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private _sas: SweetAlertService,
   ) {
     console.log("Ramdy File Init");
 
@@ -131,18 +133,29 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   }
 
-  validarDocumento(id: Archivo){
+  validarDocumento(id: Archivo) {
     const idFrom = id;
-    let modifyStatus = [{from: 'DemandaAnexo', op: "replace", path: "estadoAnexo", value: true }];
+    let modifyStatus = [{ from: 'DemandaAnexo', op: "replace", path: "estadoAnexo", value: true }];
     console.log("Devolucion: ", idFrom);
-    if(idFrom.estadoAnexo == false)
-    this.http_noel.patch<APIResponse<any[]>>(modifyStatus, `demandaAnexo/${idFrom.id}`).subscribe( res => {
-      console.log("Devolucion: ", res);
-      if(res.statusCode == 200){
-      this.toastr.success('Documento Marcado Como valido Correctamente');
-      this.modalRef.close();
-      }
-    })
+    if (idFrom.estadoAnexo == false) {
+      this._sas.AlertConfirm('Validación evidencias', 'Esta seguro que desea validar la evidencia?', 'question')
+        .then((a) => {
+          if (a.valueOf() == true) {
+            this.http_noel.patch<APIResponse<any[]>>(modifyStatus, `demandaAnexo/${idFrom.id}`).subscribe( res => {
+              if(res.statusCode == 200){
+              this._sas.success('Documento Marcado Como valido Correctamente');
+
+              //TODO -> en vez de cerrar que actualize  la data que presenta
+              this.modalRef.close();
+
+              }
+            })
+          }
+
+        })
+
+    }
+
 
     // setTimeout(() => {
     //   window.location.reload();
@@ -161,7 +174,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   getFiles(): Archivo[] {
     const files = this.selected.filter(x => !x.id)
-    console.log("Noel files",files);
+    console.log("Noel files", files);
     return files;
 
   }
@@ -201,7 +214,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     console.log("Estoy en el on INit klk");
   }
 
-  getFileList(){
+  getFileList() {
     // await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
     // .then((res: any) => {
     //   this.mapFiles(res)
