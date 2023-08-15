@@ -293,6 +293,9 @@ export class GobiernoAbiertoComponent implements OnInit {
   openModalFile() {
     this.modalfiles.open();
   }
+  validarFalse(data:any){
+    return data.some(x => x.estadoAnexo == true)
+  }
   private mapFiles(res: any) {
     let array = [];
     res.result?.forEach((item) => {
