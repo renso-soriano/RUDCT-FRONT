@@ -296,11 +296,15 @@ export class GobiernoAbiertoComponent implements OnInit {
   private mapFiles(res: any) {
     let array = [];
     res.result?.forEach((item) => {
-      array.push({
-        file: { ...item.file },
-        tipoDocumentoId: item.file.fileType.id.toString(),
-        entityId: item.demandaId
-      })
+      if(item.estadoAnexo == true)
+      {
+        array.push({
+          file: { ...item.file },
+          tipoDocumentoId: item.file.fileType.id.toString(),
+          entityId: item.demandaId
+        })
+      }
+
 
     });
     this.files = array;

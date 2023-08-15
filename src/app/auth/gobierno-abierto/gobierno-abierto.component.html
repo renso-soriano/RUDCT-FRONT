@@ -253,11 +253,8 @@
                               (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
 
                               <!-- temporalmente desactivado -->
-<!--
                               <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
-                              [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a> -->
-
-
+                              [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
 
                           </ng-template>
                         </ngx-datatable-column>
@@ -304,7 +301,7 @@
 
         <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
 
-          <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true"></Randy-File>
+          <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true" [isGobiernoAbierto]="true"></Randy-File>
 
           <!-- <div class="modal-footer">
 

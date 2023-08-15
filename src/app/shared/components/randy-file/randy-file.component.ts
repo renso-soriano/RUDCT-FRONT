@@ -27,6 +27,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   sub$: Subject<boolean> = new Subject<boolean>()
   // @Input() fileEntityType: FileEntityType
   @Input() isDetail: boolean;
+  @Input() isGobiernoAbierto: boolean = false;
   @Input() name: string = ''
   @Input() disabled = false
   @Input() listaDemanda: Archivo[];
