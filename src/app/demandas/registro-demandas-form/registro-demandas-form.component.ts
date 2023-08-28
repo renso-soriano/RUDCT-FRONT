@@ -515,7 +515,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           funcion: demanda.funcionTemaComun,
           subFuncion: demanda.nombreTemaComun,
           temaCommun: demanda.temaComunTema,
-          fuente: demanda.fuenteDemandaId.toString(),
+          fuente: demanda.fuenteDemandaId != null ?   demanda.fuenteDemandaId.toString() : null,
           eje: demanda.ejeEndId != null ? demanda.ejeEndId.toString() : null,
           odsId: demanda.odsId != null ? demanda.odsId.toString() : null,
           objetivo: demanda.objetivoEndId != null ? demanda.objetivoEndId.toString() : null,
