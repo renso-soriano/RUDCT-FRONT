@@ -190,6 +190,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     "temaCommun": null,
     "temaComunId": null,
     "institucionId": null,
+    "ejeEndId": null,
     //"demandaTipoId": null,
     "politicaPNPSPId": null,
     "estadoId": null,
@@ -500,6 +501,15 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         placeholder: 'Seleccione politica',
         async: true,
         multiple: false
+      }),
+      new FiltrosDinamicos().deserialize({
+        name: 'ejeEndID',
+        label: 'Ejes END',
+        servicio: this.dropdownService.getEjes(),
+        tipo: 'select',
+        placeholder: 'Seleccione eje',
+        async: true,
+        multiple: false
       })
     ];
     this.loadingIndicator = false;
@@ -566,6 +576,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
       .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('ejeEndID', this.filtrosActivos.ejeEndID)
       .set('grupoId', grupoId);
 
     this.demandasService.getDemandas(params).subscribe((data: any) => {
@@ -635,6 +646,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       .set('tipoInversionId', this.filtrosActivos.tipoInversionId)
       .set('politicaPNPSPId', this.filtrosActivos.politicaPNPSPId)
       .set('estadoDemandaId', this.filtrosActivos.estadoId)
+      .set('ejeEndID', this.filtrosActivos.ejeEndID)
       .set('grupoId', grupoId);
 
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
@@ -691,6 +703,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         Clasificador_Funcional: item?.nombreTemaComun,
         NombreFuenteDemanda: item?.nombreFuenteDemanda,
         institucionesInvolucradas: instituciones.join(","),
+        EjeEnd: item?.nombreEjeEnd,
         TecnicoOmpp: item?.nombreTecnicoOmpp,
         ResultanteDe: item?.resultanteDe,
         Activo: item?.estatus ? "Si" : "No"
