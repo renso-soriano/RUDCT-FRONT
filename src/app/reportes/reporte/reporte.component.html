@@ -30,7 +30,7 @@
                   <div class="form-group">
                     <label for="provincia">Provincia</label>
                     <ng-select [items]="listadoProvincias | async" bindLabel="name" bindValue="id" name="provincia"
-                      id="provincia" placeholder="Seleccione provincia"
+                      id="provincia" placeholder="Todas"
                       formControlName="provinciaId">
                     </ng-select>
 
@@ -41,7 +41,7 @@
                   <div class="form-group">
                     <label for="Institucion">Institucion</label>
                     <ng-select [items]="listadoInstituciones | async" bindLabel="name" bindValue="id" name="Institucion"
-                      id="Institucion" placeholder="Seleccione Institucion"
+                      id="Institucion" placeholder="Todas"
                       formControlName="institucionId">
                     </ng-select>
 
@@ -51,7 +51,7 @@
                 <div class="col-sm-4" *ngIf="tipoReporteSelected != null">
                   <div class="form-group">
                     <a (click)="exportReport()" data-toggle="tooltip" data-placement="bottom"
-                      title="Descargar reporte" class="btn btn btn-danger btn-sm ml-1">
+                      title="Descargar reporte" class="btn btn btn-success btn-sm ml-1">
                       <i class="fa fa-download"> Exportar</i>
                     </a>
                   </div>
