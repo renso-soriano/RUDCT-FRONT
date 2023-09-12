@@ -22,4 +22,12 @@ export class NGXToastrService {
   typeInfo(mensaje: string) {
     this.toastr.info(mensaje, 'Info!');
   }
+
+  //Type Personalizado
+  typeStatus(mensaje: string){
+    this.toastr.info(mensaje, 'Estado de la demanda:');
+  }
+  typeInsti(mensaje: string){
+    this.toastr.info(mensaje,'Institucion Responsable:');
+  }
 }

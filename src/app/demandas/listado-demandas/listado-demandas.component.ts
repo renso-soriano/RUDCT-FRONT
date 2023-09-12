@@ -118,6 +118,10 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   file?: any
   demandaId?: any
   listaAnexosId?: any
+  instResponsable: any
+  instEstado: any
+
+
   modalConfig: IModalConfig = {
     modalTitle: "Estado de Demandas"
   }
@@ -281,7 +285,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     }
 
   }
-
+  public mensaje:string
   /**
    * Constructor
    *
@@ -304,6 +308,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+    this.mensaje = "Jesus";
   }
   ngAfterContentInit(): void {
 
@@ -530,6 +535,29 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     //console.log("reloadTable en pageCallBack")
     await this.reloadTable();
   }
+
+
+
+
+  onMoving(rows: any){
+    const idSelect = rows?.id
+    const getResult: any = []
+  console.log('Por aqui se;', idSelect);
+    this.demandasService.getDemandaById(idSelect).subscribe(res => {
+      const {nombreEstadoValidacion, institucionesInvolucradas} = res
+      this.instEstado = nombreEstadoValidacion
+      this.instResponsable = res.institucionesInvolucradas.map((institucion) =>
+      institucion.nombreInstitucion);
+      this.serviceStr.typeStatus(`${this.instEstado}`);
+      this.serviceStr.typeInsti(`${this.instResponsable}`);
+      // console.log("Noel: ", res);
+      // console.log("institucionEstado: ", this.instEstado);
+      // console.log("institucionInvolucrada: ", this.instResponsable);
+    })
+
+  }
+
+
 
   async getFilters(event) {
     this.filtrosActivos = event;
