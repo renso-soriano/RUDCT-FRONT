@@ -110,16 +110,19 @@
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
                       </div>
+                      <div *ngIf="column?.prop == 'acciones' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == true" class="badge badge-pill" >
+                        {{ value }}
+                      </div>
                     </ng-template>
                   </ngx-datatable-column>
 
-                  <!-- modalTextResumido -->
+                  <!-- modalTextResumido
                   <ng-template #estados>
                   <div class="modal-body">
                     <h5>Probando estados:</h5>
                     <p> <small>Institucion Responsable:{{informacionInstituciones?.nombreInstitucion}} </small></p>
                   </div>
-                </ng-template>
+                </ng-template> -->
 
 <!--
                 <div class="tooltipView" >
@@ -133,6 +136,7 @@
                         <div *ngIf="i == hoverIndex" class="card-body item-body">...</div>
                        </div >
                        <div (mouseenter)="onMoving(row)">
+
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
                         class="btn-sm btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
                         title="Ver detalles"></a>

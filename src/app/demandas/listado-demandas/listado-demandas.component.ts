@@ -213,6 +213,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
     // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
+    { name: 'Acciones', prop: 'acciones', sorteable: false, visible: true },
   ];
 
   // multi Purpose datatable Row data
@@ -540,6 +541,15 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 public informacionInstituciones: any
 public tool: boolean = false
 public hoverIndex = -1
+public tooltikView: boolean
+public rowOnHover: any
+
+
+
+onHoverRow(row: any){
+  this.rowOnHover = row;
+  this.tooltikView = true;
+}
 
 onHover(i:number){
   this.hoverIndex = i;
