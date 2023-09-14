@@ -49,8 +49,13 @@
 
   }
 
+  .modal-body{
+    position: relative;
+  }
 
-
+.accionesClass{
+  position: absolute;
+}
 
   .tooltipView {
     visibility: hidden;

@@ -40,6 +40,7 @@ import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
 import { EstadoUtilsService } from 'app/shared/utilidades/estados-utils';
+import { SweetAlert } from 'app/shared/components/sweet-alert/sweet-alerts';
 
 
 declare var require: any;
@@ -213,7 +214,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     // { name: 'Origen', prop: 'nombreFuenteDemanda', sorteable: false },
     // { name: 'Estado de ejecución', prop: 'institucionesInvolucradas' , sorteable: false, visible: true },
     { name: 'Estado validación', prop: 'nombreEstadoValidacion', sorteable: false, visible: true },
-    { name: 'Acciones', prop: 'acciones', sorteable: false, visible: true },
+
   ];
 
   // multi Purpose datatable Row data
@@ -319,6 +320,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 
   }
 
+
+
   openFileModal(demandaId: number): void {
     this.mapFile();
     this.modalAnexo.open();
@@ -343,6 +346,14 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
    * On init
    */
   ngOnInit() {
+    Swal.fire({
+      title: 'Error!',
+      text: 'Do you want to continue',
+      icon: 'error',
+      confirmButtonText: 'Cool'
+    })
+
+
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService?.findModule(this.router.routerState.snapshot.url);
     this.UserName = this.authService?.getUserCompleteName();
@@ -541,9 +552,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
 public informacionInstituciones: any
 public tool: boolean = false
 public hoverIndex = -1
-public tooltikView: boolean
+public tooltikView: boolean = false;
 public rowOnHover: any
-
+isHovering = false;
 
 
 onHoverRow(row: any){
@@ -557,7 +568,7 @@ onHover(i:number){
 
   onMoving(rows: any){
     const idSelect = rows?.id
-
+    this.tooltikView = true;
     console.log("Id seleccionado 1:", idSelect);
     const resultadoFinal = this.mouseHoverList.find(({id}) => id === idSelect);
     if (resultadoFinal) {

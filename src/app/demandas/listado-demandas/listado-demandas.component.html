@@ -1,4 +1,6 @@
 <!--Noel why is this style into this file?-->
+<script src="sweetalert2.all.min.js"></script>
+
 <style>
   .my-drop-zone {
     border: dotted 3px lightgray;
@@ -88,8 +90,6 @@
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
-
-
                       </div>
                       <div
                         *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"
@@ -110,19 +110,13 @@
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
                       </div>
-                      <div *ngIf="column?.prop == 'acciones' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == true" class="badge badge-pill" >
-                        {{ value }}
-                      </div>
+                      <div
+                      *ngIf="column?.prop == 'acciones' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
+                      class="badge badge-pill">
+
+                    </div>
                     </ng-template>
                   </ngx-datatable-column>
-
-                  <!-- modalTextResumido
-                  <ng-template #estados>
-                  <div class="modal-body">
-                    <h5>Probando estados:</h5>
-                    <p> <small>Institucion Responsable:{{informacionInstituciones?.nombreInstitucion}} </small></p>
-                  </div>
-                </ng-template> -->
 
 <!--
                 <div class="tooltipView" >
@@ -131,12 +125,17 @@
                   <!-- Acciones -->
                   <ngx-datatable-column name="Acciones" >
 
-                    <ng-template let-row="row" ngx-datatable-cell-template >
-                      <div  (mouseenter) ="onHover(i)"  (mouseleave) ="onHover(-1)">
+                    <ng-template class="accionesClass" let-row="row" ngx-datatable-cell-template >
+                      <!-- <div  (mouseenter) ="tooltikView = true"  (mouseleave) ="tooltikView = false">
                         <div *ngIf="i == hoverIndex" class="card-body item-body">...</div>
-                       </div >
-                       <div (mouseenter)="onMoving(row)">
-
+                       </div > -->
+                       <div  (mouseenter)="onMoving(row)" (mouseleave)="tooltikView = false">
+                        <!-- <div *ngIf="tooltikView">
+                          <div class="modal-body">
+                            <h5>Probando estados:</h5>
+                            <p> <small>Institucion Responsable:{{informacionInstituciones?.nombreInstitucion}} </small></p>
+                          </div>
+                        </div> -->
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
                         class="btn-sm btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
                         title="Ver detalles"></a>
@@ -159,6 +158,12 @@
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
+
+      <!-- modalTextResumido -->
+      <ng-template #estados>
+
+      </ng-template>
+
 
                   <ngx-datatable-footer>
                     <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize"
