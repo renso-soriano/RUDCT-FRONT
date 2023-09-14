@@ -32,7 +32,7 @@ import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.
 import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
-import { Console } from 'console';
+import { Console, log } from 'console';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 import { Estados } from 'app/shared/models/auth/estados.enum';
@@ -83,6 +83,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   // public
   public contentHeader: object;
   isModalOpen: boolean = false;
+  public mouseHoverList: any[] = [];
 
   //data:any[];
   estadoDemanda: any;
@@ -536,24 +537,52 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     await this.reloadTable();
   }
 
+public informacionInstituciones: any
+public tool: boolean = false
+public hoverIndex = -1
 
-
+onHover(i:number){
+  this.hoverIndex = i;
+ }
 
   onMoving(rows: any){
     const idSelect = rows?.id
-    const getResult: any = []
-  console.log('Por aqui se;', idSelect);
-    this.demandasService.getDemandaById(idSelect).subscribe(res => {
-      const {nombreEstadoValidacion, institucionesInvolucradas} = res
-      this.instEstado = nombreEstadoValidacion
-      this.instResponsable = res.institucionesInvolucradas.map((institucion) =>
-      institucion.nombreInstitucion);
-      this.serviceStr.typeStatus(`${this.instEstado}`);
-      this.serviceStr.typeInsti(`${this.instResponsable}`);
-      // console.log("Noel: ", res);
-      // console.log("institucionEstado: ", this.instEstado);
-      // console.log("institucionInvolucrada: ", this.instResponsable);
-    })
+
+    console.log("Id seleccionado 1:", idSelect);
+    const resultadoFinal = this.mouseHoverList.find(({id}) => id === idSelect);
+    if (resultadoFinal) {
+      this.informacionInstituciones = {
+        nombreInstitucion: resultadoFinal?.institucionesInvolucradas?.[0]?.nombreInstitucion,
+        nombreEstado: resultadoFinal?.nombreEstadoValidacion
+      };
+      this.tool = true;
+      console.log(this.informacionInstituciones);
+    } else {
+      console.error('No se encontró el elemento con el ID especificado.');
+    }
+
+
+    // // console.log('Lista completa:', this.mouseHoverList);
+    // this.resultadoFinal = this.mouseHoverList.find(({id}) => id === idSelect);
+    //   const informacionInstituciones: any[] = this.resultadoFinal.map((institucion) => {
+    //     return{
+    //       nombreInstitucion: institucion?.institucionesInvolucradas?.nombreInstitucion,
+    //       nombreEstado: institucion?.nombreEstadoValidacion
+    //     }
+    //   })
+
+
+
+    // console.log('Estado: ', informacionInstituciones);
+    // console.log('Instituciones: ', institucionesInvolucradas);
+    // this.demandasService.getDemandaById(idSelect).subscribe(res => {
+    //   const {nombreEstadoValidacion, institucionesInvolucradas} = res
+    //   this.instEstado = nombreEstadoValidacion
+    //   this.instResponsable = res.institucionesInvolucradas.map((institucion) =>
+    //   institucion.nombreInstitucion);
+    //   this.serviceStr.typeStatus(`${this.instEstado}`);
+    //   this.serviceStr.typeInsti(`${this.instResponsable}`);
+    // })
 
   }
 
@@ -613,7 +642,8 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
       this.rows = data.items;
       const idRudt = parseInt(this.institucionUsuarioEnRUDT)
       this.idInstitucionProp = idRudt;
-      console.log(data.items);
+      this.mouseHoverList = data.items
+      // console.log("Noel Lista: ",data.items);
       // console.log(exist, 'Coincidencia')
       // let p
       // let filtered

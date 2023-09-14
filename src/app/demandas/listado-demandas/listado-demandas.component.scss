@@ -52,6 +52,42 @@
 
 
 
+  .tooltipView {
+    visibility: hidden;
+    position: relative;
+    border-bottom: 1px dotted black;
+}
+
+.tooltipView .visible {
+  display: inline-block;
+  visibility: visible;
+}
+.tooltipView .tiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 6px 0;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.tooltipView .tiptext::after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+}
+.tooltipView:hover .tiptext {
+    visibility: visible;
+}
+
+
+
+
+
 
 
 

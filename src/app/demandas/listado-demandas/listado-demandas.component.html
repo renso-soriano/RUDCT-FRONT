@@ -71,26 +71,32 @@
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                  <ngx-datatable-column *ngFor="let column of columns" name="{{column?.name}}"
-                    [sortable]="column?.sortable" prop="{{column?.prop}}" >
+                  <ngx-datatable-column *ngFor="let column of columns; let i = index" name="{{column?.name}}"
+                    [sortable]="column?.sortable" prop="{{column?.prop}}"  >
+
+
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template >
-                    <div (mouseenter)="onMoving(row)">
-                      Noel que pasa mijo</div>
+
                       <span
                         *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
                         {{value}}
+
                       </span>
                       <div  *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
                         [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
+
+
                       </div>
                       <div
                         *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante de Consolidacion', 'bg-primary':value == 'Original sin cambios', 'bg-secondary':value == 'Original modificada', 'bg-dark':value == 'Resultante modificacion'}">
                         {{ value }}
+
                       </div>
                       <div
                         *ngIf="column?.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
@@ -106,11 +112,29 @@
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
+
+                  <!-- modalTextResumido -->
+                  <ng-template #estados>
+                  <div class="modal-body">
+                    <h5>Probando estados:</h5>
+                    <p> <small>Institucion Responsable:{{informacionInstituciones?.nombreInstitucion}} </small></p>
+                  </div>
+                </ng-template>
+
+<!--
+                <div class="tooltipView" >
+                  <small>Estado: {{informacionInstituciones?.nombreEstado}} </small>
+                 </div> -->
                   <!-- Acciones -->
                   <ngx-datatable-column name="Acciones" >
+
                     <ng-template let-row="row" ngx-datatable-cell-template >
+                      <div  (mouseenter) ="onHover(i)"  (mouseleave) ="onHover(-1)">
+                        <div *ngIf="i == hoverIndex" class="card-body item-body">...</div>
+                       </div >
+                       <div (mouseenter)="onMoving(row)">
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
-                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
+                        class="btn-sm btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
                         title="Ver detalles"></a>
                       <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
@@ -128,6 +152,7 @@
                           ||gruposUsuario?.includes(this.rolesEnum?.administradoresRUDT) "
                         class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
                         [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
+                      </div>
                     </ng-template>
                   </ngx-datatable-column>
 
