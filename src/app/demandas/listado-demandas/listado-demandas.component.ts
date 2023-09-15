@@ -346,12 +346,6 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
    * On init
    */
   ngOnInit() {
-    Swal.fire({
-      title: 'Error!',
-      text: 'Do you want to continue',
-      icon: 'error',
-      confirmButtonText: 'Cool'
-    })
 
 
     //var usuarioInstitucion = this.authService.getInstitucion();
