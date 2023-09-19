@@ -40,7 +40,10 @@ import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
 import { EstadoUtilsService } from 'app/shared/utilidades/estados-utils';
+import { SweetAlertService } from 'app/shared/components/sweet-alert/sweet-alert.service';
 import { SweetAlert } from 'app/shared/components/sweet-alert/sweet-alerts';
+
+
 
 
 declare var require: any;
@@ -306,7 +309,9 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     private excelService: ExcelService,
     private fileManager: FileManagerService,
     private randyFileService: RandyFileService,
-    private estadoUtils: EstadoUtilsService
+    private estadoUtils: EstadoUtilsService,
+    private sweAlert: SweetAlertService,
+
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -563,7 +568,6 @@ onHover(i:number){
   onMoving(rows: any){
     const idSelect = rows?.id
     this.tooltikView = true;
-    console.log("Id seleccionado 1:", idSelect);
     const resultadoFinal = this.mouseHoverList.find(({id}) => id === idSelect);
     if (resultadoFinal) {
       this.informacionInstituciones = {
@@ -571,34 +575,15 @@ onHover(i:number){
         nombreEstado: resultadoFinal?.nombreEstadoValidacion
       };
       this.tool = true;
-      console.log(this.informacionInstituciones);
-    } else {
-      console.error('No se encontró el elemento con el ID especificado.');
+      alertFunctions.InstDemanda('Institucion Responsable',`${this.informacionInstituciones.nombreInstitucion}`,
+      'Estado de la Demanda',`${this.informacionInstituciones.nombreEstado}`);
+
     }
 
-
-    // // console.log('Lista completa:', this.mouseHoverList);
-    // this.resultadoFinal = this.mouseHoverList.find(({id}) => id === idSelect);
-    //   const informacionInstituciones: any[] = this.resultadoFinal.map((institucion) => {
-    //     return{
-    //       nombreInstitucion: institucion?.institucionesInvolucradas?.nombreInstitucion,
-    //       nombreEstado: institucion?.nombreEstadoValidacion
-    //     }
-    //   })
-
-
-
-    // console.log('Estado: ', informacionInstituciones);
-    // console.log('Instituciones: ', institucionesInvolucradas);
-    // this.demandasService.getDemandaById(idSelect).subscribe(res => {
-    //   const {nombreEstadoValidacion, institucionesInvolucradas} = res
-    //   this.instEstado = nombreEstadoValidacion
-    //   this.instResponsable = res.institucionesInvolucradas.map((institucion) =>
-    //   institucion.nombreInstitucion);
-    //   this.serviceStr.typeStatus(`${this.instEstado}`);
-    //   this.serviceStr.typeInsti(`${this.instResponsable}`);
-    // })
-
+    else {
+      alertFunctions.TypeError('No contiene informacion','Esta demanda no tiene informacion extra!');
+      console.error('No se encontró el elemento con el ID especificado.');
+    }
   }
 
 
