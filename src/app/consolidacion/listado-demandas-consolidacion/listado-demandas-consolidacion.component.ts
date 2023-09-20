@@ -43,6 +43,7 @@ export class ListadoDemandasConsolidacionComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   userName;
+  abierto = false;
 
 
   @ViewChild("modalDetalles") modalDetalles: ModalComponent

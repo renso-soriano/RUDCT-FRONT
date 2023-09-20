@@ -57,6 +57,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   @ViewChild("modalFiles") modalfiles: ModalComponent
   @ViewChild("randyFile") randyFile: RandyFileComponent
   files: any[] = []
+  abierto = true;
 
   activeModules = []
 

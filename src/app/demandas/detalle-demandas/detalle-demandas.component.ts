@@ -24,9 +24,8 @@ export class DetalleDemandasComponent implements OnInit {
 
   rolesEnum = GrupoUsuario;
 
+  @Input() isAbierto: boolean;
 
-
-  abierto = false;
 
   constructor(
     private demandaService: DemandasService,
@@ -53,7 +52,7 @@ export class DetalleDemandasComponent implements OnInit {
   }
 
   init() {
-    this.abierto = true;
+
     if(this.idExterno)
     {
       //this.gruposUsuario = [this.rolesEnum.soloLectura];
@@ -72,7 +71,7 @@ export class DetalleDemandasComponent implements OnInit {
     this.demanda = null;
     this.spinner.show();
 
-    if (this.abierto) {
+    if (this.isAbierto) {
       this.demandaService.getDemandaByIdGobiernoAbierto(demandaId).subscribe(
         (demanda?: Demanda) => {
           this.demanda = demanda;

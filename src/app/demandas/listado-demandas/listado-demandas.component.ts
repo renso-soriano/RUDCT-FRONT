@@ -40,6 +40,7 @@ import { EstadosValidacion } from 'app/shared/models/auth/estadosValidacion.enum
 import { DemandaComentario } from 'app/shared/models/Demandas/DemandaComentario.model';
 
 import { EstadoUtilsService } from 'app/shared/utilidades/estados-utils';
+import { DetalleDemandasComponent } from '../detalle-demandas/detalle-demandas.component';
 
 
 declare var require: any;
@@ -58,8 +59,12 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
   @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFile") modalAnexo: ModalComponent
   @ViewChild("modalFiles") modalFiles: ModalComponent
+  @ViewChild("Detalles") Detalles: DetalleDemandasComponent
+  @ViewChild("modalDetalles") modalDetalles: ModalComponent
+
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  abierto : boolean;
 
 
   modalConfigFiles: IModalConfig = {
@@ -336,6 +341,7 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
    * On init
    */
   ngOnInit() {
+    this.abierto = false;
     //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService?.findModule(this.router.routerState.snapshot.url);
     this.UserName = this.authService?.getUserCompleteName();
@@ -676,14 +682,18 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
         this.institucionesInvolucradasExcel.push(
           {
             nombre: i.nombreInstitucion,
-            estado: i.estadoId
+            estado: i.estadoId,
+            codigoPei:i.codigoPei,
+            productoPoa: i.codigoPoa,
+            codigoSnip:i.codigoSnip
           }
         )
       })
 
       const instituciones = this.institucionesInvolucradasExcel.map((inst: any) => {
         const estadoInstitucion = this.estadoUtils.titleEstadoEjecucion(inst.estado);
-        return `${inst.nombre} (${estadoInstitucion})`;
+        return `${inst.nombre} (${estadoInstitucion}) ${inst.codigoSnip != null ? 'Codigo Snip: ' + inst.codigoSnip : ''}
+         ${inst.codigoPei != null ? 'Codigo PEI: '+inst.codigoPei : ''} ${inst.productoPoa != null ? 'Producto POA: ' + inst.productoPoa : ''} `;
       });
 
       console.log('this.institucionesInvolucradasExcel', this.institucionesInvolucradasExcel);
@@ -1158,29 +1168,20 @@ export class ListadoDemandasComponent implements OnInit, AfterViewInit, AfterCon
     });
   }
 
+  openVerticallyCentered2(content, id) {
 
+    this.demandaId = id;
+    this.Detalles.idExterno = this.demandaId;
+    this.Detalles.init();
 
-  //manejarClick(event:LeafletMouseEvent) {
+    this.modalDetalles.open()
 
-  // const latitud = Number( event.latlng.lat);
-  // const longitud =Number(event.latlng.lng) ;
-  // console.log(event.latlng)
-  // this.capas = [];
-  // this.capas.push(
-  //     L.marker([latitud, longitud], {
-  //       icon: L.icon({
-  //         iconSize: [25, 41],
-  //         iconAnchor: [13, 41],
-  //         iconUrl: 'assets/mapa//marker-icon.png',
-  //         shadowUrl: 'assets/mapa/marker-shadow.png',
-  //       })
-  //     }).bindPopup(`
-  //     <strong>Coordenada X:</strong> ${latitud} <br/>
-  //     <strong>Coordenada Y:</strong> ${longitud}`,
-  //     { autoClose: false, autoPan: true })
+  }
 
-  //   );
-  //}
+  closeModal2(){
+    this.modalDetalles.close()
+  }
+
 
 
 }

@@ -108,7 +108,7 @@
                   <ngx-datatable-column name="Acciones">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
-                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
+                        class="btn-sm      btn-warning text-white  ft-eye" (click)="openVerticallyCentered2(content,row.id)"
                         title="Ver detalles"></a>
                       <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
@@ -401,5 +401,16 @@
     </ng-template>
 
   </div>
+
+  <!--modal detalles fixed-->
+<UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalDetalles>
+  <app-detalle-demandas [idExterno]="demandaId" [isAbierto]="abierto" #Detalles></app-detalle-demandas>
+  <div class="modal-footer">
+
+    <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal2()">
+  </div>
+  <!--end modal fixed-->
+</UIModal>
+<!--modal fixed-->
 
 </ng-container>

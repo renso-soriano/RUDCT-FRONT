@@ -81,21 +81,21 @@ export class Dashboard1Component implements OnInit {
       this.data2 = demandasFromTheAPI;
 
       this.totalDemandas = this.data2.totalDemandas;
-      this.ejeInstitucional = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Institucionalidad).cantidad;
-      this.ejeSocial = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Social).cantidad;
-      this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Economico).cantidad;
-      this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.MedioAmbiental).cantidad;
+      this.ejeInstitucional = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Institucionalidad)?.cantidad;
+      this.ejeSocial = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Social)?.cantidad;
+      this.ejeEconomico = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.Economico)?.cantidad;
+      this.ejeMedioAmbiental = this.data2.demandasPorEje.find((demanda: any) => demanda.ejeId == EjeEnd.MedioAmbiental)?.cantidad;
 
-      this.cibaoNorte = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte).porcentaje;
-      this.cibaoSur = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoSur).porcentaje;
-      this.cibaoNordeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNordeste).porcentaje;
-      this.cibaoNoroeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNoroeste).porcentaje;
-      this.valdesia = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Valdesia).porcentaje;
-      this.enriquillo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Enriquillo).porcentaje;
-      this.elValle = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.ElValle).porcentaje;
-      this.yuma = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Yuma).porcentaje;
-      this.higuamo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Higuamo).porcentaje;
-      this.ozama = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Ozama).porcentaje;
+      this.cibaoNorte = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNorte)?.porcentaje;
+      this.cibaoSur = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoSur)?.porcentaje;
+      this.cibaoNordeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNordeste)?.porcentaje;
+      this.cibaoNoroeste = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.CibaoNoroeste)?.porcentaje;
+      this.valdesia = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Valdesia)?.porcentaje;
+      this.enriquillo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Enriquillo)?.porcentaje;
+      this.elValle = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.ElValle)?.porcentaje;
+      this.yuma = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Yuma)?.porcentaje;
+      this.higuamo = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Higuamo)?.porcentaje;
+      this.ozama = this.data2.demandasPorRegion.find((demanda: any) => demanda.regionId == Region.Ozama)?.porcentaje;
 
       this.locationsMunicipios = this.data2.demandaCoordenadasMunicipios;
       this.locationsProvincias = this.data2.demandaCoordenadasProvincias;
@@ -107,53 +107,53 @@ export class Dashboard1Component implements OnInit {
             {
               "name": "cibaoNorte",
               "className": "ct-done",
-              "value": this.cibaoNorte
+              "value": this.cibaoNorte != undefined ? this.cibaoNorte : 0
             },
             {
               "name": "cibaoSur",
               "className": "ct-progress",
-              "value": this.cibaoSur
+              "value": this.cibaoSur != undefined ? this.cibaoSur : 0
             },
             {
               "name": "cibaoNordeste",
               "className": "ct-outstanding",
-              "value": this.cibaoNordeste
+              "value": this.cibaoNordeste != undefined ? this.cibaoNordeste : 0
             },
             {
               "name": "cibaoNoroeste",
               "className": "ct-started",
-              "value": this.cibaoNoroeste
+              "value": this.cibaoNoroeste != undefined ? this.cibaoNoroeste : 0
             },
             {
               "name": "valdesia",
               "className": "ct-finish2",
-              "value": this.valdesia
+              "value": this.valdesia != undefined ? this.valdesia : 0
             },
             {
               "name": "enriquillo",
               "className": "ct-done2",
-              "value": this.enriquillo
+              "value": this.enriquillo != undefined ? this.enriquillo : 0
             },
             {
               "name": "elValle",
               "className": "ct-progress2",
-              "value": this.elValle
+              "value": this.elValle != undefined ? this.elValle : 0
             },
             {
               "name": "yuma",
               "className": "ct-started2",
-              "value": this.yuma
+              "value": this.yuma != undefined ? this.yuma : 0
             },
             {
               "name": "higuamo",
               "className": "ct-outstanding2",
-              "value": this.higuamo
+              "value": this.higuamo != undefined ? this.higuamo : 0
             },
 
             {
               "name": "ozama",
               "className": "ct-finish",
-              "value": this.ozama
+              "value": this.ozama != undefined ? this.ozama : 0
             }
           ]
       }
