@@ -3,6 +3,8 @@ import { Observable } from "rxjs";
 import swal from "sweetalert2";
 router: Router;
 
+
+
 //-------------- Basic --------------
 
 // Simple Alert
@@ -14,6 +16,10 @@ export function BasicAlert() {
     },
     buttonsStyling: false,
   });
+}
+
+export function noel(){
+  swal.getConfirmButton()
 }
 
 // Alert with Title
@@ -216,11 +222,12 @@ export function TypeSuccess() {
 }
 
 // Info
-export function TypeInfo() {
+export function TypeInfo(title: string,text:string,status: string) {
   swal.fire({
-    title: "Info!",
-    text: "You clicked the button!",
-    icon: "info",
+    title: title,
+    text: text,
+    // icon: "info",
+    timer: 4000,
     customClass: {
       confirmButton: "btn btn-primary",
     },
@@ -242,10 +249,10 @@ export function TypeWarning() {
 }
 
 // Error
-export function TypeError() {
+export function TypeError(title: string, text: string) {
   swal.fire({
-    title: "Error!",
-    text: "You clicked the button!",
+    title: title,
+    text: text,
     icon: "error",
     customClass: {
       confirmButton: "btn btn-primary",
@@ -472,6 +479,36 @@ export function ConfirmColor() {
       }
     });
 }
+
+//mostrar institucion y estado
+
+export function InstDemanda(
+
+    htmlContent: string
+  ) {
+    // const htmlContent = `
+    //   <div style="text-align: left;">
+    //     <p style="font-weight: bold;">${titulo1}:</p>
+    //     <li>${texto1}</li>
+    //     <p style="font-weight: bold;">${titulo2}:</p>
+    //     <p>${texto2}</p>
+    //   </div>`;
+
+    swal.fire({
+      width:'50%',
+
+      html: htmlContent,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      // timer: 10000,
+      confirmButtonText: 'Cerrar',
+      customClass: {
+        confirmButton: "btn btn-primary",
+      },
+    });
+  }
+
 
 //eliminar Registro
 

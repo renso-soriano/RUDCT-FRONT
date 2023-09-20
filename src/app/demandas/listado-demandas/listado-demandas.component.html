@@ -1,4 +1,6 @@
 <!--Noel why is this style into this file?-->
+<!-- <script src="sweetalert2.all.min.js"></script> -->
+
 <style>
   .my-drop-zone {
     border: dotted 3px lightgray;
@@ -51,7 +53,7 @@
               </div>
 
               <div class="col-md-10">
-                <div class="w-100 d-flex left-content-end">
+                <div class="w-100 d-flex left-content-end" >
                   <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
                     (change)="_changeRowLimits($event)" name="limit" id="limit" [(ngModel)]="limitSelected"
                     style="width: 25%;" [clearable]="false">
@@ -61,7 +63,7 @@
                     <i class="fa fa-file-excel-o"> Exportar Excel</i>
                   </a>
                   <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
-                      mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)" title="Ver listado en el mapa"><i
+                      mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)"  title="Ver listado en el mapa"><i
                       class="fa fa-map-marker mapaselect " aria-hidden="true "></i></a>
                 </div>
               </div><br>
@@ -71,15 +73,21 @@
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                  <ngx-datatable-column *ngFor="let column of columns" name="{{column?.name}}"
-                    [sortable]="column?.sortable" prop="{{column?.prop}}">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <ngx-datatable-column *ngFor="let column of columns; let i = index" name="{{column?.name}}"
+                    [sortable]="column?.sortable" prop="{{column?.prop}}"  >
+
+
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template >
+                       <div   (click)="onMoving(row)" (mouseleave)="tooltikView = false">
                       <span
                         *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
                         {{value}}
+
                       </span>
-                      <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
+                    </div>
+                      <div  *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
                         [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
@@ -89,6 +97,7 @@
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante de Consolidacion', 'bg-primary':value == 'Original sin cambios', 'bg-secondary':value == 'Original modificada', 'bg-dark':value == 'Resultante modificacion'}">
                         {{ value }}
+
                       </div>
                       <div
                         *ngIf="column?.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
@@ -102,11 +111,21 @@
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
                       </div>
+                      <div
+                      *ngIf="column?.prop == 'acciones' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
+                      class="badge badge-pill">
+
+                    </div>
                     </ng-template>
                   </ngx-datatable-column>
-                  <!-- Acciones -->
-                  <ngx-datatable-column name="Acciones">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
+
+
+                  <ngx-datatable-column name="Acciones" >
+
+                    <ng-template class="accionesClass" let-row="row" ngx-datatable-cell-template >
+                      <div  (mouseenter) ="tooltikView = true"  (mouseleave) ="tooltikView = false">
+                        <div *ngIf="i == hoverIndex" class="card-body item-body">...</div>
+                       </div >
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
                         class="btn-sm      btn-warning text-white  ft-eye" (click)="openVerticallyCentered2(content,row.id)"
                         title="Ver detalles"></a>
@@ -126,6 +145,7 @@
                           ||gruposUsuario?.includes(this.rolesEnum?.administradoresRUDT) "
                         class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
                         [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
+
                     </ng-template>
                   </ngx-datatable-column>
 
