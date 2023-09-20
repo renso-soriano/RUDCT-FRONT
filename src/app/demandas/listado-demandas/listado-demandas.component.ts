@@ -144,7 +144,7 @@ export class ListadoDemandasComponent
   instEstado: any;
 
   modalConfig: IModalConfig = {
-    modalTitle: "Estado de Demandas",
+    modalTitle: "     ",
   };
   modalOption: IModalOption = {
     size: "xl",
@@ -629,7 +629,6 @@ export class ListadoDemandasComponent
     if (resultadoFinal) {
       console.log("A ver:", resultadoFinal);
       const htmlContent = `
-       <!--List Group with badges Starts-->
        <div class="col-12 col-md-12 col-lg-12">
          <div class="card">
            <div class="card-content">
@@ -637,8 +636,8 @@ export class ListadoDemandasComponent
              <div class="card-body">
                <ul class="list-group">
 
-               ${resultadoFinal.institucionesInvolucradas.map((item, index) => {
-                 return `  <li class="list-group-item">${item.nombreInstitucion}
+               ${resultadoFinal.institucionesInvolucradas.map((item) => {
+                 return `<li class="list-group-item">${item.nombreInstitucion}
                    <br/><br/>
                    <span class="badge badge-primary mr-2"> ${item.nombreEstado}</span>
                    </li> `;
