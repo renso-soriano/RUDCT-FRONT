@@ -484,26 +484,24 @@ export function ConfirmColor() {
 
 export function InstDemanda(
 
-    titulo1: string,
-    texto1: string,
-    titulo2: string,
-    texto2: string
+    htmlContent: string
   ) {
-    const htmlContent = `
-      <div style="text-align: left;">
-        <p style="font-weight: bold;">${titulo1}:</p>
-        <p>${texto1}</p>
-        <p style="font-weight: bold;">${titulo2}:</p>
-        <p>${texto2}</p>
-      </div>`;
+    // const htmlContent = `
+    //   <div style="text-align: left;">
+    //     <p style="font-weight: bold;">${titulo1}:</p>
+    //     <li>${texto1}</li>
+    //     <p style="font-weight: bold;">${titulo2}:</p>
+    //     <p>${texto2}</p>
+    //   </div>`;
 
     swal.fire({
-      title: `<strong>${'Detalles de la demanda'}</strong>`,
+      width:'50%',
+
       html: htmlContent,
       showCloseButton: true,
       showCancelButton: false,
       focusConfirm: false,
-      timer: 4000,
+      // timer: 10000,
       confirmButtonText: 'Cerrar',
       customClass: {
         confirmButton: "btn btn-primary",

@@ -21,7 +21,9 @@
 
 
 
-
+  .card-body::first-letter {
+    text-transform: uppercase;
+  }
 
 
   .commentariosDesing {
