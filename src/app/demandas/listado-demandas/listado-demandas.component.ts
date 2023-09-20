@@ -619,6 +619,19 @@ export class ListadoDemandasComponent
     this.hoverIndex = i;
   }
 
+  createHtml(value){
+    let html = ""
+    value.institucionesInvolucradas.map((item) => {
+      html += `<li class="list-group-item">${item.nombreInstitucion}
+        <br/><br/>
+        <span class="badge badge-primary mr-2"> ${item.nombreEstado}</span>
+        </li> `;
+    })
+
+    return html;
+
+  }
+
   onMoving(rows: any) {
     const idSelect = rows?.id;
     this.tooltikView = true;
@@ -627,7 +640,6 @@ export class ListadoDemandasComponent
     );
 
     if (resultadoFinal) {
-      console.log("A ver:", resultadoFinal);
       const htmlContent = `
        <div class="col-12 col-md-12 col-lg-12">
          <div class="card">
@@ -635,13 +647,7 @@ export class ListadoDemandasComponent
 
              <div class="card-body">
                <ul class="list-group">
-
-               ${resultadoFinal.institucionesInvolucradas.map((item) => {
-                 return `<li class="list-group-item">${item.nombreInstitucion}
-                   <br/><br/>
-                   <span class="badge badge-primary mr-2"> ${item.nombreEstado}</span>
-                   </li> `;
-               })}
+               ${this.createHtml(resultadoFinal)}
                </ul>
              </div>
            </div>
