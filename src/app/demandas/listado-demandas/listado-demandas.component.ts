@@ -70,8 +70,7 @@ const data: any = require("../../shared/data/Demandas.json");
   providers: [NGXToastrService],
 })
 export class ListadoDemandasComponent
-  implements OnInit, AfterViewInit, AfterContentInit
-{
+  implements OnInit, AfterViewInit, AfterContentInit {
   URL: string = environment.apiUrl;
   @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFile") modalAnexo: ModalComponent
@@ -81,7 +80,8 @@ export class ListadoDemandasComponent
 
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
-  abierto : boolean;
+  abierto: boolean;
+  showStates = false;
 
   modalConfigFiles: IModalConfig = {
     modalTitle: "   ",
@@ -345,8 +345,8 @@ export class ListadoDemandasComponent
     }, 1500);
     this.mensaje = "Jesus";
   }
-  ngAfterContentInit(): void {}
-  ngAfterViewInit(): void {}
+  ngAfterContentInit(): void { }
+  ngAfterViewInit(): void { }
 
   openFileModal(demandaId: number): void {
     this.mapFile();
@@ -406,16 +406,14 @@ export class ListadoDemandasComponent
       });
       this.listadoEstados = this.dropdownService.getEstados();
       this.usuarioInstitucional = true;
-      // console.log("Estados: ", this.listadoEstados.subscribe(res => {
-      //   res = this.estadoDemanda;
-      // }));
       this.tipoEstado = "ejecución";
-      //console.log(this.estadoDemanda, 'deandaasssssssssssssssss')
+
     } else {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(
           GrupoUsuario.DGDES
         );
+        this.showStates = true;
       }
       if (this.gruposUsuario.includes(GrupoUsuario.VIOTDR) == true) {
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(
@@ -427,11 +425,11 @@ export class ListadoDemandasComponent
           GrupoUsuario.regionalesRUDT
         );
       }
-      if (
-        this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true ||
-        this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true
+      if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true
+          || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true
       ) {
         this.listadoEstados = this.dropdownService.getEstadosValidacion();
+        this.showStates = true;
       }
 
       this.tipoEstado = "validación";
@@ -619,13 +617,25 @@ export class ListadoDemandasComponent
     this.hoverIndex = i;
   }
 
-  createHtml(value){
+  createHtml(value) {
     let html = ""
-    value.institucionesInvolucradas.map((item) => {
-      html += `<li class="list-group-item">${item.nombreInstitucion}
+    value.institucionesInvolucradas?.map((item) => {
+      html += `<li class="list-group-item">${item?.nombreInstitucion}
         <br/><br/>
-        <span class="badge badge-primary mr-2"> ${item.nombreEstado}</span>
-        </li> `;
+        <span class="badge badge-primary mr-2"> ${item?.nombreEstado}</span>
+         `;
+      if (item?.codigoSnip) {
+        html += ` <span class="badge badge-primary mr-2">Codigo snip: ${item?.codigoSnip}</span>  `;
+      }
+      if (item?.codigoPoa) {
+        html += ` <span class="badge badge-primary mr-2">Codigo POA: ${item?.codigoPoa}</span>  `;
+      }
+      if (item?.codigoPei) {
+        html += ` <span class="badge badge-primary mr-2">Codigo PEI: ${item?.codigoPei}</span>  `;
+      }
+
+      html += ` </li>`
+
     })
 
     return html;
@@ -633,14 +643,15 @@ export class ListadoDemandasComponent
   }
 
   onMoving(rows: any) {
-    const idSelect = rows?.id;
-    this.tooltikView = true;
-    const resultadoFinal = this.mouseHoverList.find(
-      ({ id }) => id === idSelect
-    );
+    if (this.showStates) {
+      const idSelect = rows?.id;
+      this.tooltikView = true;
+      const resultadoFinal = this.mouseHoverList.find(
+        ({ id }) => id === idSelect
+      );
 
-    if (resultadoFinal) {
-      const htmlContent = `
+      if (resultadoFinal) {
+        const htmlContent = `
        <div class="col-12 col-md-12 col-lg-12">
          <div class="card">
            <div class="card-content">
@@ -654,15 +665,20 @@ export class ListadoDemandasComponent
          </div>
        </div>
 `;
-      this.tool = true;
+        this.tool = true;
 
-      alertFunctions.InstDemanda(htmlContent);
+        alertFunctions.InstDemanda(htmlContent);
+      } else {
+        alertFunctions.TypeError(
+          "No contiene informacion",
+          "Esta demanda no tiene informacion extra!"
+        );
+      }
+
     } else {
-      alertFunctions.TypeError(
-        "No contiene informacion",
-        "Esta demanda no tiene informacion extra!"
-      );
+
     }
+
   }
 
 
@@ -809,9 +825,9 @@ export class ListadoDemandasComponent
           {
             nombre: i.nombreInstitucion,
             estado: i.estadoId,
-            codigoPei:i.codigoPei,
+            codigoPei: i.codigoPei,
             productoPoa: i.codigoPoa,
-            codigoSnip:i.codigoSnip
+            codigoSnip: i.codigoSnip
           }
         )
       })
@@ -819,7 +835,7 @@ export class ListadoDemandasComponent
       const instituciones = this.institucionesInvolucradasExcel.map((inst: any) => {
         const estadoInstitucion = this.estadoUtils.titleEstadoEjecucion(inst.estado);
         return `${inst.nombre} (${estadoInstitucion}) ${inst.codigoSnip != null ? 'Codigo Snip: ' + inst.codigoSnip : ''}
-         ${inst.codigoPei != null ? 'Codigo PEI: '+inst.codigoPei : ''} ${inst.productoPoa != null ? 'Producto POA: ' + inst.productoPoa : ''} `;
+         ${inst.codigoPei != null ? 'Codigo PEI: ' + inst.codigoPei : ''} ${inst.productoPoa != null ? 'Producto POA: ' + inst.productoPoa : ''} `;
       });
 
 
@@ -1005,7 +1021,7 @@ export class ListadoDemandasComponent
         console.error(err);
         this.notFound = true;
       },
-      () => {}
+      () => { }
     );
     this.demandaId = id;
     this.modalAnexo.open();
@@ -1290,7 +1306,7 @@ export class ListadoDemandasComponent
 
   }
 
-  closeModal2(){
+  closeModal2() {
     this.modalDetalles.close()
   }
 

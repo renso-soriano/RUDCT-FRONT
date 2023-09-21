@@ -495,11 +495,12 @@ export function InstDemanda(
     //   </div>`;
 
     swal.fire({
-      width:'50%',
+      width:'40%',
 
       html: htmlContent,
-      showCloseButton: true,
+      showCloseButton: false,
       showCancelButton: false,
+      showConfirmButton: false,
       focusConfirm: false,
       // timer: 10000,
       confirmButtonText: 'Cerrar',
