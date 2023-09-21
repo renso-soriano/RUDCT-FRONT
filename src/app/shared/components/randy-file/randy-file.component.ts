@@ -14,6 +14,8 @@ import { APIResponse } from 'app/shared/models/Core/api-response.interface';
 import { HttpClientService } from 'app/shared/core/http-client/http-client.service';
 import { ModalComponent } from '../modal/modal.component';
 import { SweetAlertService } from '../sweet-alert/sweet-alert.service';
+import { AuthService } from 'app/shared/services/core/auth.service';
+import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 
 @Component({
   selector: 'Randy-File',
@@ -77,6 +79,9 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
   }
 
+  institucionUsuarioSSO: number;
+  institucionUsuarioEnRUDT: any;
+
   constructor(private toastr: ToastrService,
     private randyFileService: RandyFileService,
     private http: HttpClient,
@@ -84,6 +89,8 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService,
     private sanitizer: DomSanitizer,
     private _sas: SweetAlertService,
+    private authService :AuthService,
+    private dropDownService:DropDownServiceService
   ) {
     // console.log("Ramdy File Init");
 
@@ -211,9 +218,18 @@ export class RandyFileComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.institucionUsuarioSSO = this.authService?.getInstitucion();
 
     this.dropdownFileType();
     console.log("Estoy en el on INit klk");
+
+    this.dropDownService
+      ?.getInstitucionById(this.institucionUsuarioSSO)
+      .subscribe((x: any) => {
+        this.institucionUsuarioEnRUDT = x[0]["name"];
+
+
+      });
   }
 
   getFileList() {
@@ -240,7 +256,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     // const files = this.uploader.queue.map(file => file?._file)
     // console.log(files, "FILEs");
     // this.selected.push({ file: files[files.length - 1], tipoDocumentoId: 1 })
-    this.selected.push({ file, tipoDocumentoId: null, estadoAnexo: false })
+    this.selected.push({ file, tipoDocumentoId: null, estadoAnexo: false, institucionNombre:this.institucionUsuarioEnRUDT })
     console.log(this.selected, "Files");
     this.emitFileCount()
 

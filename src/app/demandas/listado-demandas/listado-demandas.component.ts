@@ -728,21 +728,8 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
-      // console.log("Noel Lista: ",data.items);
-      // console.log(exist, 'Coincidencia')
-      // let p
-      // let filtered
-      // let mydata = []
-      // data.items?.map(i => {
-      //   p = i.institucionesInvolucradas.map((o, i) =>( { index: i, estado: o.estadoId, insti: o.institucionId }))
-      //   filtered = p.filter(i => i.insti === +institucion)[0]
-      //   mydata.push(filtered)
-      // })
-
-      // this.rows = data.items.map((item, i) => ({...item, institucionesInvolucradas: mydata[i]}));
-      // console.log(this.rows)
     });
-    //console.log(getDemandas(params))
+
   }
 
   public async _changeRowLimits(event: any) {
