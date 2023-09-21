@@ -305,7 +305,8 @@ export class GobiernoAbiertoComponent implements OnInit {
         array.push({
           file: { ...item.file },
           tipoDocumentoId: item.file.fileType.id.toString(),
-          entityId: item.demandaId
+          entityId: item.demandaId,
+          institucionNombre: item.institucionNombre
         })
       }
 

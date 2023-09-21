@@ -16,6 +16,7 @@
     <thead>
       <tr>
         <th>Nombre del Archivo</th>
+        <th>Institución</th>
         <th>Tipo Documento</th>
         <th class="text-center">
           <ng-contianer *ngIf="isDetail; else noDetail">
@@ -31,9 +32,10 @@
     <tbody>
 
       <tr *ngFor="let item of selected; let indexOfelement = index;">
-        <!-- {{item | json}} -->
+         <!-- {{item | json}} -->
         <!-- {{tipoDocumentos | async | json}} -->
         <td class="text-bold-600">{{ item.file?.name }}</td>
+        <td class="text-bold-600">{{ item.institucionNombre }}</td>
         <td class="text-bold-600">
           <ng-select required="Debe llenar campo" [disabled]="isGobiernoAbierto"
             [items]="tipoDocumentos | async" bindLabel="name" bindValue="id"

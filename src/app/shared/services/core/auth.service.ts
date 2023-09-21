@@ -84,6 +84,12 @@ export class AuthService {
     return userdata.persona.institutionId;
   }
 
+  getPersona(): any {
+    const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
+    return userdata.persona;
+  }
+
+
   getGrupos(): Grupo[] {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
     return userdata && userdata.grupos ? userdata.grupos : [];

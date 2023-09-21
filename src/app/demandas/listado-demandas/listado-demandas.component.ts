@@ -375,16 +375,12 @@ export class ListadoDemandasComponent
    */
   ngOnInit() {
     this.abierto = false;
-    //var usuarioInstitucion = this.authService.getInstitucion();
     const modulo = this.authService?.findModule(
       this.router.routerState.snapshot.url
     );
     this.UserName = this.authService?.getUserCompleteName();
-
-    console.log("Name the  User Login: ", this.UserName);
-
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-    //  this.institucionUsuarioEnRUDT= this.dropdownService.getInstitucionById(this.institucionUsuarioSSO);
+
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
 
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
@@ -426,7 +422,7 @@ export class ListadoDemandasComponent
         );
       }
       if (this.gruposUsuario.includes(GrupoUsuario.administradoresRUDT) == true
-          || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true
+        || this.gruposUsuario.includes(GrupoUsuario.prodecareRUDT) == true
       ) {
         this.listadoEstados = this.dropdownService.getEstadosValidacion();
         this.showStates = true;
@@ -440,11 +436,7 @@ export class ListadoDemandasComponent
       .subscribe((x: any) => {
         this.institucionUsuarioEnRUDT = x[0]["id"];
         this.reloadTable();
-        console.log(
-          "Soy el id de la institucion",
-          this.institucionUsuarioEnRUDT
-        );
-        // console.log(this.listadoEstados,'frev3r3rf3f3f3f3f3f3f3f3r');
+
       });
 
     const observable = from(this.authService?.getPermissions(modulo.id));
@@ -886,6 +878,7 @@ export class ListadoDemandasComponent
         tipoDocumentoId: item.file.fileType.id.toString(),
         id: item.id,
         entityId: item?.demandaId,
+        institucionNombre: item?.institucionNombre,
       });
     });
   }
@@ -944,9 +937,7 @@ export class ListadoDemandasComponent
       )
       .toPromise()
       .then((res: any) => {
-        console.log("Noel files GEEEET: ", res);
         this.mapFiles(res);
-        console.log("Noel files Despues: ", res);
       });
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
@@ -965,12 +956,12 @@ export class ListadoDemandasComponent
         tipoDocumentoId: item.file.fileType.id.toString(),
         entityId: item.demandaId,
         estadoAnexo: item.estadoAnexo,
+        institucionNombre: item.institucionNombre,
         fileId: item.fileId,
       });
     });
     this.files = array;
     this.openModalFile();
-    console.log("files QUE HAY?:", this.files);
   }
 
   openVerticallyCentered(content, id: any) {
@@ -1145,6 +1136,7 @@ export class ListadoDemandasComponent
           demandaId: this.demanda.id,
           fileId,
           id: 0,
+          institucionId:this.institucionUsuarioEnRUDT
         });
       });
     }
@@ -1263,15 +1255,6 @@ export class ListadoDemandasComponent
     }
   }
 
-  // openSubirEvidencia(modalAnexo){
-  //   this.modalService.open(modalAnexo, {
-  //   centered: true,
-  //   backdrop: "static",
-  //   keyboard: false,
-  //   size: "xl",
-  // });
-  // }
-
   getFile(event: any) {
     this.file = event.target.files[0];
   }
@@ -1287,12 +1270,6 @@ export class ListadoDemandasComponent
           demandaId: this.demandaId,
         };
       });
-
-      console.log("Lista nueva:", lista);
-      // this.demandasService.saveDemandaAnexo(lista)
-      //   .subscribe(res => {
-      //     console.log(res);
-      //   });
     });
   }
 
@@ -1309,7 +1286,6 @@ export class ListadoDemandasComponent
   closeModal2() {
     this.modalDetalles.close()
   }
-
 
 
 }
