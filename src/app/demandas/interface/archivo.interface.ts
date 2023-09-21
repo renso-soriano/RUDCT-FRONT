@@ -6,5 +6,6 @@ export default interface Archivo {
   file: any,
   tipoDocumentoId: TipoDocumento
   estadoAnexo?: boolean
+  institucionNombre?: string
   fileId?: number
 }

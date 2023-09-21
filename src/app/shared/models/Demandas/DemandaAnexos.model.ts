@@ -5,5 +5,6 @@ export class DemandaAnexos{
   demandaId:number;
   fileId:number;
   file?:any;
+  institucionId?:number;
 
 }
