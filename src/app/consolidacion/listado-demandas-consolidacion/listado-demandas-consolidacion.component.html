@@ -91,7 +91,7 @@
 
 <!--modal fixed-->
 <UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalDetalles>
-  <app-detalle-demandas [idExterno]="demandaId" #Detalles></app-detalle-demandas>
+  <app-detalle-demandas [idExterno]="demandaId" [isAbierto]="abierto" #Detalles></app-detalle-demandas>
   <div class="modal-footer">
 
     <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">

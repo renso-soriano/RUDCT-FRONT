@@ -1,4 +1,6 @@
 <!--Noel why is this style into this file?-->
+<!-- <script src="sweetalert2.all.min.js"></script> -->
+
 <style>
   .my-drop-zone {
     border: dotted 3px lightgray;
@@ -71,15 +73,21 @@
                   [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
-                  <ngx-datatable-column *ngFor="let column of columns" name="{{column?.name}}"
+                  <ngx-datatable-column *ngFor="let column of columns; let i = index" name="{{column?.name}}"
                     [sortable]="column?.sortable" prop="{{column?.prop}}">
+
+
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <span
-                        *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
-                        {{value}}
-                      </span>
+                      <div (click)="onMoving(row)" (mouseleave)="tooltikView = false">
+                        <span
+                          *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
+                          {{value}}
+
+                        </span>
+                      </div>
                       <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
                         [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
@@ -89,6 +97,7 @@
                         class="badge badge-pill"
                         [ngClass]="{ 'bg-warning':value == 'Nueva', 'bg-info':value == 'Consolidada', 'bg-success':value == 'Resultante de Consolidacion', 'bg-primary':value == 'Original sin cambios', 'bg-secondary':value == 'Original modificada', 'bg-dark':value == 'Resultante modificacion'}">
                         {{ value }}
+
                       </div>
                       <div
                         *ngIf="column?.prop == 'nombreEstadoValidacion' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
@@ -102,14 +111,24 @@
                         [ngClass]="{ 'bg-warning':value == 'Prioridad alta', 'bg-info':value == 'Prioridad media', 'bg-success':value == 'Prioridad baja', 'bg-danger': value == '' }">
                         {{value == '' ? "No Aplicada" : value }}
                       </div>
+                      <div
+                        *ngIf="column?.prop == 'acciones' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false"
+                        class="badge badge-pill">
+
+                      </div>
                     </ng-template>
                   </ngx-datatable-column>
-                  <!-- Acciones -->
+
+
                   <ngx-datatable-column name="Acciones">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
+
+                    <ng-template class="accionesClass" let-row="row" ngx-datatable-cell-template>
+                      <div (mouseenter)="tooltikView = true" (mouseleave)="tooltikView = false">
+                        <div *ngIf="i == hoverIndex" class="card-body item-body">...</div>
+                      </div>
                       <a *ngIf="usuarioPermisos?.includes('MANAGE') || usuarioPermisos?.includes('GET')"
-                        class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row?.id)"
-                        title="Ver detalles"></a>
+                        class="btn-sm      btn-warning text-white  ft-eye"
+                        (click)="openVerticallyCentered2(content,row.id)" title="Ver detalles"></a>
                       <!-- <a *ngIf="usuarioPermisos.includes('MANAGE') || usuarioPermisos.includes('GET')"
                       class="btn-sm      btn-info text-white  ft-file-plus" (click)="openFileModal(row.id)"
                       title="Cargar evidencia"></a> -->
@@ -126,6 +145,7 @@
                           ||gruposUsuario?.includes(this.rolesEnum?.administradoresRUDT) "
                         class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
                         [class.no-event]="!row.demandaAnexos.length > 0" title=" Ver archivos"></a>
+
                     </ng-template>
                   </ngx-datatable-column>
 
@@ -219,11 +239,6 @@
 
       <!-- <div class="row" > -->
       <div class="col-sm-12" *ngIf="EF.estado?.value != null">
-        <!-- <div class="form-group">
-          <label for="comentarioEstado">Comentario</label>
-          <textarea class="form-control" name="comentarioEstado" id="comentarioEstado" rows="3"
-            formControlName="comentarioEstado"></textarea>
-        </div> -->
 
         <div class="row ">
           <h5 class="mt-1 mb-0 col-11">Sección de comentarios</h5>
@@ -261,14 +276,6 @@
                       <div class="comentarios">
                         {{List?.comentrio}}
                       </div>
-                      <!-- <div class="media">
-                          <div class="media-body text-left">
-                            <div class="commentariosDesing" >
-                              <div>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
                     </div>
                   </div>
                 </div>
@@ -278,17 +285,6 @@
           </ngb-panel>
         </ngb-accordion>
       </div>
-
-
-
-      <!--   <div class="col-sm-12"
-        *ngIf="(EF.estado?.value == this.estadoValidacionEnum?.devueltaPorDGDES || EF.estado?.value == this.estadoValidacionEnum?.devueltaPorVIOTDR) && gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) == false">
-        <div class="form-group">
-          <label for="devolucion">Razón de devolución</label>
-          <textarea class="form-control" name="devolucion" id="devolucion" rows="3"
-            formControlName="razonDevolucion"></textarea>
-        </div>
-      </div> -->
 
       <!-- </div> -->
 
@@ -312,11 +308,8 @@
 
         <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true" [modalRef]="modalFiles"></Randy-File>
 
-        <!-- <div class="modal-footer">
 
-          <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal()">
-        </div> -->
-        <!--end modal fixed-->
+
       </UIModal>
 
       <!-- Modal Lista de Comentarios -->
@@ -381,6 +374,8 @@
 
   </div>
 
+  <!--End modal mapa-->
+
   <!-- ModalAnexoDemanda -->
 
   <div class="row">
@@ -401,5 +396,19 @@
     </ng-template>
 
   </div>
+
+  <!--end ModalAnexoDemanda-->
+
+  <!--modal detalles fixed-->
+  <UIModal [modalOption]="modalOption" [modalConfig]="modalConfig" #modalDetalles>
+    <app-detalle-demandas [idExterno]="demandaId" [isAbierto]="abierto" #Detalles></app-detalle-demandas>
+    <div class="modal-footer">
+
+      <input type="submit" value="Volver al listado" class="btn btn-primary" (click)="closeModal2()">
+    </div>
+
+  </UIModal>
+  <!--end modal fixed-->
+
 
 </ng-container>

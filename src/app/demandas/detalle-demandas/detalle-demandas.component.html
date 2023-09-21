@@ -275,6 +275,15 @@
                             <article class="badge badge-pill ml-2 mt-1" [ngClass]="getEstadoClass(item?.estadoId)">
                               {{item?.nombreEstado}}
                             </article>
+                            <article *ngIf="item?.codigoPei" class="badge badge-pill ml-2 mt-1" [ngClass]="getEstadoClass(item?.estadoId)">
+                              Codigo PEI:{{item?.codigoPei}}
+                            </article>
+                            <article *ngIf="item?.codigoPoa" class="badge badge-pill ml-2 mt-1" [ngClass]="getEstadoClass(item?.estadoId)">
+                              Producto POA:{{item?.codigoPoa}}
+                            </article>
+                            <article *ngIf="item?.codigoSnip" class="badge badge-pill ml-2 mt-1" [ngClass]="getEstadoClass(item?.estadoId)">
+                              Codigo Snip:{{item?.codigoSnip}}
+                            </article>
                           </div>
                         </div>
                       </div>
@@ -323,29 +332,11 @@
                 </div>
               </ng-template>
             </ngb-panel>
-            <ngb-panel id="static-3" *ngIf="!abierto">
+            <ngb-panel id="static-3" *ngIf="!isAbierto">
               <ng-template ngbPanelTitle>
                 <span><i class="ft-message-circle mr-1"></i> <b>Comentarios</b></span>
               </ng-template>
-              <!-- <ng-template ngbPanelContent>
-                <div class="row">
-                  <div *ngFor="let item of demanda.demandaComentarios" class="col-4">
-                    <div class="card card-inverse bg-info mb-2">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <div class="media">
-                            <div class="media-body text-left">
-                              <p>
-                                {{item | json}}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>  -->
+
               <!--listado de comentarios-->
               <ng-template ngbPanelContent>
                 <div class="grid-cols-3 mb-3">
@@ -359,14 +350,6 @@
                         <div class="comentarios">
                           {{List?.comentrio}}
                         </div>
-                        <!-- <div class="media">
-                        <div class="media-body text-left">
-                          <div class="commentariosDesing" >
-                            <div>
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
                       </div>
                     </div>
                   </div>
@@ -382,8 +365,8 @@
   </div>
 </div>
 
-<div>
-  <a class="btn btn-primary" *ngIf="!abierto" (click)="goBack()"><span>Volver a listado</span>
+<!-- <div>
+  <a class="btn btn-primary" *ngIf="!isAbierto" (click)="goBack()"><span>Volver a listado</span>
   </a>
 
-</div>
+</div> -->
