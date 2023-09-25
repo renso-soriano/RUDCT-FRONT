@@ -126,6 +126,7 @@ export class ListadoDemandasComponent
   listadoEstadosValidacion: Observable<any[]>;
   institucionUsuarioSSO: number;
   institucionUsuarioEnRUDT: any;
+  shortNameinstitucionUsuarioEnRUDT: any;
   gruposUsuario: number[] = [];
   usuarioPermisos: any = [""];
   ComentariosList: any[] = [];
@@ -435,6 +436,7 @@ export class ListadoDemandasComponent
       ?.getInstitucionById(this.institucionUsuarioSSO)
       .subscribe((x: any) => {
         this.institucionUsuarioEnRUDT = x[0]["id"];
+        this.shortNameinstitucionUsuarioEnRUDT = x[0]["more"];
         this.reloadTable();
 
       });
@@ -890,6 +892,8 @@ export class ListadoDemandasComponent
         comentrio: item?.comentrio,
         estatus: item?.estatus,
         userName: item?.userName,
+        fechaRegistro :item?.fechaRegistro,
+        institucionShortname: item?.institucionShortname,
       };
     });
   }
@@ -906,6 +910,9 @@ export class ListadoDemandasComponent
         comentrio: this.comentarios.value,
         estatus: "A",
         userName: this.UserName,
+        institucionId: this.institucionUsuarioEnRUDT,
+        institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
+        fechaRegistro: new Date()
       });
       console.log("A verL ", this.ComentariosList);
     } else {

@@ -68,8 +68,19 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   userName;
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
+
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
+
+    this.institucionUsuarioSSO = this.authService?.getInstitucion();
+
+    this.dropDownService
+      ?.getInstitucionById(this.institucionUsuarioSSO)
+      .subscribe((x: any) => {
+        this.institucionUsuarioEnRUDT = x[0]["id"];
+        this.shortNameinstitucionUsuarioEnRUDT = x[0]["more"];
+
+      });
 
     this.route.paramMap.subscribe((params) => {
       if (params.has("id")) {
@@ -136,6 +147,10 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   beneficiariosSelected?: any[] = [];
   listadoContactos?: any[] = [];
   capas?: any[];
+
+  institucionUsuarioSSO: number;
+  institucionUsuarioEnRUDT: any;
+  shortNameinstitucionUsuarioEnRUDT: any;
 
   activCount = 0;
   notFound = false;
@@ -893,31 +908,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       beneficiariosPersonas: formValue.beneficiariosPersonas,
       beneficiariosFamilias: formValue.beneficiariosFamilias,
       nivelDemanda: formValue.nivelDemanda,
-      // demandaActividades:
-      //   formValue.actividad != undefined
-      //     ? formValue.actividad.map((item: any, i: number) => {
-      //       return {
-      //         id: item.ActividadId,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         numero: i + 1,
-      //         descripcion: item.Actividad,
-      //       };
-      //     })
-      //     : null,
-      // demandaBeneficiarios:
-      //   formValue.beneficiarios != undefined
-      //     ? formValue.beneficiarios.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         beneficiarioCategoriaId: item.categoriaId,
-      //         beneficiarioTipoId: item.tipoId,
-      //         cantidad: item.cantidad,
-      //       };
-      //     })
-      //     : null,
+
       demandaComentarios:
         formValue.comentarios != undefined
           ? formValue.comentarios.map((item: any) => {
@@ -926,46 +917,12 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
               estatus: "A",
               demandaId: item.demandaId,
               comentrio: item.comentrio,
-              userName: item.userName
+              userName: item.userName,
+              institucionId: item.institucionId,
             };
           })
           : null,
-      // demandaResultadosEND:
-      //   formValue.objetivo != undefined
-      //     ? formValue.objetivo.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         ejeENDId: item.EjeId,
-      //         objetivoENDId: item.ObjetivoId,
-      //       };
-      //     })
-      //     : null,
-      // demandaPoliticasPNPSP:
-      //   formValue.politica != undefined
-      //     ? formValue.politica.map((item: any) => {
-      //       return {
-      //         id: item.Id,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         politicaPNPSPId: item.PoliticaId,
-      //       };
-      //     })
-      //     : null,
-      // demandaTipoInversiones:
-      //   formValue.tiposInversion != null
-      //     ? formValue.tiposInversion.map((item: any) => {
-      //       return {
-      //         id: 0,
-      //         estatus: "A",
-      //         demandaId: this.typeEdit ? parseInt(this.demandaId, 10) : item.CodigoDemanda,
-      //         tipoInversionId: parseInt(item, 10),
-      //         tipoInversionOtros:
-      //           item == 8 ? this.otrosTiposInversion.value : null,
-      //       };
-      //     })
-      //     : null,
+
       demandaContactos:
         formValue.contacto != null
           ? formValue.contacto.map((item: any) => {
@@ -1058,14 +1015,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   }
 
   setListasDemandas(demanda: Demanda): void {
-    // this.listadoPoliticas = demanda.demandaPoliticasPNPSP.map((item: any) => {
-    //   return {
-    //     id: item.id,
-    //     CodigoDemanda: item.demandaId,
-    //     PoliticaId: item.politicaPNPSPId,
-    //     Nombre: item.nombrePolitica,
-    //   };
-    // });
+
     this.listadoInstituciones = demanda.institucionesInvolucradas?.map(
       (item: any) => {
         return {
@@ -1077,15 +1027,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         };
       }
     );
-    // this.listadoActividades = demanda.demandaActividades.map(
-    //   (item: any, i: number) => {
-    //     return {
-    //       ActividadId: item.id,
-    //       CodigoDemanda: item.demandaId,
-    //       Actividad: item.descripcion,
-    //     };
-    //   }
-    // );
+
     this.listadoContactos = demanda.municipioId == null ? demanda.demandaContactos.map((item: any) => {
       return {
         CodigoDemanda: item?.demandaId,
@@ -1096,31 +1038,6 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       };
     }) : [];
 
-    // this.listadoBeneficiarios = demanda.demandaBeneficiarios.map(
-    //   (item: any) => {
-    //     return {
-    //       Id: item.id,
-    //       codigoDemanda: item.demandaId,
-    //       categoriaId: item.beneficiarioCategoriaId,
-    //       tipoId: item.beneficiarioTipoId,
-    //       cantidad: item.cantidad,
-    //       tipoNombre: item.nombreTipo,
-    //       categoriaNombre: item.nombreCategoria,
-    //       seleccionCombinada: item.nombreTipo + item.nombreCategoria,
-    //     };
-    //   }
-    // );
-
-    // this.listadoObjetivos = demanda.demandaResultadosEND.map((item: any) => {
-    //   return {
-    //     Id: item.id,
-    //     CodigoDemanda: item.demandaId,
-    //     EjeId: item.ejeENDId,
-    //     ObjetivoId: item.objetivoENDId,
-    //     CodigoEje: item.nombreEjeEnd,
-    //     Nombre: item.nombreObjetivoEnd,
-    //   };
-    // });
 
     this.listadoComentarios = demanda.demandaComentarios?.map((item: any) => {
       return {
@@ -1129,7 +1046,9 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
         comentrio: item?.comentrio,
         estatus: item?.estatus,
         userName: item?.userName,
-        fechaRegistro: item?.fechaRegistro
+        fechaRegistro: item?.fechaRegistro,
+        institucionShortname: item?.institucionShortname,
+        institucionId: item?.institucionId,
       };
     });
 
@@ -1439,7 +1358,9 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           comentrio: this.comentarios.value,
           estatus: "A",
           userName: this.userName,
-          fechaRegistro: new Date
+          fechaRegistro: new Date(),
+          institucionId: this.institucionUsuarioEnRUDT,
+          institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
 
         }
       )
