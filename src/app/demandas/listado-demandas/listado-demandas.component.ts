@@ -868,6 +868,7 @@ export class ListadoDemandasComponent
         id: item.id,
         entityId: item?.demandaId,
         institucionNombre: item?.institucionNombre,
+        institucionId: item?.institucionId,
       });
     });
   }
@@ -951,6 +952,7 @@ export class ListadoDemandasComponent
         entityId: item.demandaId,
         estadoAnexo: item.estadoAnexo,
         institucionNombre: item.institucionNombre,
+        institucionId: item.institucionId,
         fileId: item.fileId,
       });
     });
