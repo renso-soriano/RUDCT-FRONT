@@ -80,7 +80,8 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   }
 
   institucionUsuarioSSO: number;
-  institucionUsuarioEnRUDT: any;
+  nombreInstitucionUsuarioEnRUDT: any;
+  idInstitucionUsuarioEnRUDT: any;
 
   constructor(private toastr: ToastrService,
     private randyFileService: RandyFileService,
@@ -221,13 +222,13 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
 
     this.dropdownFileType();
-    console.log("Estoy en el on INit klk");
+
 
     this.dropDownService
       ?.getInstitucionById(this.institucionUsuarioSSO)
       .subscribe((x: any) => {
-        this.institucionUsuarioEnRUDT = x[0]["name"];
-
+        this.nombreInstitucionUsuarioEnRUDT = x[0]["name"];
+        this.idInstitucionUsuarioEnRUDT = x[0]["id"];
 
       });
   }
@@ -256,7 +257,8 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     // const files = this.uploader.queue.map(file => file?._file)
     // console.log(files, "FILEs");
     // this.selected.push({ file: files[files.length - 1], tipoDocumentoId: 1 })
-    this.selected.push({ file, tipoDocumentoId: null, estadoAnexo: false, institucionNombre:this.institucionUsuarioEnRUDT })
+    this.selected.push({ file, tipoDocumentoId: null, estadoAnexo: false,
+       institucionNombre:this.nombreInstitucionUsuarioEnRUDT, institucionId:this.idInstitucionUsuarioEnRUDT  })
     console.log(this.selected, "Files");
     this.emitFileCount()
 
