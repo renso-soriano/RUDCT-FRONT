@@ -10,8 +10,8 @@ export const environment = {
   appShortName: "RUDCT",
   allowedMimeTypes: [
     'application/pdf',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //'application/msword',
+    //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/jpeg',
@@ -20,8 +20,8 @@ export const environment = {
   allowedFileTypes: [
     "image",
     "pdf",
-    "doc",
-    "docx",
+   // "doc",
+   // "docx",
     "xlsx",
     "xls"],
   appMaxFileSize: 5, // Tamaño en MB
