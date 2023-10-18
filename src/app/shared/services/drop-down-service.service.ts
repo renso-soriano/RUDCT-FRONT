@@ -1,7 +1,7 @@
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Iaño } from '../models/iaño';
 import { IdistritoMunicipal } from '../models/idistrito-municipal';
 import { IejeEnd } from '../models/ieje-end';
@@ -308,4 +308,13 @@ export class DropDownServiceService {
     const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPOS-DOCUMENTOS' });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
+
+  getResponsabilidadInstitucional(): Observable<any[]> {
+
+    const responsabilidad = [{ name: 'Responsabilidad única (no compartida)', id: 1}];
+
+      return of(responsabilidad);
+
+  }
+
 }

@@ -202,7 +202,7 @@ export class ListadoDemandasComponent
 
   filtrosActivos: any = {
     anio: null,
-    //"regionId": null,
+    regionId: null,
     provinciaId: null,
     municipioId: null,
     fuenteDemandaId: null,
@@ -214,6 +214,7 @@ export class ListadoDemandasComponent
     politicaPNPSPId: null,
     estadoId: null,
     tipoInversionId: null,
+    institucionMultipleId: null,
   };
 
   // column header
@@ -465,17 +466,17 @@ export class ListadoDemandasComponent
         async: false,
         multiple: false,
       }),
-      // new FiltrosDinamicos().deserialize({
-      //   name: 'regionId',
-      //   label: 'Región',
-      //   servicio: this.dropdownService.getRegiones(),
-      //   tipo: 'select',
-      //   placeholder: 'Seleccione una región',
-      //   async: true,
-      //   multiple: false,
-      //   filtroHijo: 'provinciaId',
-      //   servicioHijo: 'getProvinciasByRegion',
-      // }),
+      new FiltrosDinamicos().deserialize({
+        name: 'regionId',
+        label: 'Región',
+        servicio: this.dropdownService.getRegiones(),
+        tipo: 'select',
+        placeholder: 'Seleccione una región',
+        async: true,
+        multiple: false,
+        filtroHijo: 'provinciaId',
+        servicioHijo: 'getProvinciasByRegion',
+      }),
       new FiltrosDinamicos().deserialize({
         name: "provinciaId",
         label: "Provincia",
@@ -570,6 +571,15 @@ export class ListadoDemandasComponent
         async: true,
         multiple: false,
       }),
+      new FiltrosDinamicos().deserialize({
+        name: "institucionMultipleId",
+        label: "Responsabilidad Institucional",
+        servicio: this.dropdownService.getResponsabilidadInstitucional(),
+        tipo: "select",
+        placeholder: "Responsabilidad institucional",
+        async: true,
+        multiple: false,
+      })
     ];
     this.loadingIndicator = false;
   }
@@ -710,7 +720,7 @@ export class ListadoDemandasComponent
       .set("Page", `${this.page.offset + 1}`)
       .set("Take", `${this.page.limit}`)
       .set("anio", this.filtrosActivos.anio)
-      // .set('regionId', this.filtrosActivos.regionId)
+      .set('regionId', this.filtrosActivos.regionId)
       .set("provinciaId", this.filtrosActivos.provinciaId)
       .set("municipioId", this.filtrosActivos.municipioId)
       .set("fuenteDemandaId", this.filtrosActivos.fuenteDemandaId)
@@ -721,7 +731,9 @@ export class ListadoDemandasComponent
       .set("politicaPNPSPId", this.filtrosActivos.politicaPNPSPId)
       .set("estadoDemandaId", this.filtrosActivos.estadoId)
       .set("ejeEndID", this.filtrosActivos.ejeEndID)
-      .set("grupoId", grupoId);
+      .set("grupoId", grupoId)
+      .set("institucionMultipleId", this.filtrosActivos.institucionMultipleId);
+
 
     this.demandasService.getDemandas(params).subscribe((data: any) => {
       // NOTE: the format of the returned data depends on your API!
@@ -769,7 +781,7 @@ export class ListadoDemandasComponent
       .set("Page", `${this.page.offset + 1}`)
       .set("Take", `${this.page.limit}`)
       .set("anio", this.filtrosActivos.anio)
-      // .set('regionId', this.filtrosActivos.regionId)
+      .set('regionId', this.filtrosActivos.regionId)
       .set("provinciaId", this.filtrosActivos.provinciaId)
       .set("municipioId", this.filtrosActivos.municipioId)
       .set("fuenteDemandaId", this.filtrosActivos.fuenteDemandaId)
@@ -780,7 +792,8 @@ export class ListadoDemandasComponent
       .set("politicaPNPSPId", this.filtrosActivos.politicaPNPSPId)
       .set("estadoDemandaId", this.filtrosActivos.estadoId)
       .set("ejeEndID", this.filtrosActivos.ejeEndID)
-      .set("grupoId", grupoId);
+      .set("grupoId", grupoId)
+      .set("institucionMultipleId", this.filtrosActivos.institucionMultipleId);
 
     this.demandasService.getDemandasExportar(params).subscribe((data: any) => {
       this.page.count = data.total;
@@ -900,29 +913,37 @@ export class ListadoDemandasComponent
   }
 
   agregarComentario() {
-    console.log("A verL ", this.comentarios.value);
     if (this.comentarios.value != null && this.comentarios.value.trim() != "") {
       if (this.ComentariosList == null) {
         this.ComentariosList = [];
       }
-      this.ComentariosList.push({
-        id: 0,
-        demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
-        comentrio: this.comentarios.value,
-        estatus: "A",
-        userName: this.UserName,
-        institucionId: this.institucionUsuarioEnRUDT,
-        institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
-        fechaRegistro: new Date()
-      });
-      console.log("A verL ", this.ComentariosList);
+      let cantidadCaracteres:number =  this.comentarios.value.length;
+      if(cantidadCaracteres > 300)
+      {
+        this.serviceStr.typeWarning(`Ha excedido el limite de 300 caracteres por comentario, \n cantidad en este comentario : ${cantidadCaracteres}, \n de ser necesario, puede añadir varios comentarios`);
+      }
+      else{
+        this.ComentariosList.push({
+          id: 0,
+          demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+          comentrio: this.comentarios.value,
+          estatus: "A",
+          userName: this.UserName,
+          institucionId: this.institucionUsuarioEnRUDT,
+          institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
+          fechaRegistro: new Date()
+        });
+
+        this.estadoForm.patchValue({
+          comentarios: null,
+        });
+      }
+
+
     } else {
       this.serviceStr.typeError("No puede añadir comentarios vacíos");
     }
 
-    this.estadoForm.patchValue({
-      comentarios: null,
-    });
   }
 
   async verArchivos(demandaId) {
