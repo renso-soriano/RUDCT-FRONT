@@ -1351,26 +1351,35 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
       if (this.listadoComentarios == null) {
         this.listadoComentarios = [];
       }
-      this.listadoComentarios.push(
-        {
-          id: 0,
-          demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
-          comentrio: this.comentarios.value,
-          estatus: "A",
-          userName: this.userName,
-          fechaRegistro: new Date(),
-          institucionId: this.institucionUsuarioEnRUDT,
-          institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
+      let cantidadCaracteres:number =  this.comentarios.value.length;
+      if(cantidadCaracteres > 300)
+      {
+        this.serviceStr.typeWarning(`Ha excedido el limite de 300 caracteres por comentario, \n cantidad en este comentario : ${cantidadCaracteres}, \n de ser necesario, puede añadir varios comentarios`);
+      }
+      else{
+        this.listadoComentarios.push(
+          {
+            id: 0,
+            demandaId: this.typeEdit ? this.demandaForEdit.id : 0,
+            comentrio: this.comentarios.value,
+            estatus: "A",
+            userName: this.userName,
+            fechaRegistro: new Date(),
+            institucionId: this.institucionUsuarioEnRUDT,
+            institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
 
-        }
-      )
+          }
+        )
+
+        this.registerForm.patchValue({
+          comentarios: null
+        });
+
+      }
+
     } else {
       this.serviceStr.typeError("No puede añadir comentarios vacíos");
     }
-
-    this.registerForm.patchValue({
-      comentarios: null
-    });
 
 
   }
