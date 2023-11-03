@@ -61,6 +61,8 @@ export class GobiernoAbiertoComponent implements OnInit {
 
   activeModules = []
 
+  public isCollapsed = true;
+
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
 

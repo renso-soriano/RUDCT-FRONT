@@ -1,5 +1,55 @@
 <!--cards-->
 <div class="row match-height main">
+
+  <div class="container-official-header">
+    <span
+      type="button"
+      class="open-carouser"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      <img class="" src="../../../assets/img/icons/do.svg" alt="">
+      <p>Esta es una web oficial del Gobierno de la República Dominicana.</p>
+      <p class="ml-2 text-color">
+        <u>
+          Así es como puedes saberlo
+          <svg class="text-color" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </u>
+      </p>
+      
+    </span>
+    
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="content-carrouser">
+        <div class="info-carrousel">
+          <span class="bg-color p-2">
+            <img src="../../../assets/img/icons/cupula.svg" alt="">
+          </span>
+          <div>
+            <p class="font-semibold mb-2 text-[14px]">Los sitios web oficiales utilizan .gob.do, .gov.do o .mil.do</p>
+              <p class="text-[14px]">
+                Un sitio .gob.do, .gov.do o .mil.do significa que pertenece a una organización oficial del Estado dominicano.
+              </p>
+          </div>
+        </div>
+        <div class="info-carrousel">
+          <span class="bg-color p-2">
+            <img src="../../../assets/img/icons/lock.svg" alt="">
+          </span>
+          <div>
+            <p class="font-semibold mb-2 text-[14px]">Los sitios web oficiales .gob.do, .gov.do o .mil.do seguros usan HTTPS</p>
+              <p class="text-[14px]">
+                  Un candado (🔒) o https:// significa que estás conectado a un sitio seguro dentro de .gob.do o .gov.do. Comparte información confidencial solo en los sitios seguros de .gob.do o gov.do.
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="col-12">
 
     <div class="col-lg-6 d-none d-lg-flex justify-content-left align-items-center auth-img-bg p-3">
@@ -315,6 +365,72 @@
     </div>
   </div>
 
+  <footer class="mt-5">
+    <div class="d-flex bg-primary-blue flex-wrap justify-content-center align-items-center p-4">
+      <div class="row g-3 px-4 py-6 py-lg-8">
+        <div class="col-12 col-md-6 col-lg-2">
+          <div class="d-flex justify-content-between">
+            <a href="/">
+              <img src="../../../assets/img/GOB.svg" class="w-100 mr-3" alt="Logo" />
+            </a>
+            <div class="h-200 w-1 primary-light ml-5"></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+            CONÓCENOS
+          </h2>
+          <ul class="text-white">
+            <li class="mb-3">
+              <a href="#" class="text-white" >Nombre del organismo que representa este portal web</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+            CONTÁCTANOS
+          </h2>
+          <ul class="text-white">
+            <li class="mb-3">
+              <a href="#" class="text-white">Teléfono: (000) 000-0000</a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="text-white">Fax: (000) 000-0000</a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="text-white" >Correo: correo@institucion.gob.do</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+            BÚSCANOS
+          </h2>
+          <ul class="text-white">
+            <li class="mb-3">
+              <a href="#" class="text-white" >Dirección de la ubicación de la institución</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+            INFÓRMATE
+          </h2>
+          <ul class="text-white">
+            <li class="mb-3">
+              <a href="#" class="text-white">Términos de uso </a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="text-white">Política de privacidad </a>
+            </li>
+            <li class="mb-3">
+              <a href="#" class="text-white">Preguntas frecuentes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </div>
 <!--endCards-->

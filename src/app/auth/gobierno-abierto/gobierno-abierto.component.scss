@@ -7,6 +7,43 @@
   color: #002060;
 }
 
+.bg-color{
+  background: #002060;
+}
+
+.container-official-header{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 1rem;
+  text-size: 13px;
+}
+.container-official-header .open-carouser{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.container-official-header .open-carouser img{
+  width: 35px;
+  height: 25px;
+  margin-right: 5px;
+}
+.container-official-header .open-carouser svg{
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+}
+
+.content-carrouser{
+  display: flex;
+  gap: 1em;
+}
+
+.content-carrouser .info-carrousel{
+  display: flex;
+  gap: 1em;
+}
 
 .card-container {
   display: grid;
@@ -149,3 +186,103 @@
   background-color: #003876;//#003876c4;
 
 } */
+
+
+
+//Footer class
+/* styles.css */
+.bg-primary-blue {
+  background-color: #002060; /* Define el color deseado */
+  width: 100vw;
+}
+
+.container-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 100vw;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+
+.bg-gray-200 {
+  background-color: #E5E7EB; /* Define el color deseado */
+}
+
+.w-52 {
+  width: 13rem;
+  margin-right: 0.75rem;
+}
+
+/* Agrega cualquier estilo adicional que desees */
+
