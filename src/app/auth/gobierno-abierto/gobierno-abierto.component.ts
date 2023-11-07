@@ -272,10 +272,12 @@ export class GobiernoAbiertoComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private router: Router,
     private dropdownService: DropDownServiceService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService)
+    {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
+
   }
 
 
