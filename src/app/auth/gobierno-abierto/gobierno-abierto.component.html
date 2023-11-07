@@ -1,7 +1,7 @@
 <!--cards-->
 <div class="row match-height main">
 
-  <div class="container-official-header">
+  <div class="container-gobierno-abierto">
     <span
       type="button"
       class="open-carouser"
@@ -19,29 +19,29 @@
           </svg>
         </u>
       </p>
-      
+
     </span>
-    
+
     <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
       <div class="content-carrouser">
         <div class="info-carrousel">
-          <span class="bg-color p-2">
+          <span class="">
             <img src="../../../assets/img/icons/cupula.svg" alt="">
           </span>
           <div>
-            <p class="font-semibold mb-2 text-[14px]">Los sitios web oficiales utilizan .gob.do, .gov.do o .mil.do</p>
-              <p class="text-[14px]">
+            <p class="title-info-carrousel">Los sitios web oficiales utilizan .gob.do, .gov.do o .mil.do</p>
+              <p class="sub-title-info-carrousel">
                 Un sitio .gob.do, .gov.do o .mil.do significa que pertenece a una organización oficial del Estado dominicano.
               </p>
           </div>
         </div>
         <div class="info-carrousel">
-          <span class="bg-color p-2">
+          <span class="">
             <img src="../../../assets/img/icons/lock.svg" alt="">
           </span>
           <div>
-            <p class="font-semibold mb-2 text-[14px]">Los sitios web oficiales .gob.do, .gov.do o .mil.do seguros usan HTTPS</p>
-              <p class="text-[14px]">
+            <p class="title-info-carrousel">Los sitios web oficiales .gob.do, .gov.do o .mil.do seguros usan HTTPS</p>
+              <p class="sub-title-info-carrousel">
                   Un candado (🔒) o https:// significa que estás conectado a un sitio seguro dentro de .gob.do o .gov.do. Comparte información confidencial solo en los sitios seguros de .gob.do o gov.do.
               </p>
           </div>
@@ -56,6 +56,7 @@
       <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
       <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
     </div>
+
     <div class="row mt-3">
       <div class="col-11 m-auto">
         <p class="my-2 proposito text-color">
@@ -365,71 +366,74 @@
     </div>
   </div>
 
-  <footer class="mt-5">
-    <div class="d-flex bg-primary-blue flex-wrap justify-content-center align-items-center p-4">
-      <div class="row g-3 px-4 py-6 py-lg-8">
-        <div class="col-12 col-md-6 col-lg-2">
-          <div class="d-flex justify-content-between">
-            <a href="/">
-              <img src="../../../assets/img/GOB.svg" class="w-100 mr-3" alt="Logo" />
-            </a>
-            <div class="h-200 w-1 primary-light ml-5"></div>
-          </div>
+
+  <footer>
+    <section class="container-gobierno-abierto">
+      <div class="sub-container-footer">
+        <div class="logo-footer">
+          <a href="/" class="">
+            <img src="../../../assets/img/GOB.svg" class="w-52 mr-3" alt="Logo" />
+          </a>
+          <div class="divider"></div>
         </div>
-        <div class="col-6 col-md-3 col-lg-2">
-          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+        <div>
+          <h2 class="title-footer">
             CONÓCENOS
           </h2>
-          <ul class="text-white">
-            <li class="mb-3">
-              <a href="#" class="text-white" >Nombre del organismo que representa este portal web</a>
+          <ul class="">
+            <li class="">
+              <a href="#" class=""
+                >Nombre del organismo que representa este portal web</a
+              >
             </li>
           </ul>
         </div>
-        <div class="col-6 col-md-3 col-lg-2">
-          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+        <div>
+          <h2 class="title-footer">
             CONTÁCTANOS
           </h2>
-          <ul class="text-white">
-            <li class="mb-3">
-              <a href="#" class="text-white">Teléfono: (000) 000-0000</a>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Teléfono: (000) 000-0000</a>
             </li>
-            <li class="mb-3">
-              <a href="#" class="text-white">Fax: (000) 000-0000</a>
+            <li class="">
+              <a href="#" class="">Fax: (000) 000-0000</a>
             </li>
-            <li class="mb-3">
-              <a href="#" class="text-white" >Correo: correo@institucion.gob.do</a>
+            <li class="">
+              <a href="#" class="">Correo: correo@institucion.gob.do</a>
             </li>
           </ul>
         </div>
-        <div class="col-6 col-md-3 col-lg-2">
-          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+        <div>
+          <h2 class="title-footer">
             BÚSCANOS
           </h2>
-          <ul class="text-white">
-            <li class="mb-3">
-              <a href="#" class="text-white" >Dirección de la ubicación de la institución</a>
+          <ul class="">
+            <li class="">
+              <a href="#" class=""
+                >Dirección de la ubicación de la institución</a
+              >
             </li>
           </ul>
         </div>
-        <div class="col-6 col-md-3 col-lg-2">
-          <h2 class="mb-3 text-uppercase font-weight-bold text-white">
+        <div>
+          <h2 class="title-footer">
             INFÓRMATE
           </h2>
-          <ul class="text-white">
-            <li class="mb-3">
-              <a href="#" class="text-white">Términos de uso </a>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Términos de uso </a>
             </li>
-            <li class="mb-3">
-              <a href="#" class="text-white">Política de privacidad </a>
+            <li class="">
+              <a href="#" class="">Política de privacidad </a>
             </li>
-            <li class="mb-3">
-              <a href="#" class="text-white">Preguntas frecuentes</a>
+            <li class="">
+              <a href="#" class="">Preguntas frecuentes</a>
             </li>
           </ul>
         </div>
       </div>
-    </div>
+    </section>
   </footer>
 
 </div>
