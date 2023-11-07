@@ -1,6 +1,6 @@
 
 
-import { Component, ViewChild, OnInit, ViewEncapsulation, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation, ElementRef, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { ItemMenu } from 'app/shared/models/auth/ItemMenu';
 import { ExcelService } from './../../shared/services/excel.service';
 import { DatatableData } from './data/datatables.data';
@@ -50,7 +50,7 @@ const data: any = require('../../shared/data/Demandas.json');
   encapsulation: ViewEncapsulation.None,
   providers: [NGXToastrService]
 })
-export class GobiernoAbiertoComponent implements OnInit {
+export class GobiernoAbiertoComponent implements OnInit, AfterViewInit {
 
   //RANDY:
   URL: string = environment.apiUrl;
@@ -119,6 +119,8 @@ export class GobiernoAbiertoComponent implements OnInit {
     },
 
   ]
+  visitCounter: number[];
+
   navegar(item: ItemMenu) {
     if (this.activeModules.includes(item.id)) {
       this.router.navigate([`${item.ruta}`])
@@ -294,14 +296,13 @@ export class GobiernoAbiertoComponent implements OnInit {
   openModalFile() {
     this.modalfiles.open();
   }
-  validarFalse(data:any){
+  validarFalse(data: any) {
     return data.some(x => x.estadoAnexo == true)
   }
   private mapFiles(res: any) {
     let array = [];
     res.result?.forEach((item) => {
-      if(item.estadoAnexo == true)
-      {
+      if (item.estadoAnexo == true) {
         array.push({
           file: { ...item.file },
           tipoDocumentoId: item.file.fileType.id.toString(),
@@ -325,6 +326,7 @@ export class GobiernoAbiertoComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+    console.log("EJECUTANDO ONINIT")
     this.activeModules = [1, 2];
     this.tipoEstado = "ejecución";
 
@@ -445,6 +447,18 @@ export class GobiernoAbiertoComponent implements OnInit {
     this.loadingIndicator = false;
 
 
+  }
+
+  ngAfterViewInit(): void {
+    this.http.get<number>(`${this.URL}Contador`)
+      .pipe(
+        map((res: number) => {
+          return res;
+        })
+      )
+      .subscribe((res: number) => {
+        this.visitCounter = res.toString().split('').map(Number);
+      });
   }
 
   setFilterAnnios(): any[] {
