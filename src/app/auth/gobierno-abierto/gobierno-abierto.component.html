@@ -1,7 +1,54 @@
 <!--cards-->
 <div class="row match-height main">
-  <div class="col-12">
 
+  <div class="container-gobierno-abierto">
+    <span type="button" class="open-carouser" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      <img class="" src="../../../assets/img/icons/do.svg" alt="">
+      <p>Esta es una web oficial del Gobierno de la República Dominicana.</p>
+      <p class="ml-2 text-color">
+        <u>
+          Así es como puedes saberlo
+          <svg class="text-color" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </u>
+      </p>
+
+    </span>
+
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="content-carrouser">
+        <div class="info-carrousel">
+          <span class="">
+            <img src="../../../assets/img/icons/cupula.svg" alt="">
+          </span>
+          <div>
+            <p class="title-info-carrousel">Los sitios web oficiales utilizan .gob.do, .gov.do o .mil.do</p>
+            <p class="sub-title-info-carrousel">
+              Un sitio .gob.do, .gov.do o .mil.do significa que pertenece a una organización oficial del Estado
+              dominicano.
+            </p>
+          </div>
+        </div>
+        <div class="info-carrousel">
+          <span class="">
+            <img src="../../../assets/img/icons/lock.svg" alt="">
+          </span>
+          <div>
+            <p class="title-info-carrousel">Los sitios web oficiales .gob.do, .gov.do o .mil.do seguros usan HTTPS</p>
+            <p class="sub-title-info-carrousel">
+              Un candado (🔒) o https:// significa que estás conectado a un sitio seguro dentro de .gob.do o .gov.do.
+              Comparte información confidencial solo en los sitios seguros de .gob.do o gov.do.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
     <div class="col-lg-12 auth-img-bg p-3">
       <div style="text-align: right;" class="my-2 text-color">
         <p>Soy el visitante:
@@ -11,11 +58,10 @@
         </p>
 
       </div>
-      <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
-      <div class="justify-content-left align-items-center">
+      <div class="col-lg-6 d-none d-lg-flex justify-content-left align-items-center auth-img-bg p-3">
+        <!-- <img src="assets/img/gallery/login.svg" alt="" class="img-fluid" width="300" height="230"> -->
         <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
       </div>
-
     </div>
 
     <div class="row mt-3">
@@ -253,7 +299,7 @@
                         <ngx-datatable-column name="Instituciones responsables" prop="institucionesInvolucradas">
                           <ng-template let-row="row" let-value="value" let-i="index" ngx-datatable-cell-template>
                             <ng-template ngFor let-obj [ngForOf]="value">
-                             {{ obj.nombreInstitucion}}.
+                              {{ obj.nombreInstitucion}}.
                               <br />
                             </ng-template>
                           </ng-template>
@@ -264,9 +310,10 @@
                             <a class="btn-sm      btn-warning text-white  ft-eye"
                               (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
 
-                              <!-- temporalmente desactivado -->
-                              <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
-                              [class.no-event]="!row.demandaAnexos.length > 0 || !validarFalse(row.demandaAnexos)"  title=" Ver archivos"></a>
+                            <!-- temporalmente desactivado -->
+                            <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
+                              [class.no-event]="!row.demandaAnexos.length > 0 || !validarFalse(row.demandaAnexos)"
+                              title=" Ver archivos"></a>
 
                           </ng-template>
                         </ngx-datatable-column>
@@ -327,6 +374,71 @@
     </div>
   </div>
 
+
+  <footer>
+    <section class="container-gobierno-abierto">
+      <div class="sub-container-footer">
+        <div class="logo-footer">
+          <a href="/" class="">
+            <img src="../../../assets/img/GOB.svg" class="w-52 mr-3" alt="Logo" />
+          </a>
+          <div class="divider"></div>
+        </div>
+        <div>
+          <h2 class="title-footer">
+            CONÓCENOS
+          </h2>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Nombre del organismo que representa este portal web</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="title-footer">
+            CONTÁCTANOS
+          </h2>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Teléfono: (000) 000-0000</a>
+            </li>
+            <li class="">
+              <a href="#" class="">Fax: (000) 000-0000</a>
+            </li>
+            <li class="">
+              <a href="#" class="">Correo: correo@institucion.gob.do</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="title-footer">
+            BÚSCANOS
+          </h2>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Dirección de la ubicación de la institución</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="title-footer">
+            INFÓRMATE
+          </h2>
+          <ul class="">
+            <li class="">
+              <a href="#" class="">Términos de uso </a>
+            </li>
+            <li class="">
+              <a href="#" class="">Política de privacidad </a>
+            </li>
+            <li class="">
+              <a href="#" class="">Preguntas frecuentes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </footer>
 
 </div>
 <!--endCards-->
