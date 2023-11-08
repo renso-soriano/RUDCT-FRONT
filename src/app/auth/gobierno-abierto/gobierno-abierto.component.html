@@ -56,7 +56,7 @@
       <span>
         <img src="assets/img/gallery/LOGORUDCTNEWWHITE2.svg" class="img-fluid my-1" width="444" alt="logo rudct">
       </span>
-      <div class="container-visitCounter my-1">
+      <div *ngIf="visitCounter" class="container-visitCounter my-1">
         <p>Soy el visitante:</p>
         <div class="visitCounter">
           <span class="" *ngFor="let digit of visitCounter">{{digit}}</span>
