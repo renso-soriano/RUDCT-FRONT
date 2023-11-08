@@ -51,21 +51,19 @@
     </div>
   </div>
 
-
-  <div class="col-lg-12 auth-img-bg p-3">
-    <div style="text-align: right;" class="my-2 text-color">
-      <p>Soy el visitante:
-        <span class="visitCounter">
-          <span *ngFor="let digit of visitCounter">{{digit}}</span>
-        </span>
-      </p>
-    </div>
-    <div class="main-header">
-      <span class="container-gobierno-abierto">
-        <img src="assets/img/gallery/LOGORUDCTNEWWHITE2.svg" class="img-fluid" alt="">
+  <div class="main-header">
+    <section class="container-gobierno-abierto">
+      <span>
+        <img src="assets/img/gallery/LOGORUDCTNEWWHITE2.svg" class="img-fluid my-1" width="400" alt="logo rudct">
       </span>
-    </div>
-
+      <div class="container-visitCounter my-1">
+        <p>Soy el visitante:</p>
+        <div class="visitCounter">
+          <span class="" *ngFor="let digit of visitCounter">{{digit}}</span>
+        </div>
+      </div>
+    </section>
+    
   </div>
 
   <!-- <div class="main-header" style="display: none;">
