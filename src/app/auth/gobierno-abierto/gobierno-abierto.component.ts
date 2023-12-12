@@ -287,6 +287,27 @@ export class GobiernoAbiertoComponent implements OnInit {
   verDetalles(CodigoDemanda: string) {
     this.router.navigate(["/demandas", 'Details', CodigoDemanda]);
   }
+
+  private setCookie(name: string, value: string, seconds: number) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + seconds * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+
+    console.log('Cookie configurada:', name, value);
+
+  }
+
+  private getCookie(name: string): string | null {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName.trim() === name) {
+        return cookieValue;
+      }
+    }
+    return null;
+  }
+
   async verArchivos(demandaId) {
     await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
       .then((res: any) => {
@@ -332,8 +353,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngOnInit() {
     this.activeModules = [1, 2];
     this.tipoEstado = "ejecución";
-
-
+    
     this.reloadTable();
 
     // Initially load first page
@@ -453,17 +473,81 @@ export class GobiernoAbiertoComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.http.get<number>(`${this.URL}Contador`)
+    const hasVisitedBefore = this.getCookie('visited');
+    let storedCounter: number[];
+     console.log('ha estado aqui antes?' + hasVisitedBefore)
+    if(!hasVisitedBefore){
+      this.http.get<number>(`${this.URL}Contador`)
       .pipe(
         map((res: number) => {
           return res;
         })
       )
       .subscribe((res: number) => {
-         this.visitCounter = res.toString().split('').map(Number);
+        storedCounter = res.toString().split('').map(Number);
+        this.setCookie('visited', 'true', 5000); // 5 seg
+        this.visitCounter = storedCounter;
       });
-  }
+    }
+    else {
+  // Usuario ha visitado antes, verificar si la cookie ha expirado
+  // Obtener la fecha actual
+const currentDateTime = new Date();
 
+// Obtener la fecha de expiración almacenada en Local Storage (si existe)
+let storedExpirationTime = localStorage.getItem('expiration');
+
+
+// Calcular la fecha de expiración solo si no está almacenada en Local Storage
+const expirationTime = storedExpirationTime
+  ? new Date(parseInt(storedExpirationTime, 10))
+  : new Date(currentDateTime.getTime() + 60 * 1000); // 1
+
+console.log('Fecha de expiración:', expirationTime.toLocaleString());
+console.log('Fecha actual:', currentDateTime.toLocaleString());
+
+// Almacenar la fecha de expiración en Local Storage si no está almacenada o ha sido eliminada
+if (!storedExpirationTime) {
+  localStorage.setItem('expiration', expirationTime.getTime().toString());
+}
+
+// Realizar las comparaciones utilizando la fecha de expiración calculada
+if (currentDateTime > expirationTime) {
+  // La cookie ha expirado, contar la visita y establecer una nueva fecha de expiración
+  this.http.get<number>(`${this.URL}Contador`)
+    .subscribe((res: number) => {
+      const storedCounter = res.toString().split('').map(Number);
+      this.setCookie('visited', 'true', 5); // 5 segundos en segundos
+      this.visitCounter = storedCounter;
+
+      // Establecer una nueva fecha de expiración (por ejemplo, 1 día después)
+      const newExpirationTime = new Date(currentDateTime.getTime() + 60 * 1000);
+      localStorage.setItem('expiration', newExpirationTime.getTime().toString());
+
+      console.log('Simulando una nueva visita:', this.visitCounter);
+      console.log('Nueva fecha de expiración:', newExpirationTime.toLocaleString());
+
+      // Si la fecha almacenada está presente y ha expirado, borrarla para establecer una nueva
+      if (storedExpirationTime) {
+       const storedExpirationDateTime = new Date(parseInt(storedExpirationTime, 10));
+  
+  // Asegurarse de que la nueva fecha de expiración sea después del tiempo actual
+         if (currentDateTime > storedExpirationDateTime ) {
+           localStorage.removeItem('expiration');
+           storedExpirationTime = null;
+         }
+}
+
+    });
+} else {
+  // La cookie aún no ha expirado, mantener el contador actual
+  this.http.get<number>(`${this.URL}Contador/GetContadorNoIncremento`)
+    .subscribe((res: number) => {
+      this.visitCounter = res.toString().split('').map(Number);
+      console.log('Número de visitas:', this.visitCounter);
+    });
+}}
+}
 
   setFilterAnnios(): any[] {
     const annioInicial = environment.appStartYear;
