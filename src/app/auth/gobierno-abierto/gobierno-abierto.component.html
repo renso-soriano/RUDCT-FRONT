@@ -207,9 +207,9 @@
 
         <!--mapa data y regiones-->
         <div class="row match-height">
-          <div class="col-8">
-            <div class="card  shadow">
-              <h5 class="bg-primary text-white text-center p-2 rounded-top">
+          <div class="col-xl-8 col-md-8 col-sm-12">
+            <div class="card shadow ">
+              <h5 class="bg-primary text-white text-center p-2 rounded-top ">
                 Cantidad de demandas en los territorios</h5>
 
               <!-- <div class="card-content">
@@ -220,9 +220,9 @@
 
                 </div>
               </div> -->
-              <div class="card-content">
-                <div class="card-body" style="min-height:605px; max-height:700px">
-                  <div class="form-group w-25">
+              <div class="card-content ">
+                <div class="card-body " style="min-height:605px; max-height:700px">
+                  <div class="form-group w-25 maring ">
                     <label>Cambiar tipo de mapa</label>
                     <select class="form-control" id="tipoMapa" (change)="changeMap($event)">
                       <option value="1">Provincial</option>
@@ -241,13 +241,13 @@
           </div>
 
 
-          <div class="col-12 col-md-4">
+          <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
             <div class="card border shadow">
               <h5 class="bg-primary text-white text-center p-2 rounded-top">
                 Porcentaje demandas por region
               </h5>
-              <div class="card-content">
-                <div class="card-body align-items-center" style="min-height:605px; max-height:700px ">
+              <div class="card-content ">
+                <div class="card-body align-items-center padding-0" style="max-height:700px ; overflow: auto; padding: 15px;">
                   <app-region-chart #regionChart [regionesInfo]="regiones"></app-region-chart>
 
                 </div>
@@ -267,14 +267,14 @@
                   <h4 class="card-title ml-2">Listado de demandas</h4>
                 </div>
                 <div class="card-content">
-                  <div class="card-body">
+                  <div class="card-body ">
 
                     <div class="col-md-12 mb-2">
                       <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
                       </app-data-filter>
                     </div>
 
-                    <div class="col-md-10">
+                    <div class="col-12 col-md-10">
                       <div class="w-100 d-flex left-content-end">
                         <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
                           (change)="_changeRowLimits($event)" name="limit" id="limit" [(ngModel)]="limitSelected"
@@ -392,7 +392,7 @@
 
   <footer>
     <section class="container-gobierno-abierto">
-      <div class="sub-container-footer">
+      <div class="sub-container-footer ">
         <div class="logo-footer">
           <a href="/" class="">
             <img src="../../../assets/img/GOB.svg" class="w-52 mr-3" alt="Logo" />
