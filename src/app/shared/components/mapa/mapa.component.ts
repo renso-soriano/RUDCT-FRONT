@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { environment } from 'environments/environment';
 import { DecimalPipe } from '@angular/common';
@@ -19,6 +19,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
   @Input() BIND_PROP: string;
   @Input() BIND_PROP_VALUE: string;
   @Input() EXTRA_DATA_SERVICE: Observable<any>; // Este Input recibe el servicio para los datos adicionales a mostrar en el tooltip asociados a la tiponimia mostrada
+  @Input() nuevoTamanio: number;
 
   loading = true;
 
@@ -27,8 +28,8 @@ export class MapaComponent implements OnInit, AfterViewInit {
   private initMap(): void {
     this.map = L.map('map', {
       //center: [39.8282, -98.5795],
-      minZoom: 8,
-      maxZoom: 8,
+      //minZoom: 8,
+      //maxZoom: 8,
       zoomControl: true,
 
     }).fitBounds([[17.42830546493801, -72.72962230404555], [20.10398324046639, -67.20292132208162]]);
@@ -46,12 +47,18 @@ export class MapaComponent implements OnInit, AfterViewInit {
     private demandaService: DemandasService,
     private spinner: NgxSpinnerService,
   ) {
-
   }
 
   ngOnInit(): void {
     console.log(this.LABEL)
+    this.setSize()
+
+    
   }
+  ngOnChanges(): void {
+    this.setSize()
+  }
+
 
   getGeoJSON() {
     let p = new Promise<any>((resolve, reject) => {
@@ -137,7 +144,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
               this.bounds_group.addLayer(this.layer_PROVCenso2010_0);
               this.map.addLayer(this.layer_PROVCenso2010_0);
               this.setBounds();
-              this.map.setZoom(8);
+              this.setSize()
             }, 500);
           }
         );
@@ -150,6 +157,17 @@ export class MapaComponent implements OnInit, AfterViewInit {
 
   setBounds(): void {
   }
+  ///metodo que cambia el tamanio del mapa segun el dispositivo que este
+  setSize():void{
+    console.log(this.nuevoTamanio)
+    if(this.nuevoTamanio <= 1024){
+      this.map.setZoom(7);
+    }
+    else{
+      this.map.setZoom(8);
+    }
+  }
+    
 
   pop_PROVCenso2010_0(feature: any, layer: any): void {
     var popupContent = '<table style="min-width:300px !important;">\
