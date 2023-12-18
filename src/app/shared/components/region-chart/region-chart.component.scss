@@ -4,7 +4,9 @@
 
 
 
-
+.marginb-12{
+  margin-top: 5% !important;
+}
 
 :host ::ng-deep .ct-grid {
   stroke-dasharray : 0;
@@ -280,3 +282,5 @@
 :host ::ng-deep .valdesiaColor {
   background-color : #cc8f8f !important;
 }
+
+

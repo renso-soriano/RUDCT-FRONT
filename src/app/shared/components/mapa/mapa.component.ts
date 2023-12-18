@@ -56,7 +56,6 @@ export class MapaComponent implements OnInit, AfterViewInit {
     
   }
   ngOnChanges(): void {
-    this.setSize()
   }
 
 
