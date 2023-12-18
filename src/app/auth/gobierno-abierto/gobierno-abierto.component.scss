@@ -11,6 +11,7 @@
 .text-color {
   color: #002060;
 }
+
 .main-header{
   width: 100vw;
   background-color: #003876;
@@ -177,12 +178,106 @@
   font-size: 1.2rem;
 }
 
+@media screen and (max-width:452px) {
+
+  .sub-container-footer{
+    display:inline !important;
+    gap: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem/* 24px */;
+    padding-bottom: 1.5rem/* 24px */;
+  }
+  #donut-dashboard-chart{
+    margin-top: -25%; 
+    padding-top: 25%; 
+
+  }
+  .card-content{
+    margin-top: -25%; 
+    padding-top: 25%; 
+  
+  }
+
+  .padding-0{
+    padding: 0 !important;
+    margin-left: 3%;
+    margin-top: 1%;
+    max-width: 100%;
+    min-width: 0;
+    flex-grow: 1;
+    flex-basis: 0;
+  }
+
+
+
+}
+
+
+@media screen and (max-width:392px) {
+  #donut-dashboard-chart{
+    margin-top: -25%; 
+    padding-top: 25%; 
+
+  }
+  .card-content{
+    margin-top: -25%; 
+    padding-top: 25%; 
+  
+  }
+
+  .padding-0{
+    padding: 0 !important;
+    margin-left: 3%;
+    margin-top: 1%;
+    max-width: 100%;
+    min-width: 0;
+    flex-grow: 1;
+    flex-basis: 0;
+  }
+
+}
+@media screen and (max-width: 768px) {
+  #donut-dashboard-chart {
+    margin-top: -30%; /* Ajusta según sea necesario */
+    padding-top: 30%; /* Ajusta según sea necesario */
+  }
+
+  .card-content {
+    margin-top: -30%; /* Ajusta según sea necesario */
+    padding-top: 30%; /* Ajusta según sea necesario */
+  }
+
+  .padding-0 {
+    padding: 0 !important;
+  }
+}
+@media screen and (max-width:783px) {
+  .padding-0{
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+}
+
+
 
 @media screen and (min-width:600px) {
   .card-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
+  }
+
+  #map {
+    height: 550px;
+    width: 100%;
+    max-width: 120%;
+    //margin-bottom: 1rem;
+    //margin-top: 20px;
+    margin: auto;
+  
+  
   }
 
 }
@@ -206,6 +301,82 @@
   }
 
 }
+
+@media screen and (max-width:1024px) {
+  #donut-dashboard-chart{
+    margin-top: -25%; 
+    padding-top: 25%; 
+
+  }
+
+
+  .padding-0{
+    padding: 0 !important;
+  }
+
+  .sub-container-footer{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9rem !important;
+    padding-left: 2rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem/* 24px */;
+    padding-bottom: 1.5rem/* 24px */;
+  }
+
+}
+
+
+
+@media screen and (max-width:768px) {
+  #donut-dashboard-chart{
+    margin-top: -25%; 
+    padding-top: 30%; 
+
+  }
+  .maring{
+    width: 100% !important;
+  }
+
+  .padding-0{
+    padding: 0 !important;
+  }
+
+}
+
+
+@media screen and (min-width:280px) {
+  #donut-dashboard-chart{
+    margin-top: -20%; 
+    padding-top: 20%; 
+
+  }
+  .card-content{
+    margin-top: -20%; 
+    padding-top: 20%; 
+    min-height: auto;
+    max-height: auto;
+
+  }
+
+  .padding-0{
+    padding: 0 !important;
+  }
+
+}
+
+@media screen and (max-width: 989px){
+  .sub-container-footer{
+    display:inline;
+    gap: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem/* 24px */;
+    padding-bottom: 1.5rem/* 24px */;
+  }
+
+}
+
 
 //mapa
 /* #map {
@@ -334,16 +505,12 @@ footer ul li a:hover{
 }
 
 
+
+
 @media (min-width: 640px) {
   // .container-gobierno-abierto {
   //     max-width: 640px;
   // }
-}
-@media (min-width: 812px) {
-  .open-carouser{
-    gap: 0.5rem;
-    flex-direction: row;
-  }
 }
 @media (min-width: 768px) {
   // .container-gobierno-abierto {
@@ -363,6 +530,13 @@ footer ul li a:hover{
   }
   
 }
+@media (min-width: 812px) {
+  .open-carouser{
+    gap: 0.5rem;
+    flex-direction: row;
+  }
+}
+
 @media (min-width: 1024px) {
   // .container-gobierno-abierto {
   //     max-width: 1024px;
@@ -375,6 +549,7 @@ footer ul li a:hover{
     padding-top: 2rem/* 32px */;
     padding-bottom: 2rem/* 32px */;
   }
+
 }
 @media (min-width: 1280px) {
   // .container-gobierno-abierto {
