@@ -101,6 +101,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   ejeInstitucional;
   ejeMedioAmbiental;
   estadosEnum: Estados
+  newsizeMap: number;
 
   menuItems: ItemMenu[] = [
     {
@@ -276,6 +277,12 @@ export class GobiernoAbiertoComponent implements OnInit {
     private router: Router,
     private dropdownService: DropDownServiceService,
     private excelService: ExcelService) {
+
+      this.newsizeMap = window.innerHeight; // toma el tamaño de la anchura
+      window.addEventListener('resize', () => {
+        this.newsizeMap = window.innerWidth;
+      });
+
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
     setTimeout(() => { this.loadingIndicator = false; }, 1500);
@@ -470,12 +477,12 @@ export class GobiernoAbiertoComponent implements OnInit {
       )
       .subscribe((res: number) => {
         storedCounter = res.toString().split('').map(Number);
-        localStorage.setItem('visited', 'true'); // 5 seg
+        localStorage.setItem('visited', 'true'); 
         this.visitCounter = storedCounter;
       });
     }
   else {
-  // Usuario ha visitado antes, verificar si la cookie ha expirado
+  // Usuario ha visitado antes, verificar si ha expirado la fecha
   // Obtener la fecha actual
 const currentDateTime = new Date();
 // Obtener la fecha de expiración almacenada en Local Storage (si existe)
@@ -492,7 +499,7 @@ if (!storedExpirationTime) {
 }
 // Realizar las comparaciones utilizando la fecha de expiración calculada
 if (currentDateTime > expirationTime) {
-  // La cookie ha expirado, contar la visita y establecer una nueva fecha de expiración
+  // La fecha ha expirado, contar la visita y establecer una nueva fecha de expiración
   this.http.get<number>(`${this.URL}Contador`)
     .subscribe((res: number) => {
       const storedCounter = res.toString().split('').map(Number);
@@ -513,7 +520,7 @@ if (currentDateTime > expirationTime) {
          }}
     });
 } else {
-  // La cookie aún no ha expirado, mantener el contador actual
+  // La fecha aún no ha expirado, mantener el contador actual
   this.http.get<number>(`${this.URL}Contador/GetContadorNoIncremento`)
     .subscribe((res: number) => {
       this.visitCounter = res.toString().split('').map(Number);
