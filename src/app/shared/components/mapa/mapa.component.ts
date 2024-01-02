@@ -47,13 +47,11 @@ export class MapaComponent implements OnInit, AfterViewInit {
     private demandaService: DemandasService,
     private spinner: NgxSpinnerService,
   ) {
+
   }
 
   ngOnInit(): void {
     console.log(this.LABEL)
-    this.setSize()
-
-    
   }
   ngOnChanges(): void {
   }
@@ -162,9 +160,10 @@ export class MapaComponent implements OnInit, AfterViewInit {
     if(this.nuevoTamanio <= 1024){
       this.map.setZoom(7);
     }
-    else{
+    if(this.nuevoTamanio >= 1024){
       this.map.setZoom(8);
     }
+    
   }
     
 
