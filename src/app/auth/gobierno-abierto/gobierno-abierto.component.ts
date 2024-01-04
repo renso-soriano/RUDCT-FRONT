@@ -489,27 +489,27 @@ handleVisitedUser() {
   const currentDateTime = new Date();
   let storedExpirationTime = localStorage.getItem('expiration');
 
-  const expirationTime = storedExpirationTime ?
+    const expirationTime = storedExpirationTime ?
     new Date(parseInt(storedExpirationTime, 10)) :
     new Date(currentDateTime.getTime() + 2 * 60 * 60 * 1000); // 2 horas
 
-  if (!storedExpirationTime) {
-    localStorage.setItem('expiration', expirationTime.getTime().toString());
-  }
+
+  localStorage.setItem('expiration', expirationTime.getTime().toString());
+  
 
   if (currentDateTime > expirationTime) {
     this.fetchCounterAndUpdateLocalStorage();
 
-    const newExpirationTime = new Date(currentDateTime.getTime() + 2 * 60 * 60 * 1000);
+    const newExpirationTime = new Date(currentDateTime.getTime() + 2 * 60 * 60 *1000);
     localStorage.setItem('expiration', newExpirationTime.getTime().toString());
+  }
 
-    if (storedExpirationTime) {
-      const storedExpirationDateTime = new Date(parseInt(storedExpirationTime, 10));
+  if (storedExpirationTime) {
+    const storedExpirationDateTime = new Date(parseInt(storedExpirationTime, 10));
 
-      if (currentDateTime > storedExpirationDateTime) {
-        localStorage.removeItem('expiration');
-        storedExpirationTime = null;
-      }
+    if (currentDateTime > storedExpirationDateTime) {
+      localStorage.removeItem('expiration');
+      storedExpirationTime = null;
     }
   }
 
@@ -517,8 +517,9 @@ handleVisitedUser() {
   this.http.get<number>(`${this.URL}Contador/GetContadorNoIncremento`)
       .subscribe((res: number) => {
         this.visitCounter = res.toString().split('').map(Number);
-        // console.log('Número de visitas:', this.visitCounter);
   });
+  console.log('Número de visitas:', this.visitCounter);
+
 }
 
 
