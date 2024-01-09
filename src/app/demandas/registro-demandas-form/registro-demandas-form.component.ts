@@ -36,13 +36,15 @@ import "leaflet/dist/leaflet.css";
 import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
 import { HttpParams } from "@angular/common/http";
 import { search } from "core-js/fn/symbol";
-
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 const provider = new OpenStreetMapProvider();
 import * as GeoSearch from 'leaflet-geosearch';
 import { AuthService } from "app/shared/services/core/auth.service";
 import { utc } from "moment";
 import { Estados } from "app/shared/models/auth/estados.enum";
+import { EmailService } from "app/shared/services/email.service";
+import { Iemail } from "app/shared/models/Iemail";
+import { emailUtils } from "app/shared/utilidades/email-utils";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -62,18 +64,22 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     private serviceStr: NGXToastrService,
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
-    private authService: AuthService
+    private authService: AuthService,
+    private emailService : EmailService,
   ) { }
   marker;
   userName;
+  Demandas_name;
+  email
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
 
+    this.haycomentarios = false
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
-
+    this.email = this.authService.getPersona().email
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-
+    console.table('el email de este sujeto es',this.Demandas_name)
     this.dropDownService
       ?.getInstitucionById(this.institucionUsuarioSSO)
       .subscribe((x: any) => {
@@ -106,7 +112,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
   private _demanda?: Demanda;
   private demandaId?: string;
-
+  private accionesresult:string
+  private haycomentarios?: boolean
   modal: NgbModal;
 
   @ViewChild("content") content: ElementRef<HTMLElement>;
@@ -920,7 +927,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
               userName: item.userName,
               institucionId: item.institucionId,
             };
-          })
+          }) 
           : null,
 
       demandaContactos:
@@ -977,6 +984,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           );
           this.spinner.hide();
         });
+        this.accionesresult = "modificado"
     } else {
       this.demandaService
         .createDemanda(this._demanda)
@@ -995,9 +1003,26 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           );
           this.spinner.hide();
         });
+        this.accionesresult = "creado"
     }
+    this.emailConstruction()
     //this.refrescar();
   }
+
+ 
+  emailConstruction() {
+    const EmailUtils = new emailUtils(this.emailService)
+
+    const descripcionDemanda = this._demanda.descripcion;
+
+    const datosToSendEmailNotify = EmailUtils.constructEmail(this.accionesresult, this.haycomentarios, descripcionDemanda);
+
+    if (datosToSendEmailNotify) {
+      EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
+    }
+}
+
+
 
   refrescar() {
     //let nivel = this.nivelDemanda.value;
@@ -1370,7 +1395,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
           }
         )
-
+        this.haycomentarios = true
         this.registerForm.patchValue({
           comentarios: null
         });
@@ -1392,3 +1417,4 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
 
 }
+

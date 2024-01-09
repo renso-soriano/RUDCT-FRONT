@@ -55,6 +55,8 @@ import { EstadoUtilsService } from "app/shared/utilidades/estados-utils";
 import { SweetAlertService } from "app/shared/components/sweet-alert/sweet-alert.service";
 import { SweetAlert } from "app/shared/components/sweet-alert/sweet-alerts";
 import { LowerCasePipe } from "@angular/common";
+import emailUtils from "app/shared/utilidades/email-utils";
+import { EmailService } from "app/shared/services/email.service";
 
 declare var require: any;
 const data: any = require("../../shared/data/Demandas.json");
@@ -143,6 +145,7 @@ export class ListadoDemandasComponent
   listaAnexosId?: any;
   instResponsable: any;
   instEstado: any;
+  accionesresult: string;
 
   modalConfig: IModalConfig = {
     modalTitle: "     ",
@@ -275,6 +278,8 @@ export class ListadoDemandasComponent
   dataExcel: any;
   rowExportExcel: any;
   usuarioInstitucional = false;
+  public seHaEliminadoAlgunaDemanda? = false
+  private haycomentarios?: boolean
 
   /**
    * filterUpdate
@@ -338,7 +343,8 @@ export class ListadoDemandasComponent
     private fileManager: FileManagerService,
     private randyFileService: RandyFileService,
     private estadoUtils: EstadoUtilsService,
-    private sweAlert: SweetAlertService
+    private sweAlert: SweetAlertService,
+    private emailService : EmailService
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -367,6 +373,19 @@ export class ListadoDemandasComponent
       "/demandas",
       this.demandasService.deleteDemanda(CodigoDemanda)
     );
+    this.accionesresult = "borrado"
+  }
+
+  emailConstruction(){
+    const EmailUtils = new emailUtils(this.emailService)
+
+    const descripcionDemanda = this.demanda.descripcion;
+
+    const datosToSendEmailNotify = EmailUtils.constructEmail(this.accionesresult, this.haycomentarios, descripcionDemanda);
+
+    if (datosToSendEmailNotify) {
+      EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
+    }
   }
 
   // Lifecycle Hooks
@@ -376,6 +395,7 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
+    this.haycomentarios = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
       this.router.routerState.snapshot.url
