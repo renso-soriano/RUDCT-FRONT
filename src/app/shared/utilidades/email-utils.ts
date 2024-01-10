@@ -6,40 +6,41 @@ import { EmailService } from "app/shared/services/email.service";
 export class emailUtils{
     constructor( private EmailService : EmailService){}
 
-     public constructEmail(accionesresult: string, hayComentarios: boolean, demandaDescripcion: string): Iemail | null {
+     public constructEmail(
+        demandaDescripcion: string,
+        accionesresult: string, 
+        hayComentarios?: boolean,
+        estadocambio?:boolean,
+        estadonuevo?:any ): Iemail | null {
+
         let action: string;
+        let subject:string
         let body: string;
-        enum actions{
-         comentar = "comentar",
-         editar = "editar"
+        enum options{
+            MODIFICADO = 'modificado',
         }
-        const options = [
-            
-        ]
- /*   
-        if (accionesresult === "creado") {
-            action = 'creado';
-            body = `Se ha creado una nueva demanda: ${demandaDescripcion}`;
-        } 
+
+        switch (accionesresult) {
         
-        if (accionesresult === "modificado" && hayComentarios) {
-            action = 'modificado';
-            body = `Se ha añadido un comentario a la demanda ${demandaDescripcion}`;
-        } 
-        
-        if (accionesresult === "modificado" && !hayComentarios) {
-            action = 'modificado';
-            body = `Se ha hecho una modifición en la demanda: ${demandaDescripcion}`;
-        } 
-        
-        if (accionesresult === "borrado") {
-            action = 'eliminado';
-            body = `Se ha eliminado la demanda: ${demandaDescripcion}`;
+            case options.MODIFICADO:
+                if (hayComentarios) {
+                    subject = 'Nuevo comentario registrado'
+                    body = `Se han añadido nuevos comentarios a la demanda ${demandaDescripcion}`;
+                } else if (estadocambio) {
+                    subject = 'Estado cambiado'
+                    body = `Se ha cambiado el estado de validación a la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}"`;
+                } else {
+                    body = `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
+                }
+                break;
+            default:
+                // Manejo para acciones desconocidas o no especificadas
+                break;
         }
-    */
+        
         return {
             ToEmail: 'rensomiguel3@gmail.com',
-            Subject: `Se ha ${action} una demanda "${demandaDescripcion}"`,
+            Subject: subject,
             Body: body,
             Attachments: []
         };

@@ -74,7 +74,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
 
-    this.haycomentarios = false
+    this.haycomentariosnuevos = false
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
     this.email = this.authService.getPersona().email
@@ -113,7 +113,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   private _demanda?: Demanda;
   private demandaId?: string;
   private accionesresult:string
-  private haycomentarios?: boolean
+  private haycomentariosnuevos?: boolean
   modal: NgbModal;
 
   @ViewChild("content") content: ElementRef<HTMLElement>;
@@ -1015,7 +1015,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
     const descripcionDemanda = this._demanda.descripcion;
 
-    const datosToSendEmailNotify = EmailUtils.constructEmail(this.accionesresult, this.haycomentarios, descripcionDemanda);
+    const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult);
 
     if (datosToSendEmailNotify) {
       EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
@@ -1395,7 +1395,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
           }
         )
-        this.haycomentarios = true
+        this.haycomentariosnuevos = true
         this.registerForm.patchValue({
           comentarios: null
         });

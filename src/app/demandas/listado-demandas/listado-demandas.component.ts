@@ -171,6 +171,12 @@ export class ListadoDemandasComponent
     return this.estadoForm.controls;
   }
 
+  get estado() {
+    let demandasinstitucionid = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId = this.idInstitucionProp)
+    const nombreEstadoInstitucionDeInteres = demandasinstitucionid ? demandasinstitucionid.nombreEstado : undefined;
+    return nombreEstadoInstitucionDeInteres;
+  }
+
   estadoChange() {
     console.log("ejecutando el change");
     this.estadoForm.patchValue({
@@ -279,8 +285,8 @@ export class ListadoDemandasComponent
   rowExportExcel: any;
   usuarioInstitucional = false;
   public seHaEliminadoAlgunaDemanda? = false
-  private haycomentarios?: boolean
-
+  private haycomentariosnuevos?: boolean
+  private estadocambio? : boolean
   /**
    * filterUpdate
    *
@@ -376,17 +382,7 @@ export class ListadoDemandasComponent
     this.accionesresult = "borrado"
   }
 
-  emailConstruction(){
-    const EmailUtils = new emailUtils(this.emailService)
 
-    const descripcionDemanda = this.demanda.descripcion;
-
-    const datosToSendEmailNotify = EmailUtils.constructEmail(this.accionesresult, this.haycomentarios, descripcionDemanda);
-
-    if (datosToSendEmailNotify) {
-      EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
-    }
-  }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -395,14 +391,13 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
-    this.haycomentarios = false
+    this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
       this.router.routerState.snapshot.url
     );
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
 
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
@@ -958,7 +953,7 @@ export class ListadoDemandasComponent
           comentarios: null,
         });
       }
-
+    this.haycomentariosnuevos = true
 
     } else {
       this.serviceStr.typeError("No puede añadir comentarios vacíos");
@@ -1145,7 +1140,19 @@ export class ListadoDemandasComponent
       this.enviar();
     }
   }
+  emailConstruction():void{
+    const EmailUtils = new emailUtils(this.emailService)
 
+    const descripcionDemanda = this.demanda.descripcion;
+    const estadonuevo = this.estado;
+
+
+    const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult, this.haycomentariosnuevos,this.estadocambio,estadonuevo);
+
+    if (datosToSendEmailNotify) {
+      EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
+    }
+  }
   async enviar() {
     const formValue = this.estadoForm.value;
 
@@ -1202,11 +1209,22 @@ export class ListadoDemandasComponent
         this.serviceStr.typeSuccess(
           "El estado de la demanda se actualizó con éxito"
         );
+       
         this.spinner.hide();
         setTimeout(() => {
           window.location.href = "/demandas";
+
+         this.emailConstruction()
         }, 1500);
-      })
+        if(res){
+          console.log('Este es el estado de mi demanda',this.estado);
+          this.accionesresult = 'modificado'
+         this.estadocambio = true
+        }
+      }
+      
+      )
+      
       .catch((err) => {
         console.error("Que sucede? ", err);
         this.serviceStr.typeError(
