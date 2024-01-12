@@ -1011,11 +1011,13 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
  
   emailConstruction() {
+    
     const EmailUtils = new emailUtils(this.emailService)
 
     const descripcionDemanda = this._demanda.descripcion;
-
-    const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult);
+    const grupoUsuarios = this.authService.getGrupos()
+    const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
+    const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult,idgrupousuario);
 
     if (datosToSendEmailNotify) {
       EmailUtils.notifyClientByEmail(datosToSendEmailNotify)

@@ -170,12 +170,12 @@ export class ListadoDemandasComponent
   get EF() {
     return this.estadoForm.controls;
   }
-
-  get estado() {
-    let demandasinstitucionid = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId = this.idInstitucionProp)
-    const nombreEstadoInstitucionDeInteres = demandasinstitucionid ? demandasinstitucionid.nombreEstado : undefined;
-    return nombreEstadoInstitucionDeInteres;
+  get nombreinstitucion() {
+    let datos = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId === this.idInstitucionProp)
+    return datos.nombreInstitucion
+    
   }
+
 
   estadoChange() {
     console.log("ejecutando el change");
@@ -391,6 +391,8 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
+    console.log('este el id de la institucion',this.authService.getGrupos())
+
     this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
@@ -1142,12 +1144,23 @@ export class ListadoDemandasComponent
   }
   emailConstruction():void{
     const EmailUtils = new emailUtils(this.emailService)
-
     const descripcionDemanda = this.demanda.descripcion;
-    const estadonuevo = this.estado;
+    const estadonuevo = this.instEstado
+    const nombreinstitucion = this.nombreinstitucion
+    const grupoUsuarios = this.authService.getGrupos()
+    const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
+    console.log(idgrupousuario)
 
-
-    const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult, this.haycomentariosnuevos,this.estadocambio,estadonuevo);
+    const datosToSendEmailNotify = EmailUtils.constructEmail(
+      descripcionDemanda,
+      this.accionesresult,
+      idgrupousuario, 
+      nombreinstitucion,
+      this.haycomentariosnuevos,
+      this.estadocambio,
+      estadonuevo,
+      );
+      console.table(datosToSendEmailNotify)
 
     if (datosToSendEmailNotify) {
       EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
@@ -1209,22 +1222,23 @@ export class ListadoDemandasComponent
         this.serviceStr.typeSuccess(
           "El estado de la demanda se actualizó con éxito"
         );
-       
+        let demandasinstitucionid = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId === this.idInstitucionProp)
+        const estadoName = this.estadoUtils.titleEstadoEjecucion(
+          demandasinstitucionid?.estadoId
+        );
+        console.log()
+        this.instEstado = estadoName
         this.spinner.hide();
         setTimeout(() => {
           window.location.href = "/demandas";
-
+         this.accionesresult = 'modificado'
+         this.estadocambio = true
          this.emailConstruction()
         }, 1500);
-        if(res){
-          console.log('Este es el estado de mi demanda',this.estado);
-          this.accionesresult = 'modificado'
-         this.estadocambio = true
-        }
+        
+          console.log('Este es el estado de mi demanda',this.instEstado);
       }
-      
       )
-      
       .catch((err) => {
         console.error("Que sucede? ", err);
         this.serviceStr.typeError(
