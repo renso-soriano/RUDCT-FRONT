@@ -23,7 +23,7 @@ export class EmailService {
     }
  
         const formData = new FormData();
-        formData.append('ToEmail', datos.ToEmail);
+        datos.ToEmail.forEach(email => formData.append('ToEmail', email));
         formData.append('Subject', datos.Subject);
         formData.append('Body', datos.Body);
         

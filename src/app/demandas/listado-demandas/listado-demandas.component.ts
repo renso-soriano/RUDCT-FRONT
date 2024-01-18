@@ -44,7 +44,7 @@ import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.
 import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
-import { Console } from 'console';
+import { Console, error } from 'console';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 import { Estados } from 'app/shared/models/auth/estados.enum';
@@ -57,6 +57,9 @@ import { SweetAlert } from "app/shared/components/sweet-alert/sweet-alerts";
 import { LowerCasePipe } from "@angular/common";
 import emailUtils from "app/shared/utilidades/email-utils";
 import { EmailService } from "app/shared/services/email.service";
+import { Iemail } from "app/shared/models/Iemail";
+import {SSOService} from "app/shared/services/sso.service"
+
 
 declare var require: any;
 const data: any = require("../../shared/data/Demandas.json");
@@ -146,7 +149,7 @@ export class ListadoDemandasComponent
   instResponsable: any;
   instEstado: any;
   accionesresult: string;
-
+  email:number;
   modalConfig: IModalConfig = {
     modalTitle: "     ",
   };
@@ -171,7 +174,7 @@ export class ListadoDemandasComponent
     return this.estadoForm.controls;
   }
   get nombreinstitucion() {
-    let datos = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId === this.idInstitucionProp)
+    let datos = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId == this.idInstitucionProp)
     return datos.nombreInstitucion
     
   }
@@ -287,6 +290,7 @@ export class ListadoDemandasComponent
   public seHaEliminadoAlgunaDemanda? = false
   private haycomentariosnuevos?: boolean
   private estadocambio? : boolean
+  private sesubioevidencia = false
   /**
    * filterUpdate
    *
@@ -350,7 +354,8 @@ export class ListadoDemandasComponent
     private randyFileService: RandyFileService,
     private estadoUtils: EstadoUtilsService,
     private sweAlert: SweetAlertService,
-    private emailService : EmailService
+    private emailService : EmailService,
+    private ssoService: SSOService
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -391,8 +396,17 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
-    console.log('este el id de la institucion',this.authService.getGrupos())
-
+    
+    console.log('este es mi grupo',this.authService.getGrupos().map(a=>a.groupId))
+    console.log(`EMAIL`,this.email =  this.authService?.getInstitucion())
+    //this.ssoService.getPersonByGroupId(3022,1003).subscribe(
+    //  data => {
+    //    console.log(`GetPersonaID`,data.result.map(a=>a.email))
+    ///  },
+    //  error =>{
+    //    console.error(error)
+    //  }
+   // )
     this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
@@ -1090,6 +1104,29 @@ export class ListadoDemandasComponent
         return "";
     }
   }
+  titleEstadoValidacion(id?: number): string {
+    switch (id) {
+      case this.estadoValidacionEnum.registradaPorORP:
+        return " Registrada por ORP";
+      case this.estadoValidacionEnum.validadaPorVIOTDR:
+        return "Validada por VIOTDR";
+      case this.estadoValidacionEnum.validadaPorDGDES:
+        return "Validada por DGDES";
+      case this.estadoValidacionEnum.devueltaPorDGDES:
+        return "Devuelta por DGDES";
+      case this.estadoValidacionEnum.devueltaPorVIOTDR:
+        return "Devuelta por VIOTDR";
+      case this.estadoValidacionEnum.rechazadaNoCompetenciaSectorial:
+        return "Rechazada - no competencia de sectorial";
+      default:
+        return "";
+    }
+  }
+
+
+
+
+
 
   getEstadoClass(estadoId: number): { [className: string]: boolean } {
     return {
@@ -1143,28 +1180,41 @@ export class ListadoDemandasComponent
     }
   }
   emailConstruction():void{
-    const EmailUtils = new emailUtils(this.emailService)
+    const EmailUtils = new emailUtils(this.emailService,this.ssoService)
     const descripcionDemanda = this.demanda.descripcion;
-    const estadonuevo = this.instEstado
-    const nombreinstitucion = this.nombreinstitucion
-    const grupoUsuarios = this.authService.getGrupos()
-    const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
+    let estadonuevo:string = this.instEstado
+    let idgrupousuario = this.authService.getGrupos().map((grup) => grup.groupId)[0];
+    const EstadosValidacion = this.titleEstadoValidacion(this.demanda.estadoValidacionId)
+    let datosToSendEmailNotify: Iemail
     console.log(idgrupousuario)
-
-    const datosToSendEmailNotify = EmailUtils.constructEmail(
-      descripcionDemanda,
-      this.accionesresult,
-      idgrupousuario, 
-      nombreinstitucion,
-      this.haycomentariosnuevos,
-      this.estadocambio,
-      estadonuevo,
-      );
-      console.table(datosToSendEmailNotify)
-
-    if (datosToSendEmailNotify) {
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      datosToSendEmailNotify = EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario, 
+        this.haycomentariosnuevos,
+        this.estadocambio,
+        this.nombreinstitucion,
+        estadonuevo
+        );
+      ;
+    }
+    else{
+      datosToSendEmailNotify = EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario, 
+        this.haycomentariosnuevos,
+        this.estadocambio,
+        '',
+        estadonuevo = '',
+        EstadosValidacion,
+        );
+    }
+    if(datosToSendEmailNotify){
       EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
     }
+
   }
   async enviar() {
     const formValue = this.estadoForm.value;
@@ -1196,6 +1246,7 @@ export class ListadoDemandasComponent
           institucionId:this.institucionUsuarioEnRUDT
         });
       });
+      this.sesubioevidencia = true
     }
 
     this.demanda.demandaComentarios = this.ComentariosList;
@@ -1231,12 +1282,12 @@ export class ListadoDemandasComponent
         this.spinner.hide();
         setTimeout(() => {
           window.location.href = "/demandas";
-         this.accionesresult = 'modificado'
-         this.estadocambio = true
-         this.emailConstruction()
+
         }, 1500);
         
           console.log('Este es el estado de mi demanda',this.instEstado);
+          this.estadocambio = true
+          this.emailConstruction()
       }
       )
       .catch((err) => {

@@ -45,6 +45,7 @@ import { Estados } from "app/shared/models/auth/estados.enum";
 import { EmailService } from "app/shared/services/email.service";
 import { Iemail } from "app/shared/models/Iemail";
 import { emailUtils } from "app/shared/utilidades/email-utils";
+import { SSOService } from "app/shared/services/sso.service";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -66,6 +67,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     private temaComunService: TemaComunService,
     private authService: AuthService,
     private emailService : EmailService,
+    private ssoservice: SSOService
   ) { }
   marker;
   userName;
@@ -77,9 +79,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.haycomentariosnuevos = false
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
-    this.email = this.authService.getPersona().email
+    console.log(`EMAIL`,this.email = this.authService.getPersona().email)
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-    console.table('el email de este sujeto es',this.Demandas_name)
     this.dropDownService
       ?.getInstitucionById(this.institucionUsuarioSSO)
       .subscribe((x: any) => {
@@ -165,6 +166,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   mode?: string;
   typeEdit = false;
   demandaForEdit?: any;
+ 
   formGroup: FormGroup;
 
   registerForm = this.formBuilder.group({
@@ -648,6 +650,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.registerForm.patchValue({
       institucionesColaboradoras: null,
     });
+
+    console.log('Estas son las iniciativas de los clientes ',this.listadoInstituciones)
   }
 
   eliminarInstitucion(id: number) {
@@ -985,6 +989,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           this.spinner.hide();
         });
         this.accionesresult = "modificado"
+        console.log('INFO DE LA DEMANDA',this._demanda)
+
     } else {
       this.demandaService
         .createDemanda(this._demanda)
@@ -1012,13 +1018,12 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
  
   emailConstruction() {
     
-    const EmailUtils = new emailUtils(this.emailService)
-
+    const EmailUtils = new emailUtils(this.emailService,this.ssoservice)
     const descripcionDemanda = this._demanda.descripcion;
     const grupoUsuarios = this.authService.getGrupos()
     const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
     const datosToSendEmailNotify = EmailUtils.constructEmail(descripcionDemanda,this.accionesresult,idgrupousuario);
-
+    console.log('ESTA ES LA DEMANDA',this._demanda)
     if (datosToSendEmailNotify) {
       EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
     }

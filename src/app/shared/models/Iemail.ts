@@ -1,5 +1,5 @@
 export interface Iemail {
-    ToEmail: string ,
+    ToEmail: string[],
     Subject: string ,
     Body: string,
     Attachments?:[]
