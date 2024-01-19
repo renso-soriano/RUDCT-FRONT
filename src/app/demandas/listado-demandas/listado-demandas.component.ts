@@ -1299,7 +1299,7 @@ export class ListadoDemandasComponent
         this.instEstado = estadoName
         this.spinner.hide();
         setTimeout(() => {
-        ///  window.location.href = "/demandas";
+         window.location.href = "/demandas";
 
         }, 1500);
         
