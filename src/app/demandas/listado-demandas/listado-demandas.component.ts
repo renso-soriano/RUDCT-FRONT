@@ -59,6 +59,7 @@ import emailUtils from "app/shared/utilidades/email-utils";
 import { EmailService } from "app/shared/services/email.service";
 import { Iemail } from "app/shared/models/Iemail";
 import {SSOService} from "app/shared/services/sso.service"
+import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
 
 
 declare var require: any;
@@ -355,7 +356,8 @@ export class ListadoDemandasComponent
     private estadoUtils: EstadoUtilsService,
     private sweAlert: SweetAlertService,
     private emailService : EmailService,
-    private ssoService: SSOService
+    private ssoService: SSOService,
+    private ssoinstitucionService:SSOInstitucionService
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -396,17 +398,16 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
-    
+    const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
     console.log('este es mi grupo',this.authService.getGrupos().map(a=>a.groupId))
-    console.log(`EMAIL`,this.email =  this.authService?.getInstitucion())
-    //this.ssoService.getPersonByGroupId(3022,1003).subscribe(
-    //  data => {
-    //    console.log(`GetPersonaID`,data.result.map(a=>a.email))
-    ///  },
-    //  error =>{
-    //    console.error(error)
-    //  }
-   // )
+    this.ssoService.getPersonByGroupId(3022,1003).subscribe(
+     data => {
+       console.log(`GetPersonaID`,data.result.map(a=>a.email))
+      },
+     error =>{
+       console.error(error)
+     }
+   )
     this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
@@ -1179,8 +1180,13 @@ export class ListadoDemandasComponent
       this.enviar();
     }
   }
-  emailConstruction():void{
-    const EmailUtils = new emailUtils(this.emailService,this.ssoService)
+  async emailConstruction():Promise<void>{
+    const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
+
+    console.log('email utils', EmailUtils);
+    
+
+
     const descripcionDemanda = this.demanda.descripcion;
     let estadonuevo:string = this.instEstado
     let idgrupousuario = this.authService.getGrupos().map((grup) => grup.groupId)[0];
@@ -1188,19 +1194,23 @@ export class ListadoDemandasComponent
     let datosToSendEmailNotify: Iemail
     console.log(idgrupousuario)
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
-      datosToSendEmailNotify = EmailUtils.constructEmail(
+      datosToSendEmailNotify = await EmailUtils.constructEmail(
         descripcionDemanda,
         this.accionesresult,
         idgrupousuario, 
         this.haycomentariosnuevos,
         this.estadocambio,
         this.nombreinstitucion,
-        estadonuevo
+        estadonuevo,
+        '',
+        [],
+        this.sesubioevidencia,
+        false
         );
       ;
     }
     else{
-      datosToSendEmailNotify = EmailUtils.constructEmail(
+      datosToSendEmailNotify = await EmailUtils.constructEmail(
         descripcionDemanda,
         this.accionesresult,
         idgrupousuario, 
@@ -1209,10 +1219,14 @@ export class ListadoDemandasComponent
         '',
         estadonuevo = '',
         EstadosValidacion,
+        [],
+        this.sesubioevidencia,
+        false
         );
     }
+    console.log(datosToSendEmailNotify)
     if(datosToSendEmailNotify){
-      EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
+    EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
     }
 
   }
@@ -1274,14 +1288,18 @@ export class ListadoDemandasComponent
           "El estado de la demanda se actualizó con éxito"
         );
         let demandasinstitucionid = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId === this.idInstitucionProp)
-        const estadoName = this.estadoUtils.titleEstadoEjecucion(
+        let estadoName = this.estadoUtils.titleEstadoEjecucion(
           demandasinstitucionid?.estadoId
         );
+
+        if(EstadosValidacion.validadaPorDGDES == this.demanda.estadoValidacionId){
+          this.estadocambio = false
+        }
         console.log()
         this.instEstado = estadoName
         this.spinner.hide();
         setTimeout(() => {
-          window.location.href = "/demandas";
+        ///  window.location.href = "/demandas";
 
         }, 1500);
         

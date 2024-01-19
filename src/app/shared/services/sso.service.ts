@@ -40,7 +40,6 @@ export class SSOService {
 
   getPersonByGroupId(groupId:number,applicationId:number): Observable<any> {
     const url = `${this.URLSSO}Api/Person/GetPersonByGroupId?groupId=${groupId}&applicationId=${applicationId}`;
-
     return this.http.get<any>(url);
   }
 
