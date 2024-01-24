@@ -399,7 +399,7 @@ export class ListadoDemandasComponent
    */
   ngOnInit() {
     const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
-    console.log('este es mi grupo',this.authService.getGrupos().map(a=>a.groupId))
+    console.log('este es mi grupo',this.authService.getGrupos())
     this.ssoService.getPersonByGroupId(3022,1003).subscribe(
      data => {
        console.log(`GetPersonaID`,data.result.map(a=>a.email))

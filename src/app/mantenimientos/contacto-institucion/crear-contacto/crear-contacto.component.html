@@ -1,0 +1,210 @@
+<!-- start -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{mode}} Contacto</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div class="div">
+              <form (submit)="submit()" [formGroup]="registerForm">
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="nombre">Nombre</label>
+                      <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
+
+                      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="nombre.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="nombre.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="apellido">Apellido</label>
+                      <input type="text" class="form-control" name="apellido" id="apellido" formControlName="apellido">
+
+                      <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="apellido.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="apellido.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="provincia">Provincia</label>
+                      <ng-select [items]="provincias | async" bindLabel="name" bindValue="id" name="provincia"
+                        id="provincia" placeholder="Seleccione provincia"
+                        (change)="getMunicipiosByProvincia(provincia.value)" formControlName="provincia">
+                      </ng-select>
+                      <div *ngIf="provincia.invalid && (provincia.dirty || provincia.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="provincia.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div> -->
+
+
+                <!-- <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="municipio">Municipio</label>
+                      <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
+                        id="municipio" placeholder="Seleccione municipio" formControlName="municipioId">
+                      </ng-select>
+
+                      <div *ngIf="municipioId.invalid && (municipioId.dirty || municipioId.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="municipioId.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="municipio">Tipo de técnico</label>
+                      <ng-select [items]="tipoTecnicos | async" bindLabel="name" bindValue="id" name="tipoTecnico"
+                        id="tipoTecnico" placeholder="Seleccione el tipo de tecnico" formControlName="tipoTecnicoId">
+                      </ng-select>
+
+                      <div *ngIf="tipoTecnicoId.invalid && (tipoTecnicoId.dirty || tipoTecnicoId.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="tipoTecnicoId.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="telefono">Telefono</label>
+                      <input type="text" class="form-control" name="telefono" id="telefono" formControlName="telefono">
+
+                      <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="telefono.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="extension">Extension</label>
+                      <input type="text" class="form-control" name="extension" id="extension"
+                        formControlName="extension">
+
+
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="flota">Flota</label>
+                      <input type="text" class="form-control" name="flota" id="flota" formControlName="flota">
+                      <div *ngIf="flota.invalid && (flota.dirty || flota.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="flota.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> minimo 10 caracteres
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="text" class="form-control" name="email" id="email" formControlName="email">
+                      <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="email.errors.email">
+                          <i class="ft-alert-circle align-middle"></i> Introduzca un email valido
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip"
+                  data-placement="bottom" title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i
+                    class="fa fa-refresh"></i></a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>
+
+<div>
+  <a [routerLink]="['/mantenimientos/contactosinstitucionales']" class="btn btn-primary"><span>Volver a listado</span>
+  </a>
+
+</div>
