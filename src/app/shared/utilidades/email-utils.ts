@@ -210,16 +210,16 @@ export class emailUtils {
     public notifyClientByEmail(datos: Iemail): void {
         console.log("Junior prueba",datos);
         
-         this.emailService.createEmail(datos).subscribe(
-             (response) => {
-                 console.log('Correo enviado con éxito:', response);
-             },
-             (error) => {
-                 console.error('Error al enviar el correo:', error);
-             }
-         );
-    }
-}
+    //      this.emailService.createEmail(datos).subscribe(
+    //          (response) => {
+    //              console.log('Correo enviado con éxito:', response);
+    //          },
+    //          (error) => {
+    //              console.error('Error al enviar el correo:', error);
+    //          }
+    //      );
+    // }
+}}
 
 
 export default emailUtils;
