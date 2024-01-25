@@ -49,9 +49,15 @@ export const Full_ROUTES: Routes = [
     path: 'mantenimientos/tecnicos',
     loadChildren: () => import('../../mantenimientos/tecnicos/tecnicos.module').then(m => m.TecnicosModule)
   },
+
   {
     canActivate: [RoleGuard],
     path: 'mantenimientos/temaComun',
     loadChildren: () => import('../../mantenimientos/tema-comun/tema-comun.module').then(m => m.TemaComunModule)
+  },
+  {
+    canActivate: [RoleGuard],
+    path: 'mantenimientos/contactosinstitucionales',
+    loadChildren: () => import('../../mantenimientos/contacto-institucion/contacto-institucion.module').then(m => m.ContactoInstitucionModule)
   }
 ];
