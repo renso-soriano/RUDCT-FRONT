@@ -1,14 +1,15 @@
-export interface IcontanctoInstitucional {
+export interface IcontactoInstitucional {
     id: number,
     estatus: string,
-    institucionId:number,
     nombre: string,
     apellido: string,
     telefono: string,
     extension: string,
     email?:string,
-    esinstitucional:boolean,
+    EsSectorial:number,
     funcion:string,
     nombreinstitucion?:string
+    direccion:string
+    institucionId:number,
   }
   

@@ -1,6 +1,6 @@
 import { Deserializable } from "../deserializable";
 
-export class FuenteDemanda implements Deserializable {
+export class ContactoInstitucional implements Deserializable {
 
 
   deserialize(input: any): this {

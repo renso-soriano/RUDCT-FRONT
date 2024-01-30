@@ -10,12 +10,14 @@ import {
   DatatableComponent,
   SelectionType,
 } from "@swimlane/ngx-datatable";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
 import { DatatableData } from "app/mantenimientos/contacto-institucion/listado-contacto/data/datatables.data";
 import { ContactoInsticionalService } from "app/shared/services/mantenimientos/contacto-institucion.service";
+import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
+import { ExcelService } from "app/shared/services/excel.service";
 
 @Component({
   selector: 'app-listado-contacto',
@@ -35,9 +37,37 @@ export class ListadoContactoComponent implements OnInit {
   // row data
   // public rows = data;
   public rows = [];
-
+  dataExcel: any;
+  rowExportExcel: any;
   // column header
-  public columns = [{ name: "Categoria beneficiario", prop: "nombre" }];
+  public columns = 
+  [
+  { name: "Nombre", prop: "nombre" },
+  { name: "Apellido", prop: "apellido" },
+  { name: "Direccion", prop: "direccion" },
+  { name: "Funcion", prop: "funcion" },
+  { name: "Email", prop: "email" },
+  { name: "Extension", prop: "extension" },
+  { name: "InstitucionNombre", prop: "institucionNombre" }];
+
+
+  limitSelect: any = [
+    { value: 10, label: "10 Registros por página" },
+    { value: 25, label: "25 Registros por página" },
+    { value: 50, label: "50 Registros por página" },
+    { value: 100, label: "100 Registros por página" }
+  ];
+
+  filtrosActivos: any = {
+    "Nombre": null,
+    "Apellido": null,
+    "Telefono": null,
+    "Email": null,
+    "Direccion": null,
+    "Funcion": null,
+    "Extension": null,
+
+  }
 
   // multi Purpose datatable Row data
   public multiPurposeRows = DatatableData;
@@ -51,7 +81,7 @@ export class ListadoContactoComponent implements OnInit {
   public expanded: any = {};
 
   public editing = {};
-
+  public date = new Date()
   public chkBoxSelected = [];
   public SelectionType = SelectionType;
 
@@ -61,7 +91,7 @@ export class ListadoContactoComponent implements OnInit {
   // private
   private tempData = [];
   private multiPurposeTemp = [];
-
+  institucionNombre: string;
   /**
    * inlineEditingUpdate
    *
@@ -73,6 +103,14 @@ export class ListadoContactoComponent implements OnInit {
     this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
+  }
+  
+  limitSelected: any = 10;
+
+  page = {
+    limit: this.limitSelected,
+    count: 0,
+    offset: 0
   }
 
   /**
@@ -155,6 +193,8 @@ export class ListadoContactoComponent implements OnInit {
     this.table.offset = 0;
   }
 
+
+  
   /**
    * Constructor
    *
@@ -163,7 +203,10 @@ export class ListadoContactoComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private contactoInstitucionService: ContactoInsticionalService,
-    private router: Router
+    private router: Router,
+    private SSOInstitucionService: SSOInstitucionService,
+    private excelService: ExcelService
+
   ) {
     this.tempData = [];
     this.multiPurposeTemp = DatatableData;
@@ -177,7 +220,7 @@ export class ListadoContactoComponent implements OnInit {
   verDetalles(Id: string) {
     this.router.navigate([
       "/mantenimientos",
-      "contacto-institucion",
+      "contactosinstitucionales",
       "Details",
       Id,
     ]);
@@ -185,14 +228,16 @@ export class ListadoContactoComponent implements OnInit {
   editar(Id: string) {
     this.router.navigate([
       "/mantenimientos",
-      "contacto-institucion",
+      "contactosinstitucionales",
       "Edit",
       Id,
     ]);
   }
 
+  
+
   eliminar(id: string) {
-    alertFunctions.EliminarRegistro("/mantenimientos/contacto-institucion",this.contactoInstitucionService.deleteContactosInstitucion(id));
+    alertFunctions.EliminarRegistro("/mantenimientos/contactosinstitucionales",this.contactoInstitucionService.deleteContactosInstitucion(id));
   }
 
 
@@ -206,12 +251,16 @@ export class ListadoContactoComponent implements OnInit {
   ngOnInit() {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
-
     this.contactoInstitucionService.getContactosInstitucion().subscribe(
       (contactosFromTheAPI: any) => {
         this.data = contactosFromTheAPI;
         this.rows = this.data;
         this.tempData = this.data;
+
+        // Obtener los nombres de las instituciones y asignarlos a la propiedad institucionNombre
+        this.rows.forEach(contacto => {
+          this.getinstbyid();
+        });
       },
       (err: any) => {
         console.error(err);
@@ -245,4 +294,66 @@ export class ListadoContactoComponent implements OnInit {
     };
   }
 
+  getinstbyid() {
+  
+    this.SSOInstitucionService.getNombresInstituciones(this.rows.map(a => a.institucionId)).subscribe(
+      data => {
+        // Assuming data is an array of institution names in the same order as institution IDs
+    
+        // Update each row's institucionNombre property
+        this.rows.forEach((row, index) => {
+          row.institucionNombre = data[index];
+        });          
+    
+        // Optionally, you can log the updated rows
+        console.log('Updated rows:', this.rows);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+    
+  }
+
+  exportexcel() {
+    this.contactoInstitucionService.getExportarContactosInstitucionales().subscribe(
+      (data: any) => {
+        this.page.count = data.total;
+        this.rowExportExcel = data.items;  // Usar data.items en lugar de this.rows
+        this.preparanDataExcel();  // Llamar a la función sin argumentos
+        this.excelService.exportAsExcelFile(this.dataExcel, `Lista de contactos ${this.date}`  );
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  }
+  
+  
+  preparanDataExcel() {
+    this.dataExcel = this.rowExportExcel.map((item: any) => {
+      const nombreInstitucion = this.rows.find(a => a.institucionId === item.institucionId)?.institucionNombre;
+      return {
+        Codigo: item.codigo,
+        Nombre: item.nombre,
+        Apellido: item.apellido,
+        Telefono: item.telefono,
+        Email: item.email,
+        Direccion: item.direccion,
+        Funcion: item.funcion,
+        institucionId: item.institucionId,  
+        Nombreinstitucion: nombreInstitucion.toString(),
+        // Otras propiedades si es necesario
+        // CreadoPor: item.nombreCreadoPor,
+        // RegistradoEn: item.fechaRegistro,
+        // modificadoPor: item.nombreModificadoPor,
+        // ModificadoEn: item.fechaModificacion
+      };
+      
+    });
+  
+  }
+  
+  
+  
 }

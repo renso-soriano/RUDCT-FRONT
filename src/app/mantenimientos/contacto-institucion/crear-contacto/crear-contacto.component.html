@@ -60,67 +60,9 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="provincia">Provincia</label>
-                      <ng-select [items]="provincias | async" bindLabel="name" bindValue="id" name="provincia"
-                        id="provincia" placeholder="Seleccione provincia"
-                        (change)="getMunicipiosByProvincia(provincia.value)" formControlName="provincia">
-                      </ng-select>
-                      <div *ngIf="provincia.invalid && (provincia.dirty || provincia.touched)"
-                        class="help-block mt-1 text-danger">
-
-                        <div *ngIf="provincia.errors.required">
-                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                        </div>
-
-                      </div>
-
-                    </div>
-                  </div>
-                </div> -->
 
 
-                <!-- <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="municipio">Municipio</label>
-                      <ng-select [items]="municipios | async" bindLabel="name" bindValue="id" name="municipio"
-                        id="municipio" placeholder="Seleccione municipio" formControlName="municipioId">
-                      </ng-select>
-
-                      <div *ngIf="municipioId.invalid && (municipioId.dirty || municipioId.touched)"
-                        class="help-block mt-1 text-danger">
-
-                        <div *ngIf="municipioId.errors.required">
-                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
-                <!-- <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="municipio">Tipo de técnico</label>
-                      <ng-select [items]="tipoTecnicos | async" bindLabel="name" bindValue="id" name="tipoTecnico"
-                        id="tipoTecnico" placeholder="Seleccione el tipo de tecnico" formControlName="tipoTecnicoId">
-                      </ng-select>
-
-                      <div *ngIf="tipoTecnicoId.invalid && (tipoTecnicoId.dirty || tipoTecnicoId.touched)"
-                        class="help-block mt-1 text-danger">
-
-                        <div *ngIf="tipoTecnicoId.errors.required">
-                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
+                
 
                 <div class="row">
                   <div class="col-sm-4">
@@ -153,23 +95,6 @@
                   </div>
                 </div>
 
-                <!-- <div class="row">
-                  <div class="col-sm-4">
-                    <div class="form-group">
-                      <label for="flota">Flota</label>
-                      <input type="text" class="form-control" name="flota" id="flota" formControlName="flota">
-                      <div *ngIf="flota.invalid && (flota.dirty || flota.touched)"
-                        class="help-block mt-1 text-danger">
-
-                        <div *ngIf="flota.errors.minlength">
-                          <i class="ft-alert-circle align-middle"></i> minimo 10 caracteres
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
@@ -183,6 +108,34 @@
                         </div>
 
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="funcion">Función</label>
+                      <input type="text" class="form-control" name="funcion" id="funcion" formControlName="funcion">
+                      <div *ngIf="funcion.invalid && (funcion.dirty || funcion.touched)"
+                      class="help-block mt-1 text-danger">
+
+                      <div *ngIf="funcion.errors.required">
+                        <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                      </div>
+
+                    </div>
+                    
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="direccion">Direccion</label>
+                      <input type="text" class="form-control" name="direccion" id="direccion" formControlName="direccion">
+                    
                     </div>
                   </div>
                 </div>

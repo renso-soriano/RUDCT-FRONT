@@ -9,16 +9,6 @@
         <div class="card-content">
           <div class="card-body">
             <div class="card-text">
-              <div class="div">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <div class="form-group">
-                      <span class="danger bold"><strong>Código: </strong> </span>
-                      <label for="id">{{contacto.id}}</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
   
               <div class="div">
                 <div class="row">
@@ -47,7 +37,7 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <span class="danger bold"><strong>Institucion: </strong> </span>
-                      <label for="tipoTecnicoNombre">{{contacto.nombreinstitucion}}</label>
+                      <label for="nombreinstitucion">{{ institucionNombre }}</label>
                     </div>
                   </div>
                 </div>
@@ -83,6 +73,16 @@
                   </div>
                 </div>
               </div>
+              <div class="div">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <span class="danger bold"><strong>Función: </strong> </span>
+                      <label for="email">{{contacto.funcion}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
   
   
             </div>
@@ -94,7 +94,7 @@
   </div>
   
   <div>
-    <a [routerLink]="['/mantenimientos/tecnicos']" class="btn btn-primary"><span>Volver a listado</span>
+    <a [routerLink]="['/mantenimientos/contactosinstitucionales']" class="btn btn-primary"><span>Volver a listado</span>
     </a>
   
   

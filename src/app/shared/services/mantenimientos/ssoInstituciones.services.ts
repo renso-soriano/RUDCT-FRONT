@@ -16,22 +16,38 @@ export class SSOInstitucionService {
     getSSOInstitucionIds(institutionIds: number[]): Observable<number[]> {
       const url = `${this.URL}SsoInstitucionIds`;
   
-      // Crea un objeto HttpParams para manejar los parámetros de la URL
       let params = new HttpParams();
       institutionIds.forEach(id => {
         params = params.append('ids', id.toString());
       });
   
-      // Define headers con el tipo de contenido apropiado
       const headers = new HttpHeaders({
         'Accept': '*/*',
         'Content-Type': 'application/json-patch+json',
       });
   
-      // Realiza la solicitud GET con los parámetros en el objeto HttpParams
       return this.http.get<number[]>(url, { params, headers });
     }
-  }
-  
 
-  // Otros métodos según tus necesidades...
+    getNombresInstituciones(institutionIds: number[]): Observable<string[]> {
+      const url = `${this.URL}GetNombresInstituciones`;
+    
+      // Duplicate each ID in the array to create multiple instances of the 'ids' query parameter
+      const queryParams = institutionIds.map(id => `ids=${id}`).join('&');
+    
+      // Construct the final URL with the query parameters
+      const urlWithParams = `${url}?${queryParams}`;
+    
+      // Define headers with the appropriate content type
+      const headers = new HttpHeaders({
+        'Accept': '*/*',
+        'Content-Type': 'application/json-patch+json',
+      });
+    
+      return this.http.get<string[]>(urlWithParams, { headers });
+    }
+    
+    
+  }
+    
+  
