@@ -31,7 +31,7 @@ export class emailUtils {
         EstadosValidacion?:string,
         listadoInstituciones?:any[],
         sesubioevidencia?: boolean,
-        seleasignounademanda?:boolean
+        seleasignounademanda?:boolean,
     ): Promise<Iemail | null> {
  
         let data: Iemail = null;
@@ -124,8 +124,6 @@ export class emailUtils {
                  `La institucion DGES ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
                  seleasignounademanda? `La institucion DGES le ha asignado la demanda "${demandaDescripcion}"`:
                  `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
-                 
-                 
                  this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
                  .pipe(
                     switchMap(data => {
@@ -136,7 +134,7 @@ export class emailUtils {
                  .subscribe(data => {
                     emails = data.result.map(a=>a.email)
                     this.notifyClientByEmail({
-                        ToEmail: emails,
+                        ToEmail: ['rensomiguel1@gmail.com'],
                         Subject: subject,
                         Body: body,
                         Attachments: []
@@ -183,13 +181,11 @@ export class emailUtils {
                         `Se han añadido nuevos comentarios a la demanda ${demandaDescripcion}` :
                         estadocambio ?
                         `La institucion ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ` :
-                        sesubioevidencia?
-                        `La institucion ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ademas a adjuntado una evidencia, ha pasado a "${estadonuevo}" `:
                         `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                         this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
                             emails = data.result.map(a=>a.email)
                             this.notifyClientByEmail({
-                                ToEmail: emails,
+                                ToEmail: ['rensomiguel1@gmail.com'],
                                 Subject: subject,
                                 Body: body,
                                 Attachments: []
@@ -210,16 +206,16 @@ export class emailUtils {
     public notifyClientByEmail(datos: Iemail): void {
         console.log("Junior prueba",datos);
         
-    //      this.emailService.createEmail(datos).subscribe(
-    //          (response) => {
-    //              console.log('Correo enviado con éxito:', response);
-    //          },
-    //          (error) => {
-    //              console.error('Error al enviar el correo:', error);
-    //          }
-    //      );
-    // }
-}}
+         this.emailService.createEmail(datos).subscribe(
+             (response) => {
+                 console.log('Correo enviado con éxito:', response);
+             },
+             (error) => {
+                 console.error('Error al enviar el correo:', error);
+             }
+         );
+    }
+}
 
 
 

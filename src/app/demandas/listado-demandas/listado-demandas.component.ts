@@ -88,7 +88,7 @@ export class ListadoDemandasComponent
   reorderable: boolean = true;
   abierto: boolean;
   showStates = false;
-
+  sevalidoevidencia:boolean
   modalConfigFiles: IModalConfig = {
     modalTitle: "   ",
   };
@@ -1193,6 +1193,9 @@ export class ListadoDemandasComponent
     const EstadosValidacion = this.titleEstadoValidacion(this.demanda.estadoValidacionId)
     let datosToSendEmailNotify: Iemail
     console.log(idgrupousuario)
+    if(this.estadoDemanda == this.instEstado){
+      this.estadocambio = false
+    }
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       datosToSendEmailNotify = await EmailUtils.constructEmail(
         descripcionDemanda,
@@ -1249,20 +1252,32 @@ export class ListadoDemandasComponent
     let files = this.randyFile?.getFiles();
     if (files?.length > 0) {
       let formData = this.randyFileService.createFormData(files);
-      let fileIds = await this.randyFileService
-        .uploadFiles(formData)
-        .toPromise();
-      fileIds.forEach((fileId) => {
-        this.demanda.demandaAnexos.push({
-          demandaId: this.demanda.id,
-          fileId,
-          id: 0,
-          institucionId:this.institucionUsuarioEnRUDT
+    
+      this.randyFileService.uploadFiles(formData).toPromise()
+        .then(fileIds => {
+          fileIds.forEach((fileId) => {
+            this.demanda.demandaAnexos.push({
+              demandaId: this.demanda.id,
+              fileId,
+              id: 0,
+              institucionId: this.institucionUsuarioEnRUDT
+            });
+    
+            this.emailService.createEmail({
+              ToEmail: ['rensomiguel1@gmail.com'],
+              Subject: 'Evidencia demanda Subida',
+              Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}`,
+              Attachments: []
+            }).subscribe(() => {
+              console.log('Correo electrónico enviado después de cargar el archivo.');
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error al cargar archivos:', error);
+          // Puedes manejar errores aquí según tus necesidades
         });
-      });
-      this.sesubioevidencia = true
     }
-
     this.demanda.demandaComentarios = this.ComentariosList;
 
     this.demanda.institucionesInvolucradas.forEach((institucion) => {

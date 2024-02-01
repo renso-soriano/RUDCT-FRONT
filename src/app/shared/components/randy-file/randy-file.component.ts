@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { saveAs } from 'file-saver';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, switchMap } from 'rxjs/operators';
 import Archivo from 'app/demandas/interface/archivo.interface';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,12 @@ import { ModalComponent } from '../modal/modal.component';
 import { SweetAlertService } from '../sweet-alert/sweet-alert.service';
 import { AuthService } from 'app/shared/services/core/auth.service';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
+import emailUtils from 'app/shared/utilidades/email-utils';
+import { EmailService } from 'app/shared/services/email.service';
+import { SSOInstitucionService } from 'app/shared/services/mantenimientos/ssoInstituciones.services';
+import { SSOService } from 'app/shared/services/sso.service';
+import { Demanda } from 'app/shared/models/Demandas/Demanda.model';
+import { DemandasService } from 'app/shared/services/mantenimientos/demandas.service';
 
 @Component({
   selector: 'Randy-File',
@@ -43,9 +49,11 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   @Output() deleteFileExisting = new EventEmitter<any>()
   @Output() fileChangeType = new EventEmitter<any>()
   @Output() onSubmit = new EventEmitter<Observable<any>>()
+  demanda: Demanda;
 
 
   @Input() withModal: boolean = false
+  @Input() validarevidencia:boolean = false
   //#region Config
   fileLimit: number = environment.appMaxFileCount;
   fileType: Array<string> = environment.allowedFileTypes
@@ -57,7 +65,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   Validar_URL: String = environment.apiUrl + "DemandaAnexo"
   URL: string = environment.apiUrl;
 
-
+  datostransformados: number[];
   selected: Archivo[] = []
   loading: boolean = false
   uploader: FileUploader
@@ -82,7 +90,6 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   institucionUsuarioSSO: number;
   nombreInstitucionUsuarioEnRUDT: any;
   idInstitucionUsuarioEnRUDT: any;
-
   constructor(private toastr: ToastrService,
     private randyFileService: RandyFileService,
     private http: HttpClient,
@@ -91,7 +98,11 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private _sas: SweetAlertService,
     private authService :AuthService,
-    private dropDownService:DropDownServiceService
+    private dropDownService:DropDownServiceService,
+    private emailservice:EmailService,
+    private ssoservice:SSOService,
+    private ssoinstitucionService:SSOInstitucionService,
+    private demandasService: DemandasService,
   ) {
     // console.log("Ramdy File Init");
 
@@ -147,6 +158,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   validarDocumento(id: Archivo) {
     const idFrom = id;
     let modifyStatus = [{ from: 'DemandaAnexo', op: "replace", path: "estadoAnexo", value: true }];
+    console.log(this.selected.map(a=> a.institucionId))
     if (idFrom.estadoAnexo == false) {
       this._sas.AlertConfirm('Validación evidencias', 'Esta seguro que desea validar la evidencia?', 'question')
         .then((a) => {
@@ -156,7 +168,30 @@ export class RandyFileComponent implements OnInit, OnDestroy {
               this._sas.success('Documento Marcado Como valido Correctamente');
                 let index = this.selected.find(x => x.id === idFrom.id);
                 index.estadoAnexo = true
-              //TODO -> en vez de cerrar que actualize  la data que presenta
+                this.ssoinstitucionService.getSSOInstitucionIds(this.selected.map(a=> a.institucionId))
+                 .pipe(
+                    switchMap(data => {
+                        this.datostransformados = data
+                        return this.ssoservice.GetPersonByInstitutionId(this.datostransformados,1003)
+                    })
+                 ).subscribe(data=> {
+                  this.emailservice.createEmail({
+                    ToEmail: data.result.map(a=>a.email),
+                    Subject:'Evidencia demanda realizada',
+                    Body: `La institucion DGES le ha validado su evidencia para una de las demandas asignadas `,
+                    Attachments: []
+                }).subscribe(
+                (response) => {
+                  console.log('Correo enviado con éxito:', response);
+                },
+                 (error) => {
+                  console.error('Error al enviar el correo:', error);
+                }
+                  )
+                 }
+                 )
+               
+                //TODO -> en vez de cerrar que actualize  la data que presenta
               }
             })
           }
