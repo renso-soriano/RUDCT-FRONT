@@ -170,13 +170,12 @@ export class emailUtils {
                 break;
                 }
                 case GrupoUsuario.institucionalRUDT:
-                    subject = hayComentarios && estadocambio && sesubioevidencia ? 'nuevos comentarios registrados, estado cambiados y evidencia subida en las demanda' :
+                    subject = hayComentarios && estadocambio? `nuevos comentarios registrados y estado cambiado la demanda ${demandaDescripcion}, verificar la evidencia si existe` :
                               hayComentarios ? 'Nuevo comentario registrado en las demanda' :
                               estadocambio ? 'Estado de demanda cambiado' :
-                              sesubioevidencia ? 'Nueva evidencia subida'
-                              : 'Se ha hecho una modificación en la demanda';
-                    body = hayComentarios && estadocambio && sesubioevidencia ?
-                        `La institucion ${institucion} ha realizado nuevos comentarios,ha subido evidencia y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}"` :
+                               'Se ha hecho una modificación en la demanda';
+                    body = hayComentarios && estadocambio ?
+                        `La institucion ${institucion} ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}"` :
                         hayComentarios ?
                         `Se han añadido nuevos comentarios a la demanda ${demandaDescripcion}` :
                         estadocambio ?

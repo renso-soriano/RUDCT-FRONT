@@ -105,7 +105,6 @@ export class ListadoDemandasComponent
   @Output() anexosDemandas = new EventEmitter<any>();
   @Input() listaDeAnexos: Archivo[];
   @Input() isDetail: boolean = false;
-
   // public
   public contentHeader: object;
   isModalOpen: boolean = false;
@@ -118,6 +117,8 @@ export class ListadoDemandasComponent
   @ViewChild("content") content: ElementRef<HTMLElement>;
   //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
+
+  @Input() demandaSeleccionada : any;
   files: any[] = [];
   listadoEstados: Observable<any[]>;
   nuevosAnexos: any[] = [];
@@ -398,8 +399,6 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
-    const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
-    console.log('este es mi grupo',this.authService.getPersona())
     this.ssoService.getPersonByGroupId(3022,1003).subscribe(
      data => {
        console.log(`GetPersonaID`,data)
@@ -774,6 +773,8 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
+      console.log('este es mi grupo',this.rows)
+      
     });
 
   }
@@ -1024,6 +1025,7 @@ export class ListadoDemandasComponent
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
+
         if (this.usuarioInstitucional) {
           this.demanda.institucionesInvolucradas.forEach((institucion) => {
             const idRudt = parseInt(this.institucionUsuarioEnRUDT);
@@ -1233,6 +1235,22 @@ export class ListadoDemandasComponent
     }
 
   }
+
+  verificarEvidenciaSubida(){
+    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+      let emails = data.result.map(a=>a.email)
+    this.emailService.createEmail({
+      ToEmail: ['rensomiguel1@gmail.com'],
+      Subject: 'Evidencia demanda Subida',
+      Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}, el estado es ${this.estadoDemanda}`,
+      Attachments: []
+    }).subscribe(() => {
+      console.log('Correo electrónico enviado después de cargar el archivo.');
+    })});
+  }
+
+
+
   async enviar() {
     const formValue = this.estadoForm.value;
 
@@ -1262,15 +1280,7 @@ export class ListadoDemandasComponent
               id: 0,
               institucionId: this.institucionUsuarioEnRUDT
             });
-    
-            this.emailService.createEmail({
-              ToEmail: ['rensomiguel1@gmail.com'],
-              Subject: 'Evidencia demanda Subida',
-              Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}`,
-              Attachments: []
-            }).subscribe(() => {
-              console.log('Correo electrónico enviado después de cargar el archivo.');
-            });
+            this.verificarEvidenciaSubida()
           });
         })
         .catch(error => {
