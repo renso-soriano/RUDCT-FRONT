@@ -152,6 +152,7 @@ export class ListadoDemandasComponent
   instEstado: any;
   accionesresult: string;
   email:number;
+  demandaString:string = ""
   modalConfig: IModalConfig = {
     modalTitle: "     ",
   };
@@ -773,7 +774,7 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
-      console.log('este es mi grupo',this.rows)
+      console.log('este es mi grupo',this.demanda)
       
     });
 
@@ -1025,7 +1026,8 @@ export class ListadoDemandasComponent
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
-
+        this.demandaString = this.demanda.descripcion;
+        console.log(this.demandaString, "DEMOOO con randy ");
         if (this.usuarioInstitucional) {
           this.demanda.institucionesInvolucradas.forEach((institucion) => {
             const idRudt = parseInt(this.institucionUsuarioEnRUDT);
@@ -1057,6 +1059,8 @@ export class ListadoDemandasComponent
         }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile();
+        this.demandaId = id;
+        this.modalAnexo.open();
         // console.log("Lista de Anexos", this.files);
       },
       (err: any) => {
@@ -1065,8 +1069,8 @@ export class ListadoDemandasComponent
       },
       () => { }
     );
-    this.demandaId = id;
-    this.modalAnexo.open();
+    // this.demandaId = id;
+    // this.modalAnexo.open();
     // this.modalService.open(content, {
     //   centered: true,
     //   backdrop: "static",

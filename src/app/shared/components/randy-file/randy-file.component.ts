@@ -49,8 +49,12 @@ export class RandyFileComponent implements OnInit, OnDestroy {
   @Output() deleteFileExisting = new EventEmitter<any>()
   @Output() fileChangeType = new EventEmitter<any>()
   @Output() onSubmit = new EventEmitter<Observable<any>>()
-  demanda: Demanda;
+  demandaName: string;
+  @Input() set demandaString (value:string ){
 
+    console.log(value, "KLK");
+    this.demandaName = value
+  }   
 
   @Input() withModal: boolean = false
   @Input() validarevidencia:boolean = false
@@ -178,7 +182,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
                   this.emailservice.createEmail({
                     ToEmail: data.result.map(a=>a.email),
                     Subject:'Evidencia demanda realizada',
-                    Body: `La institucion DGES le ha validado su evidencia para una de las demandas asignadas `,
+                    Body: `La institucion DGES le ha validado su evidencia para una de las demandas asignadas ${this.demandaName} `,
                     Attachments: []
                 }).subscribe(
                 (response) => {
@@ -257,7 +261,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
 
     this.dropdownFileType();
-
+    console.log('esta es la demanda',this.demandaName)
 
     this.dropDownService
       ?.getInstitucionById(this.institucionUsuarioSSO)
