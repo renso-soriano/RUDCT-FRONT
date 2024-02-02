@@ -989,6 +989,11 @@ export class ListadoDemandasComponent
       .then((res: any) => {
         this.mapFiles(res);
       });
+    this.demandasService.getDemandaById(demandaId).subscribe(
+      data =>{
+        this.demandaString = data.descripcion
+      }
+    )
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
   }
@@ -1275,8 +1280,9 @@ export class ListadoDemandasComponent
     if (files?.length > 0) {
       let formData = this.randyFileService.createFormData(files);
     
-      this.randyFileService.uploadFiles(formData).toPromise()
-        .then(fileIds => {
+      let fileIds = await this.randyFileService
+      .uploadFiles(formData)
+      .toPromise();
           fileIds.forEach((fileId) => {
             this.demanda.demandaAnexos.push({
               demandaId: this.demanda.id,
@@ -1286,12 +1292,8 @@ export class ListadoDemandasComponent
             });
             this.verificarEvidenciaSubida()
           });
-        })
-        .catch(error => {
-          console.error('Error al cargar archivos:', error);
-          // Puedes manejar errores aquí según tus necesidades
-        });
-    }
+      }
+    
     this.demanda.demandaComentarios = this.ComentariosList;
 
     this.demanda.institucionesInvolucradas.forEach((institucion) => {

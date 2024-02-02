@@ -181,7 +181,7 @@ export class RandyFileComponent implements OnInit, OnDestroy {
                  ).subscribe(data=> {
                   this.emailservice.createEmail({
                     ToEmail: data.result.map(a=>a.email),
-                    Subject:'Evidencia demanda realizada',
+                    Subject:'Evidencia demanda Validada',
                     Body: `La institucion DGES le ha validado su evidencia para una de las demandas asignadas ${this.demandaName} `,
                     Attachments: []
                 }).subscribe(
