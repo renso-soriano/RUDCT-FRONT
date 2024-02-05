@@ -400,14 +400,6 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
-    this.ssoService.getPersonByGroupId(3022,1003).subscribe(
-     data => {
-       console.log(`GetPersonaID`,data)
-      },
-     error =>{
-       console.error(error)
-     }
-   )
     this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
@@ -416,7 +408,7 @@ export class ListadoDemandasComponent
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
-
+    console.log(this.authService.getUserId(),'klk grupo')
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(
         (x) =>

@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-12 ">
+      <div class="w-100 d-flex justify-content-end ">
+        <a [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
+          title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
+            nuevo video</i></a>
+      </div>
+    </div>
+  </div>
+
+<app-listado-videos></app-listado-videos>
+
+
+<div class="row">
+    <div class="col-12">
+      <div class="w-100 d-flex justify-content-end">
+        <button class="btn btn-primary btn-sm ml-1" (click)="openModal()">
+          <i class="fa fa-plus-circle"></i> Agregar nuevo documento
+        </button>
+        <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
+          <Randy-File #randyFile></Randy-File>
+        </UIModal>
+        <div class="modal-footer">
+            <a [routerLink]="['/demandas']" class="btn btn-primary" (click)="closeModalSimple()"><span>Volver a
+                listado</span>
+            </a>
+    
+            <input type="button" value="Continuar" class="btn btn-success"
+              (click)="closeModal()">
+          </div>
+    
+      </div>
+    </div>
+  </div>
+  
+
+  <a>KLK</a>

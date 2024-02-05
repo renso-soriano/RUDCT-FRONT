@@ -1,0 +1,6 @@
+<div class="col-12"
+*ngIf="gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) && EF.estado?.value > this.estadoEjecucionEnum?.reasignacionSectorial">
+<Randy-File #randyFile [withModal]="false" [demandaString]="demandaString"  [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
+  (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
+</div>
+
