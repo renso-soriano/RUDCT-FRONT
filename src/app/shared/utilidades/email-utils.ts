@@ -118,11 +118,11 @@ export class emailUtils {
                 estadocambio ? 'Estado cambiado' :
                 seleasignounademanda?    'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda'
                 body = hayComentarios && estadocambio ?
-                `La institucion DGES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
-                hayComentarios ?    `La institucion DGES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
+                `La institucion DGDES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
+                hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
                 estadocambio ?
-                 `La institucion DGES ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
-                 seleasignounademanda? `La institucion DGES le ha asignado la demanda "${demandaDescripcion}"`:
+                 `La institucion DGDES ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
+                 seleasignounademanda? `La institucion DGDES le ha asignado la demanda "${demandaDescripcion}"`:
                  `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                  this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
                  .pipe(
@@ -150,11 +150,11 @@ export class emailUtils {
                       seleasignounademanda ? 'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda';
                   
                     body = hayComentarios && estadocambio ?
-                      `La institución DGES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}"` :
+                      `La institución DGDES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}"` :
                       hayComentarios ?
-                        `La institución DGES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
+                        `La institución DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
                         estadocambio ?
-                          `La institución DGES ha cambiado el estado de validación en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}" favor revisar la demanda y enviarla de nuevo` :
+                          `La institución DGDES ha cambiado el estado de validación en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}" favor revisar la demanda y enviarla de nuevo` :
                           `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                   
                     this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {

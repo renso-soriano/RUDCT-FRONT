@@ -1,12 +1,10 @@
-import { ComingSoonPageComponent } from '../pages/content-pages/coming-soon/coming-soon-page.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoleGuard } from 'app/shared/guards/role.guard';
 import { ListadoDocumentosComponent } from './listado-documentos/listado-documentos.component';
+import { CrearDocumentosComponent } from './crear-documentos/crear-documentos.component';
 
 
-const routes: Routes =
-[
+const routes: Routes = [
   {
     path: '',
     children:
@@ -14,6 +12,16 @@ const routes: Routes =
       {
         path: '',
         component: ListadoDocumentosComponent
+        
+      },
+      {
+        path: 'Create',
+        component: CrearDocumentosComponent
+        
+      },
+      {
+        path: 'Edit:/Id',
+        component: CrearDocumentosComponent
         
       }
     ]

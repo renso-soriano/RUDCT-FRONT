@@ -44,6 +44,7 @@ import { RandyFileComponent } from './components/randy-file/randy-file.component
 import { FileUploadModule } from 'ng2-file-upload';
 import { ModalComponent } from './components/modal/modal.component';
 import { EstadoUtilsService } from './utilidades/estados-utils';
+import { NGXToastrService } from './services/ngxtoastr.service';
 
 @NgModule({
     exports: [
@@ -64,7 +65,8 @@ import { EstadoUtilsService } from './utilidades/estados-utils';
         LeafletModule,
         RandyFileComponent,
         ModalComponent,
-        RegionChartComponent
+        RegionChartComponent,
+        
     ],
     imports: [
         RouterModule,

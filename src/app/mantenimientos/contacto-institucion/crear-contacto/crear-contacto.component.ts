@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ContactoInsticionalService } from "app/shared/services/mantenimientos/contacto-institucion.service";
 import { NGXToastrService } from "app/shared/services/ngxtoastr.service";
 import { Observable } from "rxjs";
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from 'ngx-spinner';
 import { IcontactoInstitucional } from "app/shared/models/iContactoInstitucional.model";
 import { AuthService } from "app/shared/services/core/auth.service";
 import { SSOInstitucionService } from '../../../shared/services/mantenimientos/ssoInstituciones.services';

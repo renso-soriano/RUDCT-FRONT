@@ -1242,8 +1242,8 @@ export class ListadoDemandasComponent
       let emails = data.result.map(a=>a.email)
     this.emailService.createEmail({
       ToEmail: ['rensomiguel1@gmail.com'],
-      Subject: 'Evidencia demanda Subida',
-      Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}, el estado es ${this.estadoDemanda}`,
+      Subject: 'Evidencia Demanda Subida',
+      Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}`,
       Attachments: []
     }).subscribe(() => {
       console.log('Correo electrónico enviado después de cargar el archivo.');

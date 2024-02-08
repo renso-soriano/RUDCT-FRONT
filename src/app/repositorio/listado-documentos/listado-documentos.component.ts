@@ -35,7 +35,6 @@ export class ListadoDocumentosComponent implements OnInit {
   }
 
   closeModal() {
-    this.submit();
     this.isModalOpen = false;
   }
 
