@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
 import { IcontactoInstitucional } from 'app/shared/models/iContactoInstitucional.model';
+import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
 import { DropDownServiceService } from 'app/shared/services/drop-down-service.service';
 import { ContactoInsticionalService } from 'app/shared/services/mantenimientos/contacto-institucion.service';
 import { NGXToastrService } from 'app/shared/services/ngxtoastr.service';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
+import { RepositorioAnexoService } from '../../shared/services/repositorio.service';
+import Archivo from 'app/demandas/interface/archivo.interface';
+import { HttpResponse } from '@angular/common/http';
 
 
 @Component({
@@ -18,27 +22,35 @@ import { Observable } from 'rxjs';
 })
 export class CrearDocumentosComponent implements OnInit {
   @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
+  documentoEvent: Event | undefined;
+  fotoEvent: Event | undefined;
 
   constructor(
-    private randyFileService: RandyFileService,
     private formBuilder: FormBuilder,
     private serviceStr: NGXToastrService,
-    private contactoinstitucionalservice: ContactoInsticionalService,
-    private dropDownService: DropDownServiceService,
+    private repositorioanexoService: RepositorioAnexoService,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      if (params.has("Id")) {
+        this.getDocumentoParaEditar(parseInt(params.get("Id")));
+        this.typeEdit = true;
+      }
+    });
+    this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
+
   }
 
-  contacto: IcontactoInstitucional;
+  repositorio: IRepositorioAnexo;
   notFound = false;
   institucion: Observable<any[]>;
   mode: string;
   typeEdit: boolean;
-  institucionids:number
-  nombreinstitucion:string
+  selected: Archivo[] = []
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
@@ -47,6 +59,9 @@ export class CrearDocumentosComponent implements OnInit {
   });
 
   //getters
+  get id() {
+    return this.registerForm.get("id");
+  }
   get nombre() {
     return this.registerForm.get("nombre");
   }
@@ -58,163 +73,191 @@ export class CrearDocumentosComponent implements OnInit {
   }
 
 
-
-  getContactoParaEditar(Id: number) {
-    this.notFound = false;
-    this.contacto = null;
-
-    this.contactoinstitucionalservice.getContactosInstitucionById(Id).subscribe(
-      (contactoinstitucionalfromapi: IcontactoInstitucional) => {
-        this.contacto = contactoinstitucionalfromapi;
-
-
-        this.registerForm.patchValue({
-          nombre: this.contacto.nombre,
-          apellido: this.contacto.apellido,
-          estatus: this.contacto.estatus,
-          id: this.contacto.id,
-          funcion:this.contacto.funcion,
-          telefono: this.contacto.telefono,
-          extension: this.contacto.extension,
-          email: this.contacto.email,
-          institucionId: this.contacto.institucionId,
-          essectorial:this.contacto.EsSectorial,
-          direccion:this.contacto.direccion,
-        });
-        console.log(this.contacto);
-      },
-      (err: any) => {
-        console.error(err);
-        this.notFound = true;
-      }
-    );
-    console.log(this.contacto)
+ guardarDocumento(event: Event) {
+    this.documentoEvent = event;
   }
 
-
-  getInstitucion() {
-    this.institucion = this.dropDownService.getInstituciones();
+  guardarFoto(event: Event) {
+    this.fotoEvent = event;
   }
+
+  // getContactoParaEditar(Id: number) {
+  //   this.notFound = false;
+  //   this.contacto = null;
+
+  //   this.contactoinstitucionalservice.getContactosInstitucionById(Id).subscribe(
+  //     (contactoinstitucionalfromapi: IcontactoInstitucional) => {
+  //       this.contacto = contactoinstitucionalfromapi;
+
+
+  //       this.registerForm.patchValue({
+  //         nombre: this.contacto.nombre,
+  //         apellido: this.contacto.apellido,
+  //         estatus: this.contacto.estatus,
+  //         id: this.contacto.id,
+  //         funcion:this.contacto.funcion,
+  //         telefono: this.contacto.telefono,
+  //         extension: this.contacto.extension,
+  //         email: this.contacto.email,
+  //         institucionId: this.contacto.institucionId,
+  //         essectorial:this.contacto.EsSectorial,
+  //         direccion:this.contacto.direccion,
+  //       });
+  //       console.log(this.contacto);
+  //     },
+  //     (err: any) => {
+  //       console.error(err);
+  //       this.notFound = true;
+  //     }
+  //   );
+  //   console.log(this.contacto)
+  // }
+
 
   
 
-  getinstbyid(institucionId: number) {
-    this.institucion = this.dropDownService.getInstitucionById(institucionId);
-  }
-  
+
   imageSeleted(foto:any){
     console.log(foto.target.files[0], "La foto");
-    console.log(this.registerForm.controls['foto'], "la foto ")
+    console.log(this.registerForm.controls['foto'], "la foto control")
+    console.log(this.registerForm.controls['documento'], "el documento")
+
   }
 
   submit() {
-    // if (!this.registerForm.valid) {
-    //   this.serviceStr.typeError(
-    //     "Alguna regla de validación no se está cumpliendo"
-    //   );
-    //   return;
-    // }
-    // const contacto:IcontactoInstitucional = {
-    //   id: this.id.value,
-    //   estatus: this.estatus.value,
-    //   funcion: this.funcion.value,
-    //   EsSectorial: 1,
-    //   nombre: this.nombre.value,
-    //   apellido: this.apellido.value,
-    //   telefono: this.telefono.value,
-    //   extension: this.extension.value,
-    //   email: this.email.value,
-    //   direccion:this.direccion.value,
-    //   institucionId: this.institucionids,
-    // };
-    // console.log('yo tengo una adiccion, a los contactoss',contacto);
+    if (!this.registerForm.valid) {
+      this.serviceStr.typeError(
+        "Alguna regla de validación no se está cumpliendo"
+      );
+      return;
+    }
+    const nombredocumento = this.documento.value.split('\\').pop();
+    const nombrefoto = this.foto.value.split('\\').pop();
 
-    // this.spinner.show();
+    const repositorio:IRepositorioAnexo = {
+      photoPath: nombrefoto,
+      documentPath: nombredocumento,
+      documentName: this.nombre.value
+    };
+    console.log('yo tengo una adiccion, a los repositorio',repositorio);
 
-    // if (this.typeEdit) {
-    //   contacto.id = this.contacto.id;
-    //   this.contactoinstitucionalservice
-    //     .updateContactosInstitucion(contacto)
-    //     .toPromise()
-    //     .then((res: any) => {
-    //       setTimeout(() => {
-    //         this.serviceStr.typeSuccess("El contacto se actualizó con éxito");
-    //         this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
-    //         this.spinner.hide();
-    //       }, 1000);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err.message);
-    //       this.serviceStr.typeError(
-    //         "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
-    //       );
-    //       this.spinner.hide();
-    //     });
-    // } else {
-    //   this.contactoinstitucionalservice
-    //     .createContactosInstitucion(contacto)
-    //     .toPromise()
-    //     .then((res: any) => {
-    //       setTimeout(() => {
-    //         this.serviceStr.typeSuccess("El contacto  se registró con éxito");
-    //         this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
-    //         this.spinner.hide();
-    //       }, 1000);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       this.serviceStr.typeError(
-    //         "Ocurrió un error inesperado al guardar el contacto, contacte con Soporte TIC"
-    //       );
-    //       this.spinner.hide();
-    //     });
-    // }
+    this.spinner.show();
 
+    if (this.typeEdit) {
+      repositorio.id = this.repositorio.id;
+      this.repositorioanexoService
+        .updateDocumentosRepositorio(repositorio)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("El documento se actualizó con éxito");
+            this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err.message);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    } else {
+      this.repositorioanexoService
+        .createDocumentosRepositorio(repositorio)
+        .toPromise()
+        .then((res: any) => {
+          setTimeout(() => {
+            this.serviceStr.typeSuccess("El repositorio se registró con éxito");
+            this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
+            this.spinner.hide();
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.serviceStr.typeError(
+            "Ocurrió un error inesperado al guardar el contacto, contacte con Soporte TIC"
+          );
+          this.spinner.hide();
+        });
+    }
+    this.submitDocument()
   }
 
   refrescar() {
     this.registerForm.reset();
   }
-  mapFile() {
-    //  let file = this.listaDeAnexos;
-    // this.demanda.demandaAnexos.forEach((item: any) => {
-    //   this.files.push({
-    //     file: {
-    //       ...item?.file,
-    //     },
-    //     tipoDocumentoId: item.file.fileType.id.toString(),
-    //     id: item.id,
-    //     entityId: item?.demandaId,
-    //     institucionNombre: item?.institucionNombre,
-    //     institucionId: item?.institucionId,
-    //   });
-    // });
-  }
   
-   async enviar(params) {
-    let files = this.randyFile?.getFiles();
-    if (files?.length > 0) {
-      let formData = this.randyFileService.createFormData(files);
-      let fileIds = await this.randyFileService
-      .uploadFiles(formData)
-      .toPromise();
-          fileIds.forEach((fileId) => {
-            // this.demanda.demandaAnexos.push({
-            //   demandaId: this.demanda.id,
-            //   fileId,
-            //   id: 0,
-            //   institucionId: this.institucionUsuarioEnRUDT
-            // });
-          });
+  
+  
+  submitDocument() {
+  
+  if (!this.documentoEvent && !this.fotoEvent) {
+    // No hay archivos para subir
+    return;
+  }
+
+  const formData = new FormData();
+
+  // Agregar archivos del primer conjunto (this.documentoEvent)
+  if (this.documentoEvent) {
+    const filesDocumento: FileList | null = (this.documentoEvent.target as HTMLInputElement).files;
+    if (filesDocumento && filesDocumento.length > 0) {
+      Array.from(filesDocumento).forEach(file => {
+        formData.append('ficheros', file);
+      });
     }
   }
- 
 
+  // Agregar archivos del segundo conjunto (this.fotoEvent)
+  if (this.fotoEvent) {
+    const filesFoto: FileList | null = (this.fotoEvent.target as HTMLInputElement).files;
+    if (filesFoto && filesFoto.length > 0) {
+      Array.from(filesFoto).forEach(file => {
+        formData.append('ficheros', file);
+      });
+    }
+  }
 
+  // Imprimir el FormData completo en la consola
+  console.log('Contenido del FormData:', formData);
 
+  this.repositorioanexoService.subirDocumentos(formData).subscribe(
+    (response) => {
+      // Manejar la respuesta del backend si es necesario
+      console.log('Documentos subidos con éxito', response);
+      this.serviceStr.typeSuccess("Los documentos se han subido correctamente");
+    },
+    (error) => {
+      // Manejar el error si ocurre
+      console.error('Error al subir los documentos', error);
+      this.serviceStr.typeError("Ocurrió un error al subir los documentos. Por favor, inténtalo de nuevo más tarde.");
+    }
+  );
+}
 
+getDocumentoParaEditar(Id: number) {
+  this.notFound = false;
+  this.repositorio = null;
 
+  this.repositorioanexoService.getDocumentosRepositorioById(Id).subscribe(
+    (contactoinstitucionalfromapi: IRepositorioAnexo) => {
+      this.repositorio = contactoinstitucionalfromapi;
 
+      this.registerForm.patchValue({
+        nombre: this.repositorio.documentName,
+        documento: this.repositorio.documentPath,
+        foto: this.repositorio.photoPath
+      });
+      console.log(this.repositorio);
+    },
+    (err: any) => {
+      console.error(err);
+      this.notFound = true;
+    }
+  );
+  console.log(this.repositorio)
+}
 
 
 

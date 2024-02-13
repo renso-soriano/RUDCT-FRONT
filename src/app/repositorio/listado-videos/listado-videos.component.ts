@@ -1,15 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { RepositorioVideoService } from 'app/shared/services/mantenimientos/repositoriovideo.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router} from '@angular/router';
+import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
+
 
 @Component({
   selector: 'app-listado-videos',
   templateUrl: './listado-videos.component.html',
   styleUrls: ['./listado-videos.component.scss']
 })
-export class ListadoVideosComponent implements OnInit {
 
-  constructor() { }
+export class ListadoVideosComponent implements OnInit {
+  Id: number[];
+  typeEdit: boolean;
+  notFound: boolean;
+  constructor(
+    private repositorioVideoService: RepositorioVideoService,
+    private sanitizer: DomSanitizer,
+    private router: Router
+  ) { }
+
+  public videoslist: any
+  public nombrevideo:any
+  mode: string;
 
   ngOnInit(): void {
+    this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
+
+    this.llamarVideos()
   }
+
+  llamarVideos() {
+    this.repositorioVideoService.getRepositorioVideo().subscribe(
+      data => {
+        this.videoslist = data.map(a => this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(a.enlace)));
+        this.nombrevideo = data.map(a =>a.nombre );
+        this.Id = data.map(a =>a.id );
+      },
+      error => {
+        console.error('Error al obtener los documentos del repositorio:', error);
+      }
+    );
+  }
+
+  redirectToRepositorio(): void {
+    this.router.navigate(['/repositorio']);
+  }
+  redirectToSave(): void {
+    this.router.navigate(['/repositorio/Createvideos/']);
+  }
+  
+
+  extractVideoId(url: string): string {
+    // Extraer el ID del video de la URL de YouTube
+    const videoId = url.split('v=')[1];
+    // Si hay parámetros adicionales en la URL, separamos el ID del video
+    // para asegurarnos de obtener solo el ID del video
+    const ampersandPosition = videoId.indexOf('&');
+    if (ampersandPosition !== -1) {
+      return videoId.substring(0, ampersandPosition);
+    }
+    return videoId;
+  }
+  editar(Id: string) {
+    this.router.navigate(["/repositorio/EditVideo/",Id]);
+  }
+  eliminar(id: string) {
+    alertFunctions.EliminarRegistro("/repositorio",this.repositorioVideoService.deleteRepositorioVideo(id));
+  }
+
 
 }

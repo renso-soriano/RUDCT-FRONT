@@ -20,7 +20,6 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../consolidacion/consolidacion.module').then(m => m.ConsolidacionModule)
   },
   {
-    canActivate: [RoleGuard],
     path: 'repositorio',
     loadChildren: () => import('../../repositorio/repositorio.module').then(m => m.RepositorioModule)
   },

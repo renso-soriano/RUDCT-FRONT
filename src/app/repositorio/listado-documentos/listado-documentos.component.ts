@@ -3,7 +3,9 @@ import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
 import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
-import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
+import { RepositorioAnexoService } from '../../shared/services/repositorio.service';
+import { Router } from '@angular/router';
+import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
 
 @Component({
   selector: 'app-listado-documentos',
@@ -16,8 +18,15 @@ export class ListadoDocumentosComponent implements OnInit {
   isModalOpen: boolean = false;
 
   constructor(
-    private randyFileService: RandyFileService,
+    private repositorioAnexoService: RepositorioAnexoService,
+    private router: Router
+
   ) { }
+
+  public photo: any
+  public documentname: any
+  public documentpath: any
+  public id: number[]
 
   modalConfigFiles: IModalConfig = {
     modalTitle: "Agregar nuevo documento",
@@ -39,38 +48,35 @@ export class ListadoDocumentosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.llamarDocumentos()
+   }
+
+   editar(Id: string) {
+    this.router.navigate(["/repositorio/Edit/",Id]);
   }
-  mapFile() {
-    //  let file = this.listaDeAnexos;
-    // this.demanda.demandaAnexos.forEach((item: any) => {
-    //   this.files.push({
-    //     file: {
-    //       ...item?.file,
-    //     },
-    //     tipoDocumentoId: item.file.fileType.id.toString(),
-    //     id: item.id,
-    //     entityId: item?.demandaId,
-    //     institucionNombre: item?.institucionNombre,
-    //     institucionId: item?.institucionId,
-    //   });
-    // });
+  eliminar(id: string) {
+    alertFunctions.EliminarRegistro("/repositorio",this.repositorioAnexoService.deleteDocumentosRepositorio(id));
+  }
+
+
+
+
+  llamarDocumentos() {
+  this.repositorioAnexoService.getDocumentosRepositorio().subscribe(
+      data => {
+        this.documentname = data.map(a=>a.documentName)
+        this.documentpath = data.map(a=>'https://localhost:5001/files/' + a.documentPath)
+        this.photo = data.map(a=>'https://localhost:5001/files/' + a.photoPath)
+        this.id = data.map(a=>a.id)
+        console.log('se murio yorch',this.photo)
+        console.log('se murio yorch 2',this.documentname)
+
+
+   },
+   error => {
+        console.error('Error al obtener los documentos del repositorio:', error);
+      }
+    );
   }
   
-   async enviar(params) {
-    let files = this.randyFile?.getFiles();
-    if (files?.length > 0) {
-      let formData = this.randyFileService.createFormData(files);
-      let fileIds = await this.randyFileService
-      .uploadFiles(formData)
-      .toPromise();
-          fileIds.forEach((fileId) => {
-            // this.demanda.demandaAnexos.push({
-            //   demandaId: this.demanda.id,
-            //   fileId,
-            //   id: 0,
-            //   institucionId: this.institucionUsuarioEnRUDT
-            // });
-          });
-    }
-
-}}
+  }

@@ -12,6 +12,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CrearDocumentosComponent } from './crear-documentos/crear-documentos.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
+import { CrearVideosComponent } from "./crear-videos/crear-videos.component";
 
 
 
@@ -19,7 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     CrearDocumentosComponent,
     ListadoDocumentosComponent,
-    ListadoVideosComponent
+    ListadoVideosComponent,
+    CrearVideosComponent
   ],
   imports: [
     CommonModule,

@@ -1,23 +1,47 @@
-<div class="row">
-    <div class="col-12 ">
-      <div class="w-100 d-flex justify-content-end ">
-        <a [routerLink]="['/demandas/registroDemandas']" data-toggle="tooltip" data-placement="bottom"
-          title="Nueva Demanda" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
-            nuevo video</i></a>
-      </div>
-    </div>
-  </div>
+<h1>Documentos</h1>
 
-<app-listado-videos></app-listado-videos>
-<hr>
+
 <div class="row">
-  <div class="col-12 ">
-    <div class="w-100 d-flex justify-content-end ">
+  <div class="col-12">
+    <div class="d-flex justify-content-end">
+      <a [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
+        title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Agregar nuevo video
+      </a>
       <a [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Documento" class="btn btn btn-primary btn-sm ml-1 "><i class="fa fa-plus-circle"> Agregar
-          nuevo documento</i></a>
+        title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Agregar nuevo documento
+      </a>
+      <a [routerLink]="['listadovideo']" data-toggle="tooltip" data-placement="bottom"
+        title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Ver Videos
+      </a>
     </div>
   </div>
 </div>
 
-  <a>KLK</a>
+<div class="card-group">
+  <div class="card-deck">
+    <ng-container *ngFor="let nombreArchivo of photo; let i = index">
+      <div class="col-3 mt-3" >
+        <div class="card mb-3" style="width: auto; height: auto">
+          <img [src]="nombreArchivo" alt="Imagen" class="card-img-top" style="width: 100%; height: 50%; object-fit: fill;">
+          <div class="card-body">
+            <p class="card-text">Documentos de inducción</p>
+            <h5 class="card-title">{{ documentname[i] }}</h5>
+            <div class="card">
+              <a [href]="documentpath[i]" class="btn btn-primary">Descargar</a>
+              <br>
+              <a (click)="editar(id[i])"  class="btn btn-info">Editar</a>
+              <br>
+              <a (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Agregar un margen cada tres elementos -->
+    </ng-container>
+  </div>
+</div>
+
+

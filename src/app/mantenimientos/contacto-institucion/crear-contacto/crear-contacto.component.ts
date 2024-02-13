@@ -106,6 +106,10 @@ export class CrearContactoComponent implements OnInit {
     return this.registerForm.get("direccion");
   }  
 
+  get area() {
+    return this.registerForm.get("area");
+  }  
+
 
 
   getContactoParaEditar(Id: number) {

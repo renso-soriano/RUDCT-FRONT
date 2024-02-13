@@ -45,6 +45,9 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { ModalComponent } from './components/modal/modal.component';
 import { EstadoUtilsService } from './utilidades/estados-utils';
 import { NGXToastrService } from './services/ngxtoastr.service';
+import { PrevDirective } from './directives/prev.directive';
+import { NextDirective } from './directives/next.directive';
+import { ImageUndefinedDirective } from './directives/image-undefined.directive';
 
 @NgModule({
     exports: [
@@ -108,12 +111,16 @@ import { NGXToastrService } from './services/ngxtoastr.service';
         TopMenuLinkDirective,
         TopMenuDropdownDirective,
         TopMenuAnchorToggleDirective,
+        PrevDirective,
+        NextDirective,
         TopMenuDirective,
         DataFilterComponent,
         MapaComponent,
         RandyFileComponent,
         ModalComponent,
         RegionChartComponent,
+        ImageUndefinedDirective,
+
     ],
     providers: [DecimalPipe],
 })

@@ -120,18 +120,22 @@ export class ListadoContactoComponent implements OnInit {
    */
   filterUpdate(event) {
     const val = event.target.value.toLowerCase();
-
+  
     // filter our data
     const temp = this.tempData.filter(function (d) {
-      return d.nombre.toLowerCase().indexOf(val) !== -1 || !val;
+      // Check if at least one element of institucionNombre meets the criteria after converting to lowercase
+      return d.institucionNombre.some(function(data) {
+        return data.toLowerCase().includes(val);
+      });
     });
-
+      
     // update the rows
     this.rows = temp;
+    
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
-
+  
   /**
    * rowDetailsToggleExpand
    *

@@ -44,7 +44,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="documento">Subir documento</label>
-                      <input type="file" class="form-control-file" name="documento" id="documento" formControlName="documento">
+                      <input type="file" (click)="guardarDocumento($event)" class="form-control-file" name="documento" id="documento" formControlName="documento">
 
                       <div *ngIf="documento.invalid && (documento.dirty || documento.touched)"
                         class="help-block mt-1 text-danger">
@@ -70,7 +70,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="telefono">Subir foto del documento</label>
-                      <input type="file" (change)="imageSeleted($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
+                      <input type="file" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
                       <div *ngIf="foto.invalid && (foto.dirty || foto.touched)"
                         class="help-block mt-1 text-danger">
 

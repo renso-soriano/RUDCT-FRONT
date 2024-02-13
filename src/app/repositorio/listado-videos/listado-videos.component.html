@@ -1,1 +1,36 @@
-<p>listado-videos works!</p>
+
+<h1>Lista de Videos</h1>
+
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-end">
+      <a (click)="redirectToSave()" data-toggle="tooltip" data-placement="bottom"
+        title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Agregar nuevo video
+      </a>
+
+      <a (click)="redirectToRepositorio()" data-toggle="tooltip" data-placement="bottom" title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Volver
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="videos-container">
+  <div class="row">
+    <div class="col-4" *ngFor="let videoUrl of videoslist; let i = index">
+      <div class="card">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen></iframe>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ nombrevideo[i] }}</h5>
+          <div class="btn-group" role="group" aria-label="Acciones">
+            <a (click)="editar(Id[i])" class="btn btn-primary">Editar</a>
+            <a (click)="eliminar(Id[i])" class="btn btn-danger">Eliminar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
