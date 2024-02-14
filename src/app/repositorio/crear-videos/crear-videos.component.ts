@@ -80,7 +80,7 @@ export class CrearVideosComponent implements OnInit {
         .then((res: any) => {
           setTimeout(() => {
             this.serviceStr.typeSuccess("El Video se actualizó con éxito");
-            this.router.navigate(['/repositorio']);
+            this.router.navigate(['/repositorio/listadovideo']);
             this.spinner.hide();
           }, 1000);
         })

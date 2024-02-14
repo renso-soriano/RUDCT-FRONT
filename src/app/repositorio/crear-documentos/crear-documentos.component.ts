@@ -151,7 +151,7 @@ export class CrearDocumentosComponent implements OnInit {
         .then((res: any) => {
           setTimeout(() => {
             this.serviceStr.typeSuccess("El documento se actualizó con éxito");
-            this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
+            this.router.navigate(['/repositorio']);
             this.spinner.hide();
           }, 1000);
         })
@@ -169,7 +169,7 @@ export class CrearDocumentosComponent implements OnInit {
         .then((res: any) => {
           setTimeout(() => {
             this.serviceStr.typeSuccess("El repositorio se registró con éxito");
-            this.router.navigate(["/mantenimientos", "contactosinstitucionales"]);
+            this.router.navigate(['/repositorio']);
             this.spinner.hide();
           }, 1000);
         })

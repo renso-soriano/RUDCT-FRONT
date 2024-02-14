@@ -17,7 +17,7 @@ export class RepositorioAnexoService {
 
 
   getDocumentosRepositorio(): Observable<IRepositorioAnexo[]> {
-    return this.http.get<IRepositorioAnexo[]>(this.URL);
+    return this.http.get<IRepositorioAnexo[]>(`${this.URL}/GetPaginate`);
   }
 
   getDocumentosRepositorioById(Id: number): Observable<IRepositorioAnexo> {

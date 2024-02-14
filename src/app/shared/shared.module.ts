@@ -48,6 +48,7 @@ import { NGXToastrService } from './services/ngxtoastr.service';
 import { PrevDirective } from './directives/prev.directive';
 import { NextDirective } from './directives/next.directive';
 import { ImageUndefinedDirective } from './directives/image-undefined.directive';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     exports: [
@@ -93,6 +94,7 @@ import { ImageUndefinedDirective } from './directives/image-undefined.directive'
         NgApexchartsModule,
         AngularResizedEventModule,
         FileUploadModule,
+        NgbPaginationModule
         // RandyFileComponent,
 
     ],

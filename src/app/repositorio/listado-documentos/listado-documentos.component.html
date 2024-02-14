@@ -25,16 +25,16 @@
     <ng-container *ngFor="let nombreArchivo of photo; let i = index">
       <div class="col-3 mt-3" >
         <div class="card mb-3" style="width: auto; height: auto">
-          <img [src]="nombreArchivo" alt="Imagen" class="card-img-top" style="width: 100%; height: 50%; object-fit: fill;">
+          <img [src]="nombreArchivo" alt="Imagen" class="card-img tamanio">
           <div class="card-body">
             <p class="card-text">Documentos de inducción</p>
-            <h5 class="card-title">{{ documentname[i] }}</h5>
+            <h5 class="card-title">{{ documentname[i]}}</h5>
             <div class="card">
-              <a [href]="documentpath[i]" class="btn btn-primary">Descargar</a>
+              <a [href]="documentpath" class="btn btn-primary">Descargar</a>
               <br>
-              <a (click)="editar(id[i])"  class="btn btn-info">Editar</a>
+              <a (click)="editar(id)"  class="btn btn-info">Editar</a>
               <br>
-              <a (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
+              <a (click)="eliminar(id)" class="btn btn-danger">Eliminar</a>
             </div>
           </div>
         </div>
@@ -43,5 +43,11 @@
     </ng-container>
   </div>
 </div>
+
+<ngb-pagination [collectionSize]="page.count" 
+[(page)]="page.offset" 
+(pageChange)="pageCallback($event)" aria-label="Default pagination"></ngb-pagination>
+<pre>Current page: {{ page.offset }}</pre>
+
 
 

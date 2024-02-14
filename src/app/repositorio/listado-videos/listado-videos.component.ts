@@ -15,14 +15,22 @@ export class ListadoVideosComponent implements OnInit {
   Id: number[];
   typeEdit: boolean;
   notFound: boolean;
+  public rows
   constructor(
     private repositorioVideoService: RepositorioVideoService,
     private sanitizer: DomSanitizer,
     private router: Router
   ) { }
+  limitSelected: any = 10;
 
-  public videoslist: any
-  public nombrevideo:any
+  page = {
+    limit: this.limitSelected,
+    count: 0,
+    offset: 0
+  }
+  
+  public videoslist: SafeResourceUrl[] = [];
+  public nombrevideo:string[] = []
   mode: string;
 
   ngOnInit(): void {
@@ -32,16 +40,27 @@ export class ListadoVideosComponent implements OnInit {
   }
 
   llamarVideos() {
-    this.repositorioVideoService.getRepositorioVideo().subscribe(
-      data => {
-        this.videoslist = data.map(a => this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(a.enlace)));
-        this.nombrevideo = data.map(a =>a.nombre );
-        this.Id = data.map(a =>a.id );
-      },
-      error => {
-        console.error('Error al obtener los documentos del repositorio:', error);
-      }
-    );
+    this.repositorioVideoService.getRepositorioVideo().subscribe((data:any) => {
+      this.page.count = data.total;
+      this.rows = data.items;
+
+      this.rows.forEach(item =>{
+        this.nombrevideo.push(item.nombre)
+        this.Id = item.id
+        this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(item.enlace)))
+        console.log(item,'esta es la sd')
+
+      })
+    });
+    //   data => {
+    //     this.videoslist = data.map(a => this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(a.enlace)));
+    //     this.nombrevideo = data.map(a =>a.nombre );
+    //     this.Id = data.map(a =>a.id );
+    //   },
+    //   error => {
+    //     console.error('Error al obtener los documentos del repositorio:', error);
+    //   }
+  
   }
 
   redirectToRepositorio(): void {
