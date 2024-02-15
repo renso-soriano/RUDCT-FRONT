@@ -54,8 +54,8 @@ export class CrearDocumentosComponent implements OnInit {
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
-    documento: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
-    foto: [null],
+    documento: [ null,{ validators: [Validators.required] },],
+    foto:  [ null,{ validators: [Validators.required] },],
   });
 
   //getters
@@ -257,18 +257,5 @@ getDocumentoParaEditar(Id: number) {
     }
   );
   console.log(this.repositorio)
-}
-
-
-
-
-
-
-
-
-
-
-  
-
-}
+}}
 

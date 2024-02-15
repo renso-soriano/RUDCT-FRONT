@@ -21,28 +21,28 @@
 </div>
 
 <div class="card-group">
-  <div class="card-deck">
+  <div class="card-deck mt-3">
     <ng-container *ngFor="let nombreArchivo of photo; let i = index">
-      <div class="col-3 mt-3" >
-        <div class="card mb-3" style="width: auto; height: auto">
+      <div [ngClass]="{'col-lg-4': photo.length <= 3, 'col-lg-3': photo.length > 4}" class="mt-3">
+        <div class="card mb-3">
           <img [src]="nombreArchivo" alt="Imagen" class="card-img tamanio">
           <div class="card-body">
             <p class="card-text">Documentos de inducción</p>
             <h5 class="card-title">{{ documentname[i]}}</h5>
             <div class="card">
-              <a [href]="documentpath" class="btn btn-primary">Descargar</a>
+              <a [href]="documentpath[i]" class="btn btn-primary">Descargar</a>
               <br>
-              <a (click)="editar(id)"  class="btn btn-info">Editar</a>
+              <a (click)="editar(id[i])"  class="btn btn-info">Editar</a>
               <br>
-              <a (click)="eliminar(id)" class="btn btn-danger">Eliminar</a>
+              <a (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
             </div>
           </div>
         </div>
       </div>
-      <!-- Agregar un margen cada tres elementos -->
     </ng-container>
   </div>
 </div>
+
 
 <ngb-pagination 
   [collectionSize]="page.count" 
@@ -50,7 +50,7 @@
   (pageChange)="onPageChange($event)"
   aria-label="Default pagination">
 </ngb-pagination>
-<pre>Current page: {{ this.page.offset }}</pre> 
+<pre>Estas en la página: {{ this.page.offset }}</pre> 
 
 
 

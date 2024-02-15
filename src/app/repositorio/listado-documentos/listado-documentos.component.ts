@@ -14,7 +14,6 @@ import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
   styleUrls: ['./listado-documentos.component.scss']
 })
 export class ListadoDocumentosComponent implements OnInit {
-  @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
   @ViewChild("modalFiles") modalFiles: ModalComponent
   isModalOpen: boolean = false;
 
@@ -27,6 +26,7 @@ export class ListadoDocumentosComponent implements OnInit {
   public documentname: string[] = []
   public documentpath: any
   public id: number[]
+  private tempData = [];
   // row data
   limitSelected: any = 10;
   public rows;
@@ -35,6 +35,7 @@ export class ListadoDocumentosComponent implements OnInit {
     count: 0,
     offset: 0
   }
+
 
   
   async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
@@ -83,18 +84,33 @@ export class ListadoDocumentosComponent implements OnInit {
     this.repositorioAnexoService.getDocumentosRepositorio(pageInfo, this.limitSelected).subscribe((data: any) => {
       this.page.count = data.total;
       this.rows = data.items;
-      this.documentname = []; // Limpia los arrays para evitar duplicados
-      this.photo = []; // Limpia los arrays para evitar duplicados
-      this.documentpath = []; // Limpia los arrays para evitar duplicados
+      this.documentname = [];
+      this.photo = []; 
+      this.documentpath = []; 
+      this.id = [];
+      this.tempData = data.items
       this.rows.forEach(item => {
         this.documentname.push(item.documentName);
-        item.documentpath = `https://localhost:5001/files/${item.documentPath}`; // Asigna el documentpath a cada elemento
+        this.documentpath.push(`https://localhost:5001/files/${item.documentPath}`); // Asigna el documentpath a cada elemento
         this.photo.push(`https://localhost:5001/files/${item.photoPath}`);
+        this.id.push(item.id)
       });
-      console.log('Rows',this.rows)
-
+      console.log('Rows',this.rows.length)
     });
   }
+  // filterUpdate(event) {
+  //   const val = event.target.value.toLowerCase();
+  //   // filter our data
+  //    const temp = this.tempData.filter(function (d) {
+  //      return d.documentName.toLowerCase().indexOf(val) !== -1 || !val;
+  //    });
+  //   console.log(temp,'roews')
+
+  //   // update the rows
+  //   this.rows = temp;
+  //   // Whenever the filter changes, always go back to the first page
+  //   this.page.offset = 0;
+  // }
 
   
 

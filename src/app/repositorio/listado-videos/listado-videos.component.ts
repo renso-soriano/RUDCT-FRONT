@@ -52,13 +52,18 @@ export class ListadoVideosComponent implements OnInit {
       this.page.count = data.total;
       this.rows = []
       this.rows = data.items;
+      this.Id = [];
+      this.nombrevideo = [];
+      this.videoslist = [];
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
         this.Id = item.id
-        this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(item.enlace)))
-        console.log(data,'se repito')
+        this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`http://www.youtube.com/embed/${this.extractVideoId(item.enlace)}?origin=http://googleads.g.doubleclick.net/pagead/&showinfo=0&video-id=${this.extractVideoId(item.enlace)}&enablejsapi=1&widgetid=1&color=white&modestbranding=1&rel=0`
+        ))
 
-      })
+      })                                                                   
+
+      console.log('lo dato',this.videoslist)
     });
     //   data => {
     //     this.videoslist = data.map(a => this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(a.enlace)));

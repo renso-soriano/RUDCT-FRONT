@@ -21,12 +21,13 @@
     <div class="col-4" *ngFor="let videoUrl of videoslist; let i = index">
       <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen></iframe>
+          <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen ></iframe>
         </div>
         <div class="card-body">
-          <h5 class="card-title">{{ nombrevideo[i] }}</h5>
+          <h5 class="card-title mb-3">{{ nombrevideo[i] }}</h5>
           <div class="btn-group" role="group" aria-label="Acciones">
-            <a (click)="editar(Id)" class="btn btn-primary">Editar</a>
+            <a (click)="editar(Id)" class="btn btn-primary mr-3">Editar</a>
+            <br>
             <a (click)="eliminar(Id)" class="btn btn-danger">Eliminar</a>
           </div>
         </div>
@@ -41,3 +42,4 @@
   (pageChange)="onPageChange($event)"
   aria-label="Default pagination">
 </ngb-pagination>
+<pre>Estas en la página: {{ this.page.offset }}</pre> 
