@@ -44,10 +44,13 @@
   </div>
 </div>
 
-<ngb-pagination [collectionSize]="page.count" 
-[(page)]="page.offset" 
-(pageChange)="pageCallback($event)" aria-label="Default pagination"></ngb-pagination>
-<pre>Current page: {{ page.offset }}</pre>
+<ngb-pagination 
+  [collectionSize]="page.count" 
+  [(page)]="page.offset" 
+  (pageChange)="onPageChange($event)"
+  aria-label="Default pagination">
+</ngb-pagination>
+<pre>Current page: {{ this.page.offset }}</pre> 
 
 
 

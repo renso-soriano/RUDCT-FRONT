@@ -30,21 +30,21 @@ export class ListadoDocumentosComponent implements OnInit {
   // row data
   limitSelected: any = 10;
   public rows;
-
   page = {
     limit: this.limitSelected,
     count: 0,
-    offset: 10
+    offset: 0
   }
 
-  async pageCallback(pageInfo: {
-    count?: number;
-    pageSize?: number;
-    limit?: number;
-    offset?: number;
-  }) {
-    this.page.offset = pageInfo.offset;
-    //console.log("reloadTable en pageCallBack")
+  
+  async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
+    // Asegúrate de asignar correctamente el offset proporcionado por el evento pageChange
+    this.llamarDocumentos(pageInfo); // Llama a llamarDocumentos para actualizar los datos
+  }
+
+  onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
+    console.log(pageInfo,'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
+    this.pageCallback(pageInfo); // Llama a pageCallback con el objeto pageInfo
   }
   
   modalConfigFiles: IModalConfig = {
@@ -79,27 +79,25 @@ export class ListadoDocumentosComponent implements OnInit {
 
 
 
+  llamarDocumentos(pageInfo?) {
+    this.repositorioAnexoService.getDocumentosRepositorio(pageInfo, this.limitSelected).subscribe((data: any) => {
+      this.page.count = data.total;
+      this.rows = data.items;
+      this.documentname = []; // Limpia los arrays para evitar duplicados
+      this.photo = []; // Limpia los arrays para evitar duplicados
+      this.documentpath = []; // Limpia los arrays para evitar duplicados
+      this.rows.forEach(item => {
+        this.documentname.push(item.documentName);
+        item.documentpath = `https://localhost:5001/files/${item.documentPath}`; // Asigna el documentpath a cada elemento
+        this.photo.push(`https://localhost:5001/files/${item.photoPath}`);
+      });
+      console.log('Rows',this.rows)
 
-  llamarDocumentos() {
-  this.repositorioAnexoService.getDocumentosRepositorio().subscribe((data:any) => {
-        // this.documentname = data.map(a=>a.items.documentName)
-        // this.documentpath = data.map(a=>'https://localhost:5001/files/' + a.documentPath)
-        // this.photo = data.map(a=>'https://localhost:5001/files/' + a.photoPath)
-        // this.id = data.map(a=>a.id)
-        // console.log('se murio yorch',this.photo)
-        // console.log('se murio yorch 2',data.items)
-        this.page.count = data.total;
-        this.rows = data.items;
-         console.log(this.rows)
-        this.rows.map(item =>{
-          this.documentname.push(item.documentName)
-          this.documentpath = (`https://localhost:5001/files/${item.documentPath}`)
-          this.photo.push(`https://localhost:5001/files/${item.photoPath}`)
-          console.log(item,'esta es la sd')
-        console.log(this.page.count,'cuenta')
-
-        })
-   })
+    });
   }
+
+  
+
+  
   
   }

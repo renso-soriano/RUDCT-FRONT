@@ -35,20 +35,28 @@ export class ListadoVideosComponent implements OnInit {
 
   ngOnInit(): void {
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
-
-    this.llamarVideos()
   }
 
-  llamarVideos() {
-    this.repositorioVideoService.getRepositorioVideo().subscribe((data:any) => {
-      this.page.count = data.total;
-      this.rows = data.items;
+  async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
+    // Asegúrate de asignar correctamente el offset proporcionado por el evento pageChange
+    this.llamarVideos(pageInfo); // Llama a llamarDocumentos para actualizar los datos
+  }
 
+  onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
+    console.log(pageInfo,'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
+    this.pageCallback(pageInfo); // Llama a pageCallback con el objeto pageInfo
+  }
+
+  llamarVideos(pageinfo?) {
+    this.repositorioVideoService.getRepositorioVideo(pageinfo,this.limitSelected).subscribe((data:any) => {
+      this.page.count = data.total;
+      this.rows = []
+      this.rows = data.items;
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
         this.Id = item.id
         this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.extractVideoId(item.enlace)))
-        console.log(item,'esta es la sd')
+        console.log(data,'se repito')
 
       })
     });

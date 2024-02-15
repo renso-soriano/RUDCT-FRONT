@@ -16,8 +16,8 @@ export class RepositorioVideoService {
   private URL = environment.apiUrl + "RepositorioVideo";
 
 
-  getRepositorioVideo(params?: HttpParams): Observable<IRepositorioVideo[]> {
-    return this.http.get<IRepositorioVideo[]>(`${this.URL}/GetPaginate`,{params});
+  getRepositorioVideo(Page,Take): Observable<IRepositorioVideo[]> {
+    return this.http.get<IRepositorioVideo[]>(`${this.URL}/GetPaginate?Page=${Page}&Take=${Take}`);
   }
 
   getRepositorioVideoById(Id: number): Observable<IRepositorioVideo> {
