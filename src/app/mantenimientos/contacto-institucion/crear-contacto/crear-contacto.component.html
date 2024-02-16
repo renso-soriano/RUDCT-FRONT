@@ -135,7 +135,12 @@
                     <div class="form-group">
                       <label for="area">Area</label>
                       <input type="text" class="form-control" name="area" id="area" formControlName="area">
-                    
+                      <div *ngIf="area.invalid && (area.dirty || area.touched)"
+                      class="help-block mt-1 text-danger">
+                      <div *ngIf="area.errors.required">
+                        <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                      </div>
+                    </div>
                     </div>
                   </div>
                 </div>

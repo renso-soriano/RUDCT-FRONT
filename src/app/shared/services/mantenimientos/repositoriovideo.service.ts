@@ -31,7 +31,7 @@ export class RepositorioVideoService {
   }
 
   updateRepositorioVideo(documento: IRepositorioVideo): Observable<IRepositorioVideo> {
-    return this.http.put<IRepositorioVideo>(`${this.URL}${documento.id}`, documento);
+    return this.http.put<IRepositorioVideo>(`${this.URL}/${documento.id}`, documento);
   }
 
   deleteRepositorioVideo(Id: string): Observable<IRepositorioVideo> {

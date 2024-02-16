@@ -31,7 +31,7 @@ export class RepositorioAnexoService {
   }
 
   updateDocumentosRepositorio(documento: IRepositorioAnexo): Observable<IRepositorioAnexo> {
-    return this.http.put<IRepositorioAnexo>(`${this.URL}${documento.id}`, documento);
+    return this.http.put<IRepositorioAnexo>(`${this.URL}/${documento.id}`, documento);
   }
 
   deleteDocumentosRepositorio(documentoid: string): Observable<IRepositorioAnexo> {

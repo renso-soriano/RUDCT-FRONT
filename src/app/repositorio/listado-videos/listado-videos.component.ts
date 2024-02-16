@@ -57,7 +57,7 @@ export class ListadoVideosComponent implements OnInit {
       this.videoslist = [];
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
-        this.Id = item.id
+        this.Id.push(item.id) 
         this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`http://www.youtube.com/embed/${this.extractVideoId(item.enlace)}?origin=http://googleads.g.doubleclick.net/pagead/&showinfo=0&video-id=${this.extractVideoId(item.enlace)}&enablejsapi=1&widgetid=1&color=white&modestbranding=1&rel=0`
         ))
 

@@ -27,7 +27,6 @@ export class CrearContactoComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authservice: AuthService,
-    private InstitucionService: InstitucionService,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +55,6 @@ export class CrearContactoComponent implements OnInit {
 
 
   }
-
   contacto: IcontactoInstitucional;
   notFound = false;
   institucion: Observable<any[]>;
@@ -74,7 +72,8 @@ export class CrearContactoComponent implements OnInit {
     extension: [null],
     email: [null,  { validators:  [Validators.email] } ],
     funcion: [null ],
-    direccion : [null]
+    direccion : [null],
+    area:[null]
   });
 
   //getters
@@ -133,6 +132,7 @@ export class CrearContactoComponent implements OnInit {
           institucionId: this.contacto.institucionId,
           essectorial:this.contacto.EsSectorial,
           direccion:this.contacto.direccion,
+          area: this.contacto.area
         });
         console.log(this.contacto);
       },
@@ -174,6 +174,7 @@ export class CrearContactoComponent implements OnInit {
       email: this.email.value,
       direccion:this.direccion.value,
       institucionId: this.institucionids,
+      area:this.area.value
     };
     console.log('yo tengo una adiccion, a los contactoss',contacto);
 

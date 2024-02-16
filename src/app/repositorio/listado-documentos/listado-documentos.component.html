@@ -30,11 +30,9 @@
             <p class="card-text">Documentos de inducción</p>
             <h5 class="card-title">{{ documentname[i]}}</h5>
             <div class="card">
-              <a [href]="documentpath[i]" class="btn btn-primary">Descargar</a>
+              <a [href]="documentpath[i]" target="_blank" class="btn btn-primary">Descargar</a>
               <br>
-              <a (click)="editar(id[i])"  class="btn btn-info">Editar</a>
-              <br>
-              <a (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
+              <a  (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
             </div>
           </div>
         </div>

@@ -45,6 +45,11 @@ export class CrearDocumentosComponent implements OnInit {
 
   }
 
+  redirectToList(): void {
+    this.router.navigate(['repositorio/listadovideo/']);
+  }
+  
+
   repositorio: IRepositorioAnexo;
   notFound = false;
   institucion: Observable<any[]>;
@@ -168,7 +173,7 @@ export class CrearDocumentosComponent implements OnInit {
         .toPromise()
         .then((res: any) => {
           setTimeout(() => {
-            this.serviceStr.typeSuccess("El repositorio se registró con éxito");
+            this.serviceStr.typeSuccess("El Documento se subió con éxito");
             this.router.navigate(['/repositorio']);
             this.spinner.hide();
           }, 1000);
@@ -227,14 +232,10 @@ export class CrearDocumentosComponent implements OnInit {
       // Manejar la respuesta del backend si es necesario
       console.log('Documentos subidos con éxito', response);
       this.serviceStr.typeSuccess("Los documentos se han subido correctamente");
-    },
-    (error) => {
-      // Manejar el error si ocurre
-      console.error('Error al subir los documentos', error);
-      this.serviceStr.typeError("Ocurrió un error al subir los documentos. Por favor, inténtalo de nuevo más tarde.");
     }
   );
 }
+
 
 getDocumentoParaEditar(Id: number) {
   this.notFound = false;
