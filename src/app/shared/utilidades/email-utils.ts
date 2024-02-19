@@ -80,7 +80,7 @@ export class emailUtils {
                    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
                     emails = data.result.map(a=>a.email)
                     this.notifyClientByEmail({
-                        ToEmail: emails,
+                        ToEmail: ['rensomiguel1@gmail.com'],
                         Subject: subject,
                         Body: body,
                         Attachments: []
@@ -100,7 +100,7 @@ export class emailUtils {
                    this.ssoService.getPersonByGroupId(1009,1003).subscribe(data => {
                     emails = data.result.map(a=>a.email)
                     this.notifyClientByEmail({
-                        ToEmail: emails,
+                        ToEmail: ['rensomiguel1@gmail.com'],
                         Subject: subject,
                         Body: body,
                         Attachments: []
@@ -160,7 +160,7 @@ export class emailUtils {
                     this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {
                       emails = data.result.map(a => a.email);
                       this.notifyClientByEmail({
-                        ToEmail: emails,
+                        ToEmail: ['rensomiguel1@gmail.com'],
                         Subject: subject,
                         Body: body,
                         Attachments: []
