@@ -88,6 +88,10 @@ export class AuthService {
     const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
     return userdata.persona;
   }
+  getEmail(): any {
+    const userdata: Token = JSON.parse(sessionStorage.getItem('userdata'));
+    return userdata.persona;
+  }
 
 
   getGrupos(): Grupo[] {

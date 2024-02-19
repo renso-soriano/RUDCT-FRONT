@@ -2,7 +2,9 @@
 import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class NGXToastrService {
   constructor(public toastr: ToastrService) { }
 

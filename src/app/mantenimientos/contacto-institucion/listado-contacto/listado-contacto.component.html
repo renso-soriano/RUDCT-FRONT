@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-12">
+      <div class="w-100 d-flex justify-content-end">
+        <a [routerLink]="['/mantenimientos/contactosinstitucionales/Create']" data-toggle="tooltip" data-placement="bottom"
+          title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle">
+            Agregar nuevo contacto</i></a>
+  
+        <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
+          title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- Filter Datatables -->
+  <section id="ngx-datatable-filter">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Listado de contactos institucionales</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+  
+                <!-- ngx-datatable-filter -->
+                  <fieldset class="form-group">
+                    <label for="ngx-filter-ref">Buscar:
+                      <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
+                        placeholder="Nombre de la Institución" (keyup)="filterUpdate($event)" />
+                    </label>
+                  </fieldset>
+  
+                  <div class="col-12 col-md-10">
+                    <div class="w-100 d-flex left-content-end">
+                      <ng-select [items]="limitSelect" bindLabel="label" bindValue="value"
+                        name="limit" id="limit" [(ngModel)]="limitSelected"
+                        style="width: 25%;" [clearable]="false">
+                      </ng-select>
+                      <a (click)="exportexcel()" data-toggle="tooltip" data-placement="bottom"
+                        title="Exportar listado actual en Excel" class="btn btn btn-success btn-sm ml-1">
+                        <i class="fa fa-file-excel-o"> Exportar Excel</i>
+                      </a>
+                      <!-- <label for="verMapa" class="ml-2 mt-1 "><strong>Mostrar listado actual en
+                          mapa</strong></label><a (click)="SeleccioneMapa(contentMapa)"
+                        title="Ver listado en el mapa"><i class="fa fa-map-marker mapaselect "
+                          aria-hidden="true "></i></a> -->
+                    </div>
+                  </div><br>
+
+                  <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
+                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
+                  <ngx-datatable-column name="Nombre" prop="nombre" [width]="50"></ngx-datatable-column>
+                  <ngx-datatable-column name="Apellido" prop="apellido" [width]="50"></ngx-datatable-column>
+                  <ngx-datatable-column name="Telefono" prop="telefono" [width]="50"></ngx-datatable-column>
+                  <ngx-datatable-column name="Direccion" prop="direccion" [width]="50"></ngx-datatable-column>
+                  <ngx-datatable-column name="Nombre Institución" prop="institucionId" [width]="50">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.institucionNombre }}
+                    </ng-template>
+                  </ngx-datatable-column>
+              
+
+                <ngx-datatable-column name="Acciones" [width]="70">
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+  
+                    <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
+                      title="ver detalles"></a>
+                    <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                    <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                      title="Eliminar"></a>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              <!-- ngx-datatable-filter -->
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--/ Filter Datatables -->
+  
+  

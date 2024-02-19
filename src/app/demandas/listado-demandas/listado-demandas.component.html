@@ -291,7 +291,7 @@
 
       <div class="col-12"
         *ngIf="gruposUsuario?.includes(this.rolesEnum?.institucionalRUDT) && EF.estado?.value > this.estadoEjecucionEnum?.reasignacionSectorial">
-        <Randy-File #randyFile [withModal]="false" [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
+        <Randy-File #randyFile [withModal]="false" [demandaString]="demandaString"  [isDetail]="isDetail" [anexoDataDb]="files.length> 0 ?files : []"
           (onSubmit)="saveFiles($event)" (deleteFileExisting)="removeFile($event)"></Randy-File>
       </div>
 
@@ -307,7 +307,7 @@
 
       <UIModal [modalOption]="modalOptionFiles" [modalConfig]="modalConfigFiles" #modalFiles>
 
-        <Randy-File #randyFile [anexoDataDb]="files" [isDetail]="true" [modalRef]="modalFiles"></Randy-File>
+        <Randy-File #randyFile [anexoDataDb]="files" [demandaString]="demandaString"  [isDetail]="true" [modalRef]="modalFiles"></Randy-File>
 
 
 

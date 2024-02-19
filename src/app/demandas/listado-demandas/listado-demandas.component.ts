@@ -44,7 +44,7 @@ import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.
 import { IModalConfig } from 'app/shared/components/modal/IModalConfig';
 import { IModalOption } from 'app/shared/components/modal/IModalOptions';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
-import { Console } from 'console';
+import { Console, error } from 'console';
 import { RandyFileService } from 'app/shared/services/randy-file/randy-file.service';
 import { DemandaAnexos } from 'app/shared/models/Demandas/DemandaAnexos.model';
 import { Estados } from 'app/shared/models/auth/estados.enum';
@@ -55,6 +55,12 @@ import { EstadoUtilsService } from "app/shared/utilidades/estados-utils";
 import { SweetAlertService } from "app/shared/components/sweet-alert/sweet-alert.service";
 import { SweetAlert } from "app/shared/components/sweet-alert/sweet-alerts";
 import { LowerCasePipe } from "@angular/common";
+import emailUtils from "app/shared/utilidades/email-utils";
+import { EmailService } from "app/shared/services/email.service";
+import { Iemail } from "app/shared/models/Iemail";
+import {SSOService} from "app/shared/services/sso.service"
+import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
+
 
 declare var require: any;
 const data: any = require("../../shared/data/Demandas.json");
@@ -82,7 +88,7 @@ export class ListadoDemandasComponent
   reorderable: boolean = true;
   abierto: boolean;
   showStates = false;
-
+  sevalidoevidencia:boolean
   modalConfigFiles: IModalConfig = {
     modalTitle: "   ",
   };
@@ -99,7 +105,6 @@ export class ListadoDemandasComponent
   @Output() anexosDemandas = new EventEmitter<any>();
   @Input() listaDeAnexos: Archivo[];
   @Input() isDetail: boolean = false;
-
   // public
   public contentHeader: object;
   isModalOpen: boolean = false;
@@ -112,6 +117,8 @@ export class ListadoDemandasComponent
   @ViewChild("content") content: ElementRef<HTMLElement>;
   //@ViewChild("modalAnexo", {static:false}) modalAnexo: ElementRef<HTMLElement>;
   demanda: Demanda;
+
+  @Input() demandaSeleccionada : any;
   files: any[] = [];
   listadoEstados: Observable<any[]>;
   nuevosAnexos: any[] = [];
@@ -143,7 +150,9 @@ export class ListadoDemandasComponent
   listaAnexosId?: any;
   instResponsable: any;
   instEstado: any;
-
+  accionesresult: string;
+  email:number;
+  demandaString:string = ""
   modalConfig: IModalConfig = {
     modalTitle: "     ",
   };
@@ -167,6 +176,12 @@ export class ListadoDemandasComponent
   get EF() {
     return this.estadoForm.controls;
   }
+  get nombreinstitucion() {
+    let datos = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId == this.idInstitucionProp)
+    return datos.nombreInstitucion
+    
+  }
+
 
   estadoChange() {
     console.log("ejecutando el change");
@@ -275,7 +290,10 @@ export class ListadoDemandasComponent
   dataExcel: any;
   rowExportExcel: any;
   usuarioInstitucional = false;
-
+  public seHaEliminadoAlgunaDemanda? = false
+  private haycomentariosnuevos?: boolean
+  private estadocambio? : boolean
+  private sesubioevidencia = false
   /**
    * filterUpdate
    *
@@ -338,7 +356,10 @@ export class ListadoDemandasComponent
     private fileManager: FileManagerService,
     private randyFileService: RandyFileService,
     private estadoUtils: EstadoUtilsService,
-    private sweAlert: SweetAlertService
+    private sweAlert: SweetAlertService,
+    private emailService : EmailService,
+    private ssoService: SSOService,
+    private ssoinstitucionService:SSOInstitucionService
   ) {
     this.tempData = data;
     this.multiPurposeTemp = DatatableData;
@@ -367,7 +388,10 @@ export class ListadoDemandasComponent
       "/demandas",
       this.demandasService.deleteDemanda(CodigoDemanda)
     );
+    this.accionesresult = "borrado"
   }
+
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -376,15 +400,15 @@ export class ListadoDemandasComponent
    * On init
    */
   ngOnInit() {
+    this.haycomentariosnuevos = false
     this.abierto = false;
     const modulo = this.authService?.findModule(
       this.router.routerState.snapshot.url
     );
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
-
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
-
+    console.log(this.authService.getUserId(),'klk grupo')
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(
         (x) =>
@@ -742,6 +766,8 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
+      console.log('este es mi grupo',this.demanda)
+      
     });
 
   }
@@ -938,7 +964,7 @@ export class ListadoDemandasComponent
           comentarios: null,
         });
       }
-
+    this.haycomentariosnuevos = true
 
     } else {
       this.serviceStr.typeError("No puede añadir comentarios vacíos");
@@ -955,6 +981,11 @@ export class ListadoDemandasComponent
       .then((res: any) => {
         this.mapFiles(res);
       });
+    this.demandasService.getDemandaById(demandaId).subscribe(
+      data =>{
+        this.demandaString = data.descripcion
+      }
+    )
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
   }
@@ -992,6 +1023,8 @@ export class ListadoDemandasComponent
         this.ComentariosList = demanda?.demandaComentarios;
         console.log("Lista de comentarios: ", this.ComentariosList);
         console.log("Lista de otras cosas: ", this.demanda);
+        this.demandaString = this.demanda.descripcion;
+        console.log(this.demandaString, "DEMOOO con randy ");
         if (this.usuarioInstitucional) {
           this.demanda.institucionesInvolucradas.forEach((institucion) => {
             const idRudt = parseInt(this.institucionUsuarioEnRUDT);
@@ -1023,6 +1056,8 @@ export class ListadoDemandasComponent
         }
         // this.listaDeAnexos = demanda.demandaAnexos
         this.mapFile();
+        this.demandaId = id;
+        this.modalAnexo.open();
         // console.log("Lista de Anexos", this.files);
       },
       (err: any) => {
@@ -1031,8 +1066,8 @@ export class ListadoDemandasComponent
       },
       () => { }
     );
-    this.demandaId = id;
-    this.modalAnexo.open();
+    // this.demandaId = id;
+    // this.modalAnexo.open();
     // this.modalService.open(content, {
     //   centered: true,
     //   backdrop: "static",
@@ -1073,6 +1108,29 @@ export class ListadoDemandasComponent
         return "";
     }
   }
+  titleEstadoValidacion(id?: number): string {
+    switch (id) {
+      case this.estadoValidacionEnum.registradaPorORP:
+        return " Registrada por ORP";
+      case this.estadoValidacionEnum.validadaPorVIOTDR:
+        return "Validada por VIOTDR";
+      case this.estadoValidacionEnum.validadaPorDGDES:
+        return "Validada por DGDES";
+      case this.estadoValidacionEnum.devueltaPorDGDES:
+        return "Devuelta por DGDES";
+      case this.estadoValidacionEnum.devueltaPorVIOTDR:
+        return "Devuelta por VIOTDR";
+      case this.estadoValidacionEnum.rechazadaNoCompetenciaSectorial:
+        return "Rechazada - no competencia de sectorial";
+      default:
+        return "";
+    }
+  }
+
+
+
+
+
 
   getEstadoClass(estadoId: number): { [className: string]: boolean } {
     return {
@@ -1125,6 +1183,74 @@ export class ListadoDemandasComponent
       this.enviar();
     }
   }
+  async emailConstruction():Promise<void>{
+    const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
+
+    console.log('email utils', EmailUtils);
+    
+
+
+    const descripcionDemanda = this.demanda.descripcion;
+    let estadonuevo:string = this.instEstado
+    let idgrupousuario = this.authService.getGrupos().map((grup) => grup.groupId)[0];
+    const EstadosValidacion = this.titleEstadoValidacion(this.demanda.estadoValidacionId)
+    let datosToSendEmailNotify: Iemail
+    console.log(idgrupousuario)
+    if(this.estadoDemanda == this.instEstado){
+      this.estadocambio = false
+    }
+    if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
+      datosToSendEmailNotify = await EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario, 
+        this.haycomentariosnuevos,
+        this.estadocambio,
+        this.nombreinstitucion,
+        estadonuevo,
+        '',
+        [],
+        this.sesubioevidencia,
+        false
+        );
+      ;
+    }
+    else{
+      datosToSendEmailNotify = await EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario, 
+        this.haycomentariosnuevos,
+        this.estadocambio,
+        '',
+        estadonuevo = '',
+        EstadosValidacion,
+        [],
+        this.sesubioevidencia,
+        false
+        );
+    }
+    console.log(datosToSendEmailNotify)
+    if(datosToSendEmailNotify){
+    EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
+    }
+
+  }
+
+  verificarEvidenciaSubida(){
+    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+      let emails = data.result.map(a=>a.email)
+    this.emailService.createEmail({
+      ToEmail: ['rensomiguel1@gmail.com'],
+      Subject: 'Evidencia Demanda Subida',
+      Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}`,
+      Attachments: []
+    }).subscribe(() => {
+      console.log('Correo electrónico enviado después de cargar el archivo.');
+    })});
+  }
+
+
 
   async enviar() {
     const formValue = this.estadoForm.value;
@@ -1145,19 +1271,21 @@ export class ListadoDemandasComponent
     let files = this.randyFile?.getFiles();
     if (files?.length > 0) {
       let formData = this.randyFileService.createFormData(files);
+    
       let fileIds = await this.randyFileService
-        .uploadFiles(formData)
-        .toPromise();
-      fileIds.forEach((fileId) => {
-        this.demanda.demandaAnexos.push({
-          demandaId: this.demanda.id,
-          fileId,
-          id: 0,
-          institucionId:this.institucionUsuarioEnRUDT
-        });
-      });
-    }
-
+      .uploadFiles(formData)
+      .toPromise();
+          fileIds.forEach((fileId) => {
+            this.demanda.demandaAnexos.push({
+              demandaId: this.demanda.id,
+              fileId,
+              id: 0,
+              institucionId: this.institucionUsuarioEnRUDT
+            });
+            this.verificarEvidenciaSubida()
+          });
+      }
+    
     this.demanda.demandaComentarios = this.ComentariosList;
 
     this.demanda.institucionesInvolucradas.forEach((institucion) => {
@@ -1182,11 +1310,27 @@ export class ListadoDemandasComponent
         this.serviceStr.typeSuccess(
           "El estado de la demanda se actualizó con éxito"
         );
+        let demandasinstitucionid = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId === this.idInstitucionProp)
+        let estadoName = this.estadoUtils.titleEstadoEjecucion(
+          demandasinstitucionid?.estadoId
+        );
+
+        if(EstadosValidacion.validadaPorDGDES == this.demanda.estadoValidacionId){
+          this.estadocambio = false
+        }
+        console.log()
+        this.instEstado = estadoName
         this.spinner.hide();
         setTimeout(() => {
-          window.location.href = "/demandas";
+         window.location.href = "/demandas";
+
         }, 1500);
-      })
+        
+          console.log('Este es el estado de mi demanda',this.instEstado);
+          this.estadocambio = true
+          this.emailConstruction()
+      }
+      )
       .catch((err) => {
         console.error("Que sucede? ", err);
         this.serviceStr.typeError(
