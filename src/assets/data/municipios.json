@@ -765,6 +765,15 @@
             "Key": "030402"
         },
         {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "03",
+            "Nombre": "MATANZAS",
+            "Activo": "1",
+            "ProvinceKey": "0304",
+            "Key": "030402"
+        },
+        {
             "RegionId": "04",
             "ProvinciaId": "04",
             "MunicipioId": "01",
