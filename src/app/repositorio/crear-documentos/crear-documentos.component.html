@@ -1,4 +1,3 @@
-
 <!-- start -->
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
   <p style="color: white"> Cargando... </p>
@@ -11,7 +10,7 @@
       <div class="card-header">
         <h4 class="card-title">{{mode}} Documento</h4>
       </div>
-      
+
       <div class="card-content">
         <div class="card-body">
           <div class="card-text">
@@ -45,7 +44,8 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="documento">Subir documento</label>
-                      <input type="file" (click)="guardarDocumento($event)" class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx">
+                      <input type="file" (click)="guardarDocumento($event)" class="form-control-file" name="documento"
+                        id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx">
 
                       <div *ngIf="documento.invalid && (documento.dirty || documento.touched)"
                         class="help-block mt-1 text-danger">
@@ -65,15 +65,15 @@
                 </div>
 
 
-                
+
 
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="telefono">Subir foto del documento</label>
-                      <input type="file" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
-                      <div *ngIf="foto.invalid && (foto.dirty || foto.touched)"
-                        class="help-block mt-1 text-danger">
+                      <input type="file" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto"
+                        formControlName="foto" accept="image/jpeg, image/png">
+                      <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="help-block mt-1 text-danger">
 
                         <div *ngIf="foto.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -97,8 +97,18 @@
       </div>
     </div>
     <!--/ Kick start -->
+
+    <div>
+      <a [routerLink]="['/repositorio']" class="btn btn-primary"><span>Volver a listado</span>
+      </a>
+    </div>
   </div>
+
+
+
 </div>
+
+
 
 <div>
 

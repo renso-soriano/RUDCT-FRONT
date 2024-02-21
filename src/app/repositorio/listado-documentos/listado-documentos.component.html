@@ -4,17 +4,17 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-      <a [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
+      <!-- <a [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
         title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo video
-      </a>
+      </a> -->
       <a [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
         title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo documento
       </a>
       <a [routerLink]="['listadovideo']" data-toggle="tooltip" data-placement="bottom"
-        title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
-        <i class="fa fa-plus-circle"></i> Ver Videos
+        title="Ver videos" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-eye"></i> Ver Videos
       </a>
     </div>
   </div>
@@ -42,13 +42,13 @@
 </div>
 
 
-<ngb-pagination 
-  [collectionSize]="page.count" 
-  [(page)]="page.offset" 
+<ngb-pagination
+  [collectionSize]="page.count"
+  [(page)]="page.offset"
   (pageChange)="onPageChange($event)"
   aria-label="Default pagination">
 </ngb-pagination>
-<pre>Estas en la página: {{ this.page.offset }}</pre> 
+<pre>Estas en la página: {{ this.page.offset }}</pre>
 
 
 

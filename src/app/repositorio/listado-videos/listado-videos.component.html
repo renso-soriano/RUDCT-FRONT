@@ -5,12 +5,12 @@
   <div class="col-12">
     <div class="d-flex justify-content-end">
       <a (click)="redirectToSave()" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
+        title="Agregar video" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo video
       </a>
 
-      <a (click)="redirectToRepositorio()" data-toggle="tooltip" data-placement="bottom" title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
-        <i class="fa fa-plus-circle"></i> Volver
+      <a (click)="redirectToRepositorio()" data-toggle="tooltip" data-placement="bottom" title="Volver" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-arrow-left"></i> Volver
       </a>
     </div>
   </div>
@@ -36,10 +36,10 @@
   </div>
 </div>
 
-<ngb-pagination 
-  [collectionSize]="page.count" 
-  [(page)]="page.offset" 
+<ngb-pagination
+  [collectionSize]="page.count"
+  [(page)]="page.offset"
   (pageChange)="onPageChange($event)"
   aria-label="Default pagination">
 </ngb-pagination>
-<pre>Estas en la página: {{ this.page.offset }}</pre> 
+<pre>Estas en la página: {{ this.page.offset }}</pre>
