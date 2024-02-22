@@ -325,6 +325,15 @@
         },
         {
             "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "10",
+            "Nombre": "BAITOA",
+            "Activo": "1",
+            "ProvinceKey": "0106",
+            "Key": "010609"
+        },
+        {
+            "RegionId": "01",
             "ProvinciaId": "07",
             "MunicipioId": "01",
             "Nombre": "MOCA",
@@ -355,6 +364,15 @@
             "ProvinciaId": "07",
             "MunicipioId": "04",
             "Nombre": "JAMAO AL NORTE",
+            "Activo": "1",
+            "ProvinceKey": "0107",
+            "Key": "010704"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "05",
+            "Nombre": "SAN VICTOR",
             "Activo": "1",
             "ProvinceKey": "0107",
             "Key": "010704"
