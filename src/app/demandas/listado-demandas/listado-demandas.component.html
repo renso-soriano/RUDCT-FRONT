@@ -87,7 +87,6 @@
                       </div>
                       <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
                         [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
-
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}

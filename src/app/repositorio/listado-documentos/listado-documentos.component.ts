@@ -7,6 +7,7 @@ import { RepositorioAnexoService } from '../../shared/services/repositorio.servi
 import { Router } from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
 import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-listado-documentos',
@@ -16,6 +17,7 @@ import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
 export class ListadoDocumentosComponent implements OnInit {
   @ViewChild("modalFiles") modalFiles: ModalComponent
   isModalOpen: boolean = false;
+  private URLAPI = environment.apiUrl
 
   constructor(
     private repositorioAnexoService: RepositorioAnexoService,
@@ -81,6 +83,8 @@ export class ListadoDocumentosComponent implements OnInit {
 
 
   llamarDocumentos(pageInfo?) {
+    var nuevaUrl = this.URLAPI.replace(/\/api\//i, "/");
+
     this.repositorioAnexoService.getDocumentosRepositorio(pageInfo, this.limitSelected).subscribe((data: any) => {
       this.page.count = data.total;
       this.rows = data.items;
@@ -91,8 +95,8 @@ export class ListadoDocumentosComponent implements OnInit {
       this.tempData = data.items
       this.rows.forEach(item => {
         this.documentname.push(item.documentName);
-        this.documentpath.push(`https://localhost:5001/files/${item.documentPath}`); // Asigna el documentpath a cada elemento
-        this.photo.push(`https://localhost:5001/files/${item.photoPath}`);
+        this.documentpath.push(`${nuevaUrl}files/${item.documentPath}`); // Asigna el documentpath a cada elemento
+        this.photo.push(`${nuevaUrl}files/${item.photoPath}`);
         this.id.push(item.id)
       });
       console.log('Rows',this.rows.length)
