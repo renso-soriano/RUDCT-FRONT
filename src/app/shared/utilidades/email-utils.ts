@@ -125,14 +125,14 @@ export class emailUtils {
                  seleasignounademanda? `La institucion DGDES le ha asignado la demanda "${demandaDescripcion}"`:
                  `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                  this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
-                 .pipe(
-                    switchMap(data => {
-                        datostransformados = data
-                        return this.ssoService.GetPersonByInstitutionId(datostransformados,1003)
-                    })
-                 )
+                //  .pipe(
+                //     switchMap(data => {
+                //         datostransformados = data
+                //         return this.ssoService.GetPersonByInstitutionId(datostransformados,1003)
+                //     })
+                //  )
                  .subscribe(data => {
-                    emails = data.result.map(a=>a.email)
+                    // emails = data.result.map(a=>a.email)
                     this.notifyClientByEmail({
                         ToEmail: ['rensomiguel1@gmail.com'],
                         Subject: subject,

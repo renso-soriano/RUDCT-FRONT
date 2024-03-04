@@ -38,6 +38,7 @@ export class CrearDocumentosComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       if (params.has("Id")) {
+        console.log("Tengo ID")
         this.getDocumentoParaEditar(parseInt(params.get("Id")));
         this.typeEdit = true;
       }
@@ -45,7 +46,6 @@ export class CrearDocumentosComponent implements OnInit {
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
     this.descripcionrutafoto = this.typeEdit? "Ruta de la foto" : "Subir Foto del documento"
     this.descripcionrutadoc = this.typeEdit? "Ruta del documento" : "Subir documento"
-
   }
 
   redirectToList(): void {
@@ -62,6 +62,8 @@ export class CrearDocumentosComponent implements OnInit {
   typeEdit: boolean;
   selected: Archivo[] = []
   size:any
+  fotoseleccionada:any
+  documentoseleccionado:any
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
@@ -140,12 +142,12 @@ export class CrearDocumentosComponent implements OnInit {
   }
 
   submit() {
-    if (!this.registerForm.valid) {
-      this.serviceStr.typeError(
-        "Alguna regla de validación no se está cumpliendo"
-      );
-      return;
-    }
+    // if (!this.registerForm.valid) {
+    //   this.serviceStr.typeError(
+    //     "Alguna regla de validación no se está cumpliendo"
+    //   );
+    //   return;
+    // }
     const nombredocumento = this.documento.value.split('\\').pop();
     const nombrefoto = this.foto.value.split('\\').pop();
     const timestamp = new Date().getTime(); // Obtiene el timestamp actual en milisegundos
@@ -160,6 +162,7 @@ export class CrearDocumentosComponent implements OnInit {
     this.spinner.show();
 
     if (this.typeEdit) {
+     
       repositorio.id = this.repositorio.id;
       this.repositorioanexoService
         .updateDocumentosRepositorio(repositorio)
@@ -221,10 +224,12 @@ export class CrearDocumentosComponent implements OnInit {
     const filesDocumento: FileList | null = (this.documentoEvent.target as HTMLInputElement).files;
     if (filesDocumento && filesDocumento.length > 0) {
       Array.from(filesDocumento).forEach(file => {
-        const nombreArchivo = `documento_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        const nombreArchivo = `${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
         formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
   
       });
+      this.documentoEvent = null;
+
     }
   }
 
@@ -233,9 +238,11 @@ export class CrearDocumentosComponent implements OnInit {
     const filesFoto: FileList | null = (this.fotoEvent.target as HTMLInputElement).files;
     if (filesFoto && filesFoto.length > 0) {
       Array.from(filesFoto).forEach(file => {
-        const nombreArchivo = `foto_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        const nombreArchivo = `${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
         formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
       });
+      this.fotoEvent = null;
+
     }
   }
 
@@ -257,19 +264,26 @@ getDocumentoParaEditar(Id: number) {
   this.repositorio = null;
   this.repositorioanexoService.getDocumentosRepositorioById(Id).subscribe(
     (repositoriofromapi: IRepositorioAnexo) => {
+      console.log('hola?', repositoriofromapi);
+      
       this.repositorio = repositoriofromapi;
-      console.log(this.repositorio.photoPath,'KLKS')
+      this.fotoseleccionada = this.repositorio.photoPath
+      this.documentoseleccionado = this.repositorio.documentPath
 
       this.registerForm.patchValue({
-        nombre: this.repositorio.documentName,
-        documento: this.repositorio.documentPath,
-        foto: this.repositorio.photoPath
+        nombre: repositoriofromapi.documentName,
+        documento: repositoriofromapi.documentPath,
+        foto: repositoriofromapi.photoPath
       });
+
+      console.log('tengo data?', this.registerForm.value);
+      
     },
     (err: any) => {
       console.error(err);
       this.notFound = true;
-    }
+    }    
+
   );
 }
 

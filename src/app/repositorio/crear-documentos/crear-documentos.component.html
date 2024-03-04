@@ -46,7 +46,7 @@
                     <div class="form-group">
                       <label for="documento">{{ descripcionrutadoc }}</label>
                       <input type="text" class="form-control" #documentoText [value]="registerForm.get('documento').value" readonly >
-                      <input type="file" (change)="guardarDocumento($event)" class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx" #documentoInput>
+                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx" #documentoInput>
                       <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="help-block mt-1 text-danger">
                         <div *ngIf="documento.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -65,7 +65,7 @@
                     <div class="form-group">
                       <label for="foto">{{ descripcionrutafoto }}</label>
                       <input type="text" class="form-control" [value]="registerForm.get('foto').value" readonly>
-                      <input type="file" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
+                      <input type="file" [value]="registerForm.get('foto').value" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
                       <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="help-block mt-1 text-danger">
                         <div *ngIf="foto.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -79,7 +79,7 @@
 
 
 
-                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                <button type="submit" class="btn btn-success">Guardar</button>
                 <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip"
                   data-placement="bottom" title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i
                     class="fa fa-refresh"></i></a>

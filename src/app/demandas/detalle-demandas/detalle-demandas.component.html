@@ -287,6 +287,17 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-12" *ngIf="!(demanda.institucionesInvolucradas?.length > 0)">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Instituciones responsables: </span>
+                          <div>
+                            <span class="badge badge-pill ml-2 mt-1" [ngClass]="getEstadoClass(1)">
+                              Pendiente asignar sectorial
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
 
                       <div class="col-12" *ngIf="demanda?.nombreTecnicoOmpp">
                         <div class="form-group">

@@ -234,8 +234,8 @@ export class ListadoDemandasComponent
 
   // column header
   public columns = [
-    { name: "Demanda", prop: "descripcion", sorteable: false, visible: true },
-    { name: "Año", prop: "anio", sorteable: false, visible: true },
+    { name: "Demanda", prop: "descripcion", sorteable: false, visible: true,  width: 200, minWidth: 100  },
+    { name: "Año", prop: "anio", sorteable: false, visible: true,  width: 0, minWidth: 100   },
     {
       name: "Clasificador funcional",
       prop: "nombreTemaComun",
@@ -408,7 +408,8 @@ export class ListadoDemandasComponent
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
-    console.log(this.authService.getUserId(),'klk grupo')
+    this.dropdownService.getEstados().subscribe(
+      x => console.log(x))
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(
         (x) =>
@@ -427,11 +428,22 @@ export class ListadoDemandasComponent
         visible: true,
       });
       this.listadoEstados = this.dropdownService.getEstados();
+      this.listadoEstados.subscribe((c) => {
+        console.log('estado',c);
+        
+      });
+      
       this.usuarioInstitucional = true;
       this.tipoEstado = "ejecución";
 
     } else {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
+        this.columns.push({
+          name: "Estado de ejecución",
+          prop: "institucionesInvolucradas",
+          sorteable: false,
+          visible: true,
+        });
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(
           GrupoUsuario.DGDES
         );
@@ -766,7 +778,7 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
-      console.log('este es mi grupo',this.demanda)
+      console.log('este es mi row',this.rows)
       
     });
 
@@ -1078,10 +1090,10 @@ export class ListadoDemandasComponent
 
   getEstadoIdForInstitucion(
     institucionesInvolucradas?: any[],
-    idInstitucion?: number
+    institucionId?: number
   ): number | null {
     const institucionInvolucrada = institucionesInvolucradas.find(
-      (institucion) => institucion.institucionId === idInstitucion
+      (institucion) => institucion.institucionId === institucionId
     );
     return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
   }
