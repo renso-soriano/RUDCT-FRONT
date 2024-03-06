@@ -4,11 +4,11 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-      <a [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
+      <a  *ngIf="mostrarBoton" [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
+        title="Nueva Video" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo video
       </a>
-      <a [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
+      <a  *ngIf="mostrarBoton" [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
         title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo documento
       </a>
@@ -32,9 +32,9 @@
             <div class="card">
               <a [href]="documentpath[i]" target="_blank" class="btn btn-primary">Descargar</a>
               <br>
-              <a (click)="editar(id[i])" target="_blank" class="btn btn-success">Editar</a>
+              <a *ngIf="mostrarBoton" (click)="editar(id[i])" target="_blank" class="btn btn-success">Editar</a>
               <br>
-              <a  (click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
+              <a *ngIf="mostrarBoton"(click)="eliminar(id[i])" class="btn btn-danger">Eliminar</a>
             </div>
           </div>
         </div>

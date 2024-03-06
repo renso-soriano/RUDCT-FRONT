@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
 import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
 import { environment } from 'environments/environment';
+import { GrupoUsuario } from "app/shared/models/grupoUsuario.enum";
+import { AuthService } from "app/shared/services/core/auth.service";
 
 @Component({
   selector: 'app-listado-documentos',
@@ -18,10 +20,12 @@ export class ListadoDocumentosComponent implements OnInit {
   @ViewChild("modalFiles") modalFiles: ModalComponent
   isModalOpen: boolean = false;
   private URLAPI = environment.apiUrl
+  mostrarBoton: boolean = true;
 
   constructor(
     private repositorioAnexoService: RepositorioAnexoService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
 
   ) { }
   public photo: string[] = []
@@ -29,6 +33,8 @@ export class ListadoDocumentosComponent implements OnInit {
   public documentpath: any
   public id: number[]
   private tempData = [];
+  rolesEnum = GrupoUsuario;
+
   // row data
   limitSelected: any = 10;
   public rows;
@@ -48,6 +54,7 @@ export class ListadoDocumentosComponent implements OnInit {
   onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
     console.log(pageInfo,'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
     this.pageCallback(pageInfo); // Llama a pageCallback con el objeto pageInfo
+
   }
   
   modalConfigFiles: IModalConfig = {
@@ -70,7 +77,10 @@ export class ListadoDocumentosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.llamarDocumentos()
+    this.llamarDocumentos();
+    let grupousuario = this.authService.getGrupos().map(a => a.groupId);
+    this.mostrarBoton = grupousuario.includes(3022);
+    console.log(this.mostrarBoton);
    }
 
    editar(Id: string) {

@@ -11,7 +11,7 @@
       <div class="card-header">
         <h4 class="card-title">{{mode}} Documento</h4>
       </div>
-      
+
       <div class="card-content">
         <div class="card-body">
           <div class="card-text">
@@ -41,6 +41,8 @@
                   </div>
                 </div>
 
+
+
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
@@ -59,13 +61,12 @@
                   </div>
                 </div>
                 
-                
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="foto">{{ descripcionrutafoto }}</label>
-                      <input type="text" class="form-control" [value]="registerForm.get('foto').value" readonly>
-                      <input type="file" [value]="registerForm.get('foto').value" (click)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
+                      <input type="text" class="form-control" [value]="typeEdit? this.fotoseleccionada : registerForm.get('foto').value" readonly>
+                      <input type="file" (change)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
                       <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="help-block mt-1 text-danger">
                         <div *ngIf="foto.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -74,7 +75,8 @@
                       
                     </div>
                   </div>
-                </div>
+                </div>                
+
                 
 
 

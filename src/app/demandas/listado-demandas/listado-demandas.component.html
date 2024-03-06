@@ -84,20 +84,12 @@
                           {{value}}
                         </span>
                       </div>
-                      <div   *ngIf="column?.prop == 'institucionesInvolucradas'" >
-                        <ng-container *ngIf="row?.institucionesInvolucradas && row?.institucionesInvolucradas.length > 0; else pendiente" >
-                          <div *ngFor="let institucion of row.institucionesInvolucradas" >
-                            <div class="badge badge-pill" [ngClass]="estadoUtils.getEstadoClass(institucion.estadoId)">
-                              {{ institucion.nombreEstado || "Pendiente asignar sectorial" }}
-                            </div>
-                          </div>
-                        </ng-container>
-                        <ng-template #pendiente >
-                          <div class="badge badge-pill bg-secondary">
-                            Pendiente asignar sectorial
-                          </div>
-                        </ng-template>
-                      </div>
+                       <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
+                        [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
+                        {{
+                        estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
+                        idInstitucionProp)) }}
+                        </div>
                   
                       <div
                         *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"

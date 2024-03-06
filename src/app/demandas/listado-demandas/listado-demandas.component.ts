@@ -234,8 +234,8 @@ export class ListadoDemandasComponent
 
   // column header
   public columns = [
-    { name: "Demanda", prop: "descripcion", sorteable: false, visible: true,  width: 200, minWidth: 100  },
-    { name: "Año", prop: "anio", sorteable: false, visible: true,  width: 0, minWidth: 100   },
+    { name: "Demanda", prop: "descripcion", sorteable: false, visible: true },
+    { name: "Año", prop: "anio", sorteable: false, visible: true },
     {
       name: "Clasificador funcional",
       prop: "nombreTemaComun",
@@ -416,17 +416,18 @@ export class ListadoDemandasComponent
           x.prop !== "nombreEstadoValidacion" && x.prop !== "nombreTipoDemanda"
       );
       this.columns.push({
-        name: "Prioridad provincial",
-        prop: "prioridadProvincial",
-        sorteable: false,
-        visible: true,
-      });
-      this.columns.push({
         name: "Estado de ejecución",
         prop: "institucionesInvolucradas",
         sorteable: false,
         visible: true,
       });
+      this.columns.push({
+        name: "Prioridad provincial",
+        prop: "prioridadProvincial",
+        sorteable: false,
+        visible: true,
+      });
+     
       this.listadoEstados = this.dropdownService.getEstados();
       this.listadoEstados.subscribe((c) => {
         console.log('estado',c);
@@ -438,12 +439,7 @@ export class ListadoDemandasComponent
 
     } else {
       if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
-        this.columns.push({
-          name: "Estado de ejecución",
-          prop: "institucionesInvolucradas",
-          sorteable: false,
-          visible: true,
-        });
+       
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(
           GrupoUsuario.DGDES
         );
@@ -1090,10 +1086,10 @@ export class ListadoDemandasComponent
 
   getEstadoIdForInstitucion(
     institucionesInvolucradas?: any[],
-    institucionId?: number
+    idInstitucion?: number
   ): number | null {
     const institucionInvolucrada = institucionesInvolucradas.find(
-      (institucion) => institucion.institucionId === institucionId
+      (institucion) => institucion.institucionId === idInstitucion
     );
     return institucionInvolucrada ? institucionInvolucrada.estadoId : null;
   }
@@ -1200,7 +1196,7 @@ export class ListadoDemandasComponent
 
     console.log('email utils', EmailUtils);
     
-
+   console.log(this.instEstado)
 
     const descripcionDemanda = this.demanda.descripcion;
     let estadonuevo:string = this.instEstado
@@ -1208,7 +1204,7 @@ export class ListadoDemandasComponent
     const EstadosValidacion = this.titleEstadoValidacion(this.demanda.estadoValidacionId)
     let datosToSendEmailNotify: Iemail
     console.log(idgrupousuario)
-    if(this.estadoDemanda == this.instEstado){
+    if(this.estadoDemanda == estadonuevo){
       this.estadocambio = false
     }
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {

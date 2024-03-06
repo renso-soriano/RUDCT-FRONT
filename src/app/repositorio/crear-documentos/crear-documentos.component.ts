@@ -149,14 +149,16 @@ export class CrearDocumentosComponent implements OnInit {
     //   return;
     // }
     const nombredocumento = this.documento.value.split('\\').pop();
-    const nombrefoto = this.foto.value.split('\\').pop();
+    const nombrefoto = this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && !this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop(): this.fotoseleccionada));
     const timestamp = new Date().getTime(); // Obtiene el timestamp actual en milisegundos
 
     const repositorio:IRepositorioAnexo = {
-      photoPath: `foto_${timestamp}_${nombrefoto}`,
-      documentPath: `documento_${timestamp}_${nombredocumento}`,
+      photoPath: this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}`:(!this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}` : nombrefoto),
+      documentPath: this.typeEdit && !this.documentoEvent? nombredocumento: `documento_${timestamp}_${nombredocumento}`,
       documentName: this.nombre.value
     };
+    console.log(this.documentoEvent)
+
     console.log('yo tengo una adiccion, a los repositorio',repositorio);
 
     this.spinner.show();
@@ -224,7 +226,7 @@ export class CrearDocumentosComponent implements OnInit {
     const filesDocumento: FileList | null = (this.documentoEvent.target as HTMLInputElement).files;
     if (filesDocumento && filesDocumento.length > 0) {
       Array.from(filesDocumento).forEach(file => {
-        const nombreArchivo = `${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        const nombreArchivo = `documento_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
         formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
   
       });
@@ -238,7 +240,7 @@ export class CrearDocumentosComponent implements OnInit {
     const filesFoto: FileList | null = (this.fotoEvent.target as HTMLInputElement).files;
     if (filesFoto && filesFoto.length > 0) {
       Array.from(filesFoto).forEach(file => {
-        const nombreArchivo = `${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        const nombreArchivo = `foto_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
         formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
       });
       this.fotoEvent = null;
