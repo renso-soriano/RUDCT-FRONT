@@ -116,16 +116,11 @@ export class emailUtils {
 
                 case GrupoUsuario.DGDES:
                 if(EstadosValidacion == 'Validada por DGDES'){
-                subject = hayComentarios && EstadosValidacion ? 'nuevos comentarios registrados y estado cambiados' :
-                hayComentarios ? 'Nuevo comentario registrado' :
+                subject = hayComentarios && EstadosValidacion == 'Validada por DGDES'  ? 'Nuevo comentario registrado' :
                 estadocambio ? 'Estado cambiado' :
                 seleasignounademanda?    'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda'
-                body = hayComentarios && estadocambio ?
-                `La institucion DGDES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
-                hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
-                estadocambio ?
-                 `La institucion DGDES ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
-                 seleasignounademanda? `La institucion DGDES le ha asignado la demanda "${demandaDescripcion}"`:
+                body = hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
+                seleasignounademanda? `La institucion DGDES le ha asignado la demanda "${demandaDescripcion}"`:
                  `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                  this.notifyClientByEmail({
                     ToEmail: ['rensomiguel1@gmail.com'],
@@ -144,17 +139,15 @@ export class emailUtils {
                 //     emails = data.result.map(a=>a.email)
                    
                 //  });
-                // break;
+                break;
 
                 }
                 if (EstadosValidacion == 'Devuelta por DGDES') {
-                    subject = hayComentarios && EstadosValidacion ? 'nuevos comentarios registrados y estado cambiados' :
-                      hayComentarios ? 'Nuevo comentario registrado' :
+                    subject = hayComentarios ? 'Nuevo comentario registrado' :
                       estadocambio ? 'Estado cambiado' :
                       seleasignounademanda ? 'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda';
                   
-                    body = hayComentarios && estadocambio ?
-                      `La institución DGDES ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}"` :
+                    body = 
                       hayComentarios ?
                         `La institución DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
                         estadocambio ?
@@ -175,16 +168,16 @@ export class emailUtils {
                 break;
                 }
                 case GrupoUsuario.institucionalRUDT:
-                    subject = hayComentarios && estadocambio? `nuevos comentarios registrados y estado cambiado la demanda ${demandaDescripcion}, verificar la evidencia si existe` :
-                              hayComentarios ? 'Nuevo comentario registrado en las demanda' :
+                    subject = hayComentarios && estadocambio? `Nuevos comentarios registrados y estado cambiado en una demanda` :
+                              hayComentarios ? 'Nuevo comentario registrado en la demanda' :
                               estadocambio ? 'Estado de demanda cambiado' :
                                'Se ha hecho una modificación en la demanda';
                     body = hayComentarios && estadocambio ?
-                        `La institucion ${institucion} ha realizado nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}"` :
+                        `La Institución ${institucion} ha añadido nuevos comentarios y ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ,verificar la evidencia si existe` :
                         hayComentarios ?
-                        `Se han añadido nuevos comentarios a la demanda ${demandaDescripcion}` :
+                        `La Institución ${institucion} ha añadido nuevos comentarios a la demanda ${demandaDescripcion}` :
                         estadocambio ?
-                        `La institucion ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ` :
+                        `La Institución ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ` :
                         `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                         this.notifyClientByEmail({
                             ToEmail: ['rensomiguel1@gmail.com'],
