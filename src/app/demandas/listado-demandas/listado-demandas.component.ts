@@ -184,7 +184,6 @@ export class ListadoDemandasComponent
 
 
   estadoChange() {
-    console.log("ejecutando el change");
     this.estadoForm.patchValue({
       //comentarioEstado: null,
       codigoPoa: null,
@@ -408,8 +407,7 @@ export class ListadoDemandasComponent
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
-    this.dropdownService.getEstados().subscribe(
-      x => console.log(x))
+    
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(
         (x) =>
@@ -430,7 +428,6 @@ export class ListadoDemandasComponent
      
       this.listadoEstados = this.dropdownService.getEstados();
       this.listadoEstados.subscribe((c) => {
-        console.log('estado',c);
         
       });
       
@@ -484,7 +481,6 @@ export class ListadoDemandasComponent
         console.error(err);
       }
     );
-    console.log(observable);
 
     // Initially load first page
     //this.pageCallback({ offset: 0 });
@@ -633,7 +629,6 @@ export class ListadoDemandasComponent
     offset?: number;
   }) {
     this.page.offset = pageInfo.offset;
-    //console.log("reloadTable en pageCallBack")
     await this.reloadTable();
   }
 
@@ -774,7 +769,6 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
-      console.log('este es mi row',this.rows)
       
     });
 
@@ -868,11 +862,7 @@ export class ListadoDemandasComponent
 
 
 
-      console.log(
-        "this.institucionesInvolucradasExcel",
-        this.institucionesInvolucradasExcel
-      );
-      console.log("instituciones", instituciones);
+
 
       return {
         Codigo: item?.codigo,
@@ -1029,10 +1019,7 @@ export class ListadoDemandasComponent
         this.demanda = demanda;
         //this.estadoDemanda = demanda.institucionesInvolucradas.map((e)=>e.nombreEstado);
         this.ComentariosList = demanda?.demandaComentarios;
-        console.log("Lista de comentarios: ", this.ComentariosList);
-        console.log("Lista de otras cosas: ", this.demanda);
         this.demandaString = this.demanda.descripcion;
-        console.log(this.demandaString, "DEMOOO con randy ");
         if (this.usuarioInstitucional) {
           this.demanda.institucionesInvolucradas.forEach((institucion) => {
             const idRudt = parseInt(this.institucionUsuarioEnRUDT);
@@ -1194,16 +1181,13 @@ export class ListadoDemandasComponent
   async emailConstruction():Promise<void>{
     const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
 
-    console.log('email utils', EmailUtils);
     
-   console.log(this.instEstado)
 
     const descripcionDemanda = this.demanda.descripcion;
     let estadonuevo:string = this.instEstado
     let idgrupousuario = this.authService.getGrupos().map((grup) => grup.groupId)[0];
     const EstadosValidacion = this.titleEstadoValidacion(this.demanda.estadoValidacionId)
     let datosToSendEmailNotify: Iemail
-    console.log(idgrupousuario)
     if(this.estadoDemanda == estadonuevo){
       this.estadocambio = false
     }
@@ -1238,7 +1222,6 @@ export class ListadoDemandasComponent
         false
         );
     }
-    console.log(datosToSendEmailNotify)
     if(datosToSendEmailNotify){
     EmailUtils.notifyClientByEmail(datosToSendEmailNotify)
     }
@@ -1254,7 +1237,6 @@ export class ListadoDemandasComponent
       Body: `La institución ${this.nombreinstitucion} ha subido evidencia sobre su estado de la demanda ${this.demanda.descripcion}`,
       Attachments: []
     }).subscribe(() => {
-      console.log('Correo electrónico enviado después de cargar el archivo.');
     })});
   }
 
@@ -1304,7 +1286,6 @@ export class ListadoDemandasComponent
         institucion.codigoPoa = formValue.codigoPoa;
         institucion.codigoSnip = formValue.codigoSnip;
 
-        console.log(formValue.codigoSnip, "codigo snip");
       }
     });
     //this.demanda.comentarioEstado = formValue.comentarioEstado;
@@ -1326,7 +1307,6 @@ export class ListadoDemandasComponent
         if(EstadosValidacion.validadaPorDGDES == this.demanda.estadoValidacionId){
           this.estadocambio = false
         }
-        console.log()
         this.instEstado = estadoName
         this.spinner.hide();
         setTimeout(() => {
@@ -1334,7 +1314,6 @@ export class ListadoDemandasComponent
 
         }, 1500);
         
-          console.log('Este es el estado de mi demanda',this.instEstado);
           this.estadocambio = true
           this.emailConstruction()
       }

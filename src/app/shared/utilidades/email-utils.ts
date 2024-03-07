@@ -146,7 +146,6 @@ export class emailUtils {
                     subject = hayComentarios ? 'Nuevo comentario registrado' :
                       estadocambio ? 'Estado cambiado' :
                       seleasignounademanda ? 'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda';
-                  
                     body = 
                       hayComentarios ?
                         `La institución DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :

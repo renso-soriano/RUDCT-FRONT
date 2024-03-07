@@ -38,7 +38,6 @@ export class CrearDocumentosComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       if (params.has("Id")) {
-        console.log("Tengo ID")
         this.getDocumentoParaEditar(parseInt(params.get("Id")));
         this.typeEdit = true;
       }
@@ -157,9 +156,7 @@ export class CrearDocumentosComponent implements OnInit {
       documentPath: this.typeEdit && !this.documentoEvent? nombredocumento: `documento_${timestamp}_${nombredocumento}`,
       documentName: this.nombre.value
     };
-    console.log(this.documentoEvent)
 
-    console.log('yo tengo una adiccion, a los repositorio',repositorio);
 
     this.spinner.show();
 
@@ -249,12 +246,10 @@ export class CrearDocumentosComponent implements OnInit {
   }
 
   // Imprimir el FormData completo en la consola
-  console.log('Contenido del FormData:', formData);
 
   this.repositorioanexoService.subirDocumentos(formData).subscribe(
     (response) => {
       // Manejar la respuesta del backend si es necesario
-      console.log('Documentos subidos con éxito', response);
       this.serviceStr.typeSuccess("Los documentos se han subido correctamente");
     }
   );
@@ -266,7 +261,6 @@ getDocumentoParaEditar(Id: number) {
   this.repositorio = null;
   this.repositorioanexoService.getDocumentosRepositorioById(Id).subscribe(
     (repositoriofromapi: IRepositorioAnexo) => {
-      console.log('hola?', repositoriofromapi);
       
       this.repositorio = repositoriofromapi;
       this.fotoseleccionada = this.repositorio.photoPath
@@ -278,7 +272,6 @@ getDocumentoParaEditar(Id: number) {
         foto: repositoriofromapi.photoPath
       });
 
-      console.log('tengo data?', this.registerForm.value);
       
     },
     (err: any) => {
@@ -297,7 +290,6 @@ validartamaniodocumento(event: Event) {
   if (files && files.length > 0) {
     const fileSize: number = files[0].size; // Tamaño del primer archivo en bytes
     const sizelimit: number = 10 * 1024 * 1024; // Límite de tamaño: 10 MB en bytes
-    console.log('tamanio del archivo',fileSize)
     if (fileSize > sizelimit) {
       this.serviceStr.typeError("El documento debe pesar menos de 10 MB");
       // Limpiar el valor del input de archivo

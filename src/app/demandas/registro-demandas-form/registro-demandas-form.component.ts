@@ -82,10 +82,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.haycomentariosnuevos = false
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
-    console.log(`EMAIL`,this.email = this.authService.getPersona().email)
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
 
-    console.log('id de las instituciones', this.listadoInstituciones.map((m) => m.institucionId)[2])
     this.dropDownService
       ?.getInstitucionById(this.institucionUsuarioSSO)
       .subscribe((x: any) => {
@@ -1007,8 +1005,6 @@ agregarInstitucion() {
     });
 
     this.spinner.show();
-    console.log(formValue);
-    console.log(this._demanda);
     this.spinner.hide();
 
     if (this.typeEdit) {
@@ -1031,7 +1027,6 @@ agregarInstitucion() {
           this.spinner.hide();
         });
         this.accionesresult = "modificado"
-        console.log('INFO DE LA DEMANDA',this._demanda)
 
     } else {
       this.demandaService
@@ -1064,7 +1059,6 @@ agregarInstitucion() {
     const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
     const EstadosValidacion = this.titleEstadoValidacion(this._demanda.estadoValidacionId);
   
-    console.log('Listado de instituciones agregadas', this.ultimasInstitucionesAgregadas);
   
     if (this.seleasignodemanda && this.ultimasInstitucionesAgregadas && this.ultimasInstitucionesAgregadas.length > 0) {
       const institucionesAgregadas = this.ultimasInstitucionesAgregadas.map(inst => inst.institucionId);
@@ -1083,7 +1077,6 @@ agregarInstitucion() {
         this.seleasignodemanda
       );
   
-      console.log('ESTA ES LA DEMANDA', datosToSendEmailNotify);
   
       if (datosToSendEmailNotify) {
         EmailUtils.notifyClientByEmail(datosToSendEmailNotify);
@@ -1106,7 +1099,6 @@ agregarInstitucion() {
         this.seleasignodemanda
       );
   
-      console.log('ESTA ES LA DEMANDA', this._demanda);
   
       if (datosToSendEmailNotify) {
         EmailUtils.notifyClientByEmail(datosToSendEmailNotify);
@@ -1433,7 +1425,6 @@ agregarInstitucion() {
   }
   onSubFuncionChange() {
 
-    console.log(this.subFuncion.value)
 
     this.temaComunId.setValue(this.subFuncion.value.id);
     this.temaCommun.setValue(this.subFuncion.value.temaCommun)
