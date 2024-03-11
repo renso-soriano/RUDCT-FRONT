@@ -86,7 +86,6 @@ export class ListadoDocumentosComponent implements OnInit {
     let grupousuario = this.authService.getGrupos().map(a => a.groupId);
     this.mostrarBoton = grupousuario.includes(3022);
     console.log(this.mostrarBoton);
-   }
 
     const grupoUsuarios = this.authService.getGrupos();
     const idGruposUsuario = grupoUsuarios.map((group) => group.groupId);
@@ -105,7 +104,8 @@ export class ListadoDocumentosComponent implements OnInit {
 
 
 
-  llamarDocumentos(pageInfo?) {
+  llamarDocumentos(pageInfo?)
+  {
     var nuevaUrl = this.URLAPI.replace(/\/api\//i, "/");
 
     this.repositorioAnexoService.getDocumentosRepositorio(pageInfo, this.limitSelected).subscribe((data: any) => {
@@ -125,6 +125,7 @@ export class ListadoDocumentosComponent implements OnInit {
       console.log('Rows', this.rows.length)
     });
   }
+
   // filterUpdate(event) {
   //   const val = event.target.value.toLowerCase();
   //   // filter our data

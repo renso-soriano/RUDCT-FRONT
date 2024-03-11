@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
 import { AuthService } from "app/shared/services/core/auth.service";
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 
 
 @Component({
