@@ -8,7 +8,7 @@
         title="Nueva Demanda" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo video
       </a> -->
-      <a [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
+      <a [routerLink]="['Create']" *ngIf="isAdmin" data-toggle="tooltip" data-placement="bottom"
         title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo documento
       </a>

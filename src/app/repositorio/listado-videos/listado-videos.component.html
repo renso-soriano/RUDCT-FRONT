@@ -4,7 +4,7 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-      <a (click)="redirectToSave()" data-toggle="tooltip" data-placement="bottom"
+      <a (click)="redirectToSave()" *ngIf="isAdmin" data-toggle="tooltip" data-placement="bottom"
         title="Agregar video" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo video
       </a>

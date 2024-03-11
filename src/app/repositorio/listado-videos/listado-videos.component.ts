@@ -3,6 +3,8 @@ import { RepositorioVideoService } from 'app/shared/services/mantenimientos/repo
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
+import { AuthService } from 'app/shared/services/core/auth.service';
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 
 
 @Component({
@@ -19,7 +21,8 @@ export class ListadoVideosComponent implements OnInit {
   constructor(
     private repositorioVideoService: RepositorioVideoService,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
   limitSelected: any = 10;
 
@@ -28,13 +31,22 @@ export class ListadoVideosComponent implements OnInit {
     count: 0,
     offset: 0
   }
-  
+
   public videoslist: SafeResourceUrl[] = [];
   public nombrevideo:string[] = []
   mode: string;
+  isAdmin = false;
+  role = GrupoUsuario;
 
   ngOnInit(): void {
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
+
+    const grupoUsuarios = this.authService.getGrupos();
+    const idGruposUsuario = grupoUsuarios.map((group) => group.groupId);
+
+    if (idGruposUsuario.includes(this.role.DGDES) || idGruposUsuario.includes(this.role.administradoresRUDT) ) {
+      this.isAdmin = true;
+    }
   }
 
   async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
@@ -57,11 +69,11 @@ export class ListadoVideosComponent implements OnInit {
       this.videoslist = [];
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
-        this.Id.push(item.id) 
+        this.Id.push(item.id)
         this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`http://www.youtube.com/embed/${this.extractVideoId(item.enlace)}?origin=http://googleads.g.doubleclick.net/pagead/&showinfo=0&video-id=${this.extractVideoId(item.enlace)}&enablejsapi=1&widgetid=1&color=white&modestbranding=1&rel=0`
         ))
 
-      })                                                                   
+      })
 
       console.log('lo dato',this.videoslist)
     });
@@ -73,7 +85,7 @@ export class ListadoVideosComponent implements OnInit {
     //   error => {
     //     console.error('Error al obtener los documentos del repositorio:', error);
     //   }
-  
+
   }
 
   redirectToRepositorio(): void {
@@ -82,7 +94,7 @@ export class ListadoVideosComponent implements OnInit {
   redirectToSave(): void {
     this.router.navigate(['/repositorio/Createvideos/']);
   }
-  
+
 
   extractVideoId(url: string): string {
     // Extraer el ID del video de la URL de YouTube
