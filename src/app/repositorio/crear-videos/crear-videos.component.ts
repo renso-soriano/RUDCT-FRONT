@@ -74,7 +74,7 @@ export class CrearVideosComponent implements OnInit {
     if (this.typeEdit) {
       repositoriovideo.id = this.repositorio.id;
       this.RepositorioVideoService
-      .updateRepositorioVideo(this.repositorio)
+      .updateRepositorioVideo(repositoriovideo)
         .toPromise()
         .then((res: any) => {
           setTimeout(() => {

@@ -173,7 +173,7 @@ export class MapaComponent implements OnInit, AfterViewInit {
             <td colspan="2"><b>'+ (feature.properties['label']) + ':</b> ' + (feature.properties['TOPONIMIA']) + '</td>\
         </tr>\
         <tr>\
-            <td colspan="2"><b>Catidad de demandas:</b> ' + (feature.properties['demandas'] == undefined ? 0 : feature.properties['demandas']) + '</td>\
+            <td colspan="2"><b>Cantidad de demandas:</b> ' + (feature.properties['demandas'] == undefined ? 0 : feature.properties['demandas']) + '</td>\
         </tr>\
     </table>';
     layer.bindPopup(popupContent, { maxHeight: 400, closeOnClick: true, closeButton: false, autoClose: true, autoPan: true });

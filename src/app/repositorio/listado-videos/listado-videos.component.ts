@@ -3,8 +3,7 @@ import { RepositorioVideoService } from 'app/shared/services/mantenimientos/repo
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
-import { AuthService } from 'app/shared/services/core/auth.service';
-import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
+import { AuthService } from "app/shared/services/core/auth.service";
 
 
 @Component({
@@ -17,12 +16,14 @@ export class ListadoVideosComponent implements OnInit {
   Id: number[];
   typeEdit: boolean;
   notFound: boolean;
+  mostrarBoton: boolean = true;
+
   public rows
   constructor(
     private repositorioVideoService: RepositorioVideoService,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private authService: AuthService
+    private authService:AuthService
   ) { }
   limitSelected: any = 10;
 
@@ -40,18 +41,15 @@ export class ListadoVideosComponent implements OnInit {
 
   ngOnInit(): void {
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
-
-    const grupoUsuarios = this.authService.getGrupos();
-    const idGruposUsuario = grupoUsuarios.map((group) => group.groupId);
-
-    if (idGruposUsuario.includes(this.role.DGDES) || idGruposUsuario.includes(this.role.administradoresRUDT) ) {
-      this.isAdmin = true;
-    }
+    let grupousuario = this.authService.getGrupos().map(a => a.groupId);
+    this.mostrarBoton = grupousuario.includes(3022);
+    console.log(this.mostrarBoton);
   }
 
   async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
     // Asegúrate de asignar correctamente el offset proporcionado por el evento pageChange
     this.llamarVideos(pageInfo); // Llama a llamarDocumentos para actualizar los datos
+
   }
 
   onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
@@ -111,7 +109,7 @@ export class ListadoVideosComponent implements OnInit {
     this.router.navigate(["/repositorio/EditVideo/",Id]);
   }
   eliminar(id: string) {
-    alertFunctions.EliminarRegistro("/repositorio",this.repositorioVideoService.deleteRepositorioVideo(id));
+    alertFunctions.EliminarRegistro("/repositorio/listadovideo",this.repositorioVideoService.deleteRepositorioVideo(id));
   }
 
 

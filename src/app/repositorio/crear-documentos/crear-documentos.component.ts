@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
 import { RandyFileComponent } from 'app/shared/components/randy-file/randy-file.component';
@@ -21,7 +21,8 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./crear-documentos.component.scss']
 })
 export class CrearDocumentosComponent implements OnInit {
-  @ViewChild("randyFile", { static: false }) randyFile: RandyFileComponent
+  @ViewChild('documentoInput') documentoInput: ElementRef;
+  @ViewChild('documentoText') documentoText: ElementRef;
   documentoEvent: Event | undefined;
   fotoEvent: Event | undefined;
 
@@ -42,7 +43,8 @@ export class CrearDocumentosComponent implements OnInit {
       }
     });
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
-
+    this.descripcionrutafoto = this.typeEdit? "Ruta de la foto" : "Subir Foto del documento"
+    this.descripcionrutadoc = this.typeEdit? "Ruta del documento" : "Subir documento"
   }
 
   redirectToList(): void {
@@ -54,8 +56,13 @@ export class CrearDocumentosComponent implements OnInit {
   notFound = false;
   institucion: Observable<any[]>;
   mode: string;
+  descripcionrutafoto:string
+  descripcionrutadoc:string
   typeEdit: boolean;
   selected: Archivo[] = []
+  size:any
+  fotoseleccionada:any
+  documentoseleccionado:any
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
@@ -78,9 +85,13 @@ export class CrearDocumentosComponent implements OnInit {
   }
 
 
- guardarDocumento(event: Event) {
+  guardarDocumento(event: Event) {
+    this.validartamaniodocumento(event)
     this.documentoEvent = event;
   }
+  
+  
+  
 
   guardarFoto(event: Event) {
     this.fotoEvent = event;
@@ -130,25 +141,27 @@ export class CrearDocumentosComponent implements OnInit {
   }
 
   submit() {
-    if (!this.registerForm.valid) {
-      this.serviceStr.typeError(
-        "Alguna regla de validación no se está cumpliendo"
-      );
-      return;
-    }
+    // if (!this.registerForm.valid) {
+    //   this.serviceStr.typeError(
+    //     "Alguna regla de validación no se está cumpliendo"
+    //   );
+    //   return;
+    // }
     const nombredocumento = this.documento.value.split('\\').pop();
-    const nombrefoto = this.foto.value.split('\\').pop();
+    const nombrefoto = this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && !this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop(): this.fotoseleccionada));
+    const timestamp = new Date().getTime(); // Obtiene el timestamp actual en milisegundos
 
     const repositorio:IRepositorioAnexo = {
-      photoPath: nombrefoto,
-      documentPath: nombredocumento,
+      photoPath: this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}`:(!this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}` : nombrefoto),
+      documentPath: this.typeEdit && !this.documentoEvent? nombredocumento: `documento_${timestamp}_${nombredocumento}`,
       documentName: this.nombre.value
     };
-    console.log('yo tengo una adiccion, a los repositorio',repositorio);
+
 
     this.spinner.show();
 
     if (this.typeEdit) {
+     
       repositorio.id = this.repositorio.id;
       this.repositorioanexoService
         .updateDocumentosRepositorio(repositorio)
@@ -186,7 +199,7 @@ export class CrearDocumentosComponent implements OnInit {
           this.spinner.hide();
         });
     }
-    this.submitDocument()
+    this.submitDocument(timestamp)
   }
 
   refrescar() {
@@ -195,12 +208,13 @@ export class CrearDocumentosComponent implements OnInit {
   
   
   
-  submitDocument() {
+  submitDocument(timestamp) {
   
   if (!this.documentoEvent && !this.fotoEvent) {
     // No hay archivos para subir
     return;
   }
+
 
   const formData = new FormData();
 
@@ -209,8 +223,12 @@ export class CrearDocumentosComponent implements OnInit {
     const filesDocumento: FileList | null = (this.documentoEvent.target as HTMLInputElement).files;
     if (filesDocumento && filesDocumento.length > 0) {
       Array.from(filesDocumento).forEach(file => {
-        formData.append('ficheros', file);
+        const nombreArchivo = `documento_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
+  
       });
+      this.documentoEvent = null;
+
     }
   }
 
@@ -219,18 +237,19 @@ export class CrearDocumentosComponent implements OnInit {
     const filesFoto: FileList | null = (this.fotoEvent.target as HTMLInputElement).files;
     if (filesFoto && filesFoto.length > 0) {
       Array.from(filesFoto).forEach(file => {
-        formData.append('ficheros', file);
+        const nombreArchivo = `foto_${timestamp}_${file.name}`; // Genera un nombre único basado en el timestamp y el nombre original del archivo
+        formData.append('ficheros', file, nombreArchivo); // Agrega el archivo al FormData con el nombre generado
       });
+      this.fotoEvent = null;
+
     }
   }
 
   // Imprimir el FormData completo en la consola
-  console.log('Contenido del FormData:', formData);
 
   this.repositorioanexoService.subirDocumentos(formData).subscribe(
     (response) => {
       // Manejar la respuesta del backend si es necesario
-      console.log('Documentos subidos con éxito', response);
       this.serviceStr.typeSuccess("Los documentos se han subido correctamente");
     }
   );
@@ -240,23 +259,45 @@ export class CrearDocumentosComponent implements OnInit {
 getDocumentoParaEditar(Id: number) {
   this.notFound = false;
   this.repositorio = null;
-
   this.repositorioanexoService.getDocumentosRepositorioById(Id).subscribe(
-    (contactoinstitucionalfromapi: IRepositorioAnexo) => {
-      this.repositorio = contactoinstitucionalfromapi;
+    (repositoriofromapi: IRepositorioAnexo) => {
+      
+      this.repositorio = repositoriofromapi;
+      this.fotoseleccionada = this.repositorio.photoPath
+      this.documentoseleccionado = this.repositorio.documentPath
 
       this.registerForm.patchValue({
-        nombre: this.repositorio.documentName,
-        documento: this.repositorio.documentPath,
-        foto: this.repositorio.photoPath
+        nombre: repositoriofromapi.documentName,
+        documento: repositoriofromapi.documentPath,
+        foto: repositoriofromapi.photoPath
       });
-      console.log(this.repositorio);
+
+      
     },
     (err: any) => {
       console.error(err);
       this.notFound = true;
-    }
+    }    
+
   );
-  console.log(this.repositorio)
-}}
+}
+
+
+
+validartamaniodocumento(event: Event) {
+  const files: FileList = (event.target as HTMLInputElement).files;
+
+  if (files && files.length > 0) {
+    const fileSize: number = files[0].size; // Tamaño del primer archivo en bytes
+    const sizelimit: number = 10 * 1024 * 1024; // Límite de tamaño: 10 MB en bytes
+    if (fileSize > sizelimit) {
+      this.serviceStr.typeError("El documento debe pesar menos de 10 MB");
+      // Limpiar el valor del input de archivo
+      this.registerForm.get('documento').setValue(null);
+    }
+  }
+}
+
+
+}
 

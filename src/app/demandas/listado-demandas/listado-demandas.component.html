@@ -70,28 +70,27 @@
 
               <div class="col-md-12">
                 <ngx-datatable class="bootstrap core-bootstrap" [rows]="rows" [columns]="columns"
-                  [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [externalPaging]="true"
+                  [columnMode]="ColumnMode.force" [headerHeight]="10" [footerHeight]="50" [externalPaging]="true"
                   [externalSorting]="false" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
                   [sortType]="'single'" (page)="pageCallback($event)" rowHeight="auto" [reorderable]="reorderable">
                   <ngx-datatable-column *ngFor="let column of columns; let i = index" name="{{column?.name}}"
-                    [sortable]="column?.sortable" prop="{{column?.prop}}">
+                    [sortable]="column?.sortable"  prop="{{column?.prop}}" >
 
 
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template >
                       <div (click)="onMoving(row)" (mouseleave)="tooltikView = false">
                         <span
                           *ngIf="column?.prop != 'institucionesInvolucradas' && column?.prop != 'nombreEstadoValidacion' && column?.prop != 'prioridadProvincial' && column?.prop != 'nombreTipoDemanda'">
                           {{value}}
-
                         </span>
                       </div>
-                      <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
+                       <div *ngIf="column?.prop == 'institucionesInvolucradas'" class="badge badge-pill"
                         [ngClass]="estadoUtils.getEstadoClass(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas, idInstitucionProp))">
-
                         {{
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
-                      </div>
+                        </div>
+                  
                       <div
                         *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"
                         class="badge badge-pill"
