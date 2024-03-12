@@ -119,9 +119,9 @@ export class emailUtils {
                 subject = hayComentarios && EstadosValidacion == 'Validada por DGDES'  ? 'Nuevo comentario registrado' :
                 estadocambio ? 'Estado cambiado' :
                 seleasignounademanda?    'Nueva demanda asignada' : 'Se ha hecho una modificación en la demanda'
-                body = hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda ${demandaDescripcion}` :
-                seleasignounademanda? `La institucion DGDES le ha asignado la demanda "${demandaDescripcion}"`:
-                 `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
+                body = hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda <strong>${demandaDescripcion}</strong>` :
+                seleasignounademanda? `La institucion DGDES le ha asignado la demanda <strong>${demandaDescripcion}</strong>`:
+                 `Se ha hecho una modificación en la demanda: <strong>${demandaDescripcion}</strong>`;
                  this.notifyClientByEmail({
                     ToEmail: ['rensomiguel1@gmail.com'],
                     Subject: subject,
