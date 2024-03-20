@@ -652,7 +652,7 @@ handleVisitedUser() {
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
-        Anio: item.anio,
+        Año: item.anio,
         EscalaTerritorial: item.nivelDemanda,
         Demanda: item.descripcion,
         EstadoDemanda: item.nombreEstadoDemanda,

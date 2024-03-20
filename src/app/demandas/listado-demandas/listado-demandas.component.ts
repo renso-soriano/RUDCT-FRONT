@@ -865,8 +865,7 @@ export class ListadoDemandasComponent
 
 
       return {
-        Codigo: item?.codigo,
-        Anio: item?.anio,
+        Año: item?.anio,
         EscalaTerritorial: item?.nivelDemanda,
         Demanda: item?.descripcion,
         EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(
