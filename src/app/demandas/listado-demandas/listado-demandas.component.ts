@@ -866,9 +866,9 @@ export class ListadoDemandasComponent
 
       return {
         Año: item?.anio,
-        EscalaTerritorial: item?.nivelDemanda,
+        Escala_Territorial: item?.nivelDemanda,
         Demanda: item?.descripcion,
-        EstadoDemanda: this.estadoUtils.titleEstadoEjecucion(
+        Estado_Demanda: this.estadoUtils.titleEstadoEjecucion(
           this.estadoUtils.getEstadoIdForInstitucion(
             item?.institucionesInvolucradas,
             this.idInstitucionProp
@@ -880,11 +880,11 @@ export class ListadoDemandasComponent
         Municipio: item?.nombreMunicipio,
         Tema_Comun: item?.temaComunTema,
         Clasificador_Funcional: item?.nombreTemaComun,
-        NombreFuenteDemanda: item?.nombreFuenteDemanda,
-        institucionesInvolucradas: instituciones.join(","),
-        EjeEnd: item?.nombreEjeEnd,
-        TecnicoOmpp: item?.nombreTecnicoOmpp,
-        ResultanteDe: item?.resultanteDe,
+        Nombre_Fuente_Demanda: item?.nombreFuenteDemanda,
+        instituciones_Involucradas: instituciones.join("\n"),
+        Eje_End: item?.nombreEjeEnd,
+        Tecnico_Ompp: item?.nombreTecnicoOmpp,
+        Resultante_De: item?.resultanteDe,
         Activo: item?.estatus ? "Si" : "No",
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
@@ -892,6 +892,7 @@ export class ListadoDemandasComponent
         // ModificadoEn: item.fechaModificacion
       };
     });
+    console.log(this.dataExcel,'KLK');
   }
   mapFile() {
     //  let file = this.listaDeAnexos;

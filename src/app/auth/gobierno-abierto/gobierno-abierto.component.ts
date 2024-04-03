@@ -653,19 +653,19 @@ handleVisitedUser() {
       return {
         Codigo: item.codigo,
         Año: item.anio,
-        EscalaTerritorial: item.nivelDemanda,
+        Escala_Territorial: item.nivelDemanda,
         Demanda: item.descripcion,
-        EstadoDemanda: item.nombreEstadoDemanda,
+        Estado_Demanda: item.nombreEstadoDemanda,
         Prioridad: item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
-        NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        TecnicoOmpp: item.nombreTecnicoOmpp,
-        ResultanteDe: item.resultanteDe,
+        Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
+        Institucion_Responsable: item.nombreInstitucionResponsable.join('\n'),
+        Tecnico_Ompp: item.nombreTecnicoOmpp,
+        Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
@@ -675,7 +675,6 @@ handleVisitedUser() {
       };
 
     });
-
 
   }
 

@@ -20,10 +20,19 @@ export class ExcelService {
 
  // Obtener la cantidad de columnas
  const columnCount = Object.keys(json[0]).length;
+ const columnNames = Object.keys(json[0]);
 
  // Definir el ancho predeterminado para todas las columnas
  const defaultWidth = 50;
-
+ 
+ const greenfillStyle = {
+  fill: { color: { rgb: "FF00FF00" } } // RGB para verde
+};
+columnNames.forEach((columnName, columnIndex) => {
+  const cellRef = XLSX.utils.encode_cell({ r: 0, c: columnIndex }); // Celda en la primera fila
+  worksheet[cellRef].s = greenfillStyle; // Aplicar el estilo de fuente verde
+  console.log(worksheet[cellRef].s ,'KLDS');
+});
  // Definir el ancho específico para las columnas
  const specificWidths = {
      2: 150, // Cuarta columna
@@ -34,6 +43,9 @@ export class ExcelService {
 
  // Crear un arreglo de ancho de columnas con el ancho predeterminado para todas
  const columnWidths = Array(columnCount).fill({ wch: defaultWidth });
+
+ const firstCellRef = XLSX.utils.encode_cell({ r: 0, c: 0 }); // Primera celda (A1)
+ //worksheet[firstCellRef].s = greenFontStyle;
 
  // Establecer anchos de columna específicos
  for (const colIndex in specificWidths) {
