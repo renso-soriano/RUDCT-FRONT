@@ -58,10 +58,10 @@ export class emailUtils {
                             Body: body,
                             Attachments: []
                         })
-                        // this.ssoService.getPersonByGroupId(3021,1003).subscribe(data => {
-                        //     emails = data.result.map(a=>a.email)
+                         this.ssoService.getPersonByGroupId(3021,1003).subscribe(data => {
+                            emails = data.result.map(a=>a.email)
                            
-                        //  });
+                        });
                     }
                     
                 break;
@@ -84,9 +84,9 @@ export class emailUtils {
                     Body: body,
                     Attachments: []
                 })
-                //    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
-                //     emails = data.result.map(a=>a.email)
-                //    });
+                    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+                     emails = data.result.map(a=>a.email)
+                    });
                     }
                     if(EstadosValidacion == 'Devuelta por VIOTDR'){
                         subject = hayComentarios && EstadosValidacion ? 'nuevos comentarios registrados y estado cambiados' :
@@ -100,15 +100,15 @@ export class emailUtils {
                     `La institucion VIOTDR ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}", favor revisar la demanda y enviela de nuevo` :
                    `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                    this.notifyClientByEmail({
-                    ToEmail: ['rensomiguel1@gmail.com'],
+                    ToEmail: emails,
                     Subject: subject,
                     Body: body,
                     Attachments: []
                 })
-                //    this.ssoService.getPersonByGroupId(1009,1003).subscribe(data => {
-                //     emails = data.result.map(a=>a.email)
+                    this.ssoService.getPersonByGroupId(1009,1003).subscribe(data => {
+                     emails = data.result.map(a=>a.email)
                     
-                //  });  
+                  });  
                 
                 }
                     
@@ -123,22 +123,22 @@ export class emailUtils {
                 seleasignounademanda? `La institucion DGDES le ha asignado la demanda <strong>${demandaDescripcion}</strong>`:
                  `Se ha hecho una modificación en la demanda: <strong>${demandaDescripcion}</strong>`;
                  this.notifyClientByEmail({
-                    ToEmail: ['rensomiguel1@gmail.com'],
+                    ToEmail: emails,
                     Subject: subject,
                     Body: body,
                     Attachments: []
                 })
-                //  this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
-                //  .pipe(
-                //     switchMap(data => {
-                //         datostransformados = data
-                //         return this.ssoService.GetPersonByInstitutionId(datostransformados,1003)
-                //     })
-                //  )
-                //  .subscribe(data => {
-                //     emails = data.result.map(a=>a.email)
+                  this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
+                  .pipe(
+                     switchMap(data => {
+                         datostransformados = data
+                         return this.ssoService.GetPersonByInstitutionId(datostransformados,1003)
+                     })
+                  )
+                  .subscribe(data => {
+                     emails = data.result.map(a=>a.email)
                    
-                //  });
+                  });
                 break;
 
                 }
@@ -154,15 +154,15 @@ export class emailUtils {
                           `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                   
                           this.notifyClientByEmail({
-                            ToEmail: ['rensomiguel1@gmail.com'],
+                            ToEmail: emails,
                             Subject: subject,
                             Body: body,
                             Attachments: []
                           });
-                    //       this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {
-                    //   emails = data.result.map(a => a.email);
+                           this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {
+                       emails = data.result.map(a => a.email);
                      
-                    // });
+                     });
 
                 break;
                 }
@@ -179,15 +179,15 @@ export class emailUtils {
                         `La Institución ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ` :
                         `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                         this.notifyClientByEmail({
-                            ToEmail: ['rensomiguel1@gmail.com'],
+                            ToEmail: emails,
                             Subject: subject,
                             Body: body,
                             Attachments: []
                         })
-                        // this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
-                        //     emails = data.result.map(a=>a.email)
+                        this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+                            emails = data.result.map(a=>a.email)
                            
-                        //  });
+                         });
                     break;
 
             default:
