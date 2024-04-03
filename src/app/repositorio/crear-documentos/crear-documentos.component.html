@@ -48,7 +48,7 @@
                     <div class="form-group">
                       <label for="documento">{{ descripcionrutadoc }}</label>
                       <input type="text" class="form-control" #documentoText [value]="registerForm.get('documento').value" readonly >
-                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx" #documentoInput>
+                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx, .xlsx, .xls" #documentoInput>
                       <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="help-block mt-1 text-danger">
                         <div *ngIf="documento.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido

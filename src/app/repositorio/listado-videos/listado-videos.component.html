@@ -18,16 +18,15 @@
 
 <div class="videos-container">
   <div class="row">
-    <div [ngClass]="{'col-lg-4': videoslist.length <= 3, 'col-lg-3': videoslist.length == 4, 'col-lg-12': videoslist.length === 1, 'col-lg-6': videoslist.length === 2}" class="mt-3" *ngFor="let videoUrl of videoslist; let i = index">
+    <div [ngClass]="{'col-lg-4': videoslist.length <= 3, 'col-lg-3': videoslist.length == 4 || videoslist.length == 5, 'col-lg-2': videoslist.length >= 6}" class="mt-3" *ngFor="let videoUrl of videoslist; let i = index">
       <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen ></iframe>
+          <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen></iframe>
         </div>
         <div class="card-body">
           <h5 class="card-title mb-3">{{ nombrevideo[i] }}</h5>
           <div class="btn-group" role="group" aria-label="Acciones">
-            <a *ngIf="mostrarBoton"   (click)="editar(Id[i])" class="btn btn-primary mr-3">Editar</a>
-            <br>
+            <a *ngIf="mostrarBoton" (click)="editar(Id[i])" class="btn btn-primary mr-3">Editar</a>
             <a *ngIf="mostrarBoton" (click)="eliminar(Id[i])" class="btn btn-danger">Eliminar</a>
           </div>
         </div>
@@ -35,6 +34,7 @@
     </div>
   </div>
 </div>
+
 
 <ngb-pagination 
   [collectionSize]="page.count" 

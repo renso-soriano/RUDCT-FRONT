@@ -66,7 +66,7 @@ export class ListadoVideosComponent implements OnInit {
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
         this.Id.push(item.id) 
-        this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`http://www.youtube.com/embed/${this.extractVideoId(item.enlace)}${this.extractVideoId(item.enlace)}`
+        this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${this.extractVideoId(item.enlace)}`
         ))
 
       })                                                                   
@@ -93,16 +93,23 @@ export class ListadoVideosComponent implements OnInit {
   
 
   extractVideoId(url: string): string {
-    // Extraer el ID del video de la URL de YouTube
-    const videoId = url.split('v=')[1];
-    // Si hay parámetros adicionales en la URL, separamos el ID del video
-    // para asegurarnos de obtener solo el ID del video
-    const ampersandPosition = videoId.indexOf('&');
-    if (ampersandPosition !== -1) {
-      return videoId.substring(0, ampersandPosition);
+    let videoId: string = '';
+
+    // Caso 1: URL del tipo https://youtu.be/CbuRuZ5U4Y8?si=dQX3TEHn2me-NvQD
+    const shortUrlMatch = url.match(/youtu\.be\/([^\?]+)/);
+    if (shortUrlMatch && shortUrlMatch.length > 1) {
+        videoId = shortUrlMatch[1];
     }
+
+    // Caso 2: URL del tipo https://www.youtube.com/watch?v=CbuRuZ5U4Y8
+    const longUrlMatch = url.match(/[?&]v=([^&]+)/);
+    if (!videoId && longUrlMatch && longUrlMatch.length > 1) {
+        videoId = longUrlMatch[1];
+    }
+
     return videoId;
-  }
+}
+
   editar(Id: string) {
     this.router.navigate(["/repositorio/EditVideo/",Id]);
   }
