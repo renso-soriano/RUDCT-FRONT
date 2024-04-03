@@ -52,14 +52,15 @@ export class emailUtils {
                     if(EstadosValidacion == 'Registrada por ORP'){
                         subject = 'Nueva demanda registrada'
                         body = `Se ha registrado una nueva demanda, la demanda ${demandaDescripcion}`
-                        this.notifyClientByEmail({
-                            ToEmail: emails,
-                            Subject: subject,
-                            Body: body,
-                            Attachments: []
-                        })
+
                          this.ssoService.getPersonByGroupId(3021,1003).subscribe(data => {
                             emails = data.result.map(a=>a.email)
+                            this.notifyClientByEmail({
+                                ToEmail: emails,
+                                Subject: subject,
+                                Body: body,
+                                Attachments: []
+                            })
                            
                         });
                     }
@@ -78,14 +79,15 @@ export class emailUtils {
                     estadocambio ?
                     `La institucion VIOTDR ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
                    `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
-                   this.notifyClientByEmail({
-                    ToEmail: ['rensomiguel1@gmail.com'],
-                    Subject: subject,
-                    Body: body,
-                    Attachments: []
-                })
+                   
                     this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
                      emails = data.result.map(a=>a.email)
+                     this.notifyClientByEmail({
+                        ToEmail: emails,
+                        Subject: subject,
+                        Body: body,
+                        Attachments: []
+                    })
                     });
                     }
                     if(EstadosValidacion == 'Devuelta por VIOTDR'){
@@ -99,20 +101,21 @@ export class emailUtils {
                     estadocambio ?
                     `La institucion VIOTDR ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}", favor revisar la demanda y enviela de nuevo` :
                    `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
-                   this.notifyClientByEmail({
-                    ToEmail: emails,
-                    Subject: subject,
-                    Body: body,
-                    Attachments: []
-                })
-                    this.ssoService.getPersonByGroupId(1009,1003).subscribe(data => {
-                     emails = data.result.map(a=>a.email)
-                    
-                  });  
-                
+                   this.ssoService.getPersonByGroupId(1009,1003).subscribe(data => {
+                    emails = data.result.map(a=>a.email)
+
+                    this.notifyClientByEmail({
+                        ToEmail: emails,
+                        Subject: subject,
+                        Body: body,
+                        Attachments: []
+                    })                   
+                 });  
+               
+
                 }
                     
-                    break;
+                break;
 
                 case GrupoUsuario.DGDES:
                 if(EstadosValidacion == 'Validada por DGDES'){
@@ -122,12 +125,7 @@ export class emailUtils {
                 body = hayComentarios ?    `La institucion DGDES ha realizado nuevos comentarios a la demanda <strong>${demandaDescripcion}</strong>` :
                 seleasignounademanda? `La institucion DGDES le ha asignado la demanda <strong>${demandaDescripcion}</strong>`:
                  `Se ha hecho una modificación en la demanda: <strong>${demandaDescripcion}</strong>`;
-                 this.notifyClientByEmail({
-                    ToEmail: emails,
-                    Subject: subject,
-                    Body: body,
-                    Attachments: []
-                })
+                
                   this.ssoInstitucion.getSSOInstitucionIds(listadoInstituciones)
                   .pipe(
                      switchMap(data => {
@@ -137,6 +135,13 @@ export class emailUtils {
                   )
                   .subscribe(data => {
                      emails = data.result.map(a=>a.email)
+
+                     this.notifyClientByEmail({
+                        ToEmail: emails,
+                        Subject: subject,
+                        Body: body,
+                        Attachments: []
+                    })
                    
                   });
                 break;
@@ -152,16 +157,15 @@ export class emailUtils {
                         estadocambio ?
                           `La institución DGDES ha cambiado el estado de validación en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion || 'Estado no definido'}" favor revisar la demanda y enviarla de nuevo` :
                           `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
-                  
-                          this.notifyClientByEmail({
-                            ToEmail: emails,
-                            Subject: subject,
-                            Body: body,
-                            Attachments: []
-                          });
-                           this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {
+                    
+                        this.ssoService.getPersonByGroupId(3021, 1003).subscribe(data => {
                        emails = data.result.map(a => a.email);
-                     
+                       this.notifyClientByEmail({
+                        ToEmail: emails,
+                        Subject: subject,
+                        Body: body,
+                        Attachments: []
+                      });
                      });
 
                 break;
@@ -178,16 +182,16 @@ export class emailUtils {
                         estadocambio ?
                         `La Institución ${institucion} ha cambiado su estado de la demanda "${demandaDescripcion}", ha pasado a "${estadonuevo}" ` :
                         `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
-                        this.notifyClientByEmail({
-                            ToEmail: emails,
-                            Subject: subject,
-                            Body: body,
-                            Attachments: []
-                        })
-                        this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
-                            emails = data.result.map(a=>a.email)
-                           
-                         });
+                  
+                        // this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+                        //     emails = data.result.map(a=>a.email)
+                            this.notifyClientByEmail({
+                                ToEmail: ["consultasrudct@economia.gob.do"],
+                                Subject: subject,
+                                Body: body,
+                                Attachments: []
+                            })
+                        //  });
                     break;
 
             default:
