@@ -71,29 +71,20 @@
                           <label for="temaComun">{{demanda?.temaComunTema}}</label>
                         </div>
                       </div>
-                      <!-- <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
-                        <div class="form-group">
-                          <span class="danger font-weight-bold">Institución responsable: </span>
-                          <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
-                        </div>
-                      </div> -->
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="row">
-                      <div class="col-4" *ngIf="demanda?.nombreRegion">
+
+                      <div class="col-12" *ngIf="demanda?.nombreRegion">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Región: </span>
                           <label for="region">{{demanda?.nombreRegion}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.nombreProvincia">
+                      <div class="col-12" *ngIf="demanda?.nombreProvincia">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Provincia: </span>
                           <label for="provincia">{{demanda?.nombreProvincia}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.municipioId">
+                      <div class="col-12" *ngIf="demanda?.municipioId">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Municipio: </span>
                           <label for="municipio">{{demanda?.nombreMunicipio}}</label>
@@ -105,31 +96,42 @@
                           <label for="direccion">{{demanda?.direccion}}</label>
                         </div>
                       </div>
+                      <!-- <div class="col-12" *ngIf="demanda.nombreInstitucionResponsable">
+                        <div class="form-group">
+                          <span class="danger font-weight-bold">Institución responsable: </span>
+                          <label for="InstitucionResponsable">{{demanda.nombreInstitucionResponsable}}</label>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                     
                       <div class="col-12" *ngIf="demanda?.nombreFuenteDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Fuente de la demanda: </span>
                           <label for="fuente">{{demanda?.nombreFuenteDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.prioridad">
+                      <div class="col-12" *ngIf="demanda?.prioridad">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad: </span>
                           <label for="Prioridad">{{demanda?.prioridad}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.prioridadProvincial">
+                      <div class="col-4 col-xs-12" *ngIf="demanda?.prioridadProvincial">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Prioridad provincial: </span>
                           <label for="Prioridad">{{demanda?.prioridadProvincial}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.nombreTipoDemanda">
+                      <div class="col-12" *ngIf="demanda?.nombreTipoDemanda">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo Demanda: </span>
                           <label for="TipoDemanda">{{demanda?.nombreTipoDemanda}}</label>
                         </div>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.nivelDemanda">
+                      <div class="col-12" *ngIf="demanda?.nivelDemanda">
                         <div class="form-group" *ngIf="demanda?.nivelDemanda == 'Municipales';else other_content">
                           <span class="danger font-weight-bold">Escala territorial: </span>
                           <label for="Nivel">MUNICIPAL</label>
@@ -139,7 +141,7 @@
                           <label for="Nivel">PROVINCIAL</label>
                         </ng-template>
                       </div>
-                      <div class="col-4" *ngIf="demanda?.nombreTipoInversion || demanda?.otroTipoInversion ">
+                      <div class="col-12" *ngIf="demanda?.nombreTipoInversion || demanda?.otroTipoInversion ">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Tipo de inversión: </span>
                           <br />
@@ -246,14 +248,14 @@
                           <span class="danger font-weight-bold">Benficiarios directos: </span>
                         </div>
                       </div>
-                      <div class="col-3" *ngIf="demanda?.beneficiariosPersonas">
+                      <div class="col-12" *ngIf="demanda?.beneficiariosPersonas">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Personas: </span>
                           <label for="temaComun">{{demanda?.beneficiariosPersonas}}</label>
                         </div>
                       </div>
 
-                      <div class="col-3" *ngIf="demanda?.beneficiariosFamilias">
+                      <div class="col-12" *ngIf="demanda?.beneficiariosFamilias">
                         <div class="form-group">
                           <span class="danger font-weight-bold">Familias: </span>
                           <label for="temaComun">{{demanda?.beneficiariosFamilias}}</label>

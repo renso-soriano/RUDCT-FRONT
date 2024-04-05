@@ -62,6 +62,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   activeModules = []
 
   public isCollapsed = true;
+  public documentpath: any
 
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
@@ -332,6 +333,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   }
 
 
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -341,7 +343,8 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngOnInit() {
     this.activeModules = [1, 2];
     this.tipoEstado = "ejecución";
-    
+    var nuevaUrl = this.URL.replace(/\/api\//i, "/");
+    this.documentpath = `${nuevaUrl}files/VERSIÓN FINAL - Instructivo RUDCT Soy un Ciudadano.pdf`
     this.reloadTable();
 
     // Initially load first page
@@ -463,7 +466,10 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngAfterViewInit(): void {
     this.CheckUserVisit()  
 }
+ openfile(){
+  
 
+}
 CheckUserVisit() {
   const hasVisitedBefore = localStorage.getItem('visited');
 
