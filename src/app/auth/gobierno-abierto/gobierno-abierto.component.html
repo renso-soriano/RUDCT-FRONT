@@ -7,6 +7,7 @@
       <article>
         <img class="" src="../../../assets/img/icons/do.svg" alt="">
         <p>Esta es una web oficial del Gobierno de la República Dominicana. </p>
+        
       </article>
 
       <p class="text-color">
@@ -79,7 +80,12 @@
       <img src="assets/img/gallery/LOGORUDCTNEW.svg" alt="" class="img-fluid" width="500" height="230">
     </div> -->
 
+
     <div class="row mt-3">
+
+      
+      <a class="btn btn-primary btn-block" [href]="this.documentpath" target="_blank" >&gt;&gt; Descargar Instructivo de la plataforma AQUI &lt;&lt;</a>
+
       <div class="col-11 m-auto">
         <p class="my-2 proposito text-color">
           Transparentar las demandas territoriales ciudadanas a nivel nacional,
@@ -321,14 +327,15 @@
                         <!-- Acciones -->
                         <ngx-datatable-column name="Acciones">
                           <ng-template let-row="row" ngx-datatable-cell-template>
-                            <a class="btn-sm      btn-warning text-white  ft-eye"
-                              (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
-
-                            <!-- temporalmente desactivado -->
-                            <a class="btn-sm ml-1 btn-primary text-white ft-cloud" (click)="verArchivos(row.id)"
-                              [class.no-event]="!row.demandaAnexos.length > 0 || !validarFalse(row.demandaAnexos)"
-                              title=" Ver archivos"></a>
-
+                            <div class="d-flex flex-wrap justify-content-center">
+                              <a class="btn btn-warning text-white ft-eye mb-1" (click)="openVerticallyCentered(content,row.id)"
+                                title="Ver detalles"></a>
+                        
+                              <!-- temporalmente desactivado -->
+                              <a class="btn btn-primary text-white ft-cloud mb-1" (click)="verArchivos(row.id)"
+                                [class.no-event]="!row.demandaAnexos.length > 0 || !validarFalse(row.demandaAnexos)"
+                                title="Ver archivos"></a>
+                            </div>
                           </ng-template>
                         </ngx-datatable-column>
 

@@ -62,6 +62,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   activeModules = []
 
   public isCollapsed = true;
+  public documentpath: any
 
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
@@ -332,6 +333,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   }
 
 
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -341,7 +343,8 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngOnInit() {
     this.activeModules = [1, 2];
     this.tipoEstado = "ejecución";
-    
+    var nuevaUrl = this.URL.replace(/\/api\//i, "/");
+    this.documentpath = `${nuevaUrl}files/VERSIÓN FINAL - Instructivo RUDCT Soy un Ciudadano.pdf`
     this.reloadTable();
 
     // Initially load first page
@@ -463,7 +466,10 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngAfterViewInit(): void {
     this.CheckUserVisit()  
 }
+ openfile(){
+  
 
+}
 CheckUserVisit() {
   const hasVisitedBefore = localStorage.getItem('visited');
 
@@ -652,20 +658,20 @@ handleVisitedUser() {
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
-        Anio: item.anio,
-        EscalaTerritorial: item.nivelDemanda,
+        Año: item.anio,
+        Escala_Territorial: item.nivelDemanda,
         Demanda: item.descripcion,
-        EstadoDemanda: item.nombreEstadoDemanda,
+        Estado_Demanda: item.nombreEstadoDemanda,
         Prioridad: item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
-        NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        TecnicoOmpp: item.nombreTecnicoOmpp,
-        ResultanteDe: item.resultanteDe,
+        Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
+        Institucion_Responsable: item.nombreInstitucionResponsable.join('\n'),
+        Tecnico_Ompp: item.nombreTecnicoOmpp,
+        Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
@@ -675,7 +681,6 @@ handleVisitedUser() {
       };
 
     });
-
 
   }
 

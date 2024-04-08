@@ -4,17 +4,13 @@
 <div class="row">
   <div class="col-12">
     <div class="d-flex justify-content-end">
-      <a  *ngIf="mostrarBoton" [routerLink]="['Createvideos']" data-toggle="tooltip" data-placement="bottom"
-        title="Nueva Video" class="btn btn-primary btn-sm ml-1">
-        <i class="fa fa-plus-circle"></i> Agregar nuevo video
-      </a>
       <a  *ngIf="mostrarBoton" [routerLink]="['Create']" data-toggle="tooltip" data-placement="bottom"
         title="Nuevo Documento" class="btn btn-primary btn-sm ml-1">
         <i class="fa fa-plus-circle"></i> Agregar nuevo documento
       </a>
       <a [routerLink]="['listadovideo']" data-toggle="tooltip" data-placement="bottom"
-        title="Ver videos" class="btn btn-primary btn-sm ml-1">
-        <i class="fa fa-eye"></i> Ver Videos
+        title="Nuevo Video" class="btn btn-primary btn-sm ml-1">
+        <i class="fa fa-plus-circle"></i> Ver Videos
       </a>
     </div>
   </div>

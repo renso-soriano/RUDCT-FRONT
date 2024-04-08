@@ -47,7 +47,7 @@
                     <div class="form-group">
                       <label for="documento">{{ descripcionrutadoc }}</label>
                       <input type="text" class="form-control" #documentoText [value]="registerForm.get('documento').value" readonly >
-                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx" #documentoInput>
+                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx, .xlsx, .xls" #documentoInput>
                       <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="help-block mt-1 text-danger">
                         <div *ngIf="documento.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
@@ -80,7 +80,7 @@
 
 
 
-                <button type="submit" class="btn btn-success">Guardar</button>
+                <button type="submit" class="btn btn-success" >Guardar</button>
                 <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip"
                   data-placement="bottom" title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i
                     class="fa fa-refresh"></i></a>
@@ -92,7 +92,7 @@
       </div>
     </div>
     <div>
-      <a [routerLink]="['/repositorio']" class="btn btn-primary"><span>Volver a listado</span>
+      <a [routerLink]="['/repositorio']" class="fa fa-arrow-left btn btn-primary"><span>Volver a listado</span>
       </a>
     </div>
     <!--/ Kick start -->
