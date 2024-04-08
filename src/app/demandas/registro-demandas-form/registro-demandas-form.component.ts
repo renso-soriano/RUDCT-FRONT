@@ -36,13 +36,18 @@ import "leaflet/dist/leaflet.css";
 import { LeafletMouseEvent } from "app/shared/utilidades/utilidades";
 import { HttpParams } from "@angular/common/http";
 import { search } from "core-js/fn/symbol";
-
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 const provider = new OpenStreetMapProvider();
 import * as GeoSearch from 'leaflet-geosearch';
 import { AuthService } from "app/shared/services/core/auth.service";
 import { utc } from "moment";
 import { Estados } from "app/shared/models/auth/estados.enum";
+import { EmailService } from "app/shared/services/email.service";
+import { Iemail } from "app/shared/models/Iemail";
+import { emailUtils } from "app/shared/utilidades/email-utils";
+import { SSOService } from "app/shared/services/sso.service";
+import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
+import { EstadosValidacion } from "app/shared/models/auth/estadosValidacion.enum";
 
 @Component({
   selector: "app-registro-demandas-form",
@@ -62,16 +67,21 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     private serviceStr: NGXToastrService,
     private modalService: NgbModal,
     private temaComunService: TemaComunService,
-    private authService: AuthService
+    private authService: AuthService,
+    private emailService : EmailService,
+    private ssoservice: SSOService,
+    private ssoinstitucionService:SSOInstitucionService
   ) { }
   marker;
   userName;
+  Demandas_name;
+  email
   //Lleno todos los dropdowns fijos en el inicio
   ngOnInit() {
-
+    this.seleasignodemanda = false
+    this.haycomentariosnuevos = false
     this.userName = this.authService.getUserCompleteName();
     this.llenarDropDownFijos();
-
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
 
     this.dropDownService
@@ -106,7 +116,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
   private _demanda?: Demanda;
   private demandaId?: string;
-
+  private accionesresult:string
+  private haycomentariosnuevos?: boolean
   modal: NgbModal;
 
   @ViewChild("content") content: ElementRef<HTMLElement>;
@@ -151,6 +162,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   institucionUsuarioSSO: number;
   institucionUsuarioEnRUDT: any;
   shortNameinstitucionUsuarioEnRUDT: any;
+  estadoValidacionEnum = EstadosValidacion;
 
   activCount = 0;
   notFound = false;
@@ -158,6 +170,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   mode?: string;
   typeEdit = false;
   demandaForEdit?: any;
+  seleasignodemanda: boolean;
+
   formGroup: FormGroup;
 
   registerForm = this.formBuilder.group({
@@ -480,6 +494,25 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  titleEstadoValidacion(id?: number): string {
+    switch (id) {
+      case this.estadoValidacionEnum.registradaPorORP:
+        return " Registrada por ORP";
+      case this.estadoValidacionEnum.validadaPorVIOTDR:
+        return "Validada por VIOTDR";
+      case this.estadoValidacionEnum.validadaPorDGDES:
+        return "Validada por DGDES";
+      case this.estadoValidacionEnum.devueltaPorDGDES:
+        return "Devuelta por DGDES";
+      case this.estadoValidacionEnum.devueltaPorVIOTDR:
+        return "Devuelta por VIOTDR";
+      case this.estadoValidacionEnum.rechazadaNoCompetenciaSectorial:
+        return "Rechazada - no competencia de sectorial";
+      default:
+        return "";
+    }
+  }
+
   // llena Los distritos de acuerdo a los municipios
   onMunicipiosChange(id: number): void {
     this.distritosMunicipales =
@@ -612,36 +645,54 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     this.listadoPoliticas.splice(id, 1);
   }
 
-  agregarInstitucion() {
-    let institucionSelected = this.institucionesColaboradoras.value;
 
-    if (institucionSelected != null) {
-      if (this.listadoInstituciones == null) {
-        this.listadoInstituciones = [];
-      }
-      if (
-        this.listadoInstituciones.findIndex(
-          (item) => item.institucionId == institucionSelected.id
-        ) == -1
-      ) {
-        this.listadoInstituciones.push({
-          institucionId: institucionSelected.id,
-          nombre: institucionSelected.name,
-          codigoDemanda: 0,
-          estadoId: Estados.asignadoASectorial
-        });
-      } else {
-        this.serviceStr.typeWarning("No puede repetir Instituciones");
-      }
+  
 
+ultimasInstitucionesAgregadas: any[] = [];
+
+// ...
+
+agregarInstitucion() {
+  const institucionSelected = this.institucionesColaboradoras.value;
+
+  if (institucionSelected != null) {
+    // Si no hay lista, inicialízala como un arreglo vacío
+    this.listadoInstituciones = this.listadoInstituciones || [];
+
+    const existingIndex = this.listadoInstituciones.findIndex(
+      (item) => item.institucionId === institucionSelected.id
+    );
+
+    if (existingIndex === -1) {
+      // La institución no existe, agrégala a ambas listas
+      this.listadoInstituciones.push({
+        institucionId: institucionSelected.id,
+        nombre: institucionSelected.name,
+        codigoDemanda: 0,
+        estadoId: Estados.asignadoASectorial
+      });
+      this.ultimasInstitucionesAgregadas.unshift({
+        institucionId: institucionSelected.id,
+        nombre: institucionSelected.name,
+        codigoDemanda: 0,
+        estadoId: Estados.asignadoASectorial
+      });
+      this.seleasignodemanda = true;
+      // Limpia el campo después de agregar
+      this.registerForm.patchValue({
+        institucionesColaboradoras: null,
+      });
     } else {
-      this.serviceStr.typeError("No ha seleccionado institucion colaboradora");
+      // La institución ya existe, muestra un aviso
+      this.serviceStr.typeWarning("No puede repetir Instituciones");
     }
-
-    this.registerForm.patchValue({
-      institucionesColaboradoras: null,
-    });
+  } else {
+    this.serviceStr.typeError("No ha seleccionado institucion colaboradora");
   }
+}
+  
+  
+  
 
   eliminarInstitucion(id: number) {
     this.listadoInstituciones.splice(id, 1);
@@ -920,7 +971,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
               userName: item.userName,
               institucionId: item.institucionId,
             };
-          })
+          }) 
           : null,
 
       demandaContactos:
@@ -954,8 +1005,6 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
     });
 
     this.spinner.show();
-    console.log(formValue);
-    console.log(this._demanda);
     this.spinner.hide();
 
     if (this.typeEdit) {
@@ -977,6 +1026,8 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           );
           this.spinner.hide();
         });
+        this.accionesresult = "modificado"
+
     } else {
       this.demandaService
         .createDemanda(this._demanda)
@@ -995,9 +1046,71 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
           );
           this.spinner.hide();
         });
+        this.accionesresult = "creado"
     }
+    this.emailConstruction()
     //this.refrescar();
   }
+ 
+  async emailConstruction() {
+    const EmailUtils = new emailUtils(this.emailService, this.ssoservice, this.ssoinstitucionService);
+    const descripcionDemanda = this._demanda.descripcion;
+    const grupoUsuarios = this.authService.getGrupos();
+    const idgrupousuario = grupoUsuarios.map((grup) => grup.groupId)[0];
+    const EstadosValidacion = this.titleEstadoValidacion(this._demanda.estadoValidacionId);
+  
+  
+    if (this.seleasignodemanda && this.ultimasInstitucionesAgregadas && this.ultimasInstitucionesAgregadas.length > 0) {
+      const institucionesAgregadas = this.ultimasInstitucionesAgregadas.map(inst => inst.institucionId);
+  
+      const datosToSendEmailNotify = await EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario,
+        this.haycomentariosnuevos,
+        false,
+        '',
+        '',
+        EstadosValidacion,
+        institucionesAgregadas,
+        false,
+        this.seleasignodemanda
+      );
+  
+  
+      if (datosToSendEmailNotify) {
+        EmailUtils.notifyClientByEmail(datosToSendEmailNotify);
+      }
+    } else {
+      // Si no se asigna una demanda, notifica a todas las instituciones
+      const institucionesANotificar = this.listadoInstituciones.map((inst) => inst.institucionId);
+  
+      const datosToSendEmailNotify = await EmailUtils.constructEmail(
+        descripcionDemanda,
+        this.accionesresult,
+        idgrupousuario,
+        this.haycomentariosnuevos,
+        false,
+        '',
+        '',
+        EstadosValidacion,
+        institucionesANotificar,
+        false,
+        this.seleasignodemanda
+      );
+  
+  
+      if (datosToSendEmailNotify) {
+        EmailUtils.notifyClientByEmail(datosToSendEmailNotify);
+      }
+    }
+  }
+  
+  
+
+  
+
+
 
   refrescar() {
     //let nivel = this.nivelDemanda.value;
@@ -1312,7 +1425,6 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
   }
   onSubFuncionChange() {
 
-    console.log(this.subFuncion.value)
 
     this.temaComunId.setValue(this.subFuncion.value.id);
     this.temaCommun.setValue(this.subFuncion.value.temaCommun)
@@ -1370,7 +1482,7 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
           }
         )
-
+        this.haycomentariosnuevos = true
         this.registerForm.patchValue({
           comentarios: null
         });
@@ -1392,3 +1504,4 @@ export class RegistroDemandasFormComponent implements OnInit, AfterViewInit {
 
 
 }
+

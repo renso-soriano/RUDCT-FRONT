@@ -20,6 +20,10 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../consolidacion/consolidacion.module').then(m => m.ConsolidacionModule)
   },
   {
+    path: 'repositorio',
+    loadChildren: () => import('../../repositorio/repositorio.module').then(m => m.RepositorioModule)
+  },
+  {
     //canActivate: [RoleGuard],
     path: 'priorizacion',
     loadChildren: () => import('../../priorizacion/priorizacion.module').then(m => m.PriorizacionModule)
@@ -49,9 +53,15 @@ export const Full_ROUTES: Routes = [
     path: 'mantenimientos/tecnicos',
     loadChildren: () => import('../../mantenimientos/tecnicos/tecnicos.module').then(m => m.TecnicosModule)
   },
+
   {
     canActivate: [RoleGuard],
     path: 'mantenimientos/temaComun',
     loadChildren: () => import('../../mantenimientos/tema-comun/tema-comun.module').then(m => m.TemaComunModule)
+  },
+  {
+    canActivate: [RoleGuard],
+    path: 'mantenimientos/contactosinstitucionales',
+    loadChildren: () => import('../../mantenimientos/contacto-institucion/contacto-institucion.module').then(m => m.ContactoInstitucionModule)
   }
 ];

@@ -1,0 +1,114 @@
+<!-- start -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+  <p style="color: white"> Cargando... </p>
+</ngx-spinner>
+
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">{{mode}} Documento</h4>
+      </div>
+
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div class="div">
+              <form (submit)="submit()" [formGroup]="registerForm">
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="nombre">Nombre del Documento</label>
+                      <input type="text" class="form-control" name="nombre" id="nombre" formControlName="nombre">
+
+                      <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+                        class="help-block mt-1 text-danger">
+
+                        <div *ngIf="nombre.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="nombre.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco mas descriptivo por favor
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="documento">{{ descripcionrutadoc }}</label>
+                      <input type="text" class="form-control" #documentoText [value]="registerForm.get('documento').value" readonly >
+                      <input type="file" (change)="guardarDocumento($event)"  class="form-control-file" name="documento" id="documento" formControlName="documento" accept=".pdf, .doc, .docx, .pptx, .xlsx, .xls" #documentoInput>
+                      <div *ngIf="documento.invalid && (documento.dirty || documento.touched)" class="help-block mt-1 text-danger">
+                        <div *ngIf="documento.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+                        <div *ngIf="documento.errors.minlength">
+                          <i class="ft-alert-circle align-middle"></i> Sea un poco más descriptivo por favor
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="foto">{{ descripcionrutafoto }}</label>
+                      <input type="text" class="form-control" [value]="typeEdit? this.fotoseleccionada : registerForm.get('foto').value" readonly>
+                      <input type="file" (change)="guardarFoto($event)" class="form-control-file" name="foto" id="foto" formControlName="foto" accept="image/jpeg, image/png">
+                      <div *ngIf="foto.invalid && (foto.dirty || foto.touched)" class="help-block mt-1 text-danger">
+                        <div *ngIf="foto.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+                <button type="submit" class="btn btn-success" >Guardar</button>
+                <a *ngIf="!typeEdit" id="formRefresh" (click)="refrescar()" data-toggle="tooltip"
+                  data-placement="bottom" title="Refrescar formulario" class="btn btn btn-info btn-md ml-1"><i
+                    class="fa fa-refresh"></i></a>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a [routerLink]="['/repositorio']" class="fa fa-arrow-left btn btn-primary"><span>Volver a listado</span>
+      </a>
+    </div>
+    <!--/ Kick start -->
+
+    <div>
+      <a [routerLink]="['/repositorio']" class="btn btn-primary"><span>Volver a listado</span>
+      </a>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+<div>
+
+</div>

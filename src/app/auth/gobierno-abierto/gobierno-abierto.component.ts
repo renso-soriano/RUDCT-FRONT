@@ -62,6 +62,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   activeModules = []
 
   public isCollapsed = true;
+  public documentpath: any
 
   @ViewChild('regionChart') regionChart: RegionChartComponent;
   @ViewChild('mapaComponent') mapaComponent: MapaComponent;
@@ -332,6 +333,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   }
 
 
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -341,7 +343,8 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngOnInit() {
     this.activeModules = [1, 2];
     this.tipoEstado = "ejecución";
-    
+    var nuevaUrl = this.URL.replace(/\/api\//i, "/");
+    this.documentpath = `${nuevaUrl}files/VERSIÓN FINAL - Instructivo RUDCT Soy un Ciudadano.pdf`
     this.reloadTable();
 
     // Initially load first page
@@ -463,71 +466,68 @@ export class GobiernoAbiertoComponent implements OnInit {
   ngAfterViewInit(): void {
     this.CheckUserVisit()  
 }
+ openfile(){
+  
 
-  CheckUserVisit(){
-    const hasVisitedBefore = localStorage.getItem('visited');
-    let storedCounter: number[];
-//     console.log('ha estado aqui antes?' + hasVisitedBefore)
-  if(!hasVisitedBefore){
-      this.http.get<number>(`${this.URL}Contador`)
-      .pipe(
-        map((res: number) => {
-          return res;
-        })
-      )
-      .subscribe((res: number) => {
-        storedCounter = res.toString().split('').map(Number);
-        localStorage.setItem('visited', 'true'); 
-        this.visitCounter = storedCounter;
-      });
-    }
-  else {
-  // Usuario ha visitado antes, verificar si ha expirado la fecha
-  // Obtener la fecha actual
-const currentDateTime = new Date();
-// Obtener la fecha de expiración almacenada en Local Storage (si existe)
-let storedExpirationTime = localStorage.getItem('expiration');
-// Calcular la fecha de expiración solo si no está almacenada en Local Storage
-const expirationTime = storedExpirationTime ? 
-new Date(parseInt(storedExpirationTime, 10)): 
-new Date(currentDateTime.getTime() + 2* 60 * 60 * 1000); //  2 horas
-//console.log('Fecha de expiración:', expirationTime.toLocaleString());
-//console.log('Fecha actual:', currentDateTime.toLocaleString());
-// Almacenar la fecha de expiración en Local Storage si no está almacenada o ha sido eliminada
-if (!storedExpirationTime) {
-  localStorage.setItem('expiration', expirationTime.getTime().toString());
 }
-// Realizar las comparaciones utilizando la fecha de expiración calculada
-if (currentDateTime > expirationTime) {
-  // La fecha ha expirado, contar la visita y establecer una nueva fecha de expiración
+CheckUserVisit() {
+  const hasVisitedBefore = localStorage.getItem('visited');
+
+  if (!hasVisitedBefore) {
+    this.fetchCounterAndUpdateLocalStorage();
+  }
+
+  if(hasVisitedBefore){
+    this.handleVisitedUser();
+  } 
+}
+
+fetchCounterAndUpdateLocalStorage() {
   this.http.get<number>(`${this.URL}Contador`)
     .subscribe((res: number) => {
       const storedCounter = res.toString().split('').map(Number);
-      localStorage.setItem('visited', 'true'); // 5 seg
+      localStorage.setItem('visited', 'true');
       this.visitCounter = storedCounter;
-      // Establecer una nueva fecha de expiración (por ejemplo, 2 horas)
-      const newExpirationTime = new Date(currentDateTime.getTime() + 2* 60 * 60 * 1000);
-      localStorage.setItem('expiration', newExpirationTime.getTime().toString());
-      //  console.log('Simulando una nueva visita:', this.visitCounter);
-      //  console.log('Nueva fecha de expiración:', newExpirationTime.toLocaleString());
-      // Si la fecha almacenada está presente y ha expirado, borrarla para establecer una nueva
-      if (storedExpirationTime) {
-       const storedExpirationDateTime = new Date(parseInt(storedExpirationTime, 10));
-  // Asegurarse de que la nueva fecha de expiración sea después del tiempo actual
-         if (currentDateTime > storedExpirationDateTime ) {
-           localStorage.removeItem('expiration');
-           storedExpirationTime = null;
-         }}
     });
-} else {
-  // La fecha aún no ha expirado, mantener el contador actual
-  this.http.get<number>(`${this.URL}Contador/GetContadorNoIncremento`)
-    .subscribe((res: number) => {
-      this.visitCounter = res.toString().split('').map(Number);
-//      console.log('Número de visitas:', this.visitCounter);
-    });
-}}
 }
+
+handleVisitedUser() {
+  const currentDateTime = new Date();
+  let storedExpirationTime = localStorage.getItem('expiration');
+
+    const expirationTime = storedExpirationTime ?
+    new Date(parseInt(storedExpirationTime, 10)) :
+    new Date(currentDateTime.getTime() + 2 * 60 * 60 * 1000); // 2 horas
+
+
+  localStorage.setItem('expiration', expirationTime.getTime().toString());
+  
+
+  if (currentDateTime > expirationTime) {
+    this.fetchCounterAndUpdateLocalStorage();
+
+    const newExpirationTime = new Date(currentDateTime.getTime() + 2 * 60 * 60 *1000);
+    localStorage.setItem('expiration', newExpirationTime.getTime().toString());
+  }
+
+  if (storedExpirationTime) {
+    const storedExpirationDateTime = new Date(parseInt(storedExpirationTime, 10));
+
+    if (currentDateTime > storedExpirationDateTime) {
+      localStorage.removeItem('expiration');
+      storedExpirationTime = null;
+    }
+  }
+
+  if(currentDateTime < expirationTime)
+  this.http.get<number>(`${this.URL}Contador/GetContadorNoIncremento`)
+      .subscribe((res: number) => {
+        this.visitCounter = res.toString().split('').map(Number);
+  });
+  console.log('Número de visitas:', this.visitCounter);
+
+}
+
 
   setFilterAnnios(): any[] {
     const annioInicial = environment.appStartYear;
@@ -658,20 +658,20 @@ if (currentDateTime > expirationTime) {
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
-        Anio: item.anio,
-        EscalaTerritorial: item.nivelDemanda,
+        Año: item.anio,
+        Escala_Territorial: item.nivelDemanda,
         Demanda: item.descripcion,
-        EstadoDemanda: item.nombreEstadoDemanda,
+        Estado_Demanda: item.nombreEstadoDemanda,
         Prioridad: item.prioridad,
         Region: item.nombreRegion,
         Provincia: item.nombreProvincia,
         Municipio: item.nombreMunicipio,
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
-        NombreFuenteDemanda: item.nombreFuenteDemanda,
-        InstitucionResponsable: item.nombreInstitucionResponsable,
-        TecnicoOmpp: item.nombreTecnicoOmpp,
-        ResultanteDe: item.resultanteDe,
+        Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
+        Institucion_Responsable: item.nombreInstitucionResponsable.join('\n'),
+        Tecnico_Ompp: item.nombreTecnicoOmpp,
+        Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
@@ -681,7 +681,6 @@ if (currentDateTime > expirationTime) {
       };
 
     });
-
 
   }
 
