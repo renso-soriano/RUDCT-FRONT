@@ -138,7 +138,8 @@ export class CrearTecnicoComponent implements OnInit {
     this.provincias = this.dropDownService.getProvincias();
   }
   getMunicipios() {
-    this.municipios = this.dropDownService.getMunicipios();
+
+    console.log(this.municipios = this.dropDownService.getMunicipios(),'gabimaru el vacio');
   }
 
 

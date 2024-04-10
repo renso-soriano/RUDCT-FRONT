@@ -148,6 +148,26 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
+                      <label for="institucionid">Institucion</label>
+                      <ng-select [items]="instituciones | async" bindLabel="name" bindValue="id" name="institucionid"
+                        id="institucionid" placeholder="Seleccione instituciones" formControlName="institucionid">
+                      </ng-select>
+                      <div *ngIf="institucionid.invalid && (institucionid.dirty || institucionid.touched)"
+                      class="help-block mt-1 text-danger">
+
+                      <div *ngIf="institucionid.errors.required">
+                        <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                      </div>
+                    </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
                       <label for="direccion">Direccion</label>
                       <input type="text" class="form-control" name="direccion" id="direccion" formControlName="direccion">
                     

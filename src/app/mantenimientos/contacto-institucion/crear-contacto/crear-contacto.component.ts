@@ -27,10 +27,11 @@ export class CrearContactoComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authservice: AuthService,
+    private institucionesservice: InstitucionService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.authservice.getInstitucion())
+    this.getInstituciones()
   this.dropDownService.getInstitucionById(this.authservice.getInstitucion()).subscribe(
    data => {
     this.institucionids = data.map(a => a.id)[0];
@@ -62,6 +63,7 @@ export class CrearContactoComponent implements OnInit {
   typeEdit: boolean;
   institucionids:number
   nombreinstitucion:string
+  instituciones: Observable<any[]>;
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
@@ -73,7 +75,8 @@ export class CrearContactoComponent implements OnInit {
     email: [null,  { validators:  [Validators.email] } ],
     funcion: [null ],
     direccion : [null],
-    area:[null]
+    area:[null],
+    institucionid:[null]
   });
 
   //getters
@@ -108,8 +111,13 @@ export class CrearContactoComponent implements OnInit {
   get area() {
     return this.registerForm.get("area");
   }  
+  get institucionid() {
+    return this.registerForm.get("institucionid");
+  }  
 
-
+  getInstituciones() {
+    this.instituciones = this.institucionesservice.getInstituciones();
+ }
 
   getContactoParaEditar(Id: number) {
     this.notFound = false;
@@ -132,7 +140,7 @@ export class CrearContactoComponent implements OnInit {
           institucionId: this.contacto.institucionId,
           essectorial:this.contacto.EsSectorial,
           direccion:this.contacto.direccion,
-          area: this.contacto.area
+          area: this.contacto.area,
         });
         console.log(this.contacto);
       },
