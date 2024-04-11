@@ -9,7 +9,7 @@ export interface IcontactoInstitucional {
     EsSectorial:number,
     funcion:string,
     nombreinstitucion?:string
-    direccion:string
+ //   direccion:string
     institucionId:number,
     area:string
   }

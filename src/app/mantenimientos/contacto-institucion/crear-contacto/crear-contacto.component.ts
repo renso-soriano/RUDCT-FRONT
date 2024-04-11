@@ -63,7 +63,7 @@ export class CrearContactoComponent implements OnInit {
   typeEdit: boolean;
   institucionids:number
   nombreinstitucion:string
-  instituciones: Observable<any[]>;
+  instituciones: any
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
@@ -74,7 +74,7 @@ export class CrearContactoComponent implements OnInit {
     extension: [null],
     email: [null,  { validators:  [Validators.email] } ],
     funcion: [null ],
-    direccion : [null],
+ //   direccion : [null],
     area:[null],
     institucionid:[null]
   });
@@ -104,9 +104,9 @@ export class CrearContactoComponent implements OnInit {
   get email() {
     return this.registerForm.get("email");
   }
-  get direccion() {
-    return this.registerForm.get("direccion");
-  }  
+  // get direccion() {
+  //   return this.registerForm.get("direccion");
+  // }  
 
   get area() {
     return this.registerForm.get("area");
@@ -116,8 +116,16 @@ export class CrearContactoComponent implements OnInit {
   }  
 
   getInstituciones() {
-    this.instituciones = this.institucionesservice.getInstituciones();
- }
+    this.institucionesservice.getInstituciones().subscribe(
+      instituciones => {
+        this.instituciones = instituciones;
+      },
+      error => {
+        // Manejar cualquier error que pueda ocurrir
+        console.error('Error al obtener instituciones:', error);
+      }
+    );
+  }
 
   getContactoParaEditar(Id: number) {
     this.notFound = false;
@@ -139,7 +147,7 @@ export class CrearContactoComponent implements OnInit {
           email: this.contacto.email,
           institucionId: this.contacto.institucionId,
           essectorial:this.contacto.EsSectorial,
-          direccion:this.contacto.direccion,
+//          direccion:this.contacto.direccion,
           area: this.contacto.area,
         });
         console.log(this.contacto);
@@ -180,8 +188,8 @@ export class CrearContactoComponent implements OnInit {
       telefono: this.telefono.value,
       extension: this.extension.value,
       email: this.email.value,
-      direccion:this.direccion.value,
-      institucionId: this.institucionids,
+//      direccion:this.direccion.value,
+      institucionId: this.institucionid.value,
       area:this.area.value
     };
     console.log('yo tengo una adiccion, a los contactoss',contacto);

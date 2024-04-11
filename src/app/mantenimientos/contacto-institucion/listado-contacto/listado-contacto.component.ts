@@ -63,7 +63,7 @@ export class ListadoContactoComponent implements OnInit {
     "Apellido": null,
     "Telefono": null,
     "Email": null,
-    "Direccion": null,
+    // "Direccion": null,
     "Funcion": null,
     "Extension": null,
 
@@ -102,7 +102,7 @@ export class ListadoContactoComponent implements OnInit {
   inlineEditingUpdate(event, cell, rowIndex) {
     this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
-    this.rows = [...this.rows];
+   // this.rows = [...this.rows];
   }
   
   limitSelected: any = 10;
@@ -338,15 +338,15 @@ export class ListadoContactoComponent implements OnInit {
     this.dataExcel = this.rowExportExcel.map((item: any) => {
       const nombreInstitucion = this.rows.find(a => a.institucionId === item.institucionId)?.institucionNombre;
       return {
-        Codigo: item.codigo,
+        //Codigo: item.codigo,
         Nombre: item.nombre,
         Apellido: item.apellido,
         Telefono: item.telefono,
         Email: item.email,
-        Direccion: item.direccion,
+        // Direccion: item.direccion,
         Funcion: item.funcion,
-        institucionId: item.institucionId,  
-        Nombreinstitucion: nombreInstitucion.toString(),
+        //institucionId: item.institucionId,  
+        Institución: nombreInstitucion.toString(),
         // Otras propiedades si es necesario
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,
