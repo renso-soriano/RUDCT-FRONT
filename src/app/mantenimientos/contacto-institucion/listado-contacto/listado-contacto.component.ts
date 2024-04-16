@@ -18,6 +18,7 @@ import { DatatableData } from "app/mantenimientos/contacto-institucion/listado-c
 import { ContactoInsticionalService } from "app/shared/services/mantenimientos/contacto-institucion.service";
 import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
 import { ExcelService } from "app/shared/services/excel.service";
+import { AuthService } from "app/shared/services/core/auth.service";
 
 @Component({
   selector: 'app-listado-contacto',
@@ -92,6 +93,7 @@ export class ListadoContactoComponent implements OnInit {
   private tempData = [];
   private multiPurposeTemp = [];
   institucionNombre: string;
+  mostrarBoton: boolean = true;
   /**
    * inlineEditingUpdate
    *
@@ -209,7 +211,8 @@ export class ListadoContactoComponent implements OnInit {
     private contactoInstitucionService: ContactoInsticionalService,
     private router: Router,
     private SSOInstitucionService: SSOInstitucionService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private authService:AuthService
 
   ) {
     this.tempData = [];
@@ -255,6 +258,9 @@ export class ListadoContactoComponent implements OnInit {
   ngOnInit() {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
+    let grupousuario = this.authService.getGrupos().map(a => a.groupId);
+    this.mostrarBoton = grupousuario.includes(3022);
+
     this.contactoInstitucionService.getContactosInstitucion().subscribe(
       (contactosFromTheAPI: any) => {
         this.data = contactosFromTheAPI;

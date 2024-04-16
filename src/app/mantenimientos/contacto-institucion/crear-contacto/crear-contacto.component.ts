@@ -66,12 +66,12 @@ export class CrearContactoComponent implements OnInit {
   instituciones: any
 
   registerForm = this.formBuilder.group({
-    nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
-    apellido: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
+    nombre: [ null,{ validators: [Validators.required, Validators.minLength(5)] },],
+    apellido: [ null,{ validators: [Validators.required, Validators.minLength(5)] },],
     estatus: ["A"],
     id: [0],
-    telefono: [null],
-    extension: [null],
+    telefono: [null,{validators: [Validators.required,Validators.pattern(/^\d+\.?\d*$/)]}],
+    extension: [null,{validators: [Validators.required,Validators.pattern(/^\d+\.?\d*$/), Validators.maxLength(4)]}],
     email: [null,  { validators:  [Validators.email] } ],
     funcion: [null ],
  //   direccion : [null],

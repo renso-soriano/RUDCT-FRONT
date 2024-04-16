@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12">
+    <div *ngIf="this.mostrarBoton" class="col-12">
       <div class="w-100 d-flex justify-content-end">
         <a [routerLink]="['/mantenimientos/contactosinstitucionales/Create']" data-toggle="tooltip" data-placement="bottom"
           title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle">
@@ -67,8 +67,8 @@
   
                     <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                       title="ver detalles"></a>
-                    <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
-                    <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                    <a *ngIf="this.mostrarBoton" class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                    <a *ngIf="this.mostrarBoton" class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
                   </ng-template>
                 </ngx-datatable-column>

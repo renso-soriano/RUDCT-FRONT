@@ -68,7 +68,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="telefono">Telefono</label>
-                      <input type="text" class="form-control" name="telefono" id="telefono" formControlName="telefono">
+                      <input type="tel" class="form-control" name="telefono" id="telefono" formControlName="telefono">
 
                       <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
                         class="help-block mt-1 text-danger">
@@ -99,7 +99,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="text" class="form-control" name="email" id="email" formControlName="email">
+                      <input type="email" class="form-control" name="email" id="email" formControlName="email">
                       <div *ngIf="email.invalid && (email.dirty || email.touched)"
                         class="help-block mt-1 text-danger">
 

@@ -80,7 +80,6 @@ export class ListadoDocumentosComponent implements OnInit {
     this.llamarDocumentos();
     let grupousuario = this.authService.getGrupos().map(a => a.groupId);
     this.mostrarBoton = grupousuario.includes(3022);
-    console.log(this.mostrarBoton);
    }
 
    editar(Id: string) {
@@ -109,7 +108,7 @@ export class ListadoDocumentosComponent implements OnInit {
         this.photo.push(`${nuevaUrl}files/${item.photoPath}`);
         this.id.push(item.id)
       });
-      console.log('Rows',this.rows.length)
+      console.log('Rows',this.photo)
     });
   }
   // filterUpdate(event) {
