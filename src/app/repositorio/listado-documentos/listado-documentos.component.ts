@@ -10,6 +10,7 @@ import { IRepositorioAnexo } from 'app/shared/models/irepositorioanexo';
 import { environment } from 'environments/environment';
 import { GrupoUsuario } from "app/shared/models/grupoUsuario.enum";
 import { AuthService } from "app/shared/services/core/auth.service";
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-listado-documentos',
@@ -90,7 +91,7 @@ export class ListadoDocumentosComponent implements OnInit {
   }
 
   get getImageFromPath(): string{
-    const defaultImage: string = 'assets\img\svg\No-Image-Placeholder.svg.png'
+    const defaultImage: string = 'assets/img/svg/No-Image-Placeholder.svg.png'
     return defaultImage
   }
 
@@ -108,10 +109,13 @@ export class ListadoDocumentosComponent implements OnInit {
       this.rows.forEach(item => {
         this.documentname.push(item.documentName);
         this.documentpath.push(`${nuevaUrl}files/${item.documentPath}`); // Asigna el documentpath a cada elemento
-        this.photo.push(`${nuevaUrl}files/${item.photoPath}`);
+        const photoPath = item.photoPath ? `${nuevaUrl}files/${item.photoPath}` : this.getImageFromPath;
+        this.photo.push(photoPath);
         this.id.push(item.id)
       });
-      console.log('Rows',this.photo)
+      if(!this.photo || this.photo.length === 0){
+        this.photo.push(this.getImageFromPath);
+      }
     });
   }
   // filterUpdate(event) {

@@ -21,7 +21,7 @@
     <ng-container *ngFor="let nombreArchivo of photo; let i = index">
       <div [ngClass]="{'col-lg-4': photo.length <= 3, 'col-lg-3': photo.length > 4, 'col-lg-12': photo.length === 1, 'col-lg-6': photo.length === 2}" class="mt-3">
         <div class="card mb-3">
-          <img src="assets/img/svg/No-Image-Placeholder.svg.png" alt="Imagen" class="card-img tamanio">
+          <img [src]="nombreArchivo" alt="Imagen" class="card-img tamanio">
           <div class="card-body">
             <p class="card-text">Documentos de inducción</p>
             <h5 class="card-title">{{documentname[i]}}</h5>

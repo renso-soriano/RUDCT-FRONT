@@ -205,7 +205,7 @@ export class CrearDocumentosComponent implements OnInit {
     }
   }
   else{
-    let nombrefoto = 'No-Image-Placeholder.svg.png'; // Asignar el nombre de la foto deseada aquí
+    let nombrefoto = ''; // Asignar el nombre de la foto deseada aquí
 
   const repositorio: IRepositorioAnexo = {
     photoPath: nombrefoto, // Utilizar el nombre de la foto asignado
