@@ -89,7 +89,10 @@ export class ListadoDocumentosComponent implements OnInit {
     alertFunctions.EliminarRegistro("/repositorio",this.repositorioAnexoService.deleteDocumentosRepositorio(id));
   }
 
-
+  get getImageFromPath(): string{
+    const defaultImage: string = 'assets\img\svg\No-Image-Placeholder.svg.png'
+    return defaultImage
+  }
 
   llamarDocumentos(pageInfo?) {
     var nuevaUrl = this.URLAPI.replace(/\/api\//i, "/");
