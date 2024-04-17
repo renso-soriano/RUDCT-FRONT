@@ -63,7 +63,7 @@ export class CrearDocumentosComponent implements OnInit {
   size:any
   fotoseleccionada:any
   documentoseleccionado:any
-  imagenUrl: string = 'assets/img/svg/No-Image-Placeholder.svg.png';
+  imagenUrl: string = 'assets/img/svg/No-Image-Placeholder.svg';
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],

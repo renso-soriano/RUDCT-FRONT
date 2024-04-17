@@ -91,7 +91,7 @@ export class ListadoDocumentosComponent implements OnInit {
   }
 
   get getImageFromPath(): string{
-    const defaultImage: string = 'assets/img/svg/No-Image-Placeholder.svg.png'
+    const defaultImage: string = 'assets/img/svg/No-Image-Placeholder.svg'
     return defaultImage
   }
 
