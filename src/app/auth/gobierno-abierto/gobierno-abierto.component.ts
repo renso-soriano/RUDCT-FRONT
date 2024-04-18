@@ -346,7 +346,6 @@ export class GobiernoAbiertoComponent implements OnInit {
     var nuevaUrl = this.URL.replace(/\/api\//i, "/");
     this.documentpath = `${nuevaUrl}files/VERSIÓN FINAL - Instructivo RUDCT Soy un Ciudadano.pdf`
     this.reloadTable();
-
     // Initially load first page
     //this.pageCallback({ offset: 0 });
     this.filtros = [
@@ -655,7 +654,6 @@ handleVisitedUser() {
   }
 
   preparanDataExcel(data) {
-    console.log(data,'la data viene aki')
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
@@ -670,9 +668,7 @@ handleVisitedUser() {
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
         Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
-        Institucion_Responsable: item.institucionesInvolucradas.array.forEach(element => {
-          element.nombreInstitucion
-        }),
+       Institucion_Responsable: item.institucionesInvolucradas.map(x=>x.nombreInstitucion).join(","),
         Tecnico_Ompp: item.nombreTecnicoOmpp,
         Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
@@ -684,7 +680,7 @@ handleVisitedUser() {
       };
 
     });
-
+   console.log(data,'KLK')
   }
 
 
