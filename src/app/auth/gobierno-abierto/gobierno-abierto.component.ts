@@ -301,7 +301,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
       .then((res: any) => {
         this.mapFiles(res)
-        console.log("Lista de fileees: ", res)
+     //   console.log("Lista de fileees: ", res)
       })
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
@@ -329,7 +329,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     });
     this.files = array;
     this.openModalFile()
-    console.log(this.files, "files");
+   // console.log(this.files, "files");
   }
 
 
@@ -346,7 +346,6 @@ export class GobiernoAbiertoComponent implements OnInit {
     var nuevaUrl = this.URL.replace(/\/api\//i, "/");
     this.documentpath = `${nuevaUrl}files/VERSIÓN FINAL - Instructivo RUDCT Soy un Ciudadano.pdf`
     this.reloadTable();
-
     // Initially load first page
     //this.pageCallback({ offset: 0 });
     this.filtros = [
@@ -524,7 +523,7 @@ handleVisitedUser() {
       .subscribe((res: number) => {
         this.visitCounter = res.toString().split('').map(Number);
   });
-  console.log('Número de visitas:', this.visitCounter);
+ // console.log('Número de visitas:', this.visitCounter);
 
 }
 
@@ -669,7 +668,7 @@ handleVisitedUser() {
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
         Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
-        Institucion_Responsable: item.nombreInstitucionResponsable.join('\n'),
+       Institucion_Responsable: item.institucionesInvolucradas.map(x=>x.nombreInstitucion).join(","),
         Tecnico_Ompp: item.nombreTecnicoOmpp,
         Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
@@ -681,7 +680,7 @@ handleVisitedUser() {
       };
 
     });
-
+  // console.log(data,'KLK')
   }
 
 

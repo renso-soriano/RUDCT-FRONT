@@ -68,7 +68,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="telefono">Telefono</label>
-                      <input type="text" class="form-control" name="telefono" id="telefono" formControlName="telefono">
+                      <input type="tel" class="form-control" name="telefono" id="telefono" formControlName="telefono">
 
                       <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
                         class="help-block mt-1 text-danger">
@@ -99,7 +99,7 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="text" class="form-control" name="email" id="email" formControlName="email">
+                      <input type="email" class="form-control" name="email" id="email" formControlName="email">
                       <div *ngIf="email.invalid && (email.dirty || email.touched)"
                         class="help-block mt-1 text-danger">
 
@@ -148,12 +148,34 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
+                      <label for="institucionid">Institucion de Contacto</label>
+                      <ng-select formControlName="institucionid" [items]="instituciones" bindLabel="Nombre" bindValue="InstitucionId"
+                      placeholder="Seleccione una institución">
+                      </ng-select>
+
+                    <div *ngIf="institucionid.invalid && (institucionid.dirty || institucionid.touched)"
+                      class="help-block mt-1 text-danger">
+
+                      <div *ngIf="institucionid.errors.required">
+                        <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                      </div>
+
+                    </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
                       <label for="direccion">Direccion</label>
                       <input type="text" class="form-control" name="direccion" id="direccion" formControlName="direccion">
                     
                     </div>
                   </div>
-                </div>
+                </div> -->
 
 
                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>

@@ -80,15 +80,15 @@ export class emailUtils {
                     `La institucion VIOTDR ha cambiado el estado de validacion en la demanda "${demandaDescripcion}", ha pasado a "${EstadosValidacion}"` :
                    `Se ha hecho una modificación en la demanda: ${demandaDescripcion}`;
                    
-                    this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
-                     emails = data.result.map(a=>a.email)
+                    //this.ssoService.getPersonByGroupId(3022,1003).subscribe(data => {
+                    // emails = data.result.map(a=>a.email)
                      this.notifyClientByEmail({
-                        ToEmail: emails,
+                        ToEmail: ["consultasrudct@economia.gob.do"],
                         Subject: subject,
                         Body: body,
                         Attachments: []
                     })
-                    });
+                   // });
                     }
                     if(EstadosValidacion == 'Devuelta por VIOTDR'){
                         subject = hayComentarios && EstadosValidacion ? 'nuevos comentarios registrados y estado cambiados' :

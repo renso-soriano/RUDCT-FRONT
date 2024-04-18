@@ -27,10 +27,11 @@ export class CrearContactoComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private authservice: AuthService,
+    private institucionesservice: InstitucionService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.authservice.getInstitucion())
+    this.getInstituciones()
   this.dropDownService.getInstitucionById(this.authservice.getInstitucion()).subscribe(
    data => {
     this.institucionids = data.map(a => a.id)[0];
@@ -62,18 +63,20 @@ export class CrearContactoComponent implements OnInit {
   typeEdit: boolean;
   institucionids:number
   nombreinstitucion:string
+  instituciones: any
 
   registerForm = this.formBuilder.group({
-    nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
-    apellido: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
+    nombre: [ null,{ validators: [Validators.required, Validators.minLength(5)] },],
+    apellido: [ null,{ validators: [Validators.required, Validators.minLength(5)] },],
     estatus: ["A"],
     id: [0],
-    telefono: [null],
-    extension: [null],
+    telefono: [null,{validators: [Validators.required,Validators.pattern(/^\d+\.?\d*$/)]}],
+    extension: [null,{validators: [Validators.required,Validators.pattern(/^\d+\.?\d*$/), Validators.maxLength(4)]}],
     email: [null,  { validators:  [Validators.email] } ],
     funcion: [null ],
-    direccion : [null],
-    area:[null]
+ //   direccion : [null],
+    area:[null],
+    institucionid:[null]
   });
 
   //getters
@@ -101,15 +104,28 @@ export class CrearContactoComponent implements OnInit {
   get email() {
     return this.registerForm.get("email");
   }
-  get direccion() {
-    return this.registerForm.get("direccion");
-  }  
+  // get direccion() {
+  //   return this.registerForm.get("direccion");
+  // }  
 
   get area() {
     return this.registerForm.get("area");
   }  
+  get institucionid() {
+    return this.registerForm.get("institucionid");
+  }  
 
-
+  getInstituciones() {
+    this.institucionesservice.getInstituciones().subscribe(
+      instituciones => {
+        this.instituciones = instituciones;
+      },
+      error => {
+        // Manejar cualquier error que pueda ocurrir
+        console.error('Error al obtener instituciones:', error);
+      }
+    );
+  }
 
   getContactoParaEditar(Id: number) {
     this.notFound = false;
@@ -131,8 +147,8 @@ export class CrearContactoComponent implements OnInit {
           email: this.contacto.email,
           institucionId: this.contacto.institucionId,
           essectorial:this.contacto.EsSectorial,
-          direccion:this.contacto.direccion,
-          area: this.contacto.area
+//          direccion:this.contacto.direccion,
+          area: this.contacto.area,
         });
         console.log(this.contacto);
       },
@@ -172,8 +188,8 @@ export class CrearContactoComponent implements OnInit {
       telefono: this.telefono.value,
       extension: this.extension.value,
       email: this.email.value,
-      direccion:this.direccion.value,
-      institucionId: this.institucionids,
+//      direccion:this.direccion.value,
+      institucionId: this.institucionid.value,
       area:this.area.value
     };
     console.log('yo tengo una adiccion, a los contactoss',contacto);

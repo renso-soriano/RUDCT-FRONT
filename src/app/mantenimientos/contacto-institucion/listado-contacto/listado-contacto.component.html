@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12">
+    <div *ngIf="this.mostrarBoton" class="col-12">
       <div class="w-100 d-flex justify-content-end">
         <a [routerLink]="['/mantenimientos/contactosinstitucionales/Create']" data-toggle="tooltip" data-placement="bottom"
           title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle">
@@ -53,21 +53,22 @@
                   <ngx-datatable-column name="Nombre" prop="nombre" [width]="50"></ngx-datatable-column>
                   <ngx-datatable-column name="Apellido" prop="apellido" [width]="50"></ngx-datatable-column>
                   <ngx-datatable-column name="Telefono" prop="telefono" [width]="50"></ngx-datatable-column>
-                  <ngx-datatable-column name="Direccion" prop="direccion" [width]="50"></ngx-datatable-column>
-                  <ngx-datatable-column name="Nombre Institución" prop="institucionId" [width]="50">
+                  <ngx-datatable-column name="Email" prop="email" [width]="50"></ngx-datatable-column>
+                  <!-- <ngx-datatable-column name="Direccion" prop="direccion" [width]="50"></ngx-datatable-column> -->
+                  <ngx-datatable-column name="Institución" prop="institucionId" [width]="50">
                     <ng-template ngx-datatable-cell-template let-row="row">
                       {{ row.institucionNombre }}
                     </ng-template>
                   </ngx-datatable-column>
-              
+                  <pre>rows | json </pre>
 
                 <ngx-datatable-column name="Acciones" [width]="70">
                   <ng-template let-row="row" ngx-datatable-cell-template>
   
                     <a class="btn-sm      btn-warning text-white  ft-eye" (click)="verDetalles(row.id)"
                       title="ver detalles"></a>
-                    <a class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
-                    <a class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
+                    <a *ngIf="this.mostrarBoton" class="btn-sm ml-1 btn-success text-white ft-edit" (click)="editar(row.id)" title="Editar"></a>
+                    <a *ngIf="this.mostrarBoton" class="btn-sm ml-1 btn-danger text-white ft-trash-2" (click)="eliminar(row.id)"
                       title="Eliminar"></a>
                   </ng-template>
                 </ngx-datatable-column>

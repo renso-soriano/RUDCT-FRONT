@@ -22,9 +22,7 @@ export class ContactoInsticionalService {
   }
 
   getContactosInstitucionById(Id: number): Observable<IcontactoInstitucional> {
-
     return this.http.get<IcontactoInstitucional>(this.URL + Id);
-
   }
 
   createContactosInstitucion(contacto: IcontactoInstitucional): Observable<IcontactoInstitucional> {
