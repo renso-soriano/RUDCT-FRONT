@@ -655,6 +655,7 @@ handleVisitedUser() {
   }
 
   preparanDataExcel(data) {
+    console.log(data,'la data viene aki')
     this.dataExcel = data.map((item: any) => {
       return {
         Codigo: item.codigo,
@@ -669,7 +670,9 @@ handleVisitedUser() {
         Tema_Comun: item.temaComunTema,
         Clasificador_Funcional: item.nombreTemaComun,
         Nombre_Fuente_Demanda: item.nombreFuenteDemanda,
-        Institucion_Responsable: item.nombreInstitucionResponsable.join('\n'),
+        Institucion_Responsable: item.institucionesInvolucradas.array.forEach(element => {
+          element.nombreInstitucion
+        }),
         Tecnico_Ompp: item.nombreTecnicoOmpp,
         Resultante_De: item.resultanteDe,
         Activo: item.estatus ? "Si" : "No"
