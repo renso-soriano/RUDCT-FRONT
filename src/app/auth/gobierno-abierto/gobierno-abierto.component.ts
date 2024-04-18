@@ -301,7 +301,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     await this.http.get<Observable<any>>(`${this.URL}DemandaAnexo/GetDocumentByDemandaId/${demandaId}`).toPromise()
       .then((res: any) => {
         this.mapFiles(res)
-        console.log("Lista de fileees: ", res)
+     //   console.log("Lista de fileees: ", res)
       })
 
     // this.router.navigate(["/demandas", 'Archivos', CodigoDemanda]);
@@ -329,7 +329,7 @@ export class GobiernoAbiertoComponent implements OnInit {
     });
     this.files = array;
     this.openModalFile()
-    console.log(this.files, "files");
+   // console.log(this.files, "files");
   }
 
 
@@ -523,7 +523,7 @@ handleVisitedUser() {
       .subscribe((res: number) => {
         this.visitCounter = res.toString().split('').map(Number);
   });
-  console.log('Número de visitas:', this.visitCounter);
+ // console.log('Número de visitas:', this.visitCounter);
 
 }
 
@@ -680,7 +680,7 @@ handleVisitedUser() {
       };
 
     });
-   console.log(data,'KLK')
+  // console.log(data,'KLK')
   }
 
 
