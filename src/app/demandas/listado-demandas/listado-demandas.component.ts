@@ -407,7 +407,7 @@ export class ListadoDemandasComponent
     this.UserName = this.authService?.getUserCompleteName();
     this.institucionUsuarioSSO = this.authService?.getInstitucion();
     this.gruposUsuario = this.authService?.getGrupos().map((g) => g.groupId);
-    
+    console.log(this.gruposUsuario,'este es el grupo del usuario')
     if (this.gruposUsuario?.includes(GrupoUsuario.institucionalRUDT) == true) {
       this.columns = this.columns.filter(
         (x) =>

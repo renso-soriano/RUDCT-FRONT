@@ -18,6 +18,7 @@ import { DatatableData } from "app/mantenimientos/contacto-institucion/listado-c
 import { ContactoInsticionalService } from "app/shared/services/mantenimientos/contacto-institucion.service";
 import { SSOInstitucionService } from "app/shared/services/mantenimientos/ssoInstituciones.services";
 import { ExcelService } from "app/shared/services/excel.service";
+import { AuthService } from "app/shared/services/core/auth.service";
 
 @Component({
   selector: 'app-listado-contacto',
@@ -63,7 +64,7 @@ export class ListadoContactoComponent implements OnInit {
     "Apellido": null,
     "Telefono": null,
     "Email": null,
-    "Direccion": null,
+    // "Direccion": null,
     "Funcion": null,
     "Extension": null,
 
@@ -92,6 +93,7 @@ export class ListadoContactoComponent implements OnInit {
   private tempData = [];
   private multiPurposeTemp = [];
   institucionNombre: string;
+  mostrarBoton: boolean = true;
   /**
    * inlineEditingUpdate
    *
@@ -102,7 +104,7 @@ export class ListadoContactoComponent implements OnInit {
   inlineEditingUpdate(event, cell, rowIndex) {
     this.editing[rowIndex + "-" + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
-    this.rows = [...this.rows];
+   // this.rows = [...this.rows];
   }
   
   limitSelected: any = 10;
@@ -209,7 +211,8 @@ export class ListadoContactoComponent implements OnInit {
     private contactoInstitucionService: ContactoInsticionalService,
     private router: Router,
     private SSOInstitucionService: SSOInstitucionService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private authService:AuthService
 
   ) {
     this.tempData = [];
@@ -255,6 +258,9 @@ export class ListadoContactoComponent implements OnInit {
   ngOnInit() {
     // Initially load first page
     this.serverSideSetPage({ offset: 0 });
+    let grupousuario = this.authService.getGrupos().map(a => a.groupId);
+    this.mostrarBoton = grupousuario.includes(3022);
+
     this.contactoInstitucionService.getContactosInstitucion().subscribe(
       (contactosFromTheAPI: any) => {
         this.data = contactosFromTheAPI;
@@ -338,15 +344,15 @@ export class ListadoContactoComponent implements OnInit {
     this.dataExcel = this.rowExportExcel.map((item: any) => {
       const nombreInstitucion = this.rows.find(a => a.institucionId === item.institucionId)?.institucionNombre;
       return {
-        Codigo: item.codigo,
+        //Codigo: item.codigo,
         Nombre: item.nombre,
         Apellido: item.apellido,
         Telefono: item.telefono,
         Email: item.email,
-        Direccion: item.direccion,
+        // Direccion: item.direccion,
         Funcion: item.funcion,
-        institucionId: item.institucionId,  
-        Nombreinstitucion: nombreInstitucion.toString(),
+        //institucionId: item.institucionId,  
+        Institución: nombreInstitucion.toString(),
         // Otras propiedades si es necesario
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,

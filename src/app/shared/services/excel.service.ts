@@ -31,7 +31,7 @@ export class ExcelService {
 columnNames.forEach((columnName, columnIndex) => {
   const cellRef = XLSX.utils.encode_cell({ r: 0, c: columnIndex }); // Celda en la primera fila
   worksheet[cellRef].s = greenfillStyle; // Aplicar el estilo de fuente verde
-  console.log(worksheet[cellRef].s ,'KLDS');
+ // console.log(worksheet[cellRef].s ,'KLDS');
 });
  // Definir el ancho específico para las columnas
  const specificWidths = {

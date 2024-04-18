@@ -63,11 +63,12 @@ export class CrearDocumentosComponent implements OnInit {
   size:any
   fotoseleccionada:any
   documentoseleccionado:any
+  imagenUrl: string = 'assets/img/svg/No-Image-Placeholder.svg';
 
   registerForm = this.formBuilder.group({
     nombre: [ null,{ validators: [Validators.required, Validators.minLength(2)] },],
     documento: [ null,{ validators: [Validators.required] },],
-    foto:  [ null,{ validators: [Validators.required] },],
+    foto:  [ null],
   });
 
   //getters
@@ -148,20 +149,23 @@ export class CrearDocumentosComponent implements OnInit {
     //   return;
     // }
     const nombredocumento = this.documento.value.split('\\').pop();
-    const nombrefoto = this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && !this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop(): this.fotoseleccionada));
     const timestamp = new Date().getTime(); // Obtiene el timestamp actual en milisegundos
+    console.log(this.documento.value)
+    console.log(this.foto.value)
+    if(this.foto.value != null){
+      let nombrefoto = this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && !this.fotoEvent ? this.foto.value.split('\\').pop() : (!this.typeEdit && this.fotoEvent ? this.foto.value.split('\\').pop(): this.fotoseleccionada));
 
-    const repositorio:IRepositorioAnexo = {
-      photoPath: this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}`:(!this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}` : nombrefoto),
-      documentPath: this.typeEdit && !this.documentoEvent? nombredocumento: `documento_${timestamp}_${nombredocumento}`,
-      documentName: this.nombre.value
-    };
+      const repositorio:IRepositorioAnexo = {
+        photoPath: this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}`:(!this.typeEdit && this.fotoEvent ? `foto_${timestamp}_${nombrefoto}` : nombrefoto),
+        documentPath: this.typeEdit && !this.documentoEvent? nombredocumento: `documento_${timestamp}_${nombredocumento}`,
+        documentName: this.nombre.value
+      };
+
 
 
     this.spinner.show();
 
     if (this.typeEdit) {
-     
       repositorio.id = this.repositorio.id;
       this.repositorioanexoService
         .updateDocumentosRepositorio(repositorio)
@@ -199,6 +203,61 @@ export class CrearDocumentosComponent implements OnInit {
           this.spinner.hide();
         });
     }
+  }
+  else{
+    let nombrefoto = ''; // Asignar el nombre de la foto deseada aquí
+
+  const repositorio: IRepositorioAnexo = {
+    photoPath: nombrefoto, // Utilizar el nombre de la foto asignado
+    documentPath:
+      this.typeEdit && !this.documentoEvent
+        ? nombredocumento
+        : `documento_${timestamp}_${nombredocumento}`,
+    documentName: this.nombre.value,
+  };
+
+  this.spinner.show();
+
+  if (this.typeEdit) {
+    repositorio.id = this.repositorio.id;
+    this.repositorioanexoService
+      .updateDocumentosRepositorio(repositorio)
+      .toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess("El documento se actualizó con éxito");
+          this.router.navigate(['/repositorio']);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err.message);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al guardar el tecnico, contacte con Soporte TIC"
+        );
+        this.spinner.hide();
+      });
+  } else {
+    this.repositorioanexoService
+      .createDocumentosRepositorio(repositorio)
+      .toPromise()
+      .then((res: any) => {
+        setTimeout(() => {
+          this.serviceStr.typeSuccess("El Documento se subió con éxito");
+          this.router.navigate(['/repositorio']);
+          this.spinner.hide();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.serviceStr.typeError(
+          "Ocurrió un error inesperado al guardar el contacto, contacte con Soporte TIC"
+        );
+        this.spinner.hide();
+      });
+  }
+    
+  }
     this.submitDocument(timestamp)
   }
 
