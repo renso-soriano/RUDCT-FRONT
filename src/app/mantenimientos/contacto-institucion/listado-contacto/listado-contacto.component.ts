@@ -133,7 +133,7 @@ export class ListadoContactoComponent implements OnInit {
       
     // update the rows
     this.rows = temp;
-    
+    console.log('klk',this.rows)
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
@@ -326,10 +326,21 @@ export class ListadoContactoComponent implements OnInit {
   }
 
   exportexcel() {
-    this.contactoInstitucionService.getExportarContactosInstitucionales().subscribe(
+    let params;
+    params = new HttpParams()
+      .set("Page", `${this.page.offset + 1}`)
+      .set("Take", `${this.page.limit}`)
+      .set("institucionId", 1)
+
+
+    console.log('row', this.rows);
+    
+
+   
+    this.contactoInstitucionService.getExportarContactosInstitucionales(params).subscribe(
       (data: any) => {
         this.page.count = data.total;
-        this.rowExportExcel = data.items;  // Usar data.items en lugar de this.rows
+        this.rowExportExcel = this.rows;  // Usar data.items en lugar de this.rows
         this.preparanDataExcel();  // Llamar a la función sin argumentos
         this.excelService.exportAsExcelFile(this.dataExcel, `Lista de contactos ${this.date}`  );
       },
@@ -337,12 +348,14 @@ export class ListadoContactoComponent implements OnInit {
         console.error(error);
       }
     );
+
+    
   }
   
   
   preparanDataExcel() {
     this.dataExcel = this.rowExportExcel.map((item: any) => {
-      const nombreInstitucion = this.rows.find(a => a.institucionId === item.institucionId)?.institucionNombre;
+      const nombreInstitucion = this.rows.find(a => a.institucionId === item.institucionId)?.institucionNombre.toString();
       return {
         //Codigo: item.codigo,
         Nombre: item.nombre,
@@ -352,7 +365,7 @@ export class ListadoContactoComponent implements OnInit {
         // Direccion: item.direccion,
         Funcion: item.funcion,
         //institucionId: item.institucionId,  
-        Institución: nombreInstitucion.toString(),
+        Institución: nombreInstitucion,
         // Otras propiedades si es necesario
         // CreadoPor: item.nombreCreadoPor,
         // RegistradoEn: item.fechaRegistro,

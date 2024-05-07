@@ -2,8 +2,8 @@
     <div *ngIf="this.mostrarBoton" class="col-12">
       <div class="w-100 d-flex justify-content-end">
         <a [routerLink]="['/mantenimientos/contactosinstitucionales/Create']" data-toggle="tooltip" data-placement="bottom"
-          title="Agregar Tipo de beneficiario" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle">
-            Agregar nuevo contacto</i></a>
+          title="Agregar Contacto" class="btn btn btn-primary btn-sm ml-1"><i class="fa fa-plus-circle">
+            Agregar nuevo </i></a>
   
         <a id="tableRefresh" href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom"
           title="Actualizar tabla" class="btn btn btn-info btn-sm ml-1"><i class="fa fa-refresh"></i></a>
@@ -27,7 +27,7 @@
                   <fieldset class="form-group">
                     <label for="ngx-filter-ref">Buscar:
                       <input id="ngx-filter-ref" class="form-control form-control-sm d-inline-block width-200" type="text"
-                        placeholder="Nombre de la Institución" (keyup)="filterUpdate($event)" />
+                        placeholder="Nombre de la Institución..." (keyup)="filterUpdate($event)" />
                     </label>
                   </fieldset>
   
@@ -51,8 +51,6 @@
                   <ngx-datatable class="bootstrap core-bootstrap" [columns]="columns" [columnMode]="ColumnMode.force"
                   [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows">
                   <ngx-datatable-column name="Nombre" prop="nombre" [width]="50"></ngx-datatable-column>
-                  <ngx-datatable-column name="Apellido" prop="apellido" [width]="50"></ngx-datatable-column>
-                  <ngx-datatable-column name="Telefono" prop="telefono" [width]="50"></ngx-datatable-column>
                   <ngx-datatable-column name="Email" prop="email" [width]="50"></ngx-datatable-column>
                   <!-- <ngx-datatable-column name="Direccion" prop="direccion" [width]="50"></ngx-datatable-column> -->
                   <ngx-datatable-column name="Institución" prop="institucionId" [width]="50">
@@ -60,7 +58,6 @@
                       {{ row.institucionNombre }}
                     </ng-template>
                   </ngx-datatable-column>
-                  <pre>rows | json </pre>
 
                 <ngx-datatable-column name="Acciones" [width]="70">
                   <ng-template let-row="row" ngx-datatable-cell-template>

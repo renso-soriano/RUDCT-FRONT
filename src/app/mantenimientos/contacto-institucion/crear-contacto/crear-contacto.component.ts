@@ -141,16 +141,18 @@ export class CrearContactoComponent implements OnInit {
           apellido: this.contacto.apellido,
           estatus: this.contacto.estatus,
           id: this.contacto.id,
-          funcion:this.contacto.funcion,
+          funcion: this.contacto.funcion,
           telefono: this.contacto.telefono,
           extension: this.contacto.extension,
           email: this.contacto.email,
-          institucionId: this.contacto.institucionId,
-          essectorial:this.contacto.EsSectorial,
-//          direccion:this.contacto.direccion,
+          institucionid: this.contacto.institucionId, // Ensure this is the ID field used by ng-select
+          essectorial: this.contacto.EsSectorial,
           area: this.contacto.area,
-        });
-        console.log(this.contacto);
+      });
+        let filtered = this.instituciones.filter(x=> x.InstitucionId ==this.contacto.institucionId,'klksdsdada');
+        console.log(filtered[0].Nombre)
+        console.log(this.instituciones);
+
       },
       (err: any) => {
         console.error(err);

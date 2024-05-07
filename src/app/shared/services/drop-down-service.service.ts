@@ -251,6 +251,20 @@ export class DropDownServiceService {
     const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'TIPO_INVERSION' });
     return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
   }
+  getCodigo(): Observable<DropdownResponse[]> {
+    const contentBody: DropdownRequest = new DropdownRequest().deserialize({ nombreLista: 'CODIGO',padreId: null, extraInfo:null });
+    return this.http.post<DropdownResponse[]>(`${this.URL}Listas/GetDropdown`, contentBody);
+  }
+
+  // getMunicipios(): Observable<Imunicipio[]> {
+  //   //return this.http.get<Imunicipio[]>(this.URL );
+  //   let body = {
+  //     nombreLista: "MUNICIPIOS",
+  //     padreId: null
+  //   };
+  //   return this.http.post<Imunicipio[]>(this.URL + "Listas/GetDropdown", body);
+  // }
+
 
   getTipoInversionById(Id: string): Observable<ItipoInversion> {
     return this.http.get<ItipoInversion>(

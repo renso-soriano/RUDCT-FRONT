@@ -14,6 +14,7 @@ import { ContactoInsticionalRouting } from "./contacto-institucion-routing.modul
 
 
 
+
 @NgModule({
   declarations: [
     CrearContactoComponent,
@@ -30,7 +31,7 @@ import { ContactoInsticionalRouting } from "./contacto-institucion-routing.modul
     ReactiveFormsModule,
     NgSelectModule,
     NgbModule,
-    ToastrModule,
+    ToastrModule
   ]
 })
 export class ContactoInstitucionModule { }
