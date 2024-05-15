@@ -487,15 +487,6 @@ export class ListadoDemandasComponent
     //this.pageCallback({ offset: 0 });
     this.filtros = [
       new FiltrosDinamicos().deserialize({
-        name: 'id',
-        label: 'Código de la demanda',
-        servicio: this.dropdownService.getCodigo(),
-        tipo: 'select',
-        placeholder: 'introduzca un codigo',
-        async: true,
-        multiple: false
-      }),
-      new FiltrosDinamicos().deserialize({
         name: "anio",
         label: "Año",
         servicio: this.setFilterAnnios(),

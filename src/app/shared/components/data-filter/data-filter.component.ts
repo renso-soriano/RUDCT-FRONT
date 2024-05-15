@@ -17,6 +17,7 @@ export class DataFilterComponent implements OnInit {
   @Output() filterEvent = new EventEmitter<any>();
   selectedInstitucion: any;
   btnBuscarDisabled: boolean = false;
+  @Input() ModalShouldBeOpen: boolean = false;
 
   formGroup: any;
   values: any = {};
