@@ -113,9 +113,6 @@ export class ListadoDocumentosComponent implements OnInit {
         this.photo.push(photoPath);
         this.id.push(item.id)
       });
-      if(!this.photo || this.photo.length === 0){
-        this.photo.push(this.getImageFromPath);
-      }
     });
   }
   // filterUpdate(event) {
