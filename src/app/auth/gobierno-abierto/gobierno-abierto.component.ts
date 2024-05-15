@@ -176,6 +176,7 @@ export class GobiernoAbiertoComponent implements OnInit {
   public filtros: FiltrosDinamicos[];
 
   filtrosActivos: any = {
+    "codigo":null,
     "anio": null,
     //"regionId": null,
     "provinciaId": null,
@@ -349,6 +350,24 @@ export class GobiernoAbiertoComponent implements OnInit {
     // Initially load first page
     //this.pageCallback({ offset: 0 });
     this.filtros = [
+      new FiltrosDinamicos().deserialize({
+        name: 'id',
+        label: 'Código de la demanda',
+        servicio: this.dropdownService.getCodigo(),
+        tipo: 'select',
+        placeholder: 'introduzca un codigo',
+        async: true,
+        multiple: false
+      }),
+      // new FiltrosDinamicos().deserialize({
+      //   name: 'institucionId',
+      //   label: 'Institución responsable',
+      //   servicio: this.dropdownService.getInstituciones(),
+      //   tipo: 'select',
+      //   placeholder: 'Seleccione institución',
+      //   async: true,
+      //   multiple: false
+      // }),
       new FiltrosDinamicos().deserialize({
         name: 'anio',
         label: 'Año',
@@ -561,6 +580,7 @@ handleVisitedUser() {
       .set('Page', `${this.page.offset + 1}`)
       .set('Take', `${this.page.limit}`)
       .set('anio', this.filtrosActivos.anio)
+      .set('id', this.filtrosActivos.id)
       // .set('regionId', this.filtrosActivos.regionId)
       .set('provinciaId', this.filtrosActivos.provinciaId)
       .set('municipioId', this.filtrosActivos.municipioId)
@@ -629,6 +649,7 @@ handleVisitedUser() {
       .set('Page', `${this.page.offset + 1}`)
       .set('Take', `${this.page.limit}`)
       .set('anio', this.filtrosActivos.anio)
+      .set('id', this.filtrosActivos.id)
       // .set('regionId', this.filtrosActivos.regionId)
       .set('provinciaId', this.filtrosActivos.provinciaId)
       .set('municipioId', this.filtrosActivos.municipioId)

@@ -56,7 +56,15 @@ export class ListadoVideosComponent implements OnInit {
   onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
     console.log(pageInfo,'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
     this.pageCallback(pageInfo); // Llama a pageCallback con el objeto pageInfo
+    
   }
+
+  videosPerPage: number = 4; // Por ejemplo, 4 videos por página
+
+// Función para calcular el número de páginas
+get totalPages(): number {
+  return Math.ceil(this.videoslist.length / this.videosPerPage);
+}
 
   llamarVideos(pageinfo?) {
     this.repositorioVideoService.getRepositorioVideo(pageinfo,this.limitSelected).subscribe((data:any) => {

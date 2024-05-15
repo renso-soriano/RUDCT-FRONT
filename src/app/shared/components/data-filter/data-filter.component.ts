@@ -37,6 +37,7 @@ export class DataFilterComponent implements OnInit {
           this.onParentFilterChange(filtro.filtroHijo, filtro.servicioHijo, change);
         }
       });
+      console.log(filtro,'evangelion')
     });
   }
 

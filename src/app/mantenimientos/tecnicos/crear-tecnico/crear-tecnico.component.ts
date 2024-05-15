@@ -112,7 +112,7 @@ export class CrearTecnicoComponent implements OnInit {
       (tecnicoFromTheAPI: Itecnico) => {
         this.tecnico = tecnicoFromTheAPI;
 
-        console.log(this.tecnico);
+        console.log(this.tecnico,'bizcochito');
 
         this.registerForm.patchValue({
           nombre: this.tecnico.nombre,
@@ -139,7 +139,7 @@ export class CrearTecnicoComponent implements OnInit {
   }
   getMunicipios() {
 
-    console.log(this.municipios = this.dropDownService.getMunicipios(),'gabimaru el vacio');
+    this.municipios = this.dropDownService.getMunicipios();
   }
 
 

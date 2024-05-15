@@ -21,7 +21,7 @@
         },
         {
             "InstitucionId": "005",
-            "Nombre": "BANCA SOLIDARIA - PROMIPYME",
+            "Nombre": "CONSEJO NACIONAL DE PROMOCION Y APOYO ALA MICRO, PEQUEÑA Y MEDIANA EMPRESA",
             "Activo": "1"
         },
         {
@@ -562,6 +562,56 @@
         {
             "InstitucionId": "113",
             "Nombre": "SUPERINTENDENCIA DE SEGURO (SIPEN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "114",
+            "Nombre": "INDUSTRIA NACIONAL DE LA AGUJA (INAGUJA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "115",
+            "Nombre": "MINISTERIO DE LA VIVIENDA Y EDIFICACIONES (MIVED)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "116",
+            "Nombre": "MINISTERIO PUBLICO (MP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "117",
+            "Nombre": "COMISIÓN PRESIDENCIAL DE APOYO AL DESARROLLO PROVINCIAL",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "118",
+            "Nombre": "EDENORTE",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "119",
+            "Nombre": "JUNTA CENTRAL ELECTORAL",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "120",
+            "Nombre": "INSTITUTO AGRARIO DOMINICANO (IAD)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "121",
+            "Nombre": "LIGA MUNICIPAL DOMINICANA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "124",
+            "Nombre": "INSTITUTO SUPERIOR DE FORMACION DOCENTE SALOME UREÑA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "129",
+            "Nombre": "BANCA SOLIDARIA - PROMIPYME",
             "Activo": "1"
         }
     ]
