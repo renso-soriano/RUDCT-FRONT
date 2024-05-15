@@ -31,6 +31,7 @@ import { AuthService } from "./shared/services/core/auth.service";
 import { AuthGuard } from "./shared/guards/auth.guard";
 import { RoleGuard } from "./shared/guards/role.guard";
 import { InterceptorService } from "./shared/services/core/interceptor.service";
+import { NgxMaskModule } from "ngx-mask";
 
 
 

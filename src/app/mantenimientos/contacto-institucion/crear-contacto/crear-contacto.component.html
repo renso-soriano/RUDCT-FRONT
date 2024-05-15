@@ -68,13 +68,22 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="telefono">Telefono</label>
-                      <input type="tel" class="form-control" name="telefono" id="telefono" formControlName="telefono">
+                      <input type="tel" class="form-control" name="telefono" id="telefono" formControlName="telefono" pattern="[0-9]*">
 
                       <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)"
                         class="help-block mt-1 text-danger">
 
+                        <div *ngIf="telefono.errors?.pattern">
+                          Solo se permiten números.
+                        </div>
+
                         <div *ngIf="telefono.errors.required">
                           <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
+
+                        <div *ngIf="telefono.errors.maxlength">
+                          <i class="ft-alert-circle align-middle"></i>   El valor debe tener como máximo {{ telefono.errors.maxlength.requiredLength }} caracteres.
+
                         </div>
 
                       </div>
@@ -87,9 +96,22 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="extension">Extension</label>
-                      <input type="text" class="form-control" name="extension" id="extension"
-                        formControlName="extension">
+                      <input type="text" class="form-control" name="extension" id="extension" formControlName="extension" pattern="[0-9]*">
+                        <div *ngIf="extension.invalid && (extension.dirty || extension.touched)"
+                        class="help-block mt-1 text-danger">
+                        <div *ngIf="extension.errors?.pattern">
+                          Solo se permiten números.
+                        </div>
+                        <div *ngIf="extension.errors.required">
+                          <i class="ft-alert-circle align-middle"></i> El campo es requerido
+                        </div>
 
+                        <div *ngIf="extension.errors.maxlength">
+                          <i class="ft-alert-circle align-middle"></i>   El valor debe tener como máximo {{ extension.errors.maxlength.requiredLength }} caracteres.
+
+                        </div>
+
+                      </div>
 
                     </div>
                   </div>
@@ -149,9 +171,14 @@
                   <div class="col-sm-4">
                     <div class="form-group">
                       <label for="institucionid">Institucion de Contacto</label>
-                      <ng-select formControlName="institucionid" [items]="instituciones" bindLabel="Nombre" bindValue="InstitucionId"
+                      
+                      <ng-select [items]="instituciones" 
+                      bindLabel="Nombre" 
+                      formControlName="institucionid" 
+                      bindValue="InstitucionId"
                       placeholder="Seleccione una institución">
-                      </ng-select>
+           </ng-select>
+           
 
                     <div *ngIf="institucionid.invalid && (institucionid.dirty || institucionid.touched)"
                       class="help-block mt-1 text-danger">

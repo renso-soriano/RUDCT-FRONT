@@ -39,6 +39,7 @@ export class DetalleContactoComponent implements  OnInit {
     this.ContactoService.getContactosInstitucionById(Id).subscribe(
       (contactoFromTheAPI: IcontactoInstitucional) => {
         this.contacto = contactoFromTheAPI;
+        console.log(contactoFromTheAPI,'mi amiga')
 
         // Llamamos a getinstbyid para obtener el nombre de la institución
         this.getinstbyid(this.contacto.institucionId);
