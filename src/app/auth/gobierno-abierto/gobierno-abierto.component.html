@@ -279,7 +279,7 @@
                   <div class="card-body ">
 
                     <div class="col-md-12 mb-2">
-                      <app-data-filter *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
+                      <app-data-filter [ModalShouldBeOpen]="true"  *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
                       </app-data-filter>
                     </div>
 

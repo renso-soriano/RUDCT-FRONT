@@ -1,4 +1,4 @@
-<ngb-accordion #acc="ngbAccordion" class="filtro" [closeOthers]="true" activeIds="static-1">
+<ngb-accordion #acc="ngbAccordion" class="filtro" [closeOthers]="true" [activeIds]="ModalShouldBeOpen ? 'static-1' : ''">
   <ngb-panel id="static-1">
     <ng-template class="bg-primary" ngbPanelTitle>
       <h4 class="card-title"><i class="ft-filter"></i> Filtros din&aacute;micos</h4>
