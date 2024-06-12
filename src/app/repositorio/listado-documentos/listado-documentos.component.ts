@@ -29,6 +29,7 @@ export class ListadoDocumentosComponent implements OnInit {
     private authService: AuthService,
 
   ) { }
+
   public photo: string[] = []
   public documentname: string[] = []
   public documentpath: any
@@ -45,19 +46,23 @@ export class ListadoDocumentosComponent implements OnInit {
     offset: 0
   }
 
+  isAdmin = false;
+  role = GrupoUsuario;
 
-  
+
+
+
   async pageCallback(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
     // Asegúrate de asignar correctamente el offset proporcionado por el evento pageChange
     this.llamarDocumentos(pageInfo); // Llama a llamarDocumentos para actualizar los datos
   }
 
   onPageChange(pageInfo: { count?: number; pageSize?: number; limit?: number; offset?: number; }) {
-    console.log(pageInfo,'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
+    console.log(pageInfo, 'eta no ete si'); // Verifica si el objeto pageInfo contiene el valor correcto de offset
     this.pageCallback(pageInfo); // Llama a pageCallback con el objeto pageInfo
 
   }
-  
+
   modalConfigFiles: IModalConfig = {
     modalTitle: "Agregar nuevo documento",
   };
@@ -81,13 +86,21 @@ export class ListadoDocumentosComponent implements OnInit {
     this.llamarDocumentos();
     let grupousuario = this.authService.getGrupos().map(a => a.groupId);
     this.mostrarBoton = grupousuario.includes(3022);
-   }
 
-   editar(Id: string) {
-    this.router.navigate(["/repositorio/Edit/",Id]);
+    const grupoUsuarios = this.authService.getGrupos();
+    const idGruposUsuario = grupoUsuarios.map((group) => group.groupId);
+
+    if (idGruposUsuario.includes(this.role.DGDES) || idGruposUsuario.includes(this.role.administradoresRUDT) )
+      {
+      this.isAdmin = true;
+    }
+  }
+
+  editar(Id: string) {
+    this.router.navigate(["/repositorio/Edit/", Id]);
   }
   eliminar(id: string) {
-    alertFunctions.EliminarRegistro("/repositorio",this.repositorioAnexoService.deleteDocumentosRepositorio(id));
+    alertFunctions.EliminarRegistro("/repositorio", this.repositorioAnexoService.deleteDocumentosRepositorio(id));
   }
 
   get getImageFromPath(): string{
@@ -95,15 +108,16 @@ export class ListadoDocumentosComponent implements OnInit {
     return defaultImage
   }
 
-  llamarDocumentos(pageInfo?) {
+  llamarDocumentos(pageInfo?)
+  {
     var nuevaUrl = this.URLAPI.replace(/\/api\//i, "/");
 
     this.repositorioAnexoService.getDocumentosRepositorio(pageInfo, this.limitSelected).subscribe((data: any) => {
       this.page.count = data.total;
       this.rows = data.items;
       this.documentname = [];
-      this.photo = []; 
-      this.documentpath = []; 
+      this.photo = [];
+      this.documentpath = [];
       this.id = [];
       this.tempData = data.items
       this.rows.forEach(item => {
@@ -115,6 +129,7 @@ export class ListadoDocumentosComponent implements OnInit {
       });
     });
   }
+
   // filterUpdate(event) {
   //   const val = event.target.value.toLowerCase();
   //   // filter our data
@@ -129,8 +144,8 @@ export class ListadoDocumentosComponent implements OnInit {
   //   this.page.offset = 0;
   // }
 
-  
 
-  
-  
-  }
+
+
+
+}

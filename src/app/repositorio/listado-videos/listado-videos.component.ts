@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router} from '@angular/router';
 import * as alertFunctions from "../../../app/shared/data/sweet-alerts";
 import { AuthService } from "app/shared/services/core/auth.service";
+import { GrupoUsuario } from 'app/shared/models/grupoUsuario.enum';
 
 
 @Component({
@@ -32,10 +33,12 @@ export class ListadoVideosComponent implements OnInit {
     count: 0,
     offset: 0
   }
-  
+
   public videoslist: SafeResourceUrl[] = [];
   public nombrevideo:string[] = []
   mode: string;
+  isAdmin = false;
+  role = GrupoUsuario;
 
   ngOnInit(): void {
     this.mode = this.typeEdit ? "Editar" : "Registrar nuevo";
@@ -73,11 +76,11 @@ get totalPages(): number {
       this.videoslist = [];
       this.rows.forEach(item =>{
         this.nombrevideo.push(item.nombre)
-        this.Id.push(item.id) 
+        this.Id.push(item.id)
         this.videoslist.push(this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${this.extractVideoId(item.enlace)}`
         ))
 
-      })                                                                   
+      })
 
       console.log('lo dato',this.videoslist)
     });
@@ -89,7 +92,7 @@ get totalPages(): number {
     //   error => {
     //     console.error('Error al obtener los documentos del repositorio:', error);
     //   }
-  
+
   }
 
   redirectToRepositorio(): void {
@@ -98,7 +101,7 @@ get totalPages(): number {
   redirectToSave(): void {
     this.router.navigate(['/repositorio/Createvideos/']);
   }
-  
+
 
   extractVideoId(url: string): string {
     let videoId: string = '';

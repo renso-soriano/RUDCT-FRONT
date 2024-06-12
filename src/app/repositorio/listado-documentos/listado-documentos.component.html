@@ -40,13 +40,13 @@
 </div>
 
 
-<ngb-pagination 
-  [collectionSize]="page.count" 
-  [(page)]="page.offset" 
+<ngb-pagination
+  [collectionSize]="page.count"
+  [(page)]="page.offset"
   (pageChange)="onPageChange($event)"
   aria-label="Default pagination">
 </ngb-pagination>
-<pre>Estas en la página: {{ this.page.offset }}</pre> 
+<pre>Estas en la página: {{ this.page.offset }}</pre>
 
 
 

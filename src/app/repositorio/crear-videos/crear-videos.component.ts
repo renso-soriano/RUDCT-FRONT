@@ -53,7 +53,7 @@ export class CrearVideosComponent implements OnInit {
   get enlace() {
     return this.registerForm.get("enlace");
   }
-  
+
   submit() {
     if (!this.registerForm.valid) {
       this.serviceStr.typeError(
@@ -61,7 +61,6 @@ export class CrearVideosComponent implements OnInit {
       );
       return;
     }
-  
 
 
     const repositoriovideo:IRepositorioVideo = {
