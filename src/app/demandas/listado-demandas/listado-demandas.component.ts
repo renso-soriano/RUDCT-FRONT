@@ -179,7 +179,7 @@ export class ListadoDemandasComponent
   get nombreinstitucion() {
     let datos = this.demanda.institucionesInvolucradas.find(insti => insti.institucionId == this.idInstitucionProp)
     return datos.nombreInstitucion
-    
+
   }
 
 
@@ -426,18 +426,19 @@ export class ListadoDemandasComponent
         sorteable: false,
         visible: true,
       });
-     
+
       this.listadoEstados = this.dropdownService.getEstados();
       this.listadoEstados.subscribe((c) => {
-        
+
       });
-      
+
       this.usuarioInstitucional = true;
       this.tipoEstado = "ejecución";
 
     } else {
-      if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
-       
+      if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true ||
+          this.gruposUsuario.includes(GrupoUsuario.soloLectura) == true ) {
+
         this.listadoEstados = this.dropdownService.getEstadosValidacionById(
           GrupoUsuario.DGDES
         );
@@ -748,7 +749,10 @@ export class ListadoDemandasComponent
     } else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
       grupoId = GrupoUsuario.DGDES;
       institucion = this.filtrosActivos.institucionId;
-    } else {
+    } else if (this.gruposUsuario.includes(GrupoUsuario.soloLectura) == true) {
+      grupoId = GrupoUsuario.soloLectura;
+      institucion = this.filtrosActivos.institucionId;
+    }else {
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
@@ -780,7 +784,7 @@ export class ListadoDemandasComponent
       const idRudt = parseInt(this.institucionUsuarioEnRUDT);
       this.idInstitucionProp = idRudt;
       this.mouseHoverList = data.items;
-      
+
     });
 
   }
@@ -811,7 +815,10 @@ export class ListadoDemandasComponent
     } else if (this.gruposUsuario.includes(GrupoUsuario.DGDES) == true) {
       grupoId = GrupoUsuario.DGDES;
       institucion = this.filtrosActivos.institucionId;
-    } else {
+    } else if (this.gruposUsuario.includes(GrupoUsuario.soloLectura) == true) {
+      grupoId = GrupoUsuario.soloLectura;
+      institucion = this.filtrosActivos.institucionId;
+    }else {
       grupoId = GrupoUsuario.administradoresRUDT;
       institucion = this.filtrosActivos.institucionId;
     }
@@ -1194,7 +1201,7 @@ export class ListadoDemandasComponent
   async emailConstruction():Promise<void>{
     const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
 
-    
+
 
     const descripcionDemanda = this.demanda.descripcion;
     let estadonuevo:string = this.instEstado
@@ -1208,7 +1215,7 @@ export class ListadoDemandasComponent
       datosToSendEmailNotify = await EmailUtils.constructEmail(
         descripcionDemanda,
         this.accionesresult,
-        idgrupousuario, 
+        idgrupousuario,
         this.haycomentariosnuevos,
         this.estadocambio,
         this.nombreinstitucion,
@@ -1224,7 +1231,7 @@ export class ListadoDemandasComponent
       datosToSendEmailNotify = await EmailUtils.constructEmail(
         descripcionDemanda,
         this.accionesresult,
-        idgrupousuario, 
+        idgrupousuario,
         this.haycomentariosnuevos,
         this.estadocambio,
         '',
@@ -1274,7 +1281,7 @@ export class ListadoDemandasComponent
     let files = this.randyFile?.getFiles();
     if (files?.length > 0) {
       let formData = this.randyFileService.createFormData(files);
-    
+
       let fileIds = await this.randyFileService
       .uploadFiles(formData)
       .toPromise();
@@ -1288,7 +1295,7 @@ export class ListadoDemandasComponent
             this.verificarEvidenciaSubida()
           });
       }
-    
+
     this.demanda.demandaComentarios = this.ComentariosList;
 
     this.demanda.institucionesInvolucradas.forEach((institucion) => {
@@ -1326,7 +1333,7 @@ export class ListadoDemandasComponent
          window.location.href = "/demandas";
 
         }, 1500);
-        
+
           this.estadocambio = true
           this.emailConstruction()
       }
