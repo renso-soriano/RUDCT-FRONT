@@ -92,7 +92,7 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "optimization": false,
+              "optimization": { "scripts": true, "styles": { "minify": true, "inlineCritical": false }, "fonts": true },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
