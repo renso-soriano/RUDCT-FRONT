@@ -10,11 +10,11 @@ export const environment = {
     //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'image/jpeg',
-    'image/png'
+    //'image/jpeg',
+    //'image/png'
   ],
   allowedFileTypes: [
-    "image",
+   // "image",
     "pdf",
    // "doc",
    // "docx",
