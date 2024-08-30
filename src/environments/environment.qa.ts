@@ -7,19 +7,20 @@ export const environment = {
   allowedMimeTypes: [
     'application/pdf',
    // 'application/msword',
-   // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel',
+    //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'image/jpeg',
-    'image/png'
+    //'image/jpeg',
+    //'image/png'
   ],
   allowedFileTypes: [
-    "image",
+   // "image",
     "pdf",
    // "doc",
    // "docx",
-    "xlsx",
-    "xls"],
+  //  "xlsx",
+   // "xls"
+   ],
   appMaxFileSize: 5, // Tamaño en MB
   appMaxFileCount: 10,
   appStartYear: 2016,
