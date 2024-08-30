@@ -7,19 +7,20 @@ export const environment = {
   allowedMimeTypes: [
     'application/pdf',
    // 'application/msword',
-   // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel',
+    //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'image/jpeg',
-    'image/png'
+    //'image/jpeg',
+    //'image/png'
   ],
   allowedFileTypes: [
-    "image",
+   // "image",
     "pdf",
    // "doc",
    // "docx",
-    "xlsx",
-    "xls"],
+  //  "xlsx",
+   // "xls"
+   ],
   appMaxFileSize: 5, // Tamaño en MB
   appMaxFileCount: 10,
   appStartYear: 2016,
@@ -48,6 +49,5 @@ export const environment = {
     //accessToken: 'pk.eyJ1IjoiYnJhc2thbSIsImEiOiJja3NqcXBzbWoyZ3ZvMm5ybzA4N2dzaDR6In0.RUAYJFnNgOnn80wXkrV9ZA',
     accessToken: 'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
 
-    //accessToken:'pk.eyJ1Ijoic3RvcmVwb2ludGRlbW8iLCJhIjoiY2swOGZxMHAwMDFzdTNucGUzcmpma3hncCJ9.FjU11uGJo7etP_lWVAoxsg'
   },
 };
