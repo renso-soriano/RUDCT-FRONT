@@ -84,6 +84,9 @@ export class ListadoDemandasComponent
   @ViewChild("Detalles") Detalles: DetalleDemandasComponent
   @ViewChild("modalDetalles") modalDetalles: ModalComponent
 
+  mepydEnRudct = 270;
+  mepydEnSisplan = 1248;
+
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   abierto: boolean;
@@ -465,7 +468,7 @@ export class ListadoDemandasComponent
     }
 
     this.dropdownService
-      ?.getInstitucionById(this.institucionUsuarioSSO)
+      ?.getInstitucionById(this.institucionUsuarioSSO == this.mepydEnSisplan ? this.mepydEnRudct : this.institucionUsuarioSSO)
       .subscribe((x: any) => {
         this.institucionUsuarioEnRUDT = x[0]["id"];
         this.shortNameinstitucionUsuarioEnRUDT = x[0]["more"];
