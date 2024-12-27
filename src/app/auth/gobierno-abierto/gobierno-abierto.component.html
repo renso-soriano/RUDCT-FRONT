@@ -7,7 +7,7 @@
       <article>
         <img class="" src="../../../assets/img/icons/do.svg" alt="">
         <p>Esta es una web oficial del Gobierno de la República Dominicana. </p>
-        
+
       </article>
 
       <p class="text-color">
@@ -64,7 +64,7 @@
         </div>
       </div>
     </section>
-    
+
   </div>
 
   <!-- <div class="main-header" style="display: none;">
@@ -83,12 +83,26 @@
 
     <div class="row mt-3">
 
-      
-      <a class="btn btn-primary btn-block" [href]="this.documentpath" target="_blank" >
-        <i class="d-flex flex-row-reverse fa fa-file-pdf-o fa-3x " style="color: red;">
-          <h1 style="color: white;">Descargar Instructivo 𝐀𝐐𝐔𝐈</h1>
-        </i>
-      </a>
+      <div class="d-flex justify-content-center" style="background-color: #003876; width: 100%;">
+        <div class="d-flex justify-content-between align-items-center p-3" style="width: 90%;">
+
+          <!-- Botón para Descargar Participación Ciudadana -->
+          <a class="d-flex align-items-center"
+            href="https://mepyd.gob.do/publicacion/participacion-ciudadana-en-la-formulacion-del-pge-2025/"
+            target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: white; font-size: 1.3rem;">
+            <i class="fa fa-file-pdf-o fa-2x me-2" style="color: red;"></i>
+            <span>Descargar Participación Ciudadana en la formulación del PGE 2025 Aquí</span>
+          </a>
+
+          <!-- Botón para Descargar Instructivo RUDCT -->
+          <a class="d-flex align-items-center" [href]="documentpath" target="_blank" rel="noopener noreferrer"
+            style="text-decoration: none; color: white; font-size: 1.3rem;">
+            <i class="fa fa-file-pdf-o fa-2x me-2" style="color: red;"></i>
+            <span>Descargar Instructivo RUDCT Aquí</span>
+          </a>
+
+        </div>
+      </div>
 
       <div class="col-11 m-auto">
         <p class="my-2 proposito text-color">
@@ -240,9 +254,9 @@
                     </select>
                   </div>
 
-                  <app-mapa [nuevoTamanio]="newsizeMap" #mapaComponent [LABEL]="mapSettings.Label" [GEO_DATA_FILE]="mapSettings.GeoDataFile"
-                    [EXTRA_DATA_SERVICE]="mapSettings.servicio" [BIND_PROP]="mapSettings.BindProperty"
-                    [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
+                  <app-mapa [nuevoTamanio]="newsizeMap" #mapaComponent [LABEL]="mapSettings.Label"
+                    [GEO_DATA_FILE]="mapSettings.GeoDataFile" [EXTRA_DATA_SERVICE]="mapSettings.servicio"
+                    [BIND_PROP]="mapSettings.BindProperty" [BIND_PROP_VALUE]="mapSettings.BindValue"></app-mapa>
 
 
                 </div>
@@ -257,7 +271,8 @@
                 Porcentaje demandas por region
               </h5>
               <div class="card-content ">
-                <div class="card-body align-items-center padding-0 marginb-12" style="max-height: 800px;overflow: auto;padding: 15px;height: 622px;">
+                <div class="card-body align-items-center padding-0 marginb-12"
+                  style="max-height: 800px;overflow: auto;padding: 15px;height: 622px;">
                   <app-region-chart #regionChart [regionesInfo]="regiones"></app-region-chart>
                 </div>
               </div>
@@ -279,7 +294,8 @@
                   <div class="card-body ">
 
                     <div class="col-md-12 mb-2">
-                      <app-data-filter [ModalShouldBeOpen]="true"  *ngIf="!loadingIndicator" [filtros]="filtros" (filterEvent)="getFilters($event)">
+                      <app-data-filter [ModalShouldBeOpen]="true" *ngIf="!loadingIndicator" [filtros]="filtros"
+                        (filterEvent)="getFilters($event)">
                       </app-data-filter>
                     </div>
 
@@ -332,9 +348,9 @@
                         <ngx-datatable-column name="Acciones">
                           <ng-template let-row="row" ngx-datatable-cell-template>
                             <div class="d-flex flex-wrap justify-content-center">
-                              <a class="btn btn-warning text-white ft-eye mb-1" (click)="openVerticallyCentered(content,row.id)"
-                                title="Ver detalles"></a>
-                        
+                              <a class="btn btn-warning text-white ft-eye mb-1"
+                                (click)="openVerticallyCentered(content,row.id)" title="Ver detalles"></a>
+
                               <!-- temporalmente desactivado -->
                               <a class="btn btn-primary text-white ft-cloud mb-1" (click)="verArchivos(row.id)"
                                 [class.no-event]="!row.demandaAnexos.length > 0 || !validarFalse(row.demandaAnexos)"
