@@ -90,7 +90,7 @@
                         estadoUtils.titleEstadoEjecucion(estadoUtils.getEstadoIdForInstitucion(row?.institucionesInvolucradas,
                         idInstitucionProp)) }}
                         </div>
-                  
+
                       <div
                         *ngIf="column.prop == 'nombreTipoDemanda' && gruposUsuario.includes(this.rolesEnum?.institucionalRUDT) == false && gruposUsuario.includes(this.rolesEnum?.soloLectura) == false"
                         class="badge badge-pill"
@@ -299,7 +299,7 @@
             listado</span>
         </a>
 
-        <input type="button" value="Continuar" class="btn btn-success" [disabled]="estadoForm?.invalid"
+        <input type="button" value="Guardar cambios" class="btn btn-success" [disabled]="estadoForm?.invalid"
           (click)="closeModal()">
       </div>
 

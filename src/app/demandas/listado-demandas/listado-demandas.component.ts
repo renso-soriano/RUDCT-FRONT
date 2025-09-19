@@ -883,9 +883,6 @@ export class ListadoDemandasComponent
       });
 
 
-
-
-
       return {
         Código:item?.codigo,
         Año: item?.anio,
@@ -980,6 +977,13 @@ export class ListadoDemandasComponent
           institucionShortname: this.shortNameinstitucionUsuarioEnRUDT,
           fechaRegistro: new Date()
         });
+
+        // aviso de que deben guardar cambios al final
+
+      this.sweAlert.info(
+        'El comentario ha sido añadido, pero recuerde que debe presionar "Guardar cambios" en el formulario principal para guardarlo definitivamente.',
+        'Comentario añadido'
+      );
 
         this.estadoForm.patchValue({
           comentarios: null,
@@ -1201,10 +1205,9 @@ export class ListadoDemandasComponent
       this.enviar();
     }
   }
+
   async emailConstruction():Promise<void>{
     const EmailUtils = new emailUtils(this.emailService,this.ssoService,this.ssoinstitucionService)
-
-
 
     const descripcionDemanda = this.demanda.descripcion;
     let estadonuevo:string = this.instEstado
