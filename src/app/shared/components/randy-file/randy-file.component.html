@@ -37,11 +37,14 @@
         <td class="text-bold-600">{{ item.file?.name }}</td>
         <td class="text-bold-600">{{ item.institucionNombre }}</td>
         <td class="text-bold-600">
-          <ng-select required="Debe llenar campo" [disabled]="isGobiernoAbierto"
+          <ng-select required="true" [Disabled]="isGobiernoAbierto"
             [items]="tipoDocumentos | async" bindLabel="name" bindValue="id"
             placeholder="Seleccione el tipo de Documento" name="_selectedType" [(ngModel)]="item.tipoDocumentoId"
             (change)="changeType(item, $event)">
           </ng-select>
+<div *ngIf="!item.tipoDocumentoId && !isGobiernoAbierto " class="text-danger text-sm mt-1">
+  Sin el tipo de documento no se guardaran sus cambios
+</div>
         </td>
         <td col class="text-center">
           <ng-container *ngIf="isDetail; else remove">

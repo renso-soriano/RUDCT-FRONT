@@ -52,4 +52,12 @@ export class SweetAlertService {
     const swal = await this.alert(title, text, 'error', { cancelButtonText: 'Cancel', confirmButtonText: 'Ok' })
     return swal.dismiss
   }
+
+  async info(text: string, title = 'Información') {
+  const swal = await this.alert(title, text, 'info', {
+    confirmButtonText: 'Entendido',
+  });
+  return swal.dismiss;
+}
+
 }
