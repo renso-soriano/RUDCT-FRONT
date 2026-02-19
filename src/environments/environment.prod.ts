@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
   //apiUrl: "http://apidemandas.economia.local/api/",
-  apiUrl: "https://apirudt.mepyd.gob.do/api/",
+  //apiUrl: "https://apirudt.mepyd.gob.do/api/",
+  apiUrl: "https://apirudt.hacienda.gob.do/api/",
   appName: "Registro Único de Demandas Ciudadanas Territoriales",
   appShortName: "RUDCT",
   allowedMimeTypes: [
