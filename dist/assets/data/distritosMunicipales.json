@@ -1,0 +1,2262 @@
+﻿[
+        {
+            "RegionId": "01",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "CAÑONGO",
+            "Activo": "1",
+            "MunicipioKey": "010101",
+            "DistritoKey": "01010101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "CAPOTILLO",
+            "Activo": "1",
+            "MunicipioKey": "010102",
+            "DistritoKey": "01010201"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "SANTIAGO DE LA CRUZ",
+            "Activo": "1",
+            "MunicipioKey": "010102",
+            "DistritoKey": "01010202"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "01",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "MANUEL BUENO",
+            "Activo": "1",
+            "MunicipioKey": "010105",
+            "DistritoKey": "01010501"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "02",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "PALO VERDE",
+            "Activo": "1",
+            "MunicipioKey": "010202",
+            "DistritoKey": "01020201"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "CANA CHAPETON",
+            "Activo": "1",
+            "MunicipioKey": "010203",
+            "DistritoKey": "01020301"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "HATILLO PALMA",
+            "Activo": "1",
+            "MunicipioKey": "010203",
+            "DistritoKey": "01020302"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "03",
+            "Nombre": "VILLA ELISA",
+            "Activo": "1",
+            "MunicipioKey": "010203",
+            "DistritoKey": "01020303"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "AMINA",
+            "Activo": "1",
+            "MunicipioKey": "010401",
+            "DistritoKey": "01040101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "GUATAPANAL",
+            "Activo": "1",
+            "MunicipioKey": "010401",
+            "DistritoKey": "01040102"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "JAIBON (PUEBLO NUEVO)",
+            "Activo": "1",
+            "MunicipioKey": "010401",
+            "DistritoKey": "01040103"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "BOCA DE MAO",
+            "Activo": "1",
+            "MunicipioKey": "010402",
+            "DistritoKey": "01040201"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "JICOME",
+            "Activo": "1",
+            "MunicipioKey": "010402",
+            "DistritoKey": "01040202"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "03",
+            "Nombre": "MAIZAL",
+            "Activo": "1",
+            "MunicipioKey": "010402",
+            "DistritoKey": "01040203"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "04",
+            "Nombre": "PARADERO",
+            "Activo": "1",
+            "MunicipioKey": "010402",
+            "DistritoKey": "01040204"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "CRUCE DE GUAYACANES",
+            "Activo": "1",
+            "MunicipioKey": "010403",
+            "DistritoKey": "01040301"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "JAIBON (PUEBLO NUEVO)",
+            "Activo": "1",
+            "MunicipioKey": "010403",
+            "DistritoKey": "01040302"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "04",
+            "MunicipioId": "03",
+            "DistritoId": "03",
+            "Nombre": "LA CAYA",
+            "Activo": "1",
+            "MunicipioKey": "010403",
+            "DistritoKey": "01040303"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "MAIMON",
+            "Activo": "1",
+            "MunicipioKey": "010501",
+            "DistritoKey": "01050101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "YASICA",
+            "Activo": "1",
+            "MunicipioKey": "010501",
+            "DistritoKey": "01050102"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "RIO GRANDE",
+            "Activo": "1",
+            "MunicipioKey": "010502",
+            "DistritoKey": "01050201"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "NAVAS",
+            "Activo": "1",
+            "MunicipioKey": "010505",
+            "DistritoKey": "01050501"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "06",
+            "DistritoId": "01",
+            "Nombre": "BELLOSO",
+            "Activo": "1",
+            "MunicipioKey": "010506",
+            "DistritoKey": "01050601"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "06",
+            "DistritoId": "02",
+            "Nombre": "ESTRECHO",
+            "Activo": "1",
+            "MunicipioKey": "010506",
+            "DistritoKey": "01050602"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "06",
+            "DistritoId": "03",
+            "Nombre": "LA ISABELA",
+            "Activo": "1",
+            "MunicipioKey": "010506",
+            "DistritoKey": "01050603"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "07",
+            "DistritoId": "01",
+            "Nombre": "CABARETE",
+            "Activo": "1",
+            "MunicipioKey": "010507",
+            "DistritoKey": "01050701"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "07",
+            "DistritoId": "02",
+            "Nombre": "SABANA DE YASICA",
+            "Activo": "1",
+            "MunicipioKey": "010507",
+            "DistritoKey": "01050702"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "08",
+            "DistritoId": "01",
+            "Nombre": "ESTERO HONDO",
+            "Activo": "1",
+            "MunicipioKey": "010508",
+            "DistritoKey": "01050801"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "08",
+            "DistritoId": "02",
+            "Nombre": "GUALETE",
+            "Activo": "1",
+            "MunicipioKey": "010508",
+            "DistritoKey": "01050802"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "05",
+            "MunicipioId": "08",
+            "DistritoId": "03",
+            "Nombre": "LA JAIBA",
+            "Activo": "1",
+            "MunicipioKey": "010508",
+            "DistritoKey": "01050803"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "BAITOA",
+            "Activo": "1",
+            "MunicipioKey": "010601",
+            "DistritoKey": "01060101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "HATO DEL YAQUE",
+            "Activo": "1",
+            "MunicipioKey": "010601",
+            "DistritoKey": "01060102"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "LA CANELA",
+            "Activo": "1",
+            "MunicipioKey": "010601",
+            "DistritoKey": "01060103"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "PEDRO GARCIA",
+            "Activo": "1",
+            "MunicipioKey": "010601",
+            "DistritoKey": "01060104"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "05",
+            "Nombre": "SAN FRANCISCO DE JACAUGUA",
+            "Activo": "1",
+            "MunicipioKey": "010601",
+            "DistritoKey": "01060105"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "EL CAIMITO",
+            "Activo": "1",
+            "MunicipioKey": "010603",
+            "DistritoKey": "01060301"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "JUNCALITO",
+            "Activo": "1",
+            "MunicipioKey": "010603",
+            "DistritoKey": "01060302"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "LAS PALOMAS",
+            "Activo": "1",
+            "MunicipioKey": "010604",
+            "DistritoKey": "01060401"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "CANABACOA",
+            "Activo": "1",
+            "MunicipioKey": "010605",
+            "DistritoKey": "01060501"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "05",
+            "DistritoId": "02",
+            "Nombre": "GUAYABAL",
+            "Activo": "1",
+            "MunicipioKey": "010605",
+            "DistritoKey": "01060502"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "06",
+            "DistritoId": "01",
+            "Nombre": "CANCA LA PIEDRA",
+            "Activo": "1",
+            "MunicipioKey": "010606",
+            "DistritoKey": "01060601"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "07",
+            "DistritoId": "01",
+            "Nombre": "EL LIMON",
+            "Activo": "1",
+            "MunicipioKey": "010607",
+            "DistritoKey": "01060701"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "07",
+            "DistritoId": "02",
+            "Nombre": "PALMAR ARRIBA",
+            "Activo": "1",
+            "MunicipioKey": "010607",
+            "DistritoKey": "01060702"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "08",
+            "DistritoId": "01",
+            "Nombre": "CANABACOA",
+            "Activo": "1",
+            "MunicipioKey": "010608",
+            "DistritoKey": "01060801"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "06",
+            "MunicipioId": "08",
+            "DistritoId": "02",
+            "Nombre": "GUAYABAL",
+            "Activo": "1",
+            "MunicipioKey": "010608",
+            "DistritoKey": "01060802"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "CANCA LA REINA",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070101"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "EL HIGUERITO",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070102"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "JOSE CONTRERAS",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070103"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "JUAN LOPEZ",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070104"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "05",
+            "Nombre": "LA ORTEGA",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070105"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "06",
+            "Nombre": "LAS LAGUNAS",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070106"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "07",
+            "Nombre": "MONTE DE LA JAGUA",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070107"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "08",
+            "Nombre": "SAN VICTOR",
+            "Activo": "1",
+            "MunicipioKey": "010701",
+            "DistritoKey": "01070108"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "JOBA ARRIBA",
+            "Activo": "1",
+            "MunicipioKey": "010703",
+            "DistritoKey": "01070301"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "VERAGUA",
+            "Activo": "1",
+            "MunicipioKey": "010703",
+            "DistritoKey": "01070302"
+        },
+        {
+            "RegionId": "01",
+            "ProvinciaId": "07",
+            "MunicipioId": "03",
+            "DistritoId": "03",
+            "Nombre": "VILLA MAGNATE",
+            "Activo": "1",
+            "MunicipioKey": "010703",
+            "DistritoKey": "01070303"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "ARROYO AL MEDIO",
+            "Activo": "1",
+            "MunicipioKey": "020101",
+            "DistritoKey": "02010101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "LAS GORDAS",
+            "Activo": "1",
+            "MunicipioKey": "020101",
+            "DistritoKey": "02010102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "SAN JOSE DE MATANZAS",
+            "Activo": "1",
+            "MunicipioKey": "020101",
+            "DistritoKey": "02010103"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "ARROYO SALADO",
+            "Activo": "1",
+            "MunicipioKey": "020102",
+            "DistritoKey": "02010201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "LA ENTRADA",
+            "Activo": "1",
+            "MunicipioKey": "020102",
+            "DistritoKey": "02010202"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "01",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "EL POZO",
+            "Activo": "1",
+            "MunicipioKey": "020103",
+            "DistritoKey": "02010301"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "ARROYO BARRIL",
+            "Activo": "1",
+            "MunicipioKey": "020201",
+            "DistritoKey": "02020101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "EL LIMON",
+            "Activo": "1",
+            "MunicipioKey": "020201",
+            "DistritoKey": "02020102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "LAS GALERAS",
+            "Activo": "1",
+            "MunicipioKey": "020201",
+            "DistritoKey": "02020103"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "JAMAO AFUERA",
+            "Activo": "1",
+            "MunicipioKey": "020301",
+            "DistritoKey": "02030101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "03",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "BLANCO",
+            "Activo": "1",
+            "MunicipioKey": "020302",
+            "DistritoKey": "02030201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "CENOVI",
+            "Activo": "1",
+            "MunicipioKey": "020401",
+            "DistritoKey": "02040101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "JAYA",
+            "Activo": "1",
+            "MunicipioKey": "020401",
+            "DistritoKey": "02040102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "LA PEÑA",
+            "Activo": "1",
+            "MunicipioKey": "020401",
+            "DistritoKey": "02040103"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "PRESIDENTE DON ANTONIO GUZMAN FERNANDEZ",
+            "Activo": "1",
+            "MunicipioKey": "020401",
+            "DistritoKey": "02040104"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "AGUACATE",
+            "Activo": "1",
+            "MunicipioKey": "020402",
+            "DistritoKey": "02040201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "LAS COLES",
+            "Activo": "1",
+            "MunicipioKey": "020402",
+            "DistritoKey": "02040202"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "AGUA SANTA DEL YUNA",
+            "Activo": "1",
+            "MunicipioKey": "020405",
+            "DistritoKey": "02040501"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "05",
+            "DistritoId": "02",
+            "Nombre": "BARRANQUITO",
+            "Activo": "1",
+            "MunicipioKey": "020405",
+            "DistritoKey": "02040502"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "05",
+            "DistritoId": "03",
+            "Nombre": "CRISTO REY DE GUARAGUAO",
+            "Activo": "1",
+            "MunicipioKey": "020405",
+            "DistritoKey": "02040503"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "04",
+            "MunicipioId": "05",
+            "DistritoId": "04",
+            "Nombre": "LAS TÁRANAS",
+            "Activo": "1",
+            "MunicipioKey": "020405",
+            "DistritoKey": "02040504"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "EL RANCHITO",
+            "Activo": "1",
+            "MunicipioKey": "020501",
+            "DistritoKey": "02050101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "RIO VERDE ARRIBA",
+            "Activo": "1",
+            "MunicipioKey": "020501",
+            "DistritoKey": "02050102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "LA SABINA",
+            "Activo": "1",
+            "MunicipioKey": "020502",
+            "DistritoKey": "02050201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "TIREO",
+            "Activo": "1",
+            "MunicipioKey": "020502",
+            "DistritoKey": "02050202"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "BUENA VISTA",
+            "Activo": "1",
+            "MunicipioKey": "020503",
+            "DistritoKey": "02050301"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "MANABAO",
+            "Activo": "1",
+            "MunicipioKey": "020503",
+            "DistritoKey": "02050302"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "05",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "RINCON",
+            "Activo": "1",
+            "MunicipioKey": "020504",
+            "DistritoKey": "02050401"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "ARROYO TORO - MASIPEDRO",
+            "Activo": "1",
+            "MunicipioKey": "020601",
+            "DistritoKey": "02060101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "LA SALVIA - LOS QUEMADOS",
+            "Activo": "1",
+            "MunicipioKey": "020601",
+            "DistritoKey": "02060102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "JAYACO",
+            "Activo": "1",
+            "MunicipioKey": "020601",
+            "DistritoKey": "02060103"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "JUMA BEJUCAL",
+            "Activo": "1",
+            "MunicipioKey": "020601",
+            "DistritoKey": "02060104"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "05",
+            "Nombre": "SABANA DEL PUERTO",
+            "Activo": "1",
+            "MunicipioKey": "020601",
+            "DistritoKey": "02060105"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "JUAN ADRIAN",
+            "Activo": "1",
+            "MunicipioKey": "020603",
+            "DistritoKey": "02060301"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "06",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "VILLA SOÑADOR",
+            "Activo": "1",
+            "MunicipioKey": "020603",
+            "DistritoKey": "02060302"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "CABALLERO",
+            "Activo": "1",
+            "MunicipioKey": "020701",
+            "DistritoKey": "02070101"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "COMEDERO ARRIBA",
+            "Activo": "1",
+            "MunicipioKey": "020701",
+            "DistritoKey": "02070102"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "QUITA SUEÑO",
+            "Activo": "1",
+            "MunicipioKey": "020701",
+            "DistritoKey": "02070103"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "LA CUEVA",
+            "Activo": "1",
+            "MunicipioKey": "020702",
+            "DistritoKey": "02070201"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "PLATANAL",
+            "Activo": "1",
+            "MunicipioKey": "020702",
+            "DistritoKey": "02070202"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "ANGELINA",
+            "Activo": "1",
+            "MunicipioKey": "020704",
+            "DistritoKey": "02070401"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "04",
+            "DistritoId": "02",
+            "Nombre": "LA BIJA",
+            "Activo": "1",
+            "MunicipioKey": "020704",
+            "DistritoKey": "02070402"
+        },
+        {
+            "RegionId": "02",
+            "ProvinciaId": "07",
+            "MunicipioId": "04",
+            "DistritoId": "03",
+            "Nombre": "HERNANDO ALONZO",
+            "Activo": "1",
+            "MunicipioKey": "020704",
+            "DistritoKey": "02070403"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "BOYÁ",
+            "Activo": "1",
+            "MunicipioKey": "030101",
+            "DistritoKey": "03010101"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "CHIRINO",
+            "Activo": "1",
+            "MunicipioKey": "030101",
+            "DistritoKey": "03010102"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "DON JUAN",
+            "Activo": "1",
+            "MunicipioKey": "030101",
+            "DistritoKey": "03010103"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "GONZALO",
+            "Activo": "1",
+            "MunicipioKey": "030103",
+            "DistritoKey": "03010301"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "MAJAGUAL",
+            "Activo": "1",
+            "MunicipioKey": "030103",
+            "DistritoKey": "03010302"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "01",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "LOS BOTADOS",
+            "Activo": "1",
+            "MunicipioKey": "030104",
+            "DistritoKey": "03010401"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "HATO DAMAS",
+            "Activo": "1",
+            "MunicipioKey": "030201",
+            "DistritoKey": "03020101"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "EL CARRIL",
+            "Activo": "1",
+            "MunicipioKey": "030203",
+            "DistritoKey": "03020301"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "CAMBITA EL PUEBLECITO",
+            "Activo": "1",
+            "MunicipioKey": "030204",
+            "DistritoKey": "03020401"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "LA CUCHILLA",
+            "Activo": "1",
+            "MunicipioKey": "030205",
+            "DistritoKey": "03020501"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "05",
+            "DistritoId": "02",
+            "Nombre": "MEDINA",
+            "Activo": "1",
+            "MunicipioKey": "030205",
+            "DistritoKey": "03020502"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "02",
+            "MunicipioId": "05",
+            "DistritoId": "03",
+            "Nombre": "SAN JOSE DEL PUERTO",
+            "Activo": "1",
+            "MunicipioKey": "030205",
+            "DistritoKey": "03020503"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "EL NARANJAL",
+            "Activo": "1",
+            "MunicipioKey": "030301",
+            "DistritoKey": "03030101"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "EL PINAR",
+            "Activo": "1",
+            "MunicipioKey": "030301",
+            "DistritoKey": "03030102"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "LA CIENAGA",
+            "Activo": "1",
+            "MunicipioKey": "030301",
+            "DistritoKey": "03030103"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "NIZAO-LAS AUYAMAS",
+            "Activo": "1",
+            "MunicipioKey": "030301",
+            "DistritoKey": "03030104"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "CATALINA",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040101"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "EL CARRETON",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040102"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "EL LIMONAL",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040103"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "LAS BARIAS",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040104"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "05",
+            "Nombre": "MATANZAS",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040105"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "06",
+            "Nombre": "PAYA",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040106"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "07",
+            "Nombre": "SABANA BUEY",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040107"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "08",
+            "Nombre": "VILLA FUNDACION",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040108"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "09",
+            "Nombre": "VILLA SOMBRERO",
+            "Activo": "1",
+            "MunicipioKey": "030401",
+            "DistritoKey": "03040109"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "PIZARRETE",
+            "Activo": "1",
+            "MunicipioKey": "030402",
+            "DistritoKey": "03040201"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "SANTANA",
+            "Activo": "1",
+            "MunicipioKey": "030402",
+            "DistritoKey": "03040202"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "SAN LUIS",
+            "Activo": "1",
+            "MunicipioKey": "030501",
+            "DistritoKey": "03050101"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "LA VICTORIA",
+            "Activo": "1",
+            "MunicipioKey": "030503",
+            "DistritoKey": "03050301"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "LA CALETA",
+            "Activo": "1",
+            "MunicipioKey": "030504",
+            "DistritoKey": "03050401"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "HATO VIEJO",
+            "Activo": "1",
+            "MunicipioKey": "030505",
+            "DistritoKey": "03050501"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "06",
+            "DistritoId": "01",
+            "Nombre": "PALMAREJO-VILLA LINDA",
+            "Activo": "1",
+            "MunicipioKey": "030506",
+            "DistritoKey": "03050601"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "06",
+            "DistritoId": "02",
+            "Nombre": "PANTOJA",
+            "Activo": "1",
+            "MunicipioKey": "030506",
+            "DistritoKey": "03050602"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "07",
+            "DistritoId": "01",
+            "Nombre": "LA CUABA",
+            "Activo": "1",
+            "MunicipioKey": "030507",
+            "DistritoKey": "03050701"
+        },
+        {
+            "RegionId": "03",
+            "ProvinciaId": "05",
+            "MunicipioId": "07",
+            "DistritoId": "02",
+            "Nombre": "LA GUAYIGA",
+            "Activo": "1",
+            "MunicipioKey": "030507",
+            "DistritoKey": "03050702"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "EL PUERTO",
+            "Activo": "1",
+            "MunicipioKey": "040102",
+            "DistritoKey": "04010201"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "GAUTIER",
+            "Activo": "1",
+            "MunicipioKey": "040102",
+            "DistritoKey": "04010202"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "GALETA",
+            "Activo": "1",
+            "MunicipioKey": "040201",
+            "DistritoKey": "04020101"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "CUMAYASA",
+            "Activo": "1",
+            "MunicipioKey": "040203",
+            "DistritoKey": "04020301"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "LA OTRA BANDA",
+            "Activo": "1",
+            "MunicipioKey": "040301",
+            "DistritoKey": "04030101"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "LAGUNAS DE NISIBÓN",
+            "Activo": "1",
+            "MunicipioKey": "040301",
+            "DistritoKey": "04030102"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "VERÓN-PUNTA CANA",
+            "Activo": "1",
+            "MunicipioKey": "040301",
+            "DistritoKey": "04030103"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "BAYAHIBE",
+            "Activo": "1",
+            "MunicipioKey": "040302",
+            "DistritoKey": "04030201"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "03",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "BOCA DE YUMA",
+            "Activo": "1",
+            "MunicipioKey": "040302",
+            "DistritoKey": "04030202"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "PEDRO SÁNCHEZ",
+            "Activo": "1",
+            "MunicipioKey": "040401",
+            "DistritoKey": "04040101"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "SAN FRANCISCO-VICENTILLO",
+            "Activo": "1",
+            "MunicipioKey": "040401",
+            "DistritoKey": "04040102"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "SANTA LUCÍA",
+            "Activo": "1",
+            "MunicipioKey": "040401",
+            "DistritoKey": "04040103"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "EL CEDRO",
+            "Activo": "1",
+            "MunicipioKey": "040402",
+            "DistritoKey": "04040201"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "04",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "LA GINA",
+            "Activo": "1",
+            "MunicipioKey": "040402",
+            "DistritoKey": "04040202"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "GUAYABO DULCE",
+            "Activo": "1",
+            "MunicipioKey": "040501",
+            "DistritoKey": "04050101"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "MATA PALACIO",
+            "Activo": "1",
+            "MunicipioKey": "040501",
+            "DistritoKey": "04050102"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "YERBA BUENA",
+            "Activo": "1",
+            "MunicipioKey": "040501",
+            "DistritoKey": "04050103"
+        },
+        {
+            "RegionId": "04",
+            "ProvinciaId": "05",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "ELUPINA CORDERO DE LAS CAÑITAS",
+            "Activo": "1",
+            "MunicipioKey": "040502",
+            "DistritoKey": "04050201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "GUAYABO",
+            "Activo": "1",
+            "MunicipioKey": "050101",
+            "DistritoKey": "05010101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "SABANA LARGA",
+            "Activo": "1",
+            "MunicipioKey": "050101",
+            "DistritoKey": "05010102"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "SABANA CRUZ",
+            "Activo": "1",
+            "MunicipioKey": "050102",
+            "DistritoKey": "05010201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "SABANA HIGÜERO",
+            "Activo": "1",
+            "MunicipioKey": "050102",
+            "DistritoKey": "05010202"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "GUANITO",
+            "Activo": "1",
+            "MunicipioKey": "050103",
+            "DistritoKey": "05010301"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "RANCHO DE LA GUARDIA",
+            "Activo": "1",
+            "MunicipioKey": "050104",
+            "DistritoKey": "05010401"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "01",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "RIO LIMPIO",
+            "Activo": "1",
+            "MunicipioKey": "050105",
+            "DistritoKey": "05010501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "EL ROSARIO",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "GUANITO",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020102"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "03",
+            "Nombre": "HATO DEL PADRE",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020103"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "04",
+            "Nombre": "HATO NUEVO",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020104"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "05",
+            "Nombre": "LA JAGUA",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020105"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "06",
+            "Nombre": "LAS CHARCAS DE MARÍA NOVA",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020106"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "07",
+            "Nombre": "PEDRO CORTO",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020107"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "08",
+            "Nombre": "SABANA ALTA",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020108"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "01",
+            "DistritoId": "09",
+            "Nombre": "SABANETA",
+            "Activo": "1",
+            "MunicipioKey": "050201",
+            "DistritoKey": "05020109"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "ARROYO CANO",
+            "Activo": "1",
+            "MunicipioKey": "050202",
+            "DistritoKey": "05020201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "02",
+            "DistritoId": "02",
+            "Nombre": "YAQUE",
+            "Activo": "1",
+            "MunicipioKey": "050202",
+            "DistritoKey": "05020202"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "BATISTA",
+            "Activo": "1",
+            "MunicipioKey": "050203",
+            "DistritoKey": "05020301"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "DERRUMBADERO",
+            "Activo": "1",
+            "MunicipioKey": "050203",
+            "DistritoKey": "05020302"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "JINOVA",
+            "Activo": "1",
+            "MunicipioKey": "050204",
+            "DistritoKey": "05020401"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "CARRERA DE YEGUA",
+            "Activo": "1",
+            "MunicipioKey": "050205",
+            "DistritoKey": "05020501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "05",
+            "DistritoId": "02",
+            "Nombre": "MATAYAYA",
+            "Activo": "1",
+            "MunicipioKey": "050205",
+            "DistritoKey": "05020502"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "02",
+            "MunicipioId": "06",
+            "DistritoId": "01",
+            "Nombre": "JORJILLO",
+            "Activo": "1",
+            "MunicipioKey": "050206",
+            "DistritoKey": "05020601"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "01",
+            "Nombre": "BARRERAS",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "02",
+            "Nombre": "BARRO ARRIBA",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300102"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "03",
+            "Nombre": "CLAVELLINA",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300103"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "04",
+            "Nombre": "EMMA BALAGUER VIUDA VALLEJO",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300104"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "05",
+            "Nombre": "LAS BARÍAS-LA ESTANCIA",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300105"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "06",
+            "Nombre": "LAS LOMAS",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300106"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "07",
+            "Nombre": "LOS JOVILLOS",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300107"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "001",
+            "DistritoId": "08",
+            "Nombre": "PUERTO VIEJO",
+            "Activo": "1",
+            "MunicipioKey": "0503001",
+            "DistritoKey": "050300108"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "002",
+            "DistritoId": "01",
+            "Nombre": "HATILLO",
+            "Activo": "1",
+            "MunicipioKey": "0503002",
+            "DistritoKey": "050300201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "002",
+            "DistritoId": "02",
+            "Nombre": "PALMAR DE OCOA",
+            "Activo": "1",
+            "MunicipioKey": "0503002",
+            "DistritoKey": "050300202"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "003",
+            "DistritoId": "01",
+            "Nombre": "VILLARPANDO",
+            "Activo": "1",
+            "MunicipioKey": "0503003",
+            "DistritoKey": "050300301"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "003",
+            "DistritoId": "02",
+            "Nombre": "HATO NUEVO-CORTÉS",
+            "Activo": "1",
+            "MunicipioKey": "0503003",
+            "DistritoKey": "050300302"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "004",
+            "DistritoId": "01",
+            "Nombre": "LA SIEMBRA",
+            "Activo": "1",
+            "MunicipioKey": "0503004",
+            "DistritoKey": "050300401"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "004",
+            "DistritoId": "02",
+            "Nombre": "LAS LAGUNAS",
+            "Activo": "1",
+            "MunicipioKey": "0503004",
+            "DistritoKey": "050300402"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "004",
+            "DistritoId": "03",
+            "Nombre": "LOS FRÍOS",
+            "Activo": "1",
+            "MunicipioKey": "0503004",
+            "DistritoKey": "050300403"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "006",
+            "DistritoId": "01",
+            "Nombre": "PROYECTO 4",
+            "Activo": "1",
+            "MunicipioKey": "0503006",
+            "DistritoKey": "050300601"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "006",
+            "DistritoId": "02",
+            "Nombre": "GANADERO",
+            "Activo": "1",
+            "MunicipioKey": "0503006",
+            "DistritoKey": "050300602"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "006",
+            "DistritoId": "03",
+            "Nombre": "PROYECTO 2-C",
+            "Activo": "1",
+            "MunicipioKey": "0503006",
+            "DistritoKey": "050300603"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "007",
+            "DistritoId": "01",
+            "Nombre": "EL ROSARIO",
+            "Activo": "1",
+            "MunicipioKey": "0503007",
+            "DistritoKey": "050300701"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "008",
+            "DistritoId": "01",
+            "Nombre": "AMIAMA GÓMEZ",
+            "Activo": "1",
+            "MunicipioKey": "0503008",
+            "DistritoKey": "050300801"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "008",
+            "DistritoId": "02",
+            "Nombre": "LOS TOROS",
+            "Activo": "1",
+            "MunicipioKey": "0503008",
+            "DistritoKey": "050300802"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "03",
+            "MunicipioId": "008",
+            "DistritoId": "03",
+            "Nombre": "TÁBARA ABAJO",
+            "Activo": "1",
+            "MunicipioKey": "0503008",
+            "DistritoKey": "050300803"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "001",
+            "DistritoId": "01",
+            "Nombre": "EL CACHÓN",
+            "Activo": "1",
+            "MunicipioKey": "0504001",
+            "DistritoKey": "050400101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "001",
+            "DistritoId": "02",
+            "Nombre": "LA GUÁZARA",
+            "Activo": "1",
+            "MunicipioKey": "0504001",
+            "DistritoKey": "050400102"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "001",
+            "DistritoId": "03",
+            "Nombre": "VILLA CENTRAL",
+            "Activo": "1",
+            "MunicipioKey": "0504001",
+            "DistritoKey": "050400103"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "003",
+            "DistritoId": "01",
+            "Nombre": "ARROYO DULCE",
+            "Activo": "1",
+            "MunicipioKey": "0504003",
+            "DistritoKey": "050400301"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "004",
+            "DistritoId": "01",
+            "Nombre": "LOS PATOS",
+            "Activo": "1",
+            "MunicipioKey": "0504004",
+            "DistritoKey": "050400401"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "005",
+            "DistritoId": "01",
+            "Nombre": "CANOA",
+            "Activo": "1",
+            "MunicipioKey": "0504005",
+            "DistritoKey": "050400501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "005",
+            "DistritoId": "02",
+            "Nombre": "FONDO NEGRO",
+            "Activo": "1",
+            "MunicipioKey": "0504005",
+            "DistritoKey": "050400502"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "005",
+            "DistritoId": "03",
+            "Nombre": "QUITA CORAZA",
+            "Activo": "1",
+            "MunicipioKey": "0504005",
+            "DistritoKey": "050400503"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "007",
+            "DistritoId": "01",
+            "Nombre": "BAHORUCO",
+            "Activo": "1",
+            "MunicipioKey": "0504007",
+            "DistritoKey": "050400701"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "008",
+            "DistritoId": "01",
+            "Nombre": "PESCADERIA",
+            "Activo": "1",
+            "MunicipioKey": "0504008",
+            "DistritoKey": "050400801"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "04",
+            "MunicipioId": "011",
+            "DistritoId": "01",
+            "Nombre": "PALO ALTO",
+            "Activo": "1",
+            "MunicipioKey": "0504011",
+            "DistritoKey": "050401101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "EL PALMAR",
+            "Activo": "1",
+            "MunicipioKey": "050501",
+            "DistritoKey": "05050101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "EL SALADO",
+            "Activo": "1",
+            "MunicipioKey": "050502",
+            "DistritoKey": "05050201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "01",
+            "Nombre": "ABEZA DE TORO",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050301"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "02",
+            "Nombre": "MENA",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050302"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "03",
+            "Nombre": "MONSERRAT",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050303"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "04",
+            "Nombre": "SANTA BÁRBARA-EL 6",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050304"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "05",
+            "Nombre": "SANTANA",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050305"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "03",
+            "DistritoId": "06",
+            "Nombre": "UVILLA",
+            "Activo": "1",
+            "MunicipioKey": "050503",
+            "DistritoKey": "05050306"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "05",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "LAS CLAVELLINAS",
+            "Activo": "1",
+            "MunicipioKey": "050505",
+            "DistritoKey": "05050501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "BOCA DE CACHÓN",
+            "Activo": "1",
+            "MunicipioKey": "050601",
+            "DistritoKey": "05060101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "EL LIMÓN",
+            "Activo": "1",
+            "MunicipioKey": "050601",
+            "DistritoKey": "05060102"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "02",
+            "DistritoId": "01",
+            "Nombre": "VENGAN A VER",
+            "Activo": "1",
+            "MunicipioKey": "050602",
+            "DistritoKey": "05060201"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "04",
+            "DistritoId": "01",
+            "Nombre": "GUAYABAL",
+            "Activo": "1",
+            "MunicipioKey": "050604",
+            "DistritoKey": "05060401"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "05",
+            "DistritoId": "01",
+            "Nombre": "BATEY 8",
+            "Activo": "1",
+            "MunicipioKey": "050605",
+            "DistritoKey": "05060501"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "06",
+            "MunicipioId": "06",
+            "DistritoId": "01",
+            "Nombre": "LA COLONIA",
+            "Activo": "1",
+            "MunicipioKey": "050606",
+            "DistritoKey": "05060601"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "01",
+            "Nombre": "JOSÉ FRANCISCO PEÑA GÓMEZ",
+            "Activo": "1",
+            "MunicipioKey": "050701",
+            "DistritoKey": "05070101"
+        },
+        {
+            "RegionId": "05",
+            "ProvinciaId": "07",
+            "MunicipioId": "01",
+            "DistritoId": "02",
+            "Nombre": "JUANCHO",
+            "Activo": "1",
+            "MunicipioKey": "050701",
+            "DistritoKey": "05070102"
+        }
+    ]

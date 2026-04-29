@@ -1,0 +1,37 @@
+﻿[
+        {
+            "Id": "001",
+            "Nombre": "Insfraestructura",
+            "Activo": "1"
+        },
+        {
+            "Id": "002",
+            "Nombre": "Equipamiento",
+            "Activo": "1"
+        },
+        {
+            "Id": "003",
+            "Nombre": "Material gastable",
+            "Activo": "1"
+        },
+        {
+            "Id": "004",
+            "Nombre": "Recursos Humanos",
+            "Activo": "1"
+        },
+        {
+            "Id": "005",
+            "Nombre": "Capacitacion",
+            "Activo": "1"
+        },
+        {
+            "Id": "006",
+            "Nombre": "Financiamiento",
+            "Activo": "1"
+        },
+        {
+            "Id": "007",
+            "Nombre": "Otro",
+            "Activo": "1"
+        }
+    ]

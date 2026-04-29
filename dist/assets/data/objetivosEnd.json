@@ -1,0 +1,135 @@
+﻿[
+        {
+            "EjeId": "001",
+            "ObjetivoId": "001",
+            "CodigoEje": "1.1",
+            "Nombre": "ADMINISTRACIÓN PÚBLICA EFICIENTE, TRANSPARENTE Y ORIENTADA A RESULTADOS.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "001",
+            "ObjetivoId": "002",
+            "CodigoEje": "1.2",
+            "Nombre": "IMPERIO DE LA LEY Y SEGURIDAD CIUDADANA.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "001",
+            "ObjetivoId": "003",
+            "CodigoEje": "1.3",
+            "Nombre": "DEMOCRACIA PARTICIPATIVA Y CIUDADANÍA RESPONSABLE.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "001",
+            "ObjetivoId": "004",
+            "CodigoEje": "1.4",
+            "Nombre": "SEGURIDAD Y CONVIVENCIA PACÍFICA.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "005",
+            "CodigoEje": "2.1",
+            "Nombre": "EDUCACIÓN DE CALIDAD PARA TODOS Y TODAS.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "006",
+            "CodigoEje": "2.2",
+            "Nombre": "SALUD Y SEGURIDAD SOCIAL INTEGRAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "007",
+            "CodigoEje": "2.3",
+            "Nombre": "IGUALDAD DE DERECHOS Y OPORTUNIDADES.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "008",
+            "CodigoEje": "2.4",
+            "Nombre": "COHESIÓN TERRITORIAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "009",
+            "CodigoEje": "2.5",
+            "Nombre": "VIVIENDA DIGNA EN ENTORNOS SALUDABLES.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "010",
+            "CodigoEje": "2.6",
+            "Nombre": "CULTURA E IDENTIDAD NACIONAL EN UN MUNDO GLOBAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "002",
+            "ObjetivoId": "011",
+            "CodigoEje": "2.7",
+            "Nombre": "DEPORTE Y RECREACIÓN FÍSICA PARA EL DESARROLLO HUMANO.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "ObjetivoId": "012",
+            "CodigoEje": "3.1",
+            "Nombre": "ECONOMÍA ARTICULADA, INNOVADORA Y AMBIENTALMENTE SOSTENIBLE, CON UNA ESTRUCTURA PRODUCTIVA QUE GENERA CRECIMIENTO ALTO Y SOSTENIDO, CON TRABAJO DIGNO, QUE SE INSERTA DE FORMA COMPETITIVA EN LA ECONOMÍA GLOBAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "ObjetivoId": "013",
+            "CodigoEje": "3.2",
+            "Nombre": "ENERGÍA CONFIABLE, EFICIENTE Y AMBIENTALMENTE SOSTENIBLE.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "ObjetivoId": "014",
+            "CodigoEje": "3.3",
+            "Nombre": "COMPETITIVIDAD E INNOVACIÓN EN UN AMBIENTE FAVORABLE A LA COOPERACIÓN Y LA RESPONSABILIDAD SOCIAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "ObjetivoId": "015",
+            "CodigoEje": "3.4",
+            "Nombre": "EMPLEOS SUFICIENTES Y DIGNOS.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "003",
+            "ObjetivoId": "016",
+            "CodigoEje": "3.5",
+            "Nombre": "ESTRUCTURA PRODUCTIVA SECTORIAL Y TERRITORIALMENTE ARTICULADA, INTEGRADA COMPETITIVAMENTE A LA ECONOMÍA GLOBAL Y QUE APROVECHA LAS OPORTUNIDADES DEL MERCADO LOCAL.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "004",
+            "ObjetivoId": "017",
+            "CodigoEje": "4.1",
+            "Nombre": "MANEJO SOSTENIBLE DEL MEDIO AMBIENTE.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "004",
+            "ObjetivoId": "018",
+            "CodigoEje": "4.2",
+            "Nombre": "EFICAZ GESTIÓN DE RIESGOS PARA MINIMIZAR PÉRDIDAS HUMANAS, ECONÓMICAS Y AMBIENTALES.",
+            "Activo": "1"
+        },
+        {
+            "EjeId": "004",
+            "ObjetivoId": "019",
+            "CodigoEje": "4.3",
+            "Nombre": "ADECUADA ADAPTACIÓN AL CAMBIO CLIMÁTICO.",
+            "Activo": "1"
+        }
+    ]

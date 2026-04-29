@@ -1,0 +1,617 @@
+﻿ [
+        {
+            "InstitucionId": "001",
+            "Nombre": "ADMINISTRADORA DE SUBSIDIOS SOCIALES (ADES)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "002",
+            "Nombre": "ARCHIVO GENERAL DE LA NACION (AGN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "003",
+            "Nombre": "ASEGURADORA AGROPECUARIA DOMINICANA (AGRODOSA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "004",
+            "Nombre": "AUTORIDAD PORTUARIA DOMINICANA (APORDOM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "005",
+            "Nombre": "CONSEJO NACIONAL DE PROMOCION Y APOYO ALA MICRO, PEQUEÑA Y MEDIANA EMPRESA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "006",
+            "Nombre": "CAMARA DE CUENTAS (CC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "007",
+            "Nombre": "CENTRO DE EXPORTACION E INVERSION DE LA REPUBLICA DOMINICANA (PRODOMINICANA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "008",
+            "Nombre": "CENTROS TECNOLOGICOS COMUNITARIOS (CTC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "009",
+            "Nombre": "COMISION NACIONAL DE DEFENSA DE LA COMPETENCIA (PROCOMPETENCIA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "010",
+            "Nombre": "COMITE EJECUTOR DE INFRAESTRUCTURAS EN ZONAS TURISTICAS (CEIZTUR)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "011",
+            "Nombre": "CONSEJO DE LA SEGURIDAD SOCIAL (CNSS)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "012",
+            "Nombre": "CONSEJO DOMINICANO DE PESCA Y AGRICULTURA (CODOPESCA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "013",
+            "Nombre": "CONSEJO NACIONAL DE CAMBIO CLIMAICO Y MECANISMOS DE DESARROLLO LIMPIO (CNCCMDL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "014",
+            "Nombre": "CONSEJO NACIONAL DE COMPETITIVIDAD (CNC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "015",
+            "Nombre": "CONSEJO NACIONAL DE DISCAPACIDAD (CONADIS)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "016",
+            "Nombre": "CONSEJO NACIONAL DE DROGAS (CND)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "017",
+            "Nombre": "CONSEJO NACIONAL DE ENERGIA (CNE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "018",
+            "Nombre": "CONSEJO NACIONAL DE INVESTIGACION AGROPECUARIAS Y FORESTALES (CONIAF)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "019",
+            "Nombre": "CONSEJO NACIONAL DE LA PERSONA ENVEJECIENTE (CONAPE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "020",
+            "Nombre": "CONSEJO NACIONAL DE ZONAS FRANCAS (CNZFE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "021",
+            "Nombre": "CONSEJO NACIONAL PARA LA NIÑEZ Y LA ADOLESCENCIA (CONANI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "022",
+            "Nombre": "CONSEJO UNIFICADO DE EMPRESAS DISTRIBUIDORAS",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "023",
+            "Nombre": "CONTRALORIA GENERAL DE LA REPUBLICA (CGR)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "024",
+            "Nombre": "CORPORACION DE ACUEDUCTO Y ALCANTARILLADO DE MONSENOR NOUEL (CORAMON)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "025",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE BOCA CHICA (CORAABO)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "026",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE LA ROMANA (CORAAROM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "027",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE LA VEGA (CORAAVEGA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "028",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE MOCA (CORAAMOCA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "029",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE PUERTO (CORAAPLATA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "030",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE SANTIAGO (CORAASAN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "031",
+            "Nombre": "CORPORACION DE ACUEDUCTOS Y ALCANTARILLADOS DE SANTO DOMINGO (CAASD)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "032",
+            "Nombre": "CORPORACION DOMINICANA DE EMPRESAS ELECTRICAS ESTATALES (CDEEE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "033",
+            "Nombre": "DEFENSA CIVIL (DC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "034",
+            "Nombre": "DEFENSOR DEL PUEBLO (DP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "035",
+            "Nombre": "DEPARTAMENTO AEROPORTUARIO (DA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "036",
+            "Nombre": "DIRECCION DE INFORMACION Y DEFENSA DE LOS AFILIADOS (DIDA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "037",
+            "Nombre": "DIRECCION GENERAL DE DESARROLLO FRONTERIZO (DGDF)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "038",
+            "Nombre": "DIRECCION GENERAL DE ETICA E INTEGRIDAD GUBERNAMENTAL, (DIGEIG)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "039",
+            "Nombre": "DIRECCION GENERAL DE GANADERIA (DIGEGA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "040",
+            "Nombre": "DIRECCION GENERAL DE MIGRACION (DGM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "041",
+            "Nombre": "DIRECCION GENERAL DE MINERIA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "042",
+            "Nombre": "DIRECCION GENERAL DE PASAPORTES (DGP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "043",
+            "Nombre": "DIRECCION GENERAL DE RIESGOS AGROPECUARIOS (DIGERA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "044",
+            "Nombre": "DIRECCION GENERAL DEL ALIANZAS PUBLICO PRIVADA (DGAPP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "045",
+            "Nombre": "EMPRESA DE TRANSMISION ELECTRICA DOMINICANA (ETED)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "046",
+            "Nombre": "FONDO ESPECIAL PARA EL DESARROLLO AGROPECUARIO (FEDA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "047",
+            "Nombre": "GABINETE DE COORDINACION DE POLITICAS SOCIALES (GCPS)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "048",
+            "Nombre": "INSTITUTO AZUCARERO DOMINICANA (INAZUCAR)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "049",
+            "Nombre": "INSTITUTO DOMINICANO DE PREVENCION Y PROTECCION DE RIESGOS LABORALES (IDOPRIL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "050",
+            "Nombre": "INSTITUTO DE DESARROLLO Y CREDITO COOPERATIVO (IDECOOP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "051",
+            "Nombre": "INSTITUTO DE EDUCACION FISICA (INEFI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "052",
+            "Nombre": "INSTITUTO DE ESTABILIZACION DE PRECIOS (INESPRE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "053",
+            "Nombre": "INSTITUTO DE INNOVACION EN BIOTECNOLOGICO E INDUSTRIA (IIBI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "054",
+            "Nombre": "INSTITUTO DEL TABACO DE LA REPUBLICA DOMINICANA (INTABACO)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "055",
+            "Nombre": "INSTITUTO DOMINICANO DE AVIACION CIVIL (IDAC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "056",
+            "Nombre": "INSTITUTO DOMINICANO DE EVALUACION E INVESTIGACION DE LA CALIDAD EDUCATIVA (IDEICE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "057",
+            "Nombre": "INSTITUTO DOMINICANO DE INVESTIGACIONES AGROPECUARIAS Y FORESTALES (IDIAF)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "058",
+            "Nombre": "INSTITUTO DOMINICANO DE TELECOMUNICACIONES (INDOTEL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "059",
+            "Nombre": "INSTITUTO DOMINICANO PARA CALIDAD (INDOCAL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "060",
+            "Nombre": "INSTITUTO GEOGRAFICO NACIONAL, (IGN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "061",
+            "Nombre": "INSTITUTO NACIONAL BIENESTAR MAGISTERIAL (INABIMA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "062",
+            "Nombre": "INSTITUTO NACIONAL DE AGUAS POTABLES Y ALCANTARILLADOS (INAPA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "063",
+            "Nombre": "INSTITUTO NACIONAL DE ATENCION INTEGRAL A LA PRIMERA INFANCIA (CONANI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "064",
+            "Nombre": "INSTITUTO NACIONAL DE BIENESTAR ESTUDIANTIL (INABIE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "065",
+            "Nombre": "INSTITUTO NACIONAL DE FORMACION TENICO PROFESIONAL (INFOTEP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "066",
+            "Nombre": "INSTITUTO NACIONAL DE FORMACION Y CAPACITACIÓN DEL MAGISTERIO (INAFOCAM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "067",
+            "Nombre": "INSTITUTO NACIONAL DE LA VIVIENDA (INVI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "068",
+            "Nombre": "INSTITUTO NACIONAL DE MIGRACION, (INM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "069",
+            "Nombre": "INSTITUTO NACIONAL DE RECURSOS HIDRAULICOS (INDRHI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "070",
+            "Nombre": "INSTITUTO NACIONAL DE TRANSITO Y TRANSPORTE TERRESTRE (INTRANT)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "071",
+            "Nombre": "INSTITUTO POSTAL DOMINICANO (INPOSDOM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "072",
+            "Nombre": "INSTITUTO TECNOLOGICO DE LAS AMERICAS (ITLA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "073",
+            "Nombre": "MINISTERIO ADMINISTRATIVO DE LA PRESIDENCIA (MAPRE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "074",
+            "Nombre": "MINISTERIO DE ADMINISTRACION PUBLICA (MAP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "075",
+            "Nombre": "MINISTERIO DE AGRICULTURA (MA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "076",
+            "Nombre": "MINISTERIO DE CULTURA (MINC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "077",
+            "Nombre": "MINISTERIO DE DEFENSA Y FUERZAS ARMADAS (MIDE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "078",
+            "Nombre": "MINISTERIO DE DEPORTES (MIDEREC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "079",
+            "Nombre": "MINISTERIO DE ECONOMIA, PLANIFICACION Y DESARROLLO (MEPYD)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "080",
+            "Nombre": "MINISTERIO DE EDUCACION (MINERD)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "081",
+            "Nombre": "MINISTERIO DE EDUCACION SUPERIOR, CIENCIA Y TECNOLOGIA (MESYC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "082",
+            "Nombre": "MINISTERIO DE ENERGIA Y MINAS (MEM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "083",
+            "Nombre": "MINISTERIO DE HACIENDA (MH) - DGII - COMPRAS PUBLICAS - CAPGEFI - DIGEPRES",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "084",
+            "Nombre": "CONTABILIDAD GUBERNAMENTAL (CG)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "085",
+            "Nombre": "MINISTERIO DE INDUSTRIA Y COMERCIO Y MIPYMES (MICM)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "086",
+            "Nombre": "MINISTERIO DE INTERIOR Y POLICIA (MIP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "087",
+            "Nombre": "MINISTERIO DE LA JUVENTUD (MJ)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "088",
+            "Nombre": "MINISTERIO DE LA MUJER (MMUJER)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "089",
+            "Nombre": "MINISTERIO DE LA PRESIDENCIA (MINPRE) - DIAPE- 911-PROGRAMAS ESPECIALES",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "090",
+            "Nombre": "MINISTERIO DE MEDIO AMBIENTE Y RECURSOS NATURALES (MIMARENA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "091",
+            "Nombre": "MINISTERIO DE OBRAS PUBLICA Y COMUNICACIONES (MOPC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "092",
+            "Nombre": "MINISTERIO DE RELACIONES EXTERIORES (MIREX)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "093",
+            "Nombre": "MINISTERIO DE SALUD PUBLICA (MSP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "094",
+            "Nombre": "MINISTERIO DE TRABAJO (MT)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "095",
+            "Nombre": "MINISTERIO DE TURISMO (MITUR)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "096",
+            "Nombre": "OFICINA DE CUSTODIA Y ADMINISTRACION DE BIENES INCAUTADOS Y DECOMISADOS (OCABID)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "097",
+            "Nombre": "OFICINA NACIONAL DE ESTADISTICAS (ONE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "098",
+            "Nombre": "OFICINA NACIONAL DE EVALUACION SISMICA Y VULNERABILIDAD DE INFRAESTRUCTURA Y EDIFICACIONES (ONESVIE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "099",
+            "Nombre": "OFICINA PRESIDENCIAL DE LAS TECNOLOGIAS DE LA INFORMACION Y LA COMUNICACION (OPTIC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "100",
+            "Nombre": "ORGANISMO DOMINICANO DE ACREDITACION (ODAC)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "101",
+            "Nombre": "POLICIA NACIONAL (PN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "102",
+            "Nombre": "PROCURADURIA GENERAL DE LA REPUBLICA (PGR)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "103",
+            "Nombre": "PROGRAMA DE MEDICAMENTOS ESENCIALES (PROMESECAL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "104",
+            "Nombre": "PROGRESANDO CON SOLIDARIDAD (PROSOLI)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "105",
+            "Nombre": "PROINDUSTRIA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "106",
+            "Nombre": "SEGURO NACIONAL DE SALUD (SENASA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "107",
+            "Nombre": "SERVICIO NACIONAL DE SALUD (SNS)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "108",
+            "Nombre": "SISTEMA UNICO DE BENEFICIARIOS (SIUBEN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "109",
+            "Nombre": "SUPERINTENDENCIA DE BANCOS (SB)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "110",
+            "Nombre": "SUPERINTENDENCIA DE ELECTRICIDAD (SIE)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "111",
+            "Nombre": "SUPERINTENDENCIA DE PENSIONES (SIPEN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "112",
+            "Nombre": "SUPERINTENDENCIA DE SALUD Y RIESGOS LABORALES (SISALRIL)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "113",
+            "Nombre": "SUPERINTENDENCIA DE SEGURO (SIPEN)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "114",
+            "Nombre": "INDUSTRIA NACIONAL DE LA AGUJA (INAGUJA)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "115",
+            "Nombre": "MINISTERIO DE LA VIVIENDA Y EDIFICACIONES (MIVED)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "116",
+            "Nombre": "MINISTERIO PUBLICO (MP)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "117",
+            "Nombre": "COMISIÓN PRESIDENCIAL DE APOYO AL DESARROLLO PROVINCIAL",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "118",
+            "Nombre": "EDENORTE",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "119",
+            "Nombre": "JUNTA CENTRAL ELECTORAL",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "120",
+            "Nombre": "INSTITUTO AGRARIO DOMINICANO (IAD)",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "121",
+            "Nombre": "LIGA MUNICIPAL DOMINICANA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "124",
+            "Nombre": "INSTITUTO SUPERIOR DE FORMACION DOCENTE SALOME UREÑA",
+            "Activo": "1"
+        },
+        {
+            "InstitucionId": "129",
+            "Nombre": "BANCA SOLIDARIA - PROMIPYME",
+            "Activo": "1"
+        }
+    ]

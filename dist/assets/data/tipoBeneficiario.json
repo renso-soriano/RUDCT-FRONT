@@ -1,0 +1,13 @@
+﻿[
+        {
+            "Id": "001",
+            "Nombre": "Personas",
+            "Activo": "1"
+        },
+        {
+            "Id": "002",
+            "Nombre": "Familias",
+            "Activo": "1"
+        }
+        
+    ]

@@ -1,0 +1,126 @@
+// Global Overrides Template Level Only
+
+
+//------- ng-accordion -------
+.accordion {
+  .card {
+    margin: 0;
+    background-color: transparent !important;
+
+    &:not(:last-of-type) {
+      .card-header {
+        border-bottom: 1px solid $border-color;
+      }
+    }
+
+    &:last-of-type {
+      .card-header button {
+        padding-bottom: 0;
+      }
+
+      .card-body {
+        padding-bottom: 0;
+      }
+    }
+
+    .card-header {
+      padding: 0;
+
+      button {
+        padding: 1.5rem;
+        width: 100%;
+        text-align: start;
+
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+//------- horizontal timeline -------
+.cd-horizontal-timeline .events-content li {
+  transform: translateX(0);
+}
+
+//------- time picker -------
+.ngb-tp-input-container button:hover {
+  box-shadow: none;
+}
+
+//------- Chartist Tooltip -------
+.chartist-tooltip:not(.tooltip-show) {
+  padding: 0;
+
+  &:before {
+    border: 0;
+  }
+}
+
+
+// for dark and transparent layouts
+html body.layout-dark {
+
+  // Navbar search
+  .search-list {
+    background: $bg-color-dark;
+
+    .first-active-item .option {
+      background: $dl-bg-color;
+    }
+
+    .option {
+      color: $dl-text-color;
+
+      &:hover {
+        background: $dl-bg-color;
+      }
+    }
+
+    .accordion .card {
+      box-shadow: none;
+    }
+
+    &:not(.layout-transparent) {
+      .accordion .card .card-header {
+        border-color: $dl-border-color;
+      }
+    }
+
+    &.layout-transparent {
+      .accordion .card .card-header {
+        border-color: $tl-border-color;
+
+        button:not([disabled]) {
+          color: map-get($primary-color, lighten-4);
+        }
+      }
+    }
+  }
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  border: 1px solid #003876;
+  border-left: 0!important;
+  border-top-right-radius: .35rem;
+  border-bottom-right-radius: .35rem;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: #003876;
+  color: #fff;
+  border-radius: .35rem;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon {
+  border: 1px solid #003876;
+  border-right: 0!important;
+  border-top-left-radius: .35rem;
+  border-bottom-left-radius: .35rem;
+  padding: 1px 0 1px 5px;
+}
+
+section#error {
+  background: #c3c3c3;
+}

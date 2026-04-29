@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
 //  apiUrl: "https://localhost:5001/Api/",
-    apiUrl: "http://apidemandas.economia.local/api/",
+    apiUrl: "https://localhost:5001/Api/",
   appName: "Registro Único de Demandas Ciudadanas Territoriales",
   appShortName: "RUDCT",
   allowedMimeTypes: [
