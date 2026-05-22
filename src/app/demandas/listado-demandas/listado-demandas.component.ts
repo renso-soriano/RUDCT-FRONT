@@ -740,7 +740,8 @@ export class ListadoDemandasComponent
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
-      institucion = this.institucionUsuarioEnRUDT;
+      // Si el usuario seleccionó un filtro de institución, usarlo; sino usar su propia institución
+      institucion = this.filtrosActivos.institucionId ?? this.institucionUsuarioEnRUDT;
     } else if (
       this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true
     ) {
@@ -806,7 +807,8 @@ export class ListadoDemandasComponent
 
     if (this.gruposUsuario.includes(GrupoUsuario.institucionalRUDT) == true) {
       grupoId = GrupoUsuario.institucionalRUDT;
-      institucion = this.institucionUsuarioEnRUDT;
+      // Si el usuario seleccionó un filtro de institución, usarlo; sino usar su propia institución
+      institucion = this.filtrosActivos.institucionId ?? this.institucionUsuarioEnRUDT;
     } else if (
       this.gruposUsuario.includes(GrupoUsuario.regionalesRUDT) == true
     ) {
